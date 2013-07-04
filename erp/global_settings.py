@@ -19,7 +19,7 @@ ALLOWED_HOSTS = []
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
 # In a Windows environment this must be set to your system time zone.
-TIME_ZONE = 'America/Chicago'
+TIME_ZONE = 'Asia/Kolkata'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
@@ -85,6 +85,8 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
+    'forum',
+    'userprofile',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -115,3 +117,89 @@ LOGGING = {
         },
     }
 }
+
+DEPARTMENTS = (
+     ('public', 'Public'),
+        ('coregroup','Core Group'),
+        ('qms', 'QMS'),
+        ('webops', 'Web Operaions'),
+        ('publicity', 'Publicity'),
+        ('ticketsales', 'Ticketsales'),
+        ('spons', 'Sponsorship'),
+        ('fr', 'Facilities & Requirements'),
+        ('design', 'Design'),
+        ('hospi', 'Hospitality'),
+        ('events', 'Events'),
+        ('finance','Finance'), 
+        ('security', 'Security'),
+        ('proshows','Pro Shows'),
+    )
+
+EVENTS = (
+        ('na','Not Applicable'),
+
+        ('qms', 'QMS'),
+        ('webops', 'Web Operaions'),
+        ('publicity', 'Publicity'),
+        ('ticketsales', 'Ticketsales'),
+        ('spons', 'Sponsorship'),
+        ('fr', 'Facilities & Requirements'),        
+        ('design', 'Design'),
+        ('hospi', 'Hospitality'),
+        ('events', 'Events'),
+        ('finance','Finance'), 
+        ('security', 'Security'),
+        ('proshows','Pro Shows'),
+
+        ('adventurezone','Adventure Zone'),
+        ('saarangdebate','Saarang Debate'),
+        ('westernmusic','Western Music'),
+        ('sudoku','Sudoku'),
+        ('bigplan','Big Plan'),
+        ('dramatics','Dramatics'),
+        ('speakingevents','Speaking Events'),
+        ('finearts','Fine Arts'),
+        ('lightmusic','Light Music'),
+        ('treasurehunt','Treasure Hunt'),
+        ('choreo','Choreo'),
+        ('crossie','Crossie'),
+        ('scrabble','Scrabble'),
+        ('wtgw','WTGW'),
+        ('onlineanddailyquiz','Online + Daily Quiz'),
+        ('buzzerquiz','Buzzer Quiz'),
+        ('indiaquiz','India Quiz'),
+        ('mainquiz','Main Quiz'),
+        ('spentquiz','SpEnt Quiz'),
+        ('travelandlivingquiz','Travel and Living Quiz'),
+        ('creativewriting','Creative Writing'),
+        ('streets','$treet$'),
+        ('lecdems','LecDems'),
+        ('workshops','Workshops'),
+        ('spellingbee','Spelling Bee'),
+        ('classicalarts','Classical Arts'),
+        ('cluedo','Cluedo'),
+        ('carnival','Carnival'),
+        ('roadshows','Road Shows'),
+        ('mediaevents','Media Events'),
+        ('potpourrie','PotPourrie'),
+    )
+
+HOSTELS = (
+        ('mandak','Mandakini'),
+        ('jam','Jamuna'),
+        ('ganga','Ganga'),
+        ('alak','Alakananda'),
+        ('godav','Godavari'),
+        ('saras','Saraswati'),
+        ('naramad','Narmada'),
+        ('tapti','Tapti'),
+        ('brahms','Brahmaputra'),
+        ('cauvery','Cauvery'),
+        ('krishna','Krishna'),
+        ('mahanadhi','Mahanadhi'),
+        ('pampa','Pampa'),
+        ('sindhu','Sindhu'),
+        ('tampi','Tamaraparani'),
+        ('sharav','Sharavati'),
+        ('sarayu','Sarayu'),
+    )
