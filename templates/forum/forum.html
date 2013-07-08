@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load url from future %}
+{% block title %}Forum | Saarang ERP{% endblock %}
+
+{% block content %}
+
+<table class="table-bordered table-striped table" >
+     <thead>
+        <th>Department</th>
+        <th>Topics</th>
+        <th>Posts</th>
+        <th>Last Post</th>
+    </thead>
+    <tbody>
+    	{% for forum in forums %}
+            <tr class="rowlink" onclick="document.location = '{% url 'forum.views.show_forum' forum.pk %}';">
+                <td>{{ forum.title }}</td>
+                <td >{{ forum.topic_count }}</td>
+                <td >{{ forum.post_count }}</td>
+                <td >{{ forum.last_post|linebreaksbr }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+{% endblock %}
