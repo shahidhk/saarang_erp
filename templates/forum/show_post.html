@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load url from future %}
+{% block title %}Forum | Saarang ERP{% endblock %}
+
+{% block content %}
+<h1>{{ post.title }}</h1>
+<table class="table-bordered table-striped table">
+    <thead>{{ post_count|add:-1 }} replies
+        <input type="button" class="btn" value="Reply" onclick="document.location = '{% url 'forum.views.add_post' post.topic.pk %}';" >
+        <th>Post</th>
+        <th>Time</th>
+        <th>By</th>
+        <th>Text</th>
+    </thead>
+    <tbody>
+    	
+            <tr class="rowlink" onclick="document.location = '{% url 'forum.views.show_post' post.pk %}' forum.pk %}';">
+                <td >{{ post.title }}</td>
+                <td >{{ post.created }}</td>
+                <td >{{ post.user }}</td>
+                <td >{{ post.description|linebreaksbr }}</td>
+            </tr>
+            <tr class="rowlink" onclick="document.location = '{% url 'forum.views.show_topic' post.topic.pk %}';">
+            <td colspan=5 style="text-align:center">
+                <input type="button" class="btn" value="Back to Posts" onclick="document.location = '{% url 'forum.views.show_topic' post.topic.pk %}';"  >
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+{% endblock %}

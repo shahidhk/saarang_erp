@@ -3,7 +3,7 @@
 {% block title %}Forum | Saarang ERP{% endblock %}
 
 {% block content %}
-
+<h3>Enter the new post</h3>
 {% if messages %}
 <ul class="messages">
     {% for message in messages %}
@@ -12,12 +12,28 @@
 </ul>
 {% endif %}
 
-<form action="" method="post" id="add_post_form">
-     {% csrf_token %}
+<form action="" method="post" id="add_form">
+    {% csrf_token %}
     <table>
-       	{{ form.as_table }}
+        {{ form.as_table }}
+<!--
+        {% for field in form.hidden_fields %}
+            {{ field }}
+        {% endfor %}
+
+        {% for field in form.visible_fields %}
+            <tr>
+                <td>{{ field }}</td>
+            </tr>
+        {% endfor %}
+-->
+        <tr>
+            <td colspan=2>
+                <input type='submit' value='Post' class='btn btn-block btn-success full-width' name='submit'/>
+                <input type="button" class='btn btn-block btn-warning full-width' value="Cancel Post" onclick="history.back();">
+            </td>
+        </tr>
     </table>
-    <input type='submit' value='Add Topic' class='btn-success' name='submit'/>
 </form>
 
 

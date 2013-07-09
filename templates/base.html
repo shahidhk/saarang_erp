@@ -1,32 +1,64 @@
 <!DOCTYPE html>
 {% load staticfiles %}
+{% load url from future %}
 <html lang="en">
-<center>
+
 <head>
     <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
     <link href="{% static 'css/bootstrap-responsive.css' %}" rel="stylesheet">
     <link href="{% static 'css/bootstrap-rowlink.css' %}" rel="stylesheet">
     
     <title>{% block title %}Saarang ERP{% endblock %}</title>
+
+    {% block topbar %}
+        <div class="navbar navbar-inverse">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a href="#" class="brand">Saarang ERP</a>
+                    <ul class="nav">
+                        <li><a href="{% url 'erp.views.home' %}">Home</a></li>
+                        <li><a href="{% url 'forum.views.index' %}">Forum</a></li>
+                    <!--
+                        <li><a href="#">Gallery</a></li>
+                        <li><a href="#">Articles</a></li>
+                        <li><a href="#">Deals</a></li>
+                        <li><a href="#">Submit</a></li>
+                    -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    {% endblock %}
 </head>
-</center>
+
 <body>
-    <div id="sidebar">
+    <div class="container">
+    <div class="row">
         {% block sidebar %}
-        <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/blog/">Blog</a></li>
-        </ul>
+              <div class="span2 bs-docs-sidebar">
+                <ul class="nav nav-list bs-docs-sidenav affix-top" data-spy="affix" data-offset-top="100">
+                  <li class="header"><h3>Welcome</h3></li>
+                  <li class="active"><a href="{% url 'erp.views.home' %}"><i class="icon-chevron-right"></i> Home</a></li>
+                  <li><a href="{% url 'forum.views.index' %}"><i class="icon-chevron-right"></i> Forum</a></li>
+                <!--
+                  <li><a href="#fluidGridSystem"><i class="icon-chevron-right"></i> Fluid grid system</a></li>
+                  <li><a href="#layouts"><i class="icon-chevron-right"></i> Layouts</a></li>
+                  <li><a href="#responsive"><i class="icon-chevron-right"></i> Responsive design</a></li>
+              -->
+                </ul>
+              </div>
         {% endblock %}
-    </div>
-<center>
-    <div id="content">
-        {% block content %}{% endblock %}
+
+        <div class="span9" id="content">
+            {% block content %}{% endblock %}
+        </div>
+
+        </div>
     </div>
 
     <script src="{% static 'js/bootstrap.js' %}"></script>
     <script src="{% static 'js/bootstrap-rowlink.js' %}"></script>
   
-</center>
+
 </body>
 </html>

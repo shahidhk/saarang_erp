@@ -3,12 +3,11 @@
 {% block title %}Forum | Saarang ERP{% endblock %}
 
 {% block content %}
-
+<h1>{{ topic.title }}</h1>
 <table class="table-bordered table-striped table">
     <thead>
-      <input type="button" class="btn" value="Reply" onclick="document.location = '{% url 'forum.views.add_post' topic.pk %}';" >
-        <th>Topic</th>
-        <th>Posts</th>
+        {{ post_count|add:-1 }} replies
+        <input type="button" class="btn" value="Reply" onclick="document.location = '{% url 'forum.views.add_post' topic.pk %}';" >
         <th>Post</th>
         <th>Time</th>
         <th>By</th>
@@ -16,15 +15,18 @@
     </thead>
     <tbody>
     	{% for post in posts %}
-            <tr class="rowlink" onclick="document.location = '{% url 'forum.views.show_post' post.pk %}' forum.pk %}';">
-                <td >{{ topic.title }}</td>
-                <td >{{ post_count }}</td>
+            <tr class="rowlink" onclick="document.location = '{% url 'forum.views.show_post' post.pk %}';">
                 <td >{{ post.title }}</td>
                 <td >{{ post.created }}</td>
                 <td >{{ post.user }}</td>
-                <td >{{ post.description }}</td>
+                <td >{{ post.description|linebreaksbr }}</td>
             </tr>
         {% endfor %}
+        <tr class="rowlink" onclick="document.location = '{% url 'forum.views.show_forum' topic.forum.pk %}';">
+            <td colspan=5 style="text-align:center">
+                <input type="button" class="btn" value="Back to Topics" onclick="document.location = '{% url 'forum.views.show_forum' topic.forum.pk %}';"  >
+            </td>
+        </tr>
     </tbody>
 </table>
 

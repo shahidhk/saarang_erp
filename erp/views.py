@@ -9,8 +9,8 @@ import datetime
 
 @login_required(login_url='/login/')
 def home(request):
-	html='Hello %s , Welcome to saarang erp ' % request.user.username
-	return HttpResponse(html)
+	name=request.user.first_name + " " + request.user.last_name
+	return render_to_response('home.html', {'user': name}, context_instance=RequestContext(request))
 	
 def login_user(request):
 	if request.method == 'POST':

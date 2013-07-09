@@ -60,6 +60,9 @@ def show_topic(request, topic_id):
     #if request.user.is_authenticated():
     #    topic.update_read(request.user)
     posts = topic.posts.all().select_related()
+    for i in posts:
+        # This will truncates the description if it is greater than 100 characters and adds some dots
+        i.description = (i.description[:100] + " ....") if len(i.description) > 100 else i.description
     to_return = {
                 'topic': topic,
                 'post_count': topic.post_count,
@@ -75,12 +78,6 @@ def add_topic(request, forum_id):
     '''Adds a new task to the department forum'''
     forum = get_object_or_404(Forum, pk=forum_id)
     if request.method == 'POST':
-        '''
-        data=request.POST.copy()    
-        print data
-        data['forum']=forum_id
-        print data['forum']
-        '''
         form=AddTopicForm(request.POST)
         if form.is_valid():
             data=form.save(commit=False)
@@ -89,19 +86,13 @@ def add_topic(request, forum_id):
             forum.topic_count+=1
             data.save()
             forum.save()
-            print data.save
-            messages.success(request, 'Topic added.')
-            print data.pk
-            ur="/forum/%d/post/add" %data.pk
-            print ur
-            return redirect(ur)
+            return redirect('forum.views.add_post',topic_id=data.pk)
         else:
             for error in form.errors:
-                messages.warning(request, error)
+                pass
     else:
         form=AddTopicForm()
-        messages.info(request, 'Enter the fields below')
-        return render(request, 'forum/add.html',{'form':form})
+    return render(request, 'forum/add.html',{'form':form})
 
 def add_post(request, topic_id):
     topic = get_object_or_404(Topic, pk=topic_id)
@@ -115,22 +106,20 @@ def add_post(request, topic_id):
             topic.updated=datetime.datetime.now()
             topic.post_count+=1
             topic.last_post=data
-            #foru is not getting updated
-            topic.forum.post_count+=1
-            topic.forum.last_post=data
             topic.save()
-            print data.save
-            messages.success(request, 'Post added.')
+            print topic.forum.pk
+            forum = get_object_or_404(Forum, pk=topic.forum.pk)
+            print forum
+            forum.post_count+=1
+            forum.last_post=data
+            forum.save()
             print data.pk
-            ur="/forum/post/%d" %data.pk
-            print ur
-            return redirect(ur)
+            return redirect('forum.views.show_topic', topic_id = topic.pk)
         else:
             for error in form.errors:
                 messages.warning(request, error)
     else:
         form=AddPostForm()
-        messages.info(request, 'Enter the fields below')
     return render(request, 'forum/add.html',{'form':form})
 
 def delete_posts(request, topic_id):
@@ -142,8 +131,8 @@ def open_close_topic(request, topic_id, action):
     return HttpResponse(html)
 
 def show_post(request, post_id):
-    html='i got %d' % int(post_id)
-    return HttpResponse(html)
+    post= get_object_or_404(Post, pk=post_id)
+    return render(request, 'forum/show_post.html',{'post':post})
 
 def edit_post(request, post_id):
     html='i got %d' % int(post_id)
