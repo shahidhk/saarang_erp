@@ -14,6 +14,11 @@ framework.
 
 """
 import os
+import sys
+path = '/home/shahidh/works/saarang/saarang_erp'
+if path not in sys.path:
+    sys.path.append(path)
+    sys.path.append('/home/shahidh/works/saarang/saarang_erp/erp')
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "erp.settings")
 

@@ -17,9 +17,9 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^forum/', include('forum.urls')),
 
-	url(r'^login/', 'erp.views.login_user', name='login'),
-	url(r'^logout/', 'erp.views.logout_user', name='logout_user'),
-	url(r'^page/', 'erp.views.page', name='page'),
+	url(r'^login/$', 'erp.views.login_user', name='login'),
+	url(r'^logout/$', 'erp.views.logout_user', name='logout_user'),
+	url(r'^page/$', 'erp.views.page', name='page'),
 )
 
 urlpatterns += staticfiles_urlpatterns()

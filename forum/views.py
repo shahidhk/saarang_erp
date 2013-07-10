@@ -43,6 +43,7 @@ def show_forum(request, forum_id):
     return render(request, 'forum/show_forum.html', to_return)
 
 #Topic
+@login_required(login_url='/login/')
 def show_topic(request, topic_id):
     '''html='i got %d' % int(topic_id)
     return HttpResponse(html)'''
@@ -94,6 +95,7 @@ def add_topic(request, forum_id):
         form=AddTopicForm()
     return render(request, 'forum/add.html',{'form':form})
 
+@login_required(login_url='/login/')
 def add_post(request, topic_id):
     topic = get_object_or_404(Topic, pk=topic_id)
     if request.method == 'POST':
