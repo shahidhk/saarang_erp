@@ -9,7 +9,8 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-
+# The model to use as a profile for users
+AUTH_PROFILE_MODULE = 'userprofile.UserProfile'
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.4/ref/settings/#allowed-hosts
@@ -71,7 +72,6 @@ ROOT_URLCONF = 'erp.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'erp.wsgi.application'
-
 
 
 INSTALLED_APPS = (

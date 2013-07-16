@@ -20,6 +20,7 @@ urlpatterns = patterns('',
 	url(r'^login/$', 'erp.views.login_user', name='login'),
 	url(r'^logout/$', 'erp.views.logout_user', name='logout_user'),
 	url(r'^page/$', 'erp.views.page', name='page'),
+    url(r'^profile/$', 'userprofile.views.profile', name='profile'),
 )
 
 urlpatterns += staticfiles_urlpatterns()

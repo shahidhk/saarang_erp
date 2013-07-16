@@ -6,7 +6,11 @@
 <h1>{{ forum.title }}</h1>
 <table class="table-bordered table-striped table">
     <thead>
-        <input type="button" class="btn" value="Start a new Topic" onclick="document.location = '{% url 'forum.views.add_topic' forum.pk %}';" >
+    <tr class="rowlink" onclick="document.location = '{% url 'forum.views.add_topic' forum.pk %}';">
+        <td colspan=5 style="text-align:center">
+            <input type="button" class="btn" value="Start a new Topic" onclick="document.location = '{% url 'forum.views.add_topic' forum.pk %}';" >
+        </td>
+    </tr>    
             <th>Topic</th>
             <th>Work</th>
             <th>Posts</th>
@@ -14,7 +18,7 @@
             <th>Last post</th>
         </thead>
     <tbody>
-    	{% for topic in topics %}
+    	{% for topic in topics reversed %}
                 <tr class="rowlink" onclick="document.location = '{% url 'forum.views.show_topic' topic.pk %}';" >
                     <td >{{ topic.title }}</td>
                     <td>{% if topic.iswork %}<img src="{% static 'img/forum/work.png' %}" width=20 height=20 >{% endif %}</td>

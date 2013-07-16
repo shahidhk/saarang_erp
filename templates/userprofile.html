@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load url from future %}
+{% block title %}User Profile | Saarang ERP{% endblock %}
+
+{% block content %}
+
+{% if form.errors %}
+        <p>Error</p>
+{% endif %}
+    <form action="" method="post" class="form-vertical well">
+        {% csrf_token %}
+        <table>
+        {{ uform.as_table }}
+        {{ form.as_table }}
+
+        <tr>
+        	<td colspan=2 style="text-align:center">
+        		<input type="submit" value="Update Info" align="right" class="btn btn-success btn-primary btn-block">
+        	</td>
+        </tr>
+        </table>
+    </form>
+
+{% endblock %}

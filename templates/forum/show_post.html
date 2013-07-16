@@ -5,8 +5,16 @@
 {% block content %}
 <h1>{{ post.title }}</h1>
 <table class="table-bordered table-striped table">
-    <thead>{{ post_count|add:-1 }} replies
-        <input type="button" class="btn" value="Reply" onclick="document.location = '{% url 'forum.views.add_post' post.topic.pk %}';" >
+    <thead>
+        <tr class="rowlink" onclick="document.location = '{% url 'forum.views.add_post' post.topic.pk %}';">
+            <td colspan=5 style="text-align:center">
+                {{ post_count|add:-1 }} replies
+                <input type="button" class="btn" value="Reply" onclick="document.location = '{% url 'forum.views.add_post' post.topic.pk %}';" >
+            </td>
+        </tr>
+
+    
+
         <th>Post</th>
         <th>Time</th>
         <th>By</th>
