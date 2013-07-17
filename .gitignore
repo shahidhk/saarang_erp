@@ -1,3 +1,7 @@
-*.log *.pot *.pyc local_settings.py *~
+*.log
+*.pot
+*.pyc
+local_settings.py
+*~
 wsgi.py
 wsgi.conf
