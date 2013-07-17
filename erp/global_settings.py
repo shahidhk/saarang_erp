@@ -1,4 +1,4 @@
-# Django settings for saarang_erp project.
+# Django global settings for saarang_erp project.
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -9,7 +9,7 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-# The model to use as a profile for users
+# Defines the model to use as a profile for users
 AUTH_PROFILE_MODULE = 'userprofile.UserProfile'
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
@@ -118,11 +118,12 @@ LOGGING = {
     }
 }
 
+# Defines the departments
 DEPARTMENTS = (
      ('public', 'Public'),
         ('coregroup','Core Group'),
         ('qms', 'QMS'),
-        ('webops', 'Web Operaions'),
+        ('webops', 'Web Operations'),
         ('publicity', 'Publicity'),
         ('ticketsales', 'Ticketsales'),
         ('spons', 'Sponsorship'),
@@ -135,6 +136,7 @@ DEPARTMENTS = (
         ('proshows','Pro Shows'),
     )
 
+# Describes all the events
 EVENTS = (
         ('na','Not Applicable'),
 

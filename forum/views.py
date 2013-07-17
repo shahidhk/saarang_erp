@@ -9,6 +9,8 @@ from forum.models import Forum, Topic, Post
 from django.db.models import Q, F
 import datetime
 from forum.forms import AddTopicForm, AddPostForm
+from userprofile.models import UserProfile
+from userprofile.forms import UserProfileForm
 
 @login_required(login_url='/login/')
 def index(request):
@@ -98,9 +100,12 @@ def add_topic(request, forum_id):
 @login_required(login_url='/login/')
 def add_post(request, topic_id):
     topic = get_object_or_404(Topic, pk=topic_id)
+    profile = get_object_or_404(UserProfile, pk=request.user.id)
     if request.method == 'POST':
         form=AddPostForm(request.POST)
         if form.is_valid():
+            profile.post_count+=1
+            profile.save()
             data=form.save(commit=False)
             data.user=request.user
             data.topic=topic

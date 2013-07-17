@@ -17,17 +17,20 @@ def profile(request):
 
     if request.method == 'POST':
         uform = UserForm(data = request.POST, instance = u)
-        form=UserProfileForm(request.POST, instance=profile)
+        form=UserProfileForm(request.POST, request.FILES, instance=profile)
         if form.is_valid() and uform.is_valid():
             data=form.save(commit=False)
             data.user=request.user
             uform.save()
             data.save()
-            
+            form = UserProfileForm( instance = profile )
+            uform = UserForm( instance = u )
         else:
             for error in form.errors:
                 pass
     else:
         pass
     
+    
+
     return render(request, 'userprofile.html',{'form':form, 'uform':uform, 'username':request.user})

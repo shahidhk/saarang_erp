@@ -3,21 +3,36 @@
 {% block title %}User Profile | Saarang ERP{% endblock %}
 
 {% block content %}
-
+<h1>Update Profile</h1>
 {% if form.errors %}
         <p>Error</p>
 {% endif %}
-    <form action="" method="post" class="form-vertical well">
+    <form enctype="multipart/form-data" action="" method="post" class="form-vertical well">
         {% csrf_token %}
         <table>
+           
+            <tr>
+                <th></th><td></td><td rowspan=15><ul class="thumbnails">
+                  <li class="span4">
+                    <a href="#" class="thumbnail">
+                      <img data-src="holder.js/300x200" alt="" src="{{ MEDIA_URL }}{{ form.avatar.value }}">
+                    </a>
+                  </li>
+                </ul></td>
+            </tr>
+
+
         {{ uform.as_table }}
         {{ form.as_table }}
+
 
         <tr>
         	<td colspan=2 style="text-align:center">
         		<input type="submit" value="Update Info" align="right" class="btn btn-success btn-primary btn-block">
         	</td>
         </tr>
+
+
         </table>
     </form>
 

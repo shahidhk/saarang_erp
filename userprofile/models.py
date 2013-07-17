@@ -11,10 +11,10 @@ class UserProfile(models.Model):
     #Username should be roll number
     user = models.OneToOneField(User)
     nick = models.CharField(max_length=60, null=True)
-    avatar = models.ImageField("Profile Pic", upload_to="avatars/", blank=True)
-    post_count = models.IntegerField(default=0)
+    avatar = models.ImageField("Profile Pic", upload_to="avatars/", blank=True, null=True)
+    post_count = models.IntegerField(default=0, null=True)
     department = models.CharField(max_length=60, choices=settings.DEPARTMENTS, blank=True, null=True)
-    event = models.CharField(max_length=60, choices=settings.EVENTS, null=True)
+    event = models.CharField(max_length=60, choices=settings.EVENTS, blank=True, null=True)
     dob = models.DateField(blank = True, null=True)
     mobile = models.IntegerField(max_length=10, blank=True, null=True)
     mobile_home = models.IntegerField(max_length=10,  blank=True, null=True)
@@ -33,4 +33,4 @@ def create_user_profile(sender, instance, created, **kwargs):
     if created:
         UserProfile.objects.create(user=instance)
 
-post_save.connect(create_user_profile, sender=User)
+post_save.connect(create_user_profile, sender=User, dispatch_uid='autocreate_nuser')
