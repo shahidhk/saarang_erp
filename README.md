@@ -1,4 +1,4 @@
 saarang_erp
 ===========
 
-ERP fro Saarang 2014
+ERP for Saarang 2014

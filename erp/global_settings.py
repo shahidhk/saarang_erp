@@ -68,6 +68,7 @@ MIDDLEWARE_CLASSES = (
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
+# Refers to the root url file
 ROOT_URLCONF = 'erp.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
@@ -119,6 +120,7 @@ LOGGING = {
 }
 
 # Defines the departments
+# TODO: Can be changed to another file if needed
 DEPARTMENTS = (
      ('public', 'Public'),
         ('coregroup','Core Group'),

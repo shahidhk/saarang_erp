@@ -1,7 +1,9 @@
+# From Django
 from django.conf.urls import patterns, include, url
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.conf import settings
-# Uncomment the next two lines to enable the admin:
+
+#E nable the admin:
 from django.contrib import admin
 admin.autodiscover()
 
@@ -15,16 +17,20 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
+
     # Includes forum urls
     url(r'^forum/', include('forum.urls')),
 
 	url(r'^login/$', 'erp.views.login_user', name='login'),
 	url(r'^logout/$', 'erp.views.logout_user', name='logout_user'),
 	url(r'^page/$', 'erp.views.page', name='page'),
+
     # Include Profile urls
     url(r'^profile/$', include('userprofile.urls')),
+
     # For media urls
     (r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
 )
 
+# Renders static files
 urlpatterns += staticfiles_urlpatterns()

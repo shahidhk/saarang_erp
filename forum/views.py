@@ -71,9 +71,6 @@ def show_topic(request, topic_id):
                 'post_count': topic.post_count,
                 'posts': posts,
                 }
-    print "ir comes after this"
-    print topic.pk
-    print topic.forum.pk
     return render(request, 'forum/show_topic.html', to_return)
 
 @login_required(login_url='/login/')
