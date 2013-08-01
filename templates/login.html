@@ -7,13 +7,13 @@
 {% if form.errors %}
         <p>Your username and password didn't match. Please try again.</p>
     {% endif %}
-    <form action="" method="post" class="form-vertical well">
+    <form action="" method="post" class="form-login well">
         {% csrf_token %}
         <table>
         <tr><td>Username:</td><td><input type="text" name="username" class="input-block-level" /></td></tr>
         <tr><td>
         Password:</td><td><input type="password" name="password" class="input-block-level" /></td></tr>
-        <tr><td></td><td><input type="submit" value="submit" align="right" class="btn btn-large btn-primary"></tr>
+        <tr><td></td><td><input type="submit" value="Login" align="right" class="btn btn-large btn-primary"></tr>
         <input type="hidden" name="next" value="{{ next }}" />
         </table>
     </form>
