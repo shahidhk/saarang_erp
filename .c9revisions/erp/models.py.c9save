@@ -1,0 +1,70 @@
+{"ts":1375403734655,"silentsave":true,"restoring":false,"patch":[[]],"length":0}
+{"contributors":[],"silentsave":true,"ts":1375403747585,"patch":[[{"diffs":[[1,"from django.db import models\nfrom django.conf import settings\nfrom django.contrib.auth.models import User, Group\n\n# Create your models here.\nclass Department(models.Model):\n    "]],"start1":0,"start2":0,"length1":0,"length2":177}]],"length":177,"saved":false}
+{"ts":1375403777155,"patch":[[{"diffs":[[0,"l):\n    "],[1,"name = "]],"start1":169,"start2":169,"length1":8,"length2":15}]],"length":184,"saved":false}
+{"ts":1375403812060,"patch":[[{"diffs":[[0," name = "],[1,"models.C"]],"start1":176,"start2":176,"length1":8,"length2":16}]],"length":192,"saved":false}
+{"ts":1375403813095,"patch":[[{"diffs":[[0,"models.C"],[1,"ha"]],"start1":184,"start2":184,"length1":8,"length2":10}]],"length":194,"saved":false}
+{"ts":1375403814055,"patch":[[{"diffs":[[0,"dels.Cha"],[1,"rFie"]],"start1":186,"start2":186,"length1":8,"length2":12}]],"length":198,"saved":false}
+{"ts":1375403815787,"patch":[[{"diffs":[[0,".CharFie"],[1,"ld"]],"start1":190,"start2":190,"length1":8,"length2":10}]],"length":200,"saved":false}
+{"ts":1375403819741,"patch":[[{"diffs":[[0,"harField"],[1,"("]],"start1":192,"start2":192,"length1":8,"length2":9}]],"length":201,"saved":false}
+{"ts":1375403821949,"patch":[[{"diffs":[[0,"arField("],[1,"max_le"]],"start1":193,"start2":193,"length1":8,"length2":14}]],"length":207,"saved":false}
+{"ts":1375403824604,"patch":[[{"diffs":[[0,"d(max_le"],[1,"ngth="]],"start1":199,"start2":199,"length1":8,"length2":13}]],"length":212,"saved":false}
+{"ts":1375403839493,"patch":[[{"diffs":[[0,"_length="],[1,"50"]],"start1":204,"start2":204,"length1":8,"length2":10}]],"length":214,"saved":false}
+{"ts":1375403840352,"patch":[[{"diffs":[[0,"ength=50"],[1,", "]],"start1":206,"start2":206,"length1":8,"length2":10}]],"length":216,"saved":false}
+{"ts":1375403842723,"patch":[[{"diffs":[[0,"gth=50, "],[1,"unique=R"]],"start1":208,"start2":208,"length1":8,"length2":16}]],"length":224,"saved":false}
+{"ts":1375403843769,"patch":[[{"diffs":[[0,"ique"],[-1,"=R"],[1," "]],"start1":218,"start2":218,"length1":6,"length2":5}]],"length":223,"saved":false}
+{"ts":1375403845062,"patch":[[{"diffs":[[0,", unique"],[-1," "]],"start1":214,"start2":214,"length1":9,"length2":8}]],"length":222,"saved":false}
+{"ts":1375403845935,"patch":[[{"diffs":[[0,", unique"],[1,"="]],"start1":214,"start2":214,"length1":8,"length2":9}]],"length":223,"saved":false}
+{"ts":1375403846776,"patch":[[{"diffs":[[0," unique="],[1,"Tr"]],"start1":215,"start2":215,"length1":8,"length2":10}]],"length":225,"saved":false}
+{"ts":1375403847555,"patch":[[{"diffs":[[0,"nique=Tr"],[1,"u"]],"start1":217,"start2":217,"length1":8,"length2":9}]],"length":226,"saved":false}
+{"ts":1375403848362,"patch":[[{"diffs":[[0,"ique=Tru"],[1,"e"]],"start1":218,"start2":218,"length1":8,"length2":9}]],"length":227,"saved":false}
+{"ts":1375403849248,"patch":[[{"diffs":[[0,"que=True"],[1,")"]],"start1":219,"start2":219,"length1":8,"length2":9}]],"length":228,"saved":false}
+{"ts":1375403850162,"patch":[[{"diffs":[[0,"ue=True)"],[1,"\n    "]],"start1":220,"start2":220,"length1":8,"length2":13}]],"length":233,"saved":false}
+{"ts":1375403885869,"patch":[[{"diffs":[[0,"e=True)\n    "],[1,"long_name = "]],"start1":221,"start2":221,"length1":12,"length2":24}]],"length":245,"saved":false}
+{"ts":1375403886764,"patch":[[{"diffs":[[0,"long_name = "],[1,"mde"]],"start1":233,"start2":233,"length1":12,"length2":15}]],"length":248,"saved":false}
+{"ts":1375403889530,"patch":[[{"diffs":[[0,"me = mde"],[1,"ls.CharFiel"]],"start1":240,"start2":240,"length1":8,"length2":19}]],"length":259,"saved":false}
+{"ts":1375403891385,"patch":[[{"diffs":[[0,"ame = mdels.CharFiel"],[1,"d(max_"]],"start1":239,"start2":239,"length1":20,"length2":26}]],"length":265,"saved":false}
+{"ts":1375403893292,"patch":[[{"diffs":[[0,"e = mdels.CharField(max_"],[1,"length"]],"start1":241,"start2":241,"length1":24,"length2":30}]],"length":271,"saved":false}
+{"ts":1375403894165,"patch":[[{"diffs":[[0,"= mdels.CharField(max_length"],[1,"="]],"start1":243,"start2":243,"length1":28,"length2":29}]],"length":272,"saved":false}
+{"ts":1375403900242,"patch":[[{"diffs":[[0," mdels.CharField(max_length="],[1,"100"]],"start1":244,"start2":244,"length1":28,"length2":31}]],"length":275,"saved":false}
+{"ts":1375403902207,"patch":[[{"diffs":[[0,"ngth=100"],[1,")\n    "]],"start1":267,"start2":267,"length1":8,"length2":14}]],"length":281,"saved":false}
+{"ts":1375403904965,"patch":[[{"diffs":[[0,"th=100)\n    "],[1,"descrip"]],"start1":269,"start2":269,"length1":12,"length2":19}]],"length":288,"saved":false}
+{"ts":1375403907476,"patch":[[{"diffs":[[0," descrip"],[1,"tion = "]],"start1":280,"start2":280,"length1":8,"length2":15}]],"length":295,"saved":false}
+{"ts":1375403912482,"patch":[[{"diffs":[[0,"name = m"],[1,"o"],[0,"dels.Cha"]],"start1":238,"start2":238,"length1":16,"length2":17}]],"length":296,"saved":false}
+{"ts":1375403955479,"patch":[[{"diffs":[[0,"ption = "],[1,"models.Cha"]],"start1":288,"start2":288,"length1":8,"length2":18}]],"length":306,"saved":false}
+{"ts":1375403960063,"patch":[[{"diffs":[[0,"ription = models.Cha"],[1,"rField("]],"start1":286,"start2":286,"length1":20,"length2":27}]],"length":313,"saved":false}
+{"ts":1375403961274,"patch":[[{"diffs":[[0,"cription = models.CharField("],[1,"m"]],"start1":285,"start2":285,"length1":28,"length2":29}]],"length":314,"saved":false}
+{"ts":1375403964512,"patch":[[{"diffs":[[0,"ription = models.CharField(m"],[1,"ax_length"]],"start1":286,"start2":286,"length1":28,"length2":37}]],"length":323,"saved":false}
+{"ts":1375403966169,"patch":[[{"diffs":[[0," models.CharField(max_length"],[1,"=500"]],"start1":295,"start2":295,"length1":28,"length2":32}]],"length":327,"saved":false}
+{"ts":1375403970329,"patch":[[{"diffs":[[0,"ngth=500"],[1,")\n    "]],"start1":319,"start2":319,"length1":8,"length2":14}]],"length":333,"saved":false}
+{"ts":1375403986855,"patch":[[{"diffs":[[0,"length=500)\n    "],[1,"\n"]],"start1":317,"start2":317,"length1":16,"length2":17}]],"length":334,"saved":false}
+{"ts":1375403987686,"patch":[[{"diffs":[[0,"0)\n    \n"],[1,"Cla"]],"start1":326,"start2":326,"length1":8,"length2":11}]],"length":337,"saved":false}
+{"ts":1375403988578,"patch":[[{"diffs":[[0,")\n    \nC"],[-1,"la"]],"start1":327,"start2":327,"length1":10,"length2":8}]],"length":335,"saved":false}
+{"ts":1375403989487,"patch":[[{"diffs":[[0,"0)\n    \n"],[-1,"C"]],"start1":326,"start2":326,"length1":9,"length2":8}]],"length":334,"saved":false}
+{"ts":1375403992754,"patch":[[{"diffs":[[0,"0)\n    \n"],[1,"class Ev"]],"start1":326,"start2":326,"length1":8,"length2":16}]],"length":342,"saved":false}
+{"ts":1375403993510,"patch":[[{"diffs":[[0,"class Ev"],[1,"ent"]],"start1":334,"start2":334,"length1":8,"length2":11}]],"length":345,"saved":false}
+{"ts":1375403994427,"patch":[[{"diffs":[[0,"ss Event"],[1,"("]],"start1":337,"start2":337,"length1":8,"length2":9}]],"length":346,"saved":false}
+{"ts":1375403996639,"patch":[[{"diffs":[[0,"class Event("],[1,"models.M"]],"start1":334,"start2":334,"length1":12,"length2":20}]],"length":354,"saved":false}
+{"ts":1375403998766,"patch":[[{"diffs":[[0,"class Event(models.M"],[1,"odel"]],"start1":334,"start2":334,"length1":20,"length2":24}]],"length":358,"saved":false}
+{"ts":1375403999549,"patch":[[{"diffs":[[0,"class Event(models.Model"],[1,")"]],"start1":334,"start2":334,"length1":24,"length2":25}]],"length":359,"saved":false}
+{"ts":1375404000368,"patch":[[{"diffs":[[0,"lass Event(models.Model)"],[1,":\n    "]],"start1":335,"start2":335,"length1":24,"length2":30}]],"length":365,"saved":false}
+{"ts":1375404003330,"patch":[[{"diffs":[[0,"ss Event(models.Model):\n    "],[1,"name="]],"start1":337,"start2":337,"length1":28,"length2":33}]],"length":370,"saved":false}
+{"ts":1375404004163,"patch":[[{"diffs":[[0,"    name"],[-1,"="],[1," "]],"start1":361,"start2":361,"length1":9,"length2":9}]],"length":370,"saved":false}
+{"ts":1375404005161,"patch":[[{"diffs":[[0,"Event(models.Model):\n    nam"],[-1,"e "]],"start1":340,"start2":340,"length1":30,"length2":28}]],"length":368,"saved":false}
+{"ts":1375404007101,"patch":[[{"diffs":[[0,"ss Event(models.Model):\n    "],[-1,"nam"]],"start1":337,"start2":337,"length1":31,"length2":28}]],"length":365,"saved":false}
+{"ts":1375404016236,"patch":[[{"diffs":[[0,"ss Event(models.Model):\n    "],[1,"name = models.CharField(max_length=50, unique=True)"]],"start1":337,"start2":337,"length1":28,"length2":79}]],"length":416,"saved":false}
+{"ts":1375404026269,"patch":[[{"diffs":[[0,"(max_length=50, unique=True)"],[1,"\n    long_name = models.CharField(max_length=100)\n    description = models.CharField(max_length=500)\n    "]],"start1":388,"start2":388,"length1":28,"length2":133}]],"length":521,"saved":false}
+{"ts":1375404035289,"patch":[[{"diffs":[[0,"arField(max_length=500)\n    "],[1,"dept = "]],"start1":493,"start2":493,"length1":28,"length2":35}]],"length":528,"saved":false}
+{"ts":1375404074895,"patch":[[{"diffs":[[0," dept = "],[1,"models.ForeignKey('Post', related_name='last_forum_post', blank=True, null=True)"]],"start1":520,"start2":520,"length1":8,"length2":88}]],"length":608,"saved":false}
+{"ts":1375404077658,"patch":[[{"diffs":[[0,", nu"],[-1,"ll=True"],[0,")"]],"start1":596,"start2":596,"length1":12,"length2":5}]],"length":601,"saved":false}
+{"ts":1375404078473,"patch":[[{"diffs":[[0,"ank="],[-1,"True, nu"],[0,")"]],"start1":588,"start2":588,"length1":13,"length2":5}]],"length":593,"saved":false}
+{"ts":1375404079434,"patch":[[{"diffs":[[0,", blank="],[1,"Fa"],[0,")"]],"start1":584,"start2":584,"length1":9,"length2":11}]],"length":595,"saved":false}
+{"ts":1375404080868,"patch":[[{"diffs":[[0,"blank=Fa"],[1,"lse"],[0,")"]],"start1":586,"start2":586,"length1":9,"length2":12}]],"length":598,"saved":false}
+{"ts":1375404084862,"patch":[[{"diffs":[[0,"t', "],[-1,"blank=False"],[0,")"]],"start1":582,"start2":582,"length1":16,"length2":5}]],"length":587,"saved":false}
+{"ts":1375404086638,"patch":[[{"diffs":[[0,"um_post'"],[-1,", "],[0,")"]],"start1":576,"start2":576,"length1":11,"length2":9}]],"length":585,"saved":false}
+{"ts":1375404091968,"patch":[[{"diffs":[[0,"ey('"],[-1,"Post"],[1,"Dea"],[0,"', r"]],"start1":543,"start2":543,"length1":12,"length2":11}]],"length":584,"saved":false}
+{"ts":1375404092979,"patch":[[{"diffs":[[0,"nKey('De"],[-1,"a"],[0,"', relat"]],"start1":541,"start2":541,"length1":17,"length2":16}]],"length":583,"saved":false}
+{"ts":1375404094969,"patch":[[{"diffs":[[0,"nKey('De"],[1,"partment"],[0,"', relat"]],"start1":541,"start2":541,"length1":16,"length2":24}]],"length":591,"saved":false}
+{"ts":1375404102677,"patch":[[{"diffs":[[0,"t_fo"],[-1,"rum_post"],[0,"')"]],"start1":577,"start2":577,"length1":14,"length2":6}]],"length":583,"saved":false}
+{"ts":1375404105502,"patch":[[{"diffs":[[0,"me='"],[-1,"last_fo"],[0,"')"]],"start1":570,"start2":570,"length1":13,"length2":6}]],"length":576,"saved":false}
+{"ts":1375404111130,"patch":[[{"diffs":[[0,"d_name='"],[1,"parent_departme"],[0,"')"]],"start1":566,"start2":566,"length1":10,"length2":25}]],"length":591,"saved":false}
+{"ts":1375404112587,"patch":[[{"diffs":[[0,"departme"],[1,"nt"],[0,"')"]],"start1":581,"start2":581,"length1":10,"length2":12}]],"length":593,"saved":false}
