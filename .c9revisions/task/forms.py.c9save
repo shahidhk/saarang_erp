@@ -1,0 +1,21 @@
+{"ts":1375519129405,"silentsave":true,"restoring":false,"patch":[[]],"length":0}
+{"contributors":[],"silentsave":true,"ts":1375519252794,"patch":[[{"diffs":[[1,"#From Djang"]],"start1":0,"start2":0,"length1":0,"length2":11}]],"length":11,"saved":false}
+{"ts":1375519254382,"patch":[[{"diffs":[[0,"om Djang"],[1,"o\nfrom django import forms"]],"start1":3,"start2":3,"length1":8,"length2":34}]],"length":37,"saved":false}
+{"ts":1375519256770,"patch":[[{"diffs":[[0,"rt forms"],[1,"\n\n#"]],"start1":29,"start2":29,"length1":8,"length2":11}]],"length":40,"saved":false}
+{"ts":1375519259468,"patch":[[{"diffs":[[0,"forms\n\n#"],[1,"From mode"]],"start1":32,"start2":32,"length1":8,"length2":17}]],"length":49,"saved":false}
+{"ts":1375519260943,"patch":[[{"diffs":[[0,"rom mode"],[1,"ls\n"]],"start1":41,"start2":41,"length1":8,"length2":11}]],"length":52,"saved":false}
+{"ts":1375519261684,"patch":[[{"diffs":[[0," models\n"],[1,"fo"]],"start1":44,"start2":44,"length1":8,"length2":10}]],"length":54,"saved":false}
+{"ts":1375519263497,"patch":[[{"diffs":[[0,"models\nf"],[-1,"o"],[1,"rom"]],"start1":45,"start2":45,"length1":9,"length2":11}]],"length":56,"saved":false}
+{"ts":1375519264865,"patch":[[{"diffs":[[0," models\nfrom"],[1," model"]],"start1":44,"start2":44,"length1":12,"length2":18}]],"length":62,"saved":false}
+{"ts":1375519266437,"patch":[[{"diffs":[[0,"odels\nfrom model"],[1,"s"]],"start1":46,"start2":46,"length1":16,"length2":17}]],"length":63,"saved":false}
+{"ts":1375519267581,"patch":[[{"diffs":[[0,"dels\nfrom models"],[1," "]],"start1":47,"start2":47,"length1":16,"length2":17}]],"length":64,"saved":false}
+{"ts":1375519270312,"patch":[[{"diffs":[[0," models "],[1,"import "]],"start1":56,"start2":56,"length1":8,"length2":15}]],"length":71,"saved":false}
+{"ts":1375519281043,"patch":[[{"diffs":[[0,"m models import "],[1,"import ta"]],"start1":55,"start2":55,"length1":16,"length2":25}]],"length":80,"saved":false}
+{"ts":1375519282392,"patch":[[{"diffs":[[0,"impo"],[-1,"rt ta"]],"start1":71,"start2":71,"length1":9,"length2":4}]],"length":75,"saved":false}
+{"ts":1375519284205,"patch":[[{"diffs":[[0," import "],[-1,"impo"],[1,"Task"]],"start1":63,"start2":63,"length1":12,"length2":12}]],"length":75,"saved":false}
+{"ts":1375519285575,"patch":[[{"diffs":[[0,"ort Task"],[1," "]],"start1":67,"start2":67,"length1":8,"length2":9}]],"length":76,"saved":false}
+{"ts":1375519288277,"patch":[[{"diffs":[[0,"ort Task"],[-1," "],[1,", Comment"]],"start1":67,"start2":67,"length1":9,"length2":17}]],"length":84,"saved":false}
+{"ts":1375519290369,"patch":[[{"diffs":[[0," Comment"],[1,"\n\n"]],"start1":76,"start2":76,"length1":8,"length2":10}]],"length":86,"saved":false}
+{"ts":1375519291393,"patch":[[{"diffs":[[0,"omment\n\n"],[1,"C"]],"start1":78,"start2":78,"length1":8,"length2":9}]],"length":87,"saved":false}
+{"ts":1375519293387,"patch":[[{"diffs":[[0,"omment\n\n"],[-1,"C"]],"start1":78,"start2":78,"length1":9,"length2":8}]],"length":86,"saved":false}
+{"ts":1375519296090,"patch":[[{"diffs":[[0," Comment"],[-1,"\n\n"]],"start1":76,"start2":76,"length1":10,"length2":8}]],"length":84,"saved":false}
