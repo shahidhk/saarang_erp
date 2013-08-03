@@ -88,6 +88,8 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'forum',
     'userprofile',
+    'erp',
+    'task',
 )
 
 # A sample logging configuration. The only tangible logging

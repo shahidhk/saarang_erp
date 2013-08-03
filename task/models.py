@@ -1,12 +1,12 @@
 from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User, Group
-
+from erp.models import Department, Event
 # Create your models here.
 class Task(models.Model):
     time_created = models.DateTimeField(auto_now_add = True)
-    origin_dept = models.ForeignKey('erp.Department', related_name = 'task_originating_dept')
-    destin_dept = models.ForeignKey('erp.Department', related_name = 'task_destination_dept')
+    origin_dept = models.ForeignKey(Department, related_name = 'task_originating_dept')
+    destin_dept = models.ForeignKey(Department, related_name = 'task_destination_dept')
     title = models.CharField(max_length = 60, verbose_name = 'Title <60 letters>')
     summary = models.CharField(max_length = 200, verbose_name = 'Short summary of task <200 letters>')
     description= models.CharField(max_length = 1000, verbose_name = 'Long description of task <1000 letters>')

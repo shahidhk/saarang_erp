@@ -1,0 +1,46 @@
+{"ts":1375511329201,"silentsave":true,"restoring":false,"patch":[[{"diffs":[[1,"# From django\nfrom django import forms\n\nclass UserLoginForm(forms.Form):\n\t'''\n\t\tMeant to be the Loginform at the Homepage, not implemented yet\n\t\tCurrently dealt with a template login.html\n\t'''\n\tusername=forms.CharField(help_text='Your username as registered with the ERP')\n\tpassword=forms.CharField(widget=forms.PasswordInput, help_text='Your password. If you do not remember this, please use the link below')"]],"start1":0,"start2":0,"length1":0,"length2":409}]],"length":409}
+{"contributors":[],"silentsave":true,"ts":1375511466101,"patch":[[{"diffs":[[0," below')"],[1,"\n    \n"]],"start1":401,"start2":401,"length1":8,"length2":14}]],"length":415,"saved":false}
+{"ts":1375511468391,"patch":[[{"diffs":[[0,"')\n    \n"],[1,"class "]],"start1":407,"start2":407,"length1":8,"length2":14}]],"length":421,"saved":false}
+{"ts":1375511477050,"patch":[[{"diffs":[[0,"\n    \nclass "],[1,"add"]],"start1":409,"start2":409,"length1":12,"length2":15}]],"length":424,"saved":false}
+{"ts":1375511479877,"patch":[[{"diffs":[[0,"ass "],[-1,"a"],[1,"A"],[0,"dd"],[1,"Depar"]],"start1":417,"start2":417,"length1":7,"length2":12}]],"length":429,"saved":false}
+{"ts":1375511481919,"patch":[[{"diffs":[[0,"AddDepar"],[1,"tmen"]],"start1":421,"start2":421,"length1":8,"length2":12}]],"length":433,"saved":false}
+{"ts":1375511487928,"patch":[[{"diffs":[[0,"ass "],[-1,"Add"],[0,"Depa"]],"start1":417,"start2":417,"length1":11,"length2":8},{"diffs":[[0,"epartmen"],[1,"tFor"]],"start1":422,"start2":422,"length1":8,"length2":12}]],"length":434,"saved":false}
+{"ts":1375511489444,"patch":[[{"diffs":[[0,"tmentFor"],[1,"m\n"]],"start1":426,"start2":426,"length1":8,"length2":10}]],"length":436,"saved":false}
+{"ts":1375511491706,"patch":[[{"diffs":[[0,"mentForm"],[-1,"\n"]],"start1":427,"start2":427,"length1":9,"length2":8}]],"length":435,"saved":false}
+{"ts":1375511521067,"patch":[[{"diffs":[[0,"ass "],[-1,"DepartmentForm"],[1,"AddTopicForm(ModelForm):\n    class Meta:\n        model = Topic # Mentions the model\n        # Specify the fields to exclude (Those are auto-populated, and to be hidden)\n        exclude=['forum','created','updated','creator','views','closed','post_count','last_post']"]],"start1":417,"start2":417,"length1":18,"length2":270}]],"length":687,"saved":false}
+{"ts":1375511523453,"patch":[[{"diffs":[[0," forms\n\n"],[1,"#\n"],[0,"class Us"]],"start1":32,"start2":32,"length1":16,"length2":18}]],"length":689,"saved":false}
+{"ts":1375511525815,"patch":[[{"diffs":[[0,"forms\n\n#"],[1,"From mode"],[0,"\nclass U"]],"start1":33,"start2":33,"length1":16,"length2":25}]],"length":698,"saved":false}
+{"ts":1375511527374,"patch":[[{"diffs":[[0,"rom mode"],[1,"ls\n"],[0,"\nclass U"]],"start1":42,"start2":42,"length1":16,"length2":19}]],"length":701,"saved":false}
+{"ts":1375511528246,"patch":[[{"diffs":[[0," models\n"],[1,"from "],[0,"\nclass U"]],"start1":45,"start2":45,"length1":16,"length2":21}]],"length":706,"saved":false}
+{"ts":1375511532478,"patch":[[{"diffs":[[0,"ls\nfrom "],[1,"models import Depa"],[0,"\nclass U"]],"start1":50,"start2":50,"length1":16,"length2":34}]],"length":724,"saved":false}
+{"ts":1375511534766,"patch":[[{"diffs":[[0,"ort Depa"],[1,"rt "],[0,"\nclass U"]],"start1":68,"start2":68,"length1":16,"length2":19}]],"length":727,"saved":false}
+{"ts":1375511536021,"patch":[[{"diffs":[[0,"t Depart"],[-1," "],[1,"ment"],[0,"\nclass U"]],"start1":70,"start2":70,"length1":17,"length2":20}]],"length":730,"saved":false}
+{"ts":1375511537108,"patch":[[{"diffs":[[0,"partment"],[1,", "],[0,"\nclass U"]],"start1":74,"start2":74,"length1":16,"length2":18}]],"length":732,"saved":false}
+{"ts":1375511538008,"patch":[[{"diffs":[[0,"rtment, "],[1,"Eve"],[0,"\nclass U"]],"start1":76,"start2":76,"length1":16,"length2":19}]],"length":735,"saved":false}
+{"ts":1375511539457,"patch":[[{"diffs":[[0,"ent, Eve"],[1,"nt"],[0,"\nclass U"]],"start1":79,"start2":79,"length1":16,"length2":18}]],"length":737,"saved":false}
+{"ts":1375511543125,"patch":[[{"diffs":[[0,"lass Add"],[-1,"Topic"],[1,"Dep"],[0,"Form(Mod"]],"start1":466,"start2":466,"length1":21,"length2":19}]],"length":735,"saved":false}
+{"ts":1375511544984,"patch":[[{"diffs":[[0,"s AddDep"],[1,"art"],[0,"Form(Mod"]],"start1":469,"start2":469,"length1":16,"length2":19}]],"length":738,"saved":false}
+{"ts":1375511546911,"patch":[[{"diffs":[[0,"ddDepart"],[1,"ment"],[0,"Form(Mod"]],"start1":472,"start2":472,"length1":16,"length2":20}]],"length":742,"saved":false}
+{"ts":1375511554308,"patch":[[{"diffs":[[0,"l = "],[-1,"Topic"],[1,"Department"],[0," # M"]],"start1":529,"start2":529,"length1":13,"length2":18}]],"length":747,"saved":false}
+{"ts":1375511557907,"patch":[[{"diffs":[[0,"    "],[-1,"exclude=['forum','created','updated','creator','views','closed','post_count','last_post']"]],"start1":654,"start2":654,"length1":93,"length2":4}]],"length":658,"saved":false}
+{"ts":1375511564101,"patch":[[{"diffs":[[0,"    "],[-1,"# Specify the fields to exclude (Those are auto-populated, and to be hidden)\n        "]],"start1":569,"start2":569,"length1":89,"length2":4}]],"length":573,"saved":false}
+{"ts":1375511614421,"patch":[[{"diffs":[[0,"he model"],[-1,"\n        "]],"start1":556,"start2":556,"length1":17,"length2":8}]],"length":564,"saved":false}
+{"ts":1375511616707,"patch":[[{"diffs":[[0," you do "],[1,"\n    "],[0,"not reme"]],"start1":405,"start2":405,"length1":16,"length2":21}]],"length":569,"saved":false}
+{"ts":1375511618187,"patch":[[{"diffs":[[0," you do "],[-1,"\n    "],[0,"not reme"]],"start1":405,"start2":405,"length1":21,"length2":16}]],"length":564,"saved":false}
+{"ts":1375511621341,"patch":[[{"diffs":[[0,"ns the model"],[1,"\n        \n        "]],"start1":552,"start2":552,"length1":12,"length2":30}]],"length":582,"saved":false}
+{"ts":1375511622505,"patch":[[{"diffs":[[0,"       \n"],[-1,"        "]],"start1":566,"start2":566,"length1":16,"length2":8}]],"length":574,"saved":false}
+{"ts":1375511626875,"patch":[[{"diffs":[[0,"el\n        \n"],[1,"class"]],"start1":562,"start2":562,"length1":12,"length2":17}]],"length":579,"saved":false}
+{"ts":1375511628593,"patch":[[{"diffs":[[0,"l\n        \nclass"],[1," "]],"start1":563,"start2":563,"length1":16,"length2":17}]],"length":580,"saved":false}
+{"ts":1375511632901,"patch":[[{"diffs":[[0,"ass "],[-1,"Add"],[0,"Depa"]],"start1":467,"start2":467,"length1":11,"length2":8}]],"length":577,"saved":false}
+{"ts":1375511636399,"patch":[[{"diffs":[[0,"\n        \nclass "],[1,"EventForm"]],"start1":561,"start2":561,"length1":16,"length2":25}]],"length":586,"saved":false}
+{"ts":1375511640546,"patch":[[{"diffs":[[0,"ss EventForm"],[1,"(Model"]],"start1":574,"start2":574,"length1":12,"length2":18}]],"length":592,"saved":false}
+{"ts":1375511653294,"patch":[[{"diffs":[[0,"artmentForm("],[1,"forms."],[0,"ModelForm):\n"]],"start1":474,"start2":474,"length1":24,"length2":30}]],"length":598,"saved":false}
+{"ts":1375511657134,"patch":[[{"diffs":[[0,"entForm("],[1,"forms."],[0,"Model"]],"start1":585,"start2":585,"length1":13,"length2":19}]],"length":604,"saved":false}
+{"ts":1375511659674,"patch":[[{"diffs":[[0,"ss EventForm(forms.Model"],[1,"Form)"]],"start1":580,"start2":580,"length1":24,"length2":29}]],"length":609,"saved":false}
+{"ts":1375511660520,"patch":[[{"diffs":[[0,"s EventForm(forms.ModelForm)"],[1,":\n    "]],"start1":581,"start2":581,"length1":28,"length2":34}]],"length":615,"saved":false}
+{"ts":1375511661268,"patch":[[{"diffs":[[0,"tForm(forms.ModelForm):\n    "],[1,"clas"]],"start1":587,"start2":587,"length1":28,"length2":32}]],"length":619,"saved":false}
+{"ts":1375511662986,"patch":[[{"diffs":[[0,"m(forms.ModelForm):\n    clas"],[1,"s Meta"]],"start1":591,"start2":591,"length1":28,"length2":34}]],"length":625,"saved":false}
+{"ts":1375511666705,"patch":[[{"diffs":[[0,"s.ModelForm):\n    class Meta"],[1,":\n        model"]],"start1":597,"start2":597,"length1":28,"length2":43}]],"length":640,"saved":false}
+{"ts":1375511668096,"patch":[[{"diffs":[[0,"   class Meta:\n        model"],[1," =Eve"]],"start1":612,"start2":612,"length1":28,"length2":33}]],"length":645,"saved":false}
+{"ts":1375511670023,"patch":[[{"diffs":[[0,"del =Eve"],[1,"nt"]],"start1":637,"start2":637,"length1":8,"length2":10}]],"length":647,"saved":false}
+{"ts":1375511672099,"patch":[[{"diffs":[[0," model ="],[1," "],[0,"Event"]],"start1":634,"start2":634,"length1":13,"length2":14}]],"length":648,"saved":false}

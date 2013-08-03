@@ -6,10 +6,10 @@ from django.contrib.auth.models import User, Group
 class Department(models.Model):
     name = models.CharField(max_length=50, unique=True)
     long_name = models.CharField(max_length=100)
-    description = models.CharField(max_length=500)
+    description = models.TextField(max_length=500)
     
 class Event(models.Model):
     name = models.CharField(max_length=50, unique=True)
     long_name = models.CharField(max_length=100)
     description = models.CharField(max_length=500)
-    dept = models.ForeignKey('Department', related_name='parent_department')
+    dept = models.ForeignKey(Department, related_name='parent_department')
