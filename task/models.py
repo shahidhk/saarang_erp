@@ -15,7 +15,7 @@ class Task(models.Model):
     description= models.TextField(max_length = 1000, verbose_name = 'Long description of task <1000 letters>')
     attachment = models.FileField(upload_to = 'attachments', blank=True, null=True)
     origin_deadline = models.DateField()
-    origin_priority = models.FloatField(verbose_name='Priority of the task in a scale 0 to 5 (eg. 4.5)', default=4.5)
+    origin_priority = models.FloatField(verbose_name='Priority of the task in a scale 0 to 5 (eg. 4.5)')
     origin_core_aproved = models.BooleanField(default=False)
     time_origin_core_approval = models.DateTimeField(auto_now = True, default = now)
     origin_core_comment = models.CharField(max_length=200, default="No comment")

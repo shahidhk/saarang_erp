@@ -17,9 +17,11 @@ def origin_task_create(request):
         otcForm = AddTaskForm(request.POST)
         if otcForm.is_valid:
             print "data valid"
-            otcForm.save(commit=False)
+            data = otcForm.save(commit=False)
             print request.user.userprofile.dept
-            otcForm.origin_dept = request.user.userprofile.dept
+            print data
+            data.origin_dept = request.user.userprofile.dept
+            data.save()
             otcForm.save()
             print "saved"
         else:
