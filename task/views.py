@@ -10,7 +10,7 @@ from django.contrib.auth.models import User, Group
 from task.models import Task, Comment
 
 # From Forms
-from task.forms import AddTaskForm
+from task.forms import *
 
 def origin_task_create(request):
     if request.method == 'POST':
@@ -45,22 +45,23 @@ def show_task(request):
     return render(request, 'task/show_task.html', to_return)
 
 def origin_core_approval(request, task_id):
+    task = get_object_or_404(Task, pk=task_id)
+    ocaForm = OriginCoreApprovalForm(instance = task)
     if request.method == 'POST':
-        ocaForm = AddTaskForm(request.POST)
+        ocaForm = OriginCoreApprovalForm(data = request.POST, instance = task)
         if ocaForm.is_valid:
             print "data valid"
-            data = ocaForm.save(commit=False)
-            
-            data.save()
+            print ocaForm.errors
             ocaForm.save()
+            ocaForm = OriginCoreApprovalForm(instance = task)
         else:
             print "didnt validate"
     else:
-        ocaForm = AddTaskForm()
+        ocaForm = OriginCoreApprovalForm(instance = task)
     to_return={
             'form':ocaForm,
             'action':  "",
-            'title': "Approve a task"
+            'title': "Approve task"
         }
     return render(request, 'task/task.html', to_return)
 
