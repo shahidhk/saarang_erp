@@ -20,10 +20,12 @@ urlpatterns = patterns('',
 
     # Includes forum urls
     url(r'^forum/', include('forum.urls')),
+    
+    # Include urls from task
+    url(r'^task/', include('task.urls')),
 
 	url(r'^login/$', 'erp.views.login_user', name='login'),
 	url(r'^logout/$', 'erp.views.logout_user', name='logout_user'),
-	url(r'^page/$', 'erp.views.page', name='page'),
 
     # Include Profile urls
     url(r'^profile/$', include('userprofile.urls')),

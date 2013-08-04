@@ -1,0 +1,124 @@
+{"ts":1375579158452,"silentsave":true,"restoring":false,"patch":[[{"diffs":[[1,"# Create your views here.\n"]],"start1":0,"start2":0,"length1":0,"length2":26}]],"length":26}
+{"contributors":[],"silentsave":true,"ts":1375579298199,"patch":[[{"diffs":[[0,"# "],[-1,"Create your views here.\n"],[1,"Fro"]],"start1":0,"start2":0,"length1":26,"length2":5}]],"length":5,"saved":false}
+{"ts":1375579301473,"patch":[[{"diffs":[[0,"# Fro"],[1,"m Django\nfrom django.http import Http404, HttpResponse, HttpResponseRedirect, HttpResponseForbidden\nfrom django.shortcuts import render_to_response, render, get_object_or_404, redirect\nfrom django.contrib.auth import authenticate, login, logout\nfrom django.contrib.auth.decorators import login_required\nfrom django.template import RequestContext\nfrom django.contrib.auth.models import User, Group"]],"start1":0,"start2":0,"length1":5,"length2":401}]],"length":401,"saved":false}
+{"ts":1375579306624,"patch":[[{"diffs":[[0,"r, Group"],[1,"\n\n#"]],"start1":393,"start2":393,"length1":8,"length2":11}]],"length":404,"saved":false}
+{"ts":1375579307727,"patch":[[{"diffs":[[0,"Group\n\n#"],[1,"Fr"]],"start1":396,"start2":396,"length1":8,"length2":10}]],"length":406,"saved":false}
+{"ts":1375579311137,"patch":[[{"diffs":[[0,"oup\n\n#Fr"],[1,"om models\n"]],"start1":398,"start2":398,"length1":8,"length2":18}]],"length":416,"saved":false}
+{"ts":1375579313765,"patch":[[{"diffs":[[0," models\n"],[1,"from "]],"start1":408,"start2":408,"length1":8,"length2":13}]],"length":421,"saved":false}
+{"ts":1375579318838,"patch":[[{"diffs":[[0,"models\nfrom "],[1,"models im"]],"start1":409,"start2":409,"length1":12,"length2":21}]],"length":430,"saved":false}
+{"ts":1375579319902,"patch":[[{"diffs":[[0,"s\nfrom models im"],[1,"por"]],"start1":414,"start2":414,"length1":16,"length2":19}]],"length":433,"saved":false}
+{"ts":1375579321376,"patch":[[{"diffs":[[0,"ls\nfrom models impor"],[1,"t "]],"start1":413,"start2":413,"length1":20,"length2":22}]],"length":435,"saved":false}
+{"ts":1375579324406,"patch":[[{"diffs":[[0,"\nfrom models import "],[1,"Task"]],"start1":415,"start2":415,"length1":20,"length2":24}]],"length":439,"saved":false}
+{"ts":1375579325051,"patch":[[{"diffs":[[0,"ort Task"],[1,", "]],"start1":431,"start2":431,"length1":8,"length2":10}]],"length":441,"saved":false}
+{"ts":1375579327598,"patch":[[{"diffs":[[0,"t Task, "],[1,"Comment\nfro"]],"start1":433,"start2":433,"length1":8,"length2":19}]],"length":452,"saved":false}
+{"ts":1375579330034,"patch":[[{"diffs":[[0," Comment"],[-1,"\nfro"]],"start1":440,"start2":440,"length1":12,"length2":8}]],"length":448,"saved":false}
+{"ts":1375579337963,"patch":[[{"diffs":[[0," Comment"],[1,"\n\n#Fr"]],"start1":440,"start2":440,"length1":8,"length2":13}]],"length":453,"saved":false}
+{"ts":1375579338782,"patch":[[{"diffs":[[0,"Comment\n\n#Fr"],[1,"om"]],"start1":441,"start2":441,"length1":12,"length2":14}]],"length":455,"saved":false}
+{"ts":1375579339540,"patch":[[{"diffs":[[0," Comment\n\n#F"],[-1,"rom"]],"start1":440,"start2":440,"length1":15,"length2":12}]],"length":452,"saved":false}
+{"ts":1375579340231,"patch":[[{"diffs":[[0,"mment\n\n#"],[-1,"F"],[1," "]],"start1":443,"start2":443,"length1":9,"length2":9}]],"length":452,"saved":false}
+{"ts":1375579342247,"patch":[[{"diffs":[[0,"ment\n\n# "],[1,"From fo"]],"start1":444,"start2":444,"length1":8,"length2":15}]],"length":459,"saved":false}
+{"ts":1375579343016,"patch":[[{"diffs":[[0,"\n# From "],[-1,"f"],[1,"F"],[0,"o"]],"start1":449,"start2":449,"length1":10,"length2":10}]],"length":459,"saved":false}
+{"ts":1375579344880,"patch":[[{"diffs":[[0," From Fo"],[1,"rms\n"]],"start1":451,"start2":451,"length1":8,"length2":12}]],"length":463,"saved":false}
+{"ts":1375579348633,"patch":[[{"diffs":[[0,"m Forms\n"],[1,"from forms impo"]],"start1":455,"start2":455,"length1":8,"length2":23}]],"length":478,"saved":false}
+{"ts":1375579350059,"patch":[[{"diffs":[[0,"m forms impo"],[1,"rt "]],"start1":466,"start2":466,"length1":12,"length2":15}]],"length":481,"saved":false}
+{"ts":1375579353066,"patch":[[{"diffs":[[0,"om forms import "],[1,"*"]],"start1":465,"start2":465,"length1":16,"length2":17}]],"length":482,"saved":false}
+{"ts":1375579356157,"patch":[[{"diffs":[[0,"Group\n\n#"],[1," "],[0,"From mod"]],"start1":396,"start2":396,"length1":16,"length2":17}]],"length":483,"saved":false}
+{"ts":1375579358923,"patch":[[{"diffs":[[0,"import *"],[1,"\n\ndef"]],"start1":475,"start2":475,"length1":8,"length2":13}]],"length":488,"saved":false}
+{"ts":1375579360532,"patch":[[{"diffs":[[0,"t *\n\ndef"],[1,"  "]],"start1":480,"start2":480,"length1":8,"length2":10}]],"length":490,"saved":false}
+{"ts":1375579364093,"patch":[[{"diffs":[[0,"*\n\ndef  "],[1,"origin_tas"]],"start1":482,"start2":482,"length1":8,"length2":18}]],"length":500,"saved":false}
+{"ts":1375579365830,"patch":[[{"diffs":[[0,"igin_tas"],[1,"k"]],"start1":492,"start2":492,"length1":8,"length2":9}]],"length":501,"saved":false}
+{"ts":1375579366565,"patch":[[{"diffs":[[0,"gin_task"],[1,"_cre"]],"start1":493,"start2":493,"length1":8,"length2":12}]],"length":505,"saved":false}
+{"ts":1375579368232,"patch":[[{"diffs":[[0,"task_cre"],[1,"ate("]],"start1":497,"start2":497,"length1":8,"length2":12}]],"length":509,"saved":false}
+{"ts":1375579369186,"patch":[[{"diffs":[[0,"_create("],[1,"rew"]],"start1":501,"start2":501,"length1":8,"length2":11}]],"length":512,"saved":false}
+{"ts":1375579370886,"patch":[[{"diffs":[[0,"e(re"],[-1,"w"],[1,"ques"]],"start1":507,"start2":507,"length1":5,"length2":8}]],"length":515,"saved":false}
+{"ts":1375579372167,"patch":[[{"diffs":[[0,"reate(reques"],[1,"t):\n    "]],"start1":503,"start2":503,"length1":12,"length2":20}]],"length":523,"saved":false}
+{"ts":1375579918238,"patch":[[{"diffs":[[0,"t):\n    "],[1,"if request.method == 'POST':\n    \tstForm = StudentForm(request.POST)\n\t\tscForm = SchoolForm()\n\t\tif stForm.is_valid():\n\t\t\tstForm.save()\n\t\t\tmsg = 'You have successfully registered for the test, we will contact you soon with details of test'\n\t\t\talert_type = 'success'\n\t\t\tstForm = StudentForm()\n\t\telse:\n\t\t\tmsg='Please correct the errors in the form below'\n\t\t\talert_type = 'error'\n\telse:\n\t\tscForm = SchoolForm()\n\t\tstForm = StudentForm()\n\tto_return={\n\t\t\t'scForm':scForm,\n\t\t\t'stForm':stForm,\n\t\t\t'msg' : msg,\n\t\t\t'alert_type' : alert_type\n\t\t}\n\treturn render(request, 'home.html', to_return)"]],"start1":515,"start2":515,"length1":8,"length2":588}]],"length":1103,"saved":false}
+{"ts":1375579941796,"patch":[[{"diffs":[[0,"':\n    \t"],[-1,"st"],[1,"A"],[0,"Form = S"]],"start1":549,"start2":549,"length1":18,"length2":17}]],"length":1102,"saved":false}
+{"ts":1375579944479,"patch":[[{"diffs":[[0,":\n    \tA"],[1,"ddTask"],[0,"Form = S"]],"start1":550,"start2":550,"length1":16,"length2":22}]],"length":1108,"saved":false}
+{"ts":1375579947112,"patch":[[{"diffs":[[0,"   \t"],[-1,"AddTask"],[0,"Form"]],"start1":553,"start2":553,"length1":15,"length2":8}]],"length":1101,"saved":false}
+{"ts":1375579949976,"patch":[[{"diffs":[[0,"':\n    \t"],[1,"ot"],[0,"Form = S"]],"start1":549,"start2":549,"length1":16,"length2":18}]],"length":1103,"saved":false}
+{"ts":1375579950723,"patch":[[{"diffs":[[0,"\n    \tot"],[1,"c"],[0,"Form = S"]],"start1":551,"start2":551,"length1":16,"length2":17}]],"length":1104,"saved":false}
+{"ts":1375579956096,"patch":[[{"diffs":[[0," \totcForm = "],[-1,"Student"],[1,"AddT"],[0,"Form(request"]],"start1":555,"start2":555,"length1":31,"length2":28}]],"length":1101,"saved":false}
+{"ts":1375579957944,"patch":[[{"diffs":[[0,"m = AddT"],[1,"ask"],[0,"Form(req"]],"start1":563,"start2":563,"length1":16,"length2":19}]],"length":1104,"saved":false}
+{"ts":1375579962912,"patch":[[{"diffs":[[0,"ST)\n"],[-1,"\t\tscForm = SchoolForm()\n"],[0,"\t\tif"]],"start1":589,"start2":589,"length1":32,"length2":8}]],"length":1080,"saved":false}
+{"ts":1375579967580,"patch":[[{"diffs":[[0,"T)\n\t\tif "],[-1,"st"],[1,"otc"],[0,"Form.is_"]],"start1":590,"start2":590,"length1":18,"length2":19}]],"length":1081,"saved":false}
+{"ts":1375579970066,"patch":[[{"diffs":[[0,"valid():\n\t\t\t"],[-1,"s"],[1,"otc"],[0,"tForm.save()"]],"start1":609,"start2":609,"length1":25,"length2":27}]],"length":1083,"saved":false}
+{"ts":1375579974934,"patch":[[{"diffs":[[0,"rm.save("],[1,"commit=Fa"],[0,")\n\t\t\tmsg"]],"start1":627,"start2":627,"length1":16,"length2":25}]],"length":1092,"saved":false}
+{"ts":1375579976832,"patch":[[{"diffs":[[0,"ommit=Fa"],[1,"lse"],[0,")\n\t\t\tmsg"]],"start1":636,"start2":636,"length1":16,"length2":19}]],"length":1095,"saved":false}
+{"ts":1375579986536,"patch":[[{"diffs":[[0,"e)\n\t"],[-1,"\t\tmsg = 'You have successfully registered for the test, we will contact you soon with details of test'\n\t\t\talert_type = 'success'"],[0,"\n\t\t\t"]],"start1":646,"start2":646,"length1":136,"length2":8}]],"length":967,"saved":false}
+{"ts":1375579988032,"patch":[[{"diffs":[[0,"se)\n"],[-1,"\t\n"],[0,"\t\t\ts"]],"start1":645,"start2":645,"length1":10,"length2":8}]],"length":965,"saved":false}
+{"ts":1375579993052,"patch":[[{"diffs":[[0,"lse)\n\t\t\t"],[-1,"st"],[1,"otc"],[0,"Form = S"]],"start1":644,"start2":644,"length1":18,"length2":19}]],"length":966,"saved":false}
+{"ts":1375580144674,"patch":[[{"diffs":[[0,":\n\t\t\totc"],[-1,"t"],[0,"Form.sav"]],"start1":616,"start2":616,"length1":17,"length2":16},{"diffs":[[0,"se)\n"],[-1,"\t\t\totcForm = StudentForm()\n\t\telse:\n\t\t\tmsg='Please correct the errors in the form below'\n\t\t\talert_type = 'error'\n\telse:\n\t\tscForm = SchoolForm()\n\t\tstForm = Student"],[1,"            # Add custom field options\n\t\t\totcForm = StudentForm()\n\t\telse:\n\t\t\tpass\n\telse:\n\t\totcForm = AddTask"],[0,"Form"]],"start1":644,"start2":644,"length1":169,"length2":116},{"diffs":[[0,"\t\t\t'"],[-1,"scF"],[1,"f"],[0,"orm':"],[-1,"s"],[1,"ot"],[0,"cForm,\n"],[-1,"\t\t\t'stForm':stForm,\n\t\t\t'msg' : msg,\n\t\t\t'alert_type' : alert_type"],[1,"            'action':  \"\",\n            'title':"],[0,"\n\t\t}"]],"start1":776,"start2":776,"length1":88,"length2":70}]],"length":894,"saved":false}
+{"ts":1375580145330,"patch":[[{"diffs":[[0,"'title':"],[1," "],[0,"\n\t\t}\n\tre"]],"start1":834,"start2":834,"length1":16,"length2":17}]],"length":895,"saved":false}
+{"ts":1375580148125,"patch":[[{"diffs":[[0,"title': "],[1,"\"\""],[0,"\n\t\t}\n\tre"]],"start1":835,"start2":835,"length1":16,"length2":18}]],"length":897,"saved":false}
+{"ts":1375580157337,"patch":[[{"diffs":[[0,"itle': \""],[1,"Add "],[0,"\"\n\t\t}\n\tr"]],"start1":836,"start2":836,"length1":16,"length2":20}]],"length":901,"saved":false}
+{"ts":1375580159450,"patch":[[{"diffs":[[0,"': \"Add "],[1,"a new "],[0,"\"\n\t\t}\n\tr"]],"start1":840,"start2":840,"length1":16,"length2":22}]],"length":907,"saved":false}
+{"ts":1375580162816,"patch":[[{"diffs":[[0,"d a new "],[1,"Task"],[0,"\"\n\t\t}\n\tr"]],"start1":846,"start2":846,"length1":16,"length2":20}]],"length":911,"saved":false}
+{"ts":1375580176261,"patch":[[{"diffs":[[0,"t, '"],[-1,"home"],[1,"t"],[0,".htm"]],"start1":885,"start2":885,"length1":12,"length2":9}]],"length":908,"saved":false}
+{"ts":1375580178241,"patch":[[{"diffs":[[0,"uest, 't"],[1,"ask"],[0,".html', "]],"start1":882,"start2":882,"length1":16,"length2":19}]],"length":911,"saved":false}
+{"ts":1375580181098,"patch":[[{"diffs":[[0,"t, 'task"],[1,"/task"],[0,".html', "]],"start1":885,"start2":885,"length1":16,"length2":21}]],"length":916,"saved":false}
+{"ts":1375580471416,"patch":[[{"diffs":[[0,"T':\n    "],[-1,"\t"],[1,"    "],[0,"otcForm "]],"start1":548,"start2":548,"length1":17,"length2":20}]],"length":919,"saved":false}
+{"ts":1375580677413,"patch":[[{"diffs":[[0,"ort "],[-1,"*"],[1,"Add"],[0,"\n\nde"]],"start1":478,"start2":478,"length1":9,"length2":11}]],"length":921,"saved":false}
+{"ts":1375580678538,"patch":[[{"diffs":[[0,"port Add"],[1,"T"],[0,"\n\ndef  o"]],"start1":477,"start2":477,"length1":16,"length2":17}]],"length":922,"saved":false}
+{"ts":1375580679185,"patch":[[{"diffs":[[0,"ort AddT"],[1,"as"],[0,"\n\ndef  o"]],"start1":478,"start2":478,"length1":16,"length2":18}]],"length":924,"saved":false}
+{"ts":1375580679851,"patch":[[{"diffs":[[0,"t AddTas"],[1,"k"],[0,"\n\ndef  o"]],"start1":480,"start2":480,"length1":16,"length2":17}]],"length":925,"saved":false}
+{"ts":1375580681814,"patch":[[{"diffs":[[0," AddTask"],[1,"Form"],[0,"\n\ndef  o"]],"start1":481,"start2":481,"length1":16,"length2":20}]],"length":929,"saved":false}
+{"ts":1375580690757,"patch":[[{"diffs":[[0,"models\nfrom "],[1,"tas"],[0,"models impor"]],"start1":410,"start2":410,"length1":24,"length2":27}]],"length":932,"saved":false}
+{"ts":1375580692397,"patch":[[{"diffs":[[0,"from tas"],[1,"k."],[0,"models i"]],"start1":417,"start2":417,"length1":16,"length2":18}]],"length":934,"saved":false}
+{"ts":1375580695890,"patch":[[{"diffs":[[0,"ms\nfrom "],[1,"task."],[0,"forms im"]],"start1":466,"start2":466,"length1":16,"length2":21}]],"length":939,"saved":false}
+{"contributors":[],"silentsave":true,"ts":1375581389876,"patch":[[{"diffs":[[0,"rm\n\ndef "],[-1," "],[0,"origin_t"]],"start1":501,"start2":501,"length1":17,"length2":16}]],"length":938,"saved":false}
+{"ts":1375581505949,"patch":[[{"diffs":[[0,"_return)"],[1,"\n    \n    d"]],"start1":930,"start2":930,"length1":8,"length2":19}]],"length":949,"saved":false}
+{"ts":1375581507239,"patch":[[{"diffs":[[0,"   \n"],[-1,"    d"]],"start1":940,"start2":940,"length1":9,"length2":4}]],"length":944,"saved":false}
+{"ts":1375581508023,"patch":[[{"diffs":[[0,"n)\n    \n"],[1,"def "]],"start1":936,"start2":936,"length1":8,"length2":12}]],"length":948,"saved":false}
+{"ts":1375581510357,"patch":[[{"diffs":[[0,"n)\n    \ndef "],[1,"index(r"]],"start1":936,"start2":936,"length1":12,"length2":19}]],"length":955,"saved":false}
+{"ts":1375581512922,"patch":[[{"diffs":[[0," index(r"],[1,"equest)"]],"start1":947,"start2":947,"length1":8,"length2":15}]],"length":962,"saved":false}
+{"ts":1375581514372,"patch":[[{"diffs":[[0,"f index(request)"],[1,":\n    "]],"start1":946,"start2":946,"length1":16,"length2":22}]],"length":968,"saved":false}
+{"ts":1375581527297,"patch":[[{"diffs":[[0,"index(request):\n    "],[1,"return Htt"]],"start1":948,"start2":948,"length1":20,"length2":30}]],"length":978,"saved":false}
+{"ts":1375581529125,"patch":[[{"diffs":[[0," return "],[1," "],[0,"Htt"],[1,"pResponse"]],"start1":967,"start2":967,"length1":11,"length2":21}]],"length":988,"saved":false}
+{"ts":1375581529897,"patch":[[{"diffs":[[0,"return  HttpResponse"],[1,"("]],"start1":968,"start2":968,"length1":20,"length2":21}]],"length":989,"saved":false}
+{"ts":1375581530763,"patch":[[{"diffs":[[0,"esponse("],[1,"\""]],"start1":981,"start2":981,"length1":8,"length2":9}]],"length":990,"saved":false}
+{"ts":1375581531629,"patch":[[{"diffs":[[0,"sponse(\""],[1,"HEL"]],"start1":982,"start2":982,"length1":8,"length2":11}]],"length":993,"saved":false}
+{"ts":1375581533136,"patch":[[{"diffs":[[0,"nse(\"HEL"],[1,"LO\""]],"start1":985,"start2":985,"length1":8,"length2":11}]],"length":996,"saved":false}
+{"ts":1375581534010,"patch":[[{"diffs":[[0,"(\"HELLO\""],[1,")"]],"start1":988,"start2":988,"length1":8,"length2":9}]],"length":997,"saved":false}
+{"ts":1375581650397,"patch":[[{"diffs":[[0,"valid():\n\t\t\t"],[1,"#"],[0,"otcForm.save"]],"start1":631,"start2":631,"length1":24,"length2":25}]],"length":998,"saved":false}
+{"ts":1375581890301,"patch":[[{"diffs":[[0,"t.POST)\n"],[-1,"\t\t"],[1,"        "],[0,"if otcFo"]],"start1":607,"start2":607,"length1":18,"length2":24}]],"length":1004,"saved":false}
+{"ts":1375581897225,"patch":[[{"diffs":[[0,"valid():"],[-1,"\n\t\t\t"],[0,"#otcForm"]],"start1":637,"start2":637,"length1":20,"length2":16}]],"length":1000,"saved":false}
+{"ts":1375581905305,"patch":[[{"diffs":[[0,"d():"],[-1,"#otcForm.save(commit=False)\n            # Add custom field options\n\t\t\t"],[0,"otcF"]],"start1":641,"start2":641,"length1":78,"length2":8}]],"length":930,"saved":false}
+{"ts":1375581906486,"patch":[[{"diffs":[[0,"valid():"],[1,"\n            "],[0,"otcForm "]],"start1":637,"start2":637,"length1":16,"length2":29}]],"length":943,"saved":false}
+{"ts":1375581929127,"patch":[[{"diffs":[[0,"\n\t\telse:"],[-1,"\n\t\t\t"],[0,"pass\n\tel"]],"start1":681,"start2":681,"length1":20,"length2":16}]],"length":939,"saved":false}
+{"ts":1375581930503,"patch":[[{"diffs":[[0,"lse:"],[-1,"pas"],[0,"s\n\te"]],"start1":685,"start2":685,"length1":11,"length2":8}]],"length":936,"saved":false}
+{"ts":1375581931901,"patch":[[{"diffs":[[0,"\tels"],[-1,"e:s"],[0,"\n\tel"]],"start1":683,"start2":683,"length1":11,"length2":8}]],"length":933,"saved":false}
+{"ts":1375581934399,"patch":[[{"diffs":[[0,"m()\n"],[-1,"\t\tels\n"],[0,"\tels"]],"start1":678,"start2":678,"length1":14,"length2":8}]],"length":927,"saved":false}
+{"ts":1375581950324,"patch":[[{"diffs":[[0,"tForm()\n"],[1,"            e\n"],[0,"\telse:\n\t"]],"start1":674,"start2":674,"length1":16,"length2":30}]],"length":941,"saved":false}
+{"ts":1375581951995,"patch":[[{"diffs":[[0,"       e"],[1,"lse"],[0,"\n\telse:\n"]],"start1":687,"start2":687,"length1":16,"length2":19}]],"length":944,"saved":false}
+{"ts":1375581953533,"patch":[[{"diffs":[[0,"    else"],[1,":"],[0,"\n\telse:\n"]],"start1":690,"start2":690,"length1":16,"length2":17}]],"length":945,"saved":false}
+{"ts":1375581955456,"patch":[[{"diffs":[[0,"  else:\n"],[1,"                pas\n"],[0,"\telse:\n\t"]],"start1":692,"start2":692,"length1":16,"length2":36}]],"length":965,"saved":false}
+{"ts":1375581956430,"patch":[[{"diffs":[[0,"     pas"],[1,"s"],[0,"\n\telse:\n"]],"start1":711,"start2":711,"length1":16,"length2":17}]],"length":966,"saved":false}
+{"ts":1375581961452,"patch":[[{"diffs":[[0,"        "],[-1,"    "],[0,"else:\n  "]],"start1":682,"start2":682,"length1":20,"length2":16}]],"length":962,"saved":false}
+{"ts":1375581964909,"patch":[[{"diffs":[[0,"        "],[-1,"    "],[0,"pass\n\tel"]],"start1":700,"start2":700,"length1":20,"length2":16}]],"length":958,"saved":false}
+{"ts":1375581984000,"patch":[[{"diffs":[[0,"   pass\n"],[1,"        e\n"],[0,"\telse:\n\t"]],"start1":705,"start2":705,"length1":16,"length2":26}]],"length":968,"saved":false}
+{"ts":1375581984890,"patch":[[{"diffs":[[0,"       e"],[1,"n"],[0,"\n\telse:\n"]],"start1":714,"start2":714,"length1":16,"length2":17}]],"length":969,"saved":false}
+{"ts":1375581986632,"patch":[[{"diffs":[[0,"      en"],[1,"d "],[0,"\n\telse:\n"]],"start1":715,"start2":715,"length1":16,"length2":18}]],"length":971,"saved":false}
+{"ts":1375581988172,"patch":[[{"diffs":[[0,"    end "],[1,"if"],[0,"\n\telse:\n"]],"start1":717,"start2":717,"length1":16,"length2":18}]],"length":973,"saved":false}
+{"ts":1375581990529,"patch":[[{"diffs":[[0,"    "],[-1,"pass"],[0,"\n   "]],"start1":704,"start2":704,"length1":12,"length2":8}]],"length":969,"saved":false}
+{"ts":1375581992609,"patch":[[{"diffs":[[0,"        "],[1,"pass"],[0,"\n       "]],"start1":700,"start2":700,"length1":16,"length2":20}]],"length":973,"saved":false}
+{"ts":1375581997028,"patch":[[{"diffs":[[0,"ass\n"],[-1,"        end if\n"],[0,"\tels"]],"start1":709,"start2":709,"length1":23,"length2":8}]],"length":958,"saved":false}
+{"ts":1375582000770,"patch":[[{"diffs":[[0,"m()\n"],[-1,"        else:\n            pass\n"],[0,"\tels"]],"start1":678,"start2":678,"length1":39,"length2":8}]],"length":927,"saved":false}
+{"ts":1375582101563,"patch":[[{"diffs":[[0,"sk\"\n\t\t}\n"],[-1,"\t"],[1,"    "],[0,"return r"]],"start1":808,"start2":808,"length1":17,"length2":20}]],"length":930,"saved":false}
+{"ts":1375582204931,"patch":[[{"diffs":[[0,"kForm()\n"],[-1,"\t"],[1,"    "],[0,"to_retur"]],"start1":707,"start2":707,"length1":17,"length2":20}]],"length":933,"saved":false}
+{"ts":1375582242952,"patch":[[{"diffs":[[0,"ST)\n"],[-1,"        if otcForm.is_valid():\n            otcForm = StudentForm()\n"],[0,"\tels"]],"start1":611,"start2":611,"length1":75,"length2":8}]],"length":866,"saved":false}
+{"ts":1375582262525,"patch":[[{"diffs":[[0,"\n\telse:\n"],[-1,"\t\t"],[1,"        "],[0,"otcForm "]],"start1":614,"start2":614,"length1":18,"length2":24}]],"length":872,"saved":false}
+{"ts":1375582266287,"patch":[[{"diffs":[[0,"t.POST)\n"],[-1,"\t"],[1,"    "],[0,"else:\n  "]],"start1":607,"start2":607,"length1":17,"length2":20}]],"length":875,"saved":false}
+{"ts":1375583157117,"patch":[[{"diffs":[[0,"t.POST)\n"],[1,"        ot\n"],[0,"    else"]],"start1":607,"start2":607,"length1":16,"length2":27}]],"length":886,"saved":false}
+{"ts":1375583157989,"patch":[[{"diffs":[[0,"        "],[-1,"ot"],[0,"\n    els"]],"start1":615,"start2":615,"length1":18,"length2":16}]],"length":884,"saved":false}
+{"ts":1375583160189,"patch":[[{"diffs":[[0,"        "],[1,"otc"],[0,"\n    els"]],"start1":615,"start2":615,"length1":16,"length2":19}]],"length":887,"saved":false}
+{"ts":1375583162417,"patch":[[{"diffs":[[0,"     otc"],[1,"Form"],[0,"\n    els"]],"start1":618,"start2":618,"length1":16,"length2":20}]],"length":891,"saved":false}
+{"ts":1375583163688,"patch":[[{"diffs":[[0," otcForm"],[1,".save"],[0,"\n    els"]],"start1":622,"start2":622,"length1":16,"length2":21}]],"length":896,"saved":false}
+{"ts":1375583166376,"patch":[[{"diffs":[[0,"orm.save"],[1,"(commit=Fa"],[0,"\n    els"]],"start1":627,"start2":627,"length1":16,"length2":26}]],"length":906,"saved":false}
+{"ts":1375583167989,"patch":[[{"diffs":[[0,"ommit=Fa"],[1,"lse)\n        "],[0,"\n    els"]],"start1":637,"start2":637,"length1":16,"length2":29}]],"length":919,"saved":false}
+{"ts":1375583169093,"patch":[[{"diffs":[[0,"=False)\n"],[-1,"        "],[0,"\n    els"]],"start1":642,"start2":642,"length1":24,"length2":16}]],"length":911,"saved":false}
+{"ts":1375583169820,"patch":[[{"diffs":[[0,"=False)\n"],[1,"    "],[0,"\n    els"]],"start1":642,"start2":642,"length1":16,"length2":20}]],"length":915,"saved":false}
+{"ts":1375583171022,"patch":[[{"diffs":[[0,"se)\n    "],[1,"    "],[0,"\n    els"]],"start1":646,"start2":646,"length1":16,"length2":20}]],"length":919,"saved":false}
+{"ts":1375583186131,"patch":[[{"diffs":[[0,"        "],[1,"otc"],[0,"\n    els"]],"start1":650,"start2":650,"length1":16,"length2":19}]],"length":922,"saved":false}
+{"ts":1375583189110,"patch":[[{"diffs":[[0,"=False)\n"],[-1,"        otc"],[0,"\n    els"]],"start1":642,"start2":642,"length1":27,"length2":16}]],"length":911,"saved":false}
+{"ts":1375583190598,"patch":[[{"diffs":[[0,"=False)\n"],[-1,"\n"],[0,"    else"]],"start1":642,"start2":642,"length1":17,"length2":16}]],"length":910,"saved":false}

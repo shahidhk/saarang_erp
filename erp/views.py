@@ -44,7 +44,7 @@ def login_user(request):
                 return HttpResponse('<center>Invalid Login</center>')
         else:
             next="home"
-            return render_to_response('login.html', {'next': next}, context_instance=RequestContext(request))
+            return render(request, 'login.html', {'next': next})
 
 def logout_user(request):
     '''

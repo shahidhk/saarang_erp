@@ -9,7 +9,7 @@ class Task(models.Model):
     destin_dept = models.ForeignKey(Department, related_name = 'task_destination_dept')
     title = models.CharField(max_length = 60, verbose_name = 'Title <60 letters>')
     summary = models.CharField(max_length = 200, verbose_name = 'Short summary of task <200 letters>')
-    description= models.CharField(max_length = 1000, verbose_name = 'Long description of task <1000 letters>')
+    description= models.TextField(max_length = 1000, verbose_name = 'Long description of task <1000 letters>')
     attachment = models.FileField(upload_to = 'attachments')
     origin_deadline = models.DateField()
     origin_priority = models.DecimalField(max_digits=2, decimal_places=1, verbose_name='Priority of the task in a scale 0 to 5 (eg. 4.5)')
@@ -30,9 +30,15 @@ class Task(models.Model):
     percent_completed = models.IntegerField(max_length=3)
     is_completed = models.BooleanField()
     
+    def __unicode__(self):
+        return self.title
+    
 class Comment(models.Model):
     author = models.ForeignKey(User, related_name='user_commented')
     timestamp = models.DateTimeField(auto_now_add = True)
     task = models.ForeignKey('Task', related_name = 'parent_task')
     title = models.CharField(max_length=100)
     description = models.CharField(max_length=1000)
+    
+    def __unicode__(self):
+        return self.title

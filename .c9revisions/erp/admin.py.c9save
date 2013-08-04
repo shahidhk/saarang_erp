@@ -1,0 +1,9 @@
+{"ts":1375577914563,"silentsave":true,"restoring":false,"patch":[[]],"length":0}
+{"contributors":[],"silentsave":true,"ts":1375578026401,"patch":[[{"diffs":[[1,"from django.contrib import admin\n\nfrom models import Task, Comment\n\nadmin.site.register(Task)\nadmin.site.register(Comment)"]],"start1":0,"start2":0,"length1":0,"length2":122}]],"length":122,"saved":false}
+{"ts":1375578035456,"patch":[[{"diffs":[[0,"ort "],[-1,"Task, Comment"],[1,"Depar"],[0,"\n\nad"]],"start1":49,"start2":49,"length1":21,"length2":13}]],"length":114,"saved":false}
+{"ts":1375578037282,"patch":[[{"diffs":[[0,"rt Depar"],[1,"tment, E"],[0,"\n\nadmin."]],"start1":50,"start2":50,"length1":16,"length2":24}]],"length":122,"saved":false}
+{"ts":1375578039172,"patch":[[{"diffs":[[0,"tment, E"],[1,"vent"],[0,"\n\nadmin."]],"start1":58,"start2":58,"length1":16,"length2":20}]],"length":126,"saved":false}
+{"ts":1375578042922,"patch":[[{"diffs":[[0,"ter("],[-1,"Task"],[1,"Departe"],[0,")\nad"]],"start1":88,"start2":88,"length1":12,"length2":15}]],"length":129,"saved":false}
+{"ts":1375578044303,"patch":[[{"diffs":[[0,"(Departe"],[1,"nt"],[0,")\nadmin."]],"start1":91,"start2":91,"length1":16,"length2":18}]],"length":131,"saved":false}
+{"ts":1375578048385,"patch":[[{"diffs":[[0,"ter("],[-1,"Comm"],[1,"Ev"],[0,"ent)"]],"start1":119,"start2":119,"length1":12,"length2":10}]],"length":129,"saved":false}
+{"ts":1375578052866,"patch":[[{"diffs":[[0,"r(Depart"],[1,"m"],[0,"ent)\nadm"]],"start1":90,"start2":90,"length1":16,"length2":17}]],"length":130,"saved":false}

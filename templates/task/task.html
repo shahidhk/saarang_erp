@@ -1,0 +1,23 @@
+<!--
+vars:
+title
+action
+form
+-->
+
+{% extends "base.html" %}
+{% load url from future %}
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<h3>{{ title }}</h3>
+
+<form action="{{ action }}" method="post" id="form_{{ title|slugify }}">
+    {% csrf_token %}
+    <table>
+        {{ form.as_table }}
+    </table>
+    <input type="submit" value="Submit" class="btn btn-primary" />
+</form>
+
+{% endblock %}
