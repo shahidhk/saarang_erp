@@ -11,3 +11,7 @@ class AddTaskForm(forms.ModelForm):
     class Meta:
         model = Task
         fields = ['destin_dept', 'title', 'summary', 'description', 'attachment', 'origin_deadline', 'origin_priority']
+
+class OriginCoreApprovalForm(forms.ModelForm):
+	class Meta:
+		model = Task

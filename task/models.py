@@ -8,6 +8,7 @@ date = now.strftime("%Y-%m-%d")
 # Create your models here.
 class Task(models.Model):
     time_created = models.DateTimeField(auto_now_add = True)
+    author = models.ForeignKey(User, related_name='user_created')
     origin_dept = models.ForeignKey(Department, related_name = 'task_originating_dept')
     destin_dept = models.ForeignKey(Department, related_name = 'task_destination_dept')
     title = models.CharField(max_length = 60, verbose_name = 'Title <60 letters>')

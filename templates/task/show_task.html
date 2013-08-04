@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load url from future %}
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<h1>{{ task.title }}</h1>
+<table class="table-bordered table-striped table">
+    <thead>
+        <tr class="rowlink" onclick="document.location = '{% url 'task.views.origin_task_create' %}';">
+            <td colspan=5 style="text-align:center">
+                <input type="button" class="btn" value="New task" onclick="document.location = '{% url 'task.views.origin_task_create' %}';" >
+            </td>
+        </tr>
+        
+        <th>Title</th>
+        <th>by</th>
+        <th>Dept</th>
+        <th>Summary</th>
+        <th>Deadline></th>
+    </thead>
+    <tbody>
+    	{% for task in tasks reversed %}
+            <tr class="rowlink" onclick="document.location = '';">
+                <td >{{ task.title }}</td>
+                <td >{{ task.author }}</td>
+                <td >{{ task.origin_dept }}</td>
+                <td >{{ task.summary|linebreaksbr }}</td>
+                <td >{{ task.origin_deadline }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

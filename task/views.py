@@ -18,12 +18,10 @@ def origin_task_create(request):
         if otcForm.is_valid:
             print "data valid"
             data = otcForm.save(commit=False)
-            print request.user.userprofile.dept
-            print data
+            data.author = request.user
             data.origin_dept = request.user.userprofile.dept
             data.save()
             otcForm.save()
-            print "saved"
         else:
             print "didnt validate"
     else:
@@ -37,3 +35,39 @@ def origin_task_create(request):
     
 def index(request):
     return  HttpResponse("HELLO")
+
+def show_task(request):
+    tasks = Task.objects.all()
+    to_return = {
+                'tasks': tasks,
+                'title': 'Tasks',
+                }   
+    return render(request, 'task/show_task.html', to_return)
+
+def origin_core_approval(request, task_id):
+    if request.method == 'POST':
+        ocaForm = AddTaskForm(request.POST)
+        if ocaForm.is_valid:
+            print "data valid"
+            data = ocaForm.save(commit=False)
+            
+            data.save()
+            ocaForm.save()
+        else:
+            print "didnt validate"
+    else:
+        ocaForm = AddTaskForm()
+    to_return={
+            'form':ocaForm,
+            'action':  "",
+            'title': "Approve a task"
+        }
+    return render(request, 'task/task.html', to_return)
+
+def show_task_details(request, task_id):
+    tasks = Task.objects.all()
+    to_return = {
+                'tasks': tasks,
+                'title': 'Tasks',
+                }   
+    return render(request, 'task/show_task.html', to_return)
