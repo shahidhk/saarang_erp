@@ -10,4 +10,4 @@ forms.DateInput.input_type="date"
 class AddTaskForm(forms.ModelForm):
     class Meta:
         model = Task
-        fields = ['destin_dept', 'title', 'summary', 'description', 'attachment', 'origin_deadline', 'origin_priority']
+        fields = ['destin_dept', 'title', 'summary', 'description', 'attachment', 'origin_deadline']

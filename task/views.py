@@ -15,7 +15,15 @@ from task.forms import AddTaskForm
 def origin_task_create(request):
     if request.method == 'POST':
         otcForm = AddTaskForm(request.POST)
-        otcForm.save(commit=False)
+        if otcForm.is_valid:
+            print "data valid"
+            otcForm.save(commit=False)
+            print request.user.userprofile.dept
+            otcForm.origin_dept = request.user.userprofile.dept
+            otcForm.save()
+            print "saved"
+        else:
+            print "didnt validate"
     else:
         otcForm = AddTaskForm()
     to_return={
