@@ -22,7 +22,7 @@
                         <li><a href="{% url 'forum.views.index' %}">Forum</a></li>
                         <li><a href="{% url 'erp.views.login_user' %}">Login</a></li>
                         <li><a href="{% url 'erp.views.logout_user' %}">Logout</a></li>
-                        <li><a href="{% url 'userprofile.views.profile' %}">{{ username }}</a></li>
+                        <li><a href="{% url 'userprofile.views.profile' %}">Profile</a></li>
                     <!--
                         <li><a href="#">Deals</a></li>
                         <li><a href="#">Submit</a></li>
@@ -38,14 +38,22 @@
     <div class="container">
     <div class="row">
         {% block sidebar %}
-              <div class="span2 bs-docs-sidebar">
+              <div class="span3 bs-docs-sidebar">
                 <ul class="nav nav-list bs-docs-sidenav affix-top" data-spy="affix" data-offset-top="100">
                   <li class="header"><h3>Welcome</h3></li>
-                  <li class="active"><a href="{% url 'erp.views.home' %}"><i class="icon-chevron-right"></i> Home</a></li>
-                  <li><a href="{% url 'forum.views.index' %}"><i class="icon-chevron-right"></i> Forum</a></li>
-                  <li><a href="{% url 'userprofile.views.profile' %}"><i class="icon-chevron-right"></i> Profile</a></li>
-                  <li><a href="{% url 'task.views.show_task' %}"><i class="icon-chevron-right"></i> Tasks</a></li>
+                  
+                  <li><a href="{% url 'task.views.show_task' %}"><i class="icon-chevron-down"></i> Tasks</a>
+                    <ul class="nav-list nav">
+                        <li>
+                            <a href="{% url 'task.views.my_task' %}"><i class="icon-chevron-right"></i> My Tasks</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'task.views.dept_task' %}"><i class="icon-chevron-right"></i> My Department Tasks</a>
+                        </li>
+                    </ul>
+                  </li>
             <!--
+            TODO: Split tasks into My Tasks, Department tasks etc
                   <li><a href="#responsive"><i class="icon-chevron-right"></i> Responsive design</a></li>
               -->
                 </ul>

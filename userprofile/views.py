@@ -7,7 +7,6 @@ from django.contrib.auth.models import User, Group
 from userprofile.models import UserProfile
 from userprofile.forms import UserProfileForm, UserForm
 
-@login_required
 def profile(request):
     
     profile = request.user.get_profile()

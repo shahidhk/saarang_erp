@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load url from future %}
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<h1>{{ title }}</h1>
+<table class="table well">
+    <tr class="rowlink" onclick="">
+        <tr><td >{{ task.title }}</td></tr>
+        <tr><td >{{ task.author }}</td></tr>
+        <tr><td >{{ task.origin_dept }}</td></tr>
+        <tr><td >{{ task.destin_dept }}</td></tr>
+        <tr><td >{{ task.summary }}</td></tr>
+        <tr><td >{{ task.description }}</td></tr>
+        <tr><td ><a href="{{ MEDIA_URL }}{{ task.attachment }}">{{ task.attachment }}</a></td></tr>
+        <tr><td >{{ task.origin_deadline }}</td></tr>
+        <tr><td >{{ task.origin_priority }}</td></tr>
+        <tr><td >{{ task.origin_deadline }}</td></tr>
+        <tr><td >{{ task.title }}</td></tr>
+        <tr><td >{{ task.author }}</td></tr>
+        <td >{{ task.origin_dept }}</td></tr>
+        <td >{{ task.summary|linebreaksbr }}</td>
+        <td >{{ task.origin_deadline }}</td>
+        <td >{{ task.title }}</td>
+        <td >{{ task.author }}</td>
+        <td >{{ task.origin_dept }}</td>
+        <td >{{ task.summary|linebreaksbr }}</td>
+        <td >{{ task.origin_deadline }}</td>
+    </tr>
+</table>
+
+{% endblock %}

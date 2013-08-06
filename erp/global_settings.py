@@ -66,7 +66,15 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'erp.middlewares.LoginRequiredMiddleware'
 )
+
+LOGIN_URL = '/login/'
+
+LOGIN_EXEMPT_URLS = (
+ #r'^about\.html$',
+ #r'^legal/', # allow any URL under /legal/*
+) 
 
 # Refers to the root url file
 ROOT_URLCONF = 'erp.urls'

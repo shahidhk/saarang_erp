@@ -14,7 +14,7 @@
         <tr><td>
         Password:</td><td><input type="password" name="password" class="input-block-level" /></td></tr>
         <tr><td></td><td><input type="submit" value="Login" align="right" class="btn btn-large btn-primary"></tr>
-        <input type="hidden" name="next" value="{{ next }}" />
+        <input type="hidden" name="next" value="{{ request.get_full_path }}" />
         </table>
     </form>
 

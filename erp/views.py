@@ -12,7 +12,6 @@ from  forum.models import Forum, Topic, Post
 # From python
 import datetime
 
-@login_required(login_url='/login/')
 def home(request):
     '''
         Renders the home page, display the name and a welcome message, have to change to preferred view
@@ -43,7 +42,7 @@ def login_user(request):
                 print 'invalid'
                 return HttpResponse('<center>Invalid Login</center>')
         else:
-            next="home"
+            next=request.path
             return render(request, 'login.html', {'next': next})
 
 def logout_user(request):

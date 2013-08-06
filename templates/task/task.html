@@ -3,6 +3,7 @@ vars:
 title
 action
 form
+hidden
 -->
 
 {% extends "base.html" %}
@@ -11,8 +12,15 @@ form
 
 {% block content %}
 <h3>{{ title }}</h3>
-
-<form action="{{ action }}" method="post" id="form_{{ title|slugify }}">
+{% if hidden %}
+	<table class="table well span7">
+		<!-- TODO: destin_dept is shown as id, change it to Verbal -->
+		{% for i, j in hidden %}
+			<tr><td>{{ i }} :</td><td>{% if i == "Attachment" %}<a href="{{ MEDIA_URL }}{{ j }}">{{ j }}</a>{% else %}{{ j }}{% endif %}</td></tr>
+		{% endfor %}
+	</table>
+{% endif %}
+<form class="span9" enctype="multipart/form-data" action="{{ action }}" method="post" id="form_{{ title|slugify }}">
     {% csrf_token %}
     <table>
         {{ form.as_table }}
