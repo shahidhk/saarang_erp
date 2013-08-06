@@ -14,16 +14,6 @@ class AddTaskForm(forms.ModelForm):
 				'attachment', 'origin_deadline', 'origin_priority']
 
 class OriginCoreApprovalForm(forms.ModelForm):
-	'''
-	def __init__(self, *args, **kwargs):
-		super(OriginCoreApprovalForm, self).__init__(*args, **kwargs)
-		for f in ['destin_dept', 'title', 'summary', 'description', 
-				'attachment', 'origin_deadline', 'origin_priority']:
-			pass
-			#Disable these fields using css
-			self.fields[f].widget = forms.HiddenInput()
-			#self.fields[f].widget.attrs['class'] = 'input-xlarge disabled'
-	'''
 	class Meta:
 		model = Task
 		fields = ['origin_core_comment','origin_core_deadline', 
@@ -31,37 +21,8 @@ class OriginCoreApprovalForm(forms.ModelForm):
 				'origin_core_aproved']
 
 class DestinCoreApprovalForm(forms.ModelForm):
-	'''
-	def __init__(self, *args, **kwargs):
-		super(DestinCoreApprovalForm, self).__init__(*args, **kwargs)
-		for f in ['destin_dept', 'title', 'summary', 'description', 
-				'attachment', 'origin_deadline', 'origin_priority', 
-				'origin_core_aproved', 'origin_core_comment', 
-				'origin_core_deadline','origin_core_priority', 
-				'origin_core_assgnd_coord' ]:
-			#Disable these fields using css
-			self.fields[f].widget = forms.HiddenInput()
-			#self.fields[f].widget.attrs['class'] = 'input-xlarge disabled'
-			'''
 	class Meta:
 		model = Task
 		fields = ['destin_core_comment', 'destin_core_deadline', 
 				'destin_core_priority', 'destin_core_assgnd_coord', 
 				'destin_core_aproved']
-
-class OriginCoreApprovalForm1(forms.ModelForm):
-	def __init__(self, *args, **kwargs):
-		super(OriginCoreApprovalForm, self).__init__(*args, **kwargs)
-		for f in ['destin_dept', 'title', 'summary', 'description', 
-				'attachment', 'origin_deadline', 'origin_priority']:
-			#Disable these fields using css
-			#self.fields[f].widget = forms.HiddenInput()
-			self.fields[f].required = False
-			self.fields[f].widget.attrs['disabled'] = True
-	class Meta:
-		model = Task
-		fields = ['destin_dept', 'title', 'summary', 'description', 
-				'attachment', 'origin_deadline', 'origin_priority', 
-				'origin_core_comment','origin_core_deadline', 
-				'origin_core_priority', 'origin_core_assgnd_coord', 
-				'origin_core_aproved']

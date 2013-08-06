@@ -14,12 +14,12 @@
         
         <th>Title</th>
         <th>by</th>
-        <th>Dept</th>
+        <th>From Dept</th>
         <th>Summary</th>
         <th>Deadline></th>
     </thead>
     <tbody>
-    	{% for task in tasks reversed %}
+    	{% for task in tasks %}
             <tr class="rowlink" onclick="document.location = '{% url 'task.views.show_task_details' task.pk %}';">
                 <td >{{ task.title }}</td>
                 <td >{{ task.author }}</td>

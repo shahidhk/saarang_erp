@@ -12,6 +12,9 @@ from  forum.models import Forum, Topic, Post
 # From python
 import datetime
 
+# From forms
+from erp.forms import DepartmentForm, EventForm, AddUserForm
+
 def home(request):
     '''
         Renders the home page, display the name and a welcome message, have to change to preferred view
@@ -71,3 +74,57 @@ def page(request):
     html='Hello %s , Welcome to saarang erp, you are a %s ' % (request.user.username, state)
     return HttpResponse(html)
 
+def add_user(request):
+    if request.method == 'POST':
+        newuserForm = AddUserForm(request.POST)
+        if newuserForm.is_valid():
+            print "data valid"
+            user = User.objects.create_user(username=newuserForm.cleaned_data['username'],
+                                password=newuserForm.cleaned_data['password'])
+            user.is_active = True
+            # TODO : Add dept status and event, put alerts
+            user.save()
+        else:
+            print "didnt validate"
+    else:
+        newuserForm = AddUserForm()
+    to_return={
+            'form':newuserForm,
+            'action':  "",
+            'title': "Add a new User"
+        }
+    return render(request, 'task/task.html', to_return)
+
+def add_dept(request):
+    if request.method == 'POST':
+        deptForm = DepartmentForm(request.POST)
+        if deptForm.is_valid:
+            print "data valid"      
+            deptForm.save()
+        else:
+            print "didnt validate"
+    else:
+        deptForm = DepartmentForm()
+    to_return={
+            'form':deptForm,
+            'action':  "",
+            'title': "Add a new Department"
+        }
+    return render(request, 'task/task.html', to_return)
+
+def add_event(request):
+    if request.method == 'POST':
+        eventForm = EventForm(request.POST)
+        if eventForm.is_valid:
+            print "data valid"      
+            eventForm.save()
+        else:
+            print "didnt validate"
+    else:
+        eventForm = EventForm()
+    to_return={
+            'form':eventForm,
+            'action':  "",
+            'title': "Add a new Event"
+        }
+    return render(request, 'task/task.html', to_return)

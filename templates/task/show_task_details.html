@@ -4,29 +4,18 @@
 
 {% block content %}
 <h1>{{ title }}</h1>
-<table class="table well">
-    <tr class="rowlink" onclick="">
-        <tr><td >{{ task.title }}</td></tr>
-        <tr><td >{{ task.author }}</td></tr>
-        <tr><td >{{ task.origin_dept }}</td></tr>
-        <tr><td >{{ task.destin_dept }}</td></tr>
-        <tr><td >{{ task.summary }}</td></tr>
-        <tr><td >{{ task.description }}</td></tr>
-        <tr><td ><a href="{{ MEDIA_URL }}{{ task.attachment }}">{{ task.attachment }}</a></td></tr>
-        <tr><td >{{ task.origin_deadline }}</td></tr>
-        <tr><td >{{ task.origin_priority }}</td></tr>
-        <tr><td >{{ task.origin_deadline }}</td></tr>
-        <tr><td >{{ task.title }}</td></tr>
-        <tr><td >{{ task.author }}</td></tr>
-        <td >{{ task.origin_dept }}</td></tr>
-        <td >{{ task.summary|linebreaksbr }}</td>
-        <td >{{ task.origin_deadline }}</td>
-        <td >{{ task.title }}</td>
-        <td >{{ task.author }}</td>
-        <td >{{ task.origin_dept }}</td>
-        <td >{{ task.summary|linebreaksbr }}</td>
-        <td >{{ task.origin_deadline }}</td>
-    </tr>
+<table class="table table-striped table-bordered">
+        <tr><td>Title</td><td >{{ task.title }}</td></tr>
+        <tr><td>By</td><td >{{ task.author }}</td></tr>
+        <tr><td>From</td><td >{{ task.origin_dept }}</td></tr>
+        <tr><td>To</td><td >{{ task.destin_dept }}</td></tr>
+        <tr><td>Summary</td><td >{{ task.summary }}</td></tr>
+        <tr><td>Description</td><td >{{ task.description }}</td></tr>
+        <tr><td>Attachments</td><td ><a href="{{ MEDIA_URL }}{{ task.attachment }}">{{ task.attachment }}</a></td></tr>
+        <tr><td>Deadline</td><td >{{ task.destin_deadline }}</td></tr>
+        <tr><td>Priority</td><td >{{ task.destin_priority }}</td></tr>
+        <tr><td>Coords assigned</td><td >{{ task.destin_core_assgnd_coord }}</td></tr>
+        <tr><td>Prcentage completed</td><td >{{ task.percent_completed }}</td></tr>
 </table>
 
 {% endblock %}

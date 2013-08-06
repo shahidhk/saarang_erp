@@ -113,7 +113,7 @@ def show_task_details(request, task_id):
     task = get_object_or_404(Task, pk=task_id)
     to_return = {
                 'task': task,
-                'title': 'Tasks',
+                'title': task.title,
                 }   
     return render(request, 'task/show_task_details.html', to_return)
 
@@ -127,6 +127,7 @@ def my_task(request):
 
 def dept_task(request):
     tasks = Task.objects.filter(destin_dept__id = request.user.userprofile.dept.id)
+    print request.user.userprofile.dept
     to_return = {
                 'tasks': tasks,
                 'title': 'Tasks',

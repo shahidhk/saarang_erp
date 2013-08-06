@@ -41,15 +41,31 @@
               <div class="span3 bs-docs-sidebar">
                 <ul class="nav nav-list bs-docs-sidenav affix-top" data-spy="affix" data-offset-top="100">
                   <li class="header"><h3>Welcome</h3></li>
-                  
+                  <li><a href="{% url 'task.views.show_task' %}"><i class="icon-chevron-up"></i> Manage</a>
+                    <ul class="nav-list nav">
+                        <li>
+                            <a href="{% url 'erp.views.add_user' %}"><i class="icon-chevron-right"></i> Add User</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'erp.views.add_dept' %}"><i class="icon-chevron-right"></i> Add Department</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'erp.views.add_event' %}"><i class="icon-chevron-right"></i> Add Event</a>
+                        </li>
+                    </ul>
+                  </li>
                   <li><a href="{% url 'task.views.show_task' %}"><i class="icon-chevron-down"></i> Tasks</a>
                     <ul class="nav-list nav">
+                        <li>
+                            <a href="{% url 'task.views.origin_task_create' %}"><i class="icon-chevron-right"></i> Create new Task</a>
+                        </li>
                         <li>
                             <a href="{% url 'task.views.my_task' %}"><i class="icon-chevron-right"></i> My Tasks</a>
                         </li>
                         <li>
                             <a href="{% url 'task.views.dept_task' %}"><i class="icon-chevron-right"></i> My Department Tasks</a>
                         </li>
+
                     </ul>
                   </li>
             <!--

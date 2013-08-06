@@ -11,6 +11,9 @@ urlpatterns = patterns('',
     # Examples:
     url(r'^$', 'erp.views.home', name='home'),
     # url(r'^erp/', include('erp.foo.urls')),
+    url(r'^newdept/$', 'erp.views.add_dept', name='add_dept'),
+    url(r'^newevent/$', 'erp.views.add_event', name='add_event'),
+    url(r'^newuser/$', 'erp.views.add_user', name='add_user'),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
