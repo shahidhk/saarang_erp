@@ -26,3 +26,9 @@ class DestinCoreApprovalForm(forms.ModelForm):
 		fields = ['destin_core_comment', 'destin_core_deadline', 
 				'destin_core_priority', 'destin_core_assgnd_coord', 
 				'destin_core_aproved']
+
+class UpdateTaskForm(forms.ModelForm):
+	class Meta:
+		model = Task
+		fields = ['destin_dept', 'title', 'summary', 'description', 
+				'attachment', 'origin_deadline', 'origin_priority']

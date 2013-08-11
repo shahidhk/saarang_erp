@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load url from future %}
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<h1>{{ title }}</h1>
+{% if origin_tasks %}
+    <table class="table-bordered table-striped table">
+        <thead>
+            <tr><td colspan=6 style="text-align:center">Tasks from my department</td></tr>
+            <th>Title</th>
+            <th>by</th>
+            <th>For Dept</th>
+            <th>Summary</th>
+            <th>Deadline</th>
+            <th>Priority</th>
+        </thead>
+        <tbody>
+                {% for task in origin_tasks %}
+                    <tr class="rowlink" onclick="document.location = '{% url 'task.views.origin_core_approval' task.pk %}';">
+                        <td >{{ task.title }}</td>
+                        <td >{{ task.author }}</td>
+                        <td >{{ task.destin_dept }}</td>
+                        <td >{{ task.summary|linebreaksbr }}</td>
+                        <td >{{ task.origin_deadline }}</td>
+                        <td >{{ task.origin_priority }}</td>
+                    </tr>
+                {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <div class="alert alert-success">  
+                    You dont have any pending tasks to approve and send from your department
+    </div>
+{% endif %}
+{% if destin_tasks %}
+    <table class="table-bordered table-striped table">
+    <thead>
+        <tr><td colspan=6 style="text-align:center">Tasks to my department</td></tr>
+        <th>Title</th>
+        <th>by</th>
+        <th>From Dept</th>
+        <th>Summary</th>
+        <th>Deadline</th>
+        <th>Priority</th>
+    </thead>
+    <tbody>
+        {% for task in destin_tasks %}
+            <tr class="rowlink" onclick="document.location = '{% url 'task.views.destin_core_approval' task.pk %}';">
+                <td >{{ task.title }}</td>
+                <td >{{ task.author }}</td>
+                <td >{{ task.origin_dept }}</td>
+                <td >{{ task.summary|linebreaksbr }}</td>
+                <td >{{ task.origin_core_deadline }}</td>
+                <td >{{ task.origin_core_priority }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% else %}
+     <div class="alert alert-success">
+                    You dont have any pending tasks to approve and assign coords
+    </div>
+{% endif %}
+
+{% endblock %}

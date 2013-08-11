@@ -4,6 +4,11 @@
 
 {% block content %}
 <h1>{{ title }}</h1>
+{% if msg %}
+ <div class="alert alert-success">  
+                    {{ msg }}
+    </div>
+{% endif %}
 <table class="table table-striped table-bordered">
         <tr><td>Title</td><td >{{ task.title }}</td></tr>
         <tr><td>By</td><td >{{ task.author }}</td></tr>
@@ -17,5 +22,9 @@
         <tr><td>Coords assigned</td><td >{{ task.destin_core_assgnd_coord }}</td></tr>
         <tr><td>Prcentage completed</td><td >{{ task.percent_completed }}</td></tr>
 </table>
+
+<button class="btn btn-info btn-large" onclick="document.location = '{% url 'task.views.task_acknowledge' task.id %}';">Acklowledge</button>
+
+<button class="btn btn-success btn-large" onclick="document.location = '{% url 'task.views.task_update' task.id %}';">Upgrade Task </button>
 
 {% endblock %}

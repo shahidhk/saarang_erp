@@ -4,6 +4,12 @@
 
 {% block content %}
 <h1>{{ task.title }}</h1>
+
+{% if not tasks %}
+<div class="alert alert-success">  
+    There are no tasks to display
+</div>
+{% else %}
 <table class="table-bordered table-striped table">
     <thead>
         <tr class="rowlink" onclick="document.location = '{% url 'task.views.origin_task_create' %}';">
@@ -30,5 +36,5 @@
         {% endfor %}
     </tbody>
 </table>
-
+{% endif %}
 {% endblock %}

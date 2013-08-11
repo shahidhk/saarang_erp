@@ -10,4 +10,7 @@ urlpatterns = patterns('',
     url(r'^details/(?P<task_id>\d+)/$', 'task.views.show_task_details', name='task_details'),
     url(r'^mytask/$', 'task.views.my_task', name='my_task'),
     url(r'^depttask/$', 'task.views.dept_task', name='dept_task'),
+    url(r'^pending/$', 'task.views.pending_approval', name='pending'),
+    url(r'^update/(?P<task_id>\d+)/$', 'task.views.task_update', name='task_update'),
+    url(r'^acknowledge/(?P<task_id>\d+)/$', 'task.views.task_acknowledge', name='task_acknowledge'),
 )

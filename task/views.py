@@ -106,7 +106,6 @@ def destin_core_approval(request, task_id):
             'title': "Approve task",
             'hidden': hidden
         }
-        # TODO: destin_dept is shown as id, change it to Verbal
     return render(request, 'task/task.html', to_return)
 
 def show_task_details(request, task_id):
@@ -119,6 +118,7 @@ def show_task_details(request, task_id):
 
 def my_task(request):
     tasks = Task.objects.filter(destin_core_assgnd_coord__id = request.user.id)
+    print 
     to_return = {
                 'tasks': tasks,
                 'title': 'Tasks',
@@ -131,5 +131,40 @@ def dept_task(request):
     to_return = {
                 'tasks': tasks,
                 'title': 'Tasks',
+                }
+    return render(request, 'task/show_task.html', to_return)
+
+def pending_approval(request):
+    destin_tasks = Task.objects.filter(destin_dept__id = request.user.get_profile().dept.id).filter(origin_core_aproved = True).filter(destin_core_aproved = False)
+    origin_tasks = Task.objects.filter(origin_dept__id = request.user.get_profile().dept.id).filter(origin_core_aproved = False)
+    print 'orig', origin_tasks
+    print 'destin', destin_tasks
+    to_return = {
+                'destin_tasks': destin_tasks,
+                'origin_tasks': origin_tasks,
+                'title': 'Tasks pending for your approval',
+                }
+    return render(request, 'task/approval_list.html', to_return)
+
+def task_update(request, task_id):
+    task = get_object_or_404(Task, pk=task_id)
+    to_return = {
+                'title': 'Tasks',
+                }
+    return render(request, 'task/show_task.html', to_return)
+
+def task_acknowledge(request, task_id):
+    task = get_object_or_404(Task, pk=task_id)
+    if task.destin_coord_acknowledged == False:
+        task.destin_coord_acknowledged = True
+        task.time_destn_coord_acknowledged = dt.datetime.now()
+        task.save()
+        msg = 'Task Acknowledged'
+    else:
+        msg = 'acknowledged'
+    to_return = {
+                'msg': msg,
+                'task': task,
+                'title': 'Tasks'
                 }
     return render(request, 'task/show_task.html', to_return)
