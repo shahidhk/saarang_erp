@@ -13,4 +13,5 @@ urlpatterns = patterns('',
     url(r'^pending/$', 'task.views.pending_approval', name='pending'),
     url(r'^update/(?P<task_id>\d+)/$', 'task.views.task_update', name='task_update'),
     url(r'^acknowledge/(?P<task_id>\d+)/$', 'task.views.task_acknowledge', name='task_acknowledge'),
+    url(r'^comment/(?P<task_id>\d+)/$', 'task.views.task_comment', name='task_comment'),
 )

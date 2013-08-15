@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load url from future %}
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<h1>{{ title }}</h1>
+{% if msg %}
+    <div class="alert alert-success">
+        {{ msg }}
+    </div>
+{% endif %}
+
+<form action="" method="post" id="add_form">
+    {% csrf_token %}
+    <table>
+        {{ tuForm.as_table }}
+        {{ cForm.as_table }}
+        <tr>
+            <td colspan=2>
+                <input type='submit' value='Update' class='btn btn-block btn-success full-width' name='submit'/>
+                <input type="button" class='btn btn-block btn-warning full-width' value="Back" onclick="history.back();">
+            </td>
+        </tr>
+    </table>
+</form>
+
+{% endblock %}

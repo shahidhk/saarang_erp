@@ -110,8 +110,10 @@ def destin_core_approval(request, task_id):
 
 def show_task_details(request, task_id):
     task = get_object_or_404(Task, pk=task_id)
+    comments = Comment.objects.filter(task__id = task_id)
     to_return = {
                 'task': task,
+                'comments': comments,
                 'title': task.title,
                 }   
     return render(request, 'task/show_task_details.html', to_return)
@@ -148,10 +150,36 @@ def pending_approval(request):
 
 def task_update(request, task_id):
     task = get_object_or_404(Task, pk=task_id)
+    tuForm = TaskUpdateForm(instance = task)
+    cForm = CommentForm()
+    print tuForm
+    print cForm
+    msg=''
+    if request.method == 'POST':
+        tuForm = TaskUpdateForm(data = request.POST, instance = task)
+        cForm = CommentForm(data = request.POST)
+        if tuForm.is_valid:
+            tuForm.save()
+            Cdata = cForm.save(commit = False)
+            Cdata.author = request.user
+            Cdata.task = task
+            Cdata.save()
+            msg = "Successfully updated task status"
+            tuForm = TaskUpdateForm(instance = task)
+            cForm = CommentForm()
+            return redirect(show_task_details, task_id = task.id)
+        else:
+            print "didnt validate"
+    else:
+        tuForm = TaskUpdateForm(instance = task)
+        cForm = CommentForm()
     to_return = {
                 'title': 'Tasks',
+                'tuForm': tuForm,
+                'cForm': cForm,
+                'msg': msg,
                 }
-    return render(request, 'task/show_task.html', to_return)
+    return render(request, 'task/update_task.html', to_return)
 
 def task_acknowledge(request, task_id):
     task = get_object_or_404(Task, pk=task_id)
@@ -168,3 +196,29 @@ def task_acknowledge(request, task_id):
                 'title': 'Tasks'
                 }
     return render(request, 'task/show_task.html', to_return)
+
+def task_comment(request, task_id):
+    task = get_object_or_404(Task, pk=task_id)
+    cForm = CommentForm()
+    print cForm
+    msg=''
+    if request.method == 'POST':
+        cForm = CommentForm(data = request.POST)
+        if cForm.is_valid:
+            Cdata = cForm.save(commit = False)
+            Cdata.author = request.user
+            Cdata.task = task
+            Cdata.save()
+            msg = "Commented"
+            cForm = CommentForm()
+            return redirect(show_task_details, task_id = task.id)
+        else:
+            print "didnt validate"
+    else:
+        cForm = CommentForm()
+    to_return = {
+                'title': 'Tasks',
+                'cForm': cForm,
+                'msg': msg,
+                }
+    return render(request, 'task/update_task.html', to_return)

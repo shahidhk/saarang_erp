@@ -41,8 +41,8 @@ class Comment(models.Model):
     author = models.ForeignKey(User, related_name='user_commented')
     timestamp = models.DateTimeField(auto_now_add = True)
     task = models.ForeignKey('Task', related_name = 'parent_task')
-    title = models.CharField(max_length=100)
-    description = models.CharField(max_length=1000)
+    title = models.CharField(max_length=100, verbose_name = 'Comment title')
+    description = models.TextField(max_length=1000, verbose_name = 'Comment body')
     
     def __unicode__(self):
         return self.title
