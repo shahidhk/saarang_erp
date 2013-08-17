@@ -42,7 +42,7 @@
     </tbody>
 </table>
 
-<button class="btn btn-info btn-large" onclick="document.location = '{% url 'task.views.task_acknowledge' task.id %}';">Acklowledge</button>
+<button class="btn btn-info btn-large" onclick="document.location = '{% url 'task.views.task_acknowledge' task.id %}';" {% if ack %}disabled>Acklowledged{% else %}>Acknowledge{% endif %}</button>
 
 <button class="btn btn-success btn-large" onclick="document.location = '{% url 'task.views.task_update' task.id %}';">Upgrade Task </button>
 

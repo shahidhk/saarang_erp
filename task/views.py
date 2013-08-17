@@ -25,6 +25,8 @@ def origin_task_create(request):
             data.origin_dept = request.user.userprofile.dept
             data.save()
             otcForm.save()
+            #TODO: Select redirect based on user status, as of now home
+            return redirect('erp.views.home')
         else:
             print "didnt validate"
     else:
@@ -111,10 +113,15 @@ def destin_core_approval(request, task_id):
 def show_task_details(request, task_id):
     task = get_object_or_404(Task, pk=task_id)
     comments = Comment.objects.filter(task__id = task_id)
+    if task.destin_coord_acknowledged == True:
+        ack = 'acknowledged'
+    else:
+        ack=''
     to_return = {
                 'task': task,
                 'comments': comments,
                 'title': task.title,
+                'ack': ack,
                 }   
     return render(request, 'task/show_task_details.html', to_return)
 
@@ -195,7 +202,7 @@ def task_acknowledge(request, task_id):
                 'task': task,
                 'title': 'Tasks'
                 }
-    return render(request, 'task/show_task.html', to_return)
+    return redirect(show_task_details, task_id = task.id)
 
 def task_comment(request, task_id):
     task = get_object_or_404(Task, pk=task_id)
