@@ -15,7 +15,12 @@ from task.forms import *
 # From Python
 import datetime as dt
 
+noperm = "you don't have permission to "
+
 def origin_task_create(request):
+    print request.user.has_perm('task.add_task')
+    if not request.user.has_perm('task.add_task'):
+        return render(request, 'alert.html', {'msg': noperm + 'create task', 'type': 'error'})
     if request.method == 'POST':
         otcForm = AddTaskForm(request.POST, request.FILES)
         if otcForm.is_valid:
@@ -50,6 +55,8 @@ def show_task(request):
     return render(request, 'task/show_task.html', to_return)
 
 def origin_core_approval(request, task_id):
+    if not request.user.has_perm('task.approve_task'):
+        return render(request, 'alert.html', {'msg': noperm + 'approve task', 'type': 'error'})
     task = get_object_or_404(Task, pk=task_id)
     ocaForm = OriginCoreApprovalForm(instance = task)
     hidden = (('Destination department', task.destin_dept), ('Created by', task.author), 
@@ -66,6 +73,7 @@ def origin_core_approval(request, task_id):
             # TODO : ckeckout the time is getting saved correctly
             task = get_object_or_404(Task, pk=task_id)
             ocaForm = OriginCoreApprovalForm(instance = task)
+            return redirect('task.views.pending_approval')
         else:
             print "didnt validate"
     else:
@@ -80,6 +88,8 @@ def origin_core_approval(request, task_id):
     return render(request, 'task/task.html', to_return)
 
 def destin_core_approval(request, task_id):
+    if not request.user.has_perm('task.approve_task'):
+        return render(request, 'alert.html', {'msg': noperm + 'approve task', 'type': 'error'})
     task = get_object_or_404(Task, pk=task_id)
     dcaForm = DestinCoreApprovalForm(instance = task)
     hidden = (('Destination department', task.destin_dept), ('Created by', task.author), 
@@ -98,6 +108,7 @@ def destin_core_approval(request, task_id):
             dcaForm.save_m2m()
             # TODO : ckeckout the time is getting saved correctly
             dcaForm = DestinCoreApprovalForm(instance = task)
+            return redirect('task.views.pending_approval')
         else:
             print "didnt validate"
     else:
@@ -111,6 +122,8 @@ def destin_core_approval(request, task_id):
     return render(request, 'task/task.html', to_return)
 
 def show_task_details(request, task_id):
+    if not request.user.has_perm('task.view_task'):
+        return render(request, 'alert.html', {'msg': noperm + 'view task', 'type': 'error'})
     task = get_object_or_404(Task, pk=task_id)
     comments = Comment.objects.filter(task__id = task_id)
     if task.destin_coord_acknowledged == True:
@@ -127,7 +140,6 @@ def show_task_details(request, task_id):
 
 def my_task(request):
     tasks = Task.objects.filter(destin_core_assgnd_coord__id = request.user.id)
-    print 
     to_return = {
                 'tasks': tasks,
                 'title': 'Tasks',
@@ -144,6 +156,8 @@ def dept_task(request):
     return render(request, 'task/show_task.html', to_return)
 
 def pending_approval(request):
+    if not request.user.has_perm('task.approve_task'):
+        return render(request, 'alert.html', {'msg': noperm + 'aprove task', 'type': 'error'})
     destin_tasks = Task.objects.filter(destin_dept__id = request.user.get_profile().dept.id).filter(origin_core_aproved = True).filter(destin_core_aproved = False)
     origin_tasks = Task.objects.filter(origin_dept__id = request.user.get_profile().dept.id).filter(origin_core_aproved = False)
     print 'orig', origin_tasks
@@ -156,6 +170,8 @@ def pending_approval(request):
     return render(request, 'task/approval_list.html', to_return)
 
 def task_update(request, task_id):
+    if not request.user.has_perm('task.update_task_status'):
+        return render(request, 'alert.html', {'msg': noperm + 'update task status', 'type': 'error'})
     task = get_object_or_404(Task, pk=task_id)
     tuForm = TaskUpdateForm(instance = task)
     cForm = CommentForm()
@@ -205,6 +221,8 @@ def task_acknowledge(request, task_id):
     return redirect(show_task_details, task_id = task.id)
 
 def task_comment(request, task_id):
+    if not request.user.has_perm('task.comment_task'):
+        return render(request, 'alert.html', {'msg': noperm + 'comment task', 'type': 'error'})
     task = get_object_or_404(Task, pk=task_id)
     cForm = CommentForm()
     print cForm

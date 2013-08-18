@@ -33,7 +33,15 @@ class Task(models.Model):
     time_destn_coord_acknowledged = models.DateTimeField(default=now)
     percent_completed = models.IntegerField(max_length=3, default=0)
     is_completed = models.BooleanField(default=False)
-    
+
+    class Meta:
+        permissions = (
+            ('view_task', 'Can see tasks'),
+            ('approve_task', 'Can approve tasks'),
+            ('update_task_status', 'Can update task status'),
+            ('close_task', 'Can close a task'),
+            ('comment_task', 'Can comment on task')
+            )
     def __unicode__(self):
         return self.title
     

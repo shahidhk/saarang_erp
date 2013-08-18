@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
 from django.contrib.auth.models import User, Group
+from django.contrib.auth.decorators import permission_required
 
 # From models
 from  forum.models import Forum, Topic, Post
@@ -14,6 +15,9 @@ import datetime
 
 # From forms
 from erp.forms import DepartmentForm, EventForm, AddUserForm
+
+# Consts
+noperm = "You don't have permission to "
 
 def home(request):
     '''
@@ -29,7 +33,7 @@ def login_user(request):
         Have to change all the HttpResponse to Alerts
     '''
     if request.user.is_authenticated():
-        return HttpResponse('You are already logged in')
+        return render(request, 'alert.html', {'msg': 'You are already logged in', 'type': 'info'})
     else:
         if request.method == 'POST':
             username = request.POST['username']
@@ -40,10 +44,10 @@ def login_user(request):
                     login(request, user) # log in the user
                     return redirect('erp.views.home')
                 else:
-                    return HttpResponse('<center>Account not active, contact Admin</center>')
+                    return render(request, 'alert.html', {'msg': 'Account not active, contact admin. You have been suspended', 'type': 'warning'})
             else:
                 print 'invalid'
-                return HttpResponse('<center>Invalid Login</center>')
+                return render(request, 'alert.html', {'msg': 'Invalid credentials', 'type': 'error'})
         else:
             next=request.path
             return render(request, 'login.html', {'next': next})
@@ -53,7 +57,7 @@ def logout_user(request):
         Logs out a user
     '''
     logout(request)
-    return HttpResponse('<center>logged out</center>')
+    return render(request, 'alert.html', {'msg': 'You have been logged out', 'type': 'warning'})
 
 def page(request):
     '''
@@ -75,6 +79,8 @@ def page(request):
     return HttpResponse(html)
 
 def add_user(request):
+    if not request.user.has_perm('erp.add_department'):
+        return render(request, 'alert.html', {'msg': noperm + 'add user', 'type': 'error'})
     if request.method == 'POST':
         newuserForm = AddUserForm(request.POST)
         if newuserForm.is_valid():
@@ -96,6 +102,8 @@ def add_user(request):
     return render(request, 'task/task.html', to_return)
 
 def add_dept(request):
+    if not request.user.has_perm('erp.add_department'):
+        return render(request, 'alert.html', {'msg': noperm + 'add departmnet', 'type': 'error'})
     if request.method == 'POST':
         deptForm = DepartmentForm(request.POST)
         if deptForm.is_valid:
@@ -113,6 +121,8 @@ def add_dept(request):
     return render(request, 'task/task.html', to_return)
 
 def add_event(request):
+    if not request.user.has_perm('erp.add_department'):
+        return render(request, 'alert.html', {'msg': noperm + 'add event', 'type': 'error'})
     if request.method == 'POST':
         eventForm = EventForm(request.POST)
         if eventForm.is_valid:

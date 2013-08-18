@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% load url from future %}
+{% block title %}Alert | Saarang ERP{% endblock %}
+
+{% block content %}
+    {% if msg %}
+        <div class="alert alert-{{ type}}">
+            {{ msg }}
+        </div>
+    {% endif %}
+{% endblock %}

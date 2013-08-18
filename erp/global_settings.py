@@ -73,7 +73,7 @@ LOGIN_URL = '/login/'
 
 LOGIN_EXEMPT_URLS = (
  #r'^about\.html$',
- #r'^legal/', # allow any URL under /legal/*
+ r'^admin/', # allow any URL under /admin/*
 ) 
 
 # Refers to the root url file
