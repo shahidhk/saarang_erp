@@ -69,7 +69,7 @@ MIDDLEWARE_CLASSES = (
     'erp.middlewares.LoginRequiredMiddleware'
 )
 
-LOGIN_URL = '/login/'
+LOGIN_URL = 'login/'
 
 LOGIN_EXEMPT_URLS = (
  #r'^about\.html$',
