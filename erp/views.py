@@ -79,7 +79,7 @@ def page(request):
     return HttpResponse(html)
 
 def add_user(request):
-    if not request.user.has_perm('erp.add_department'):
+    if not request.user.has_perm('erp.add_user'):
         return render(request, 'alert.html', {'msg': noperm + 'add user', 'type': 'error'})
     if request.method == 'POST':
         newuserForm = AddUserForm(request.POST)
@@ -121,7 +121,7 @@ def add_dept(request):
     return render(request, 'task/task.html', to_return)
 
 def add_event(request):
-    if not request.user.has_perm('erp.add_department'):
+    if not request.user.has_perm('erp.add_event'):
         return render(request, 'alert.html', {'msg': noperm + 'add event', 'type': 'error'})
     if request.method == 'POST':
         eventForm = EventForm(request.POST)
