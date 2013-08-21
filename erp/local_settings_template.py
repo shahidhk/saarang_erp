@@ -2,6 +2,8 @@
 import global_settings
 from global_settings import *
 
+LOGIN_URL = '/login/'
+
 # Database Settings
 DATABASES = {
     'default': {
