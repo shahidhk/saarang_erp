@@ -19,7 +19,13 @@
         <tr><td>Attachments</td><td ><a href="{{ MEDIA_URL }}{{ task.attachment }}">{{ task.attachment }}</a></td></tr>
         <tr><td>Deadline</td><td >{{ task.destin_core_deadline }}</td></tr>
         <tr><td>Priority</td><td >{{ task.destin_core_priority }}</td></tr>
-        <tr><td>Coords assigned</td><td >{{ task.destin_core_assgnd_coord }}</td></tr>
+        <tr><td>Coords assigned</td><td >
+            {% for coord in tag %}
+                <ol>
+                    <li>{{ coord.username }}</li>
+                </ol>
+            {% endfor %}
+        </td></tr>
         <tr><td>Prcentage completed</td><td >{{ task.percent_completed }}</td></tr>
 </table>
 {% if comments %}

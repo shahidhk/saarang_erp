@@ -135,7 +135,9 @@ def show_task_details(request, task_id):
                 'comments': comments,
                 'title': task.title,
                 'ack': ack,
-                }   
+                'tag': task.destin_core_assgnd_coord.all(),
+                }
+    
     return render(request, 'task/show_task_details.html', to_return)
 
 def my_task(request):
