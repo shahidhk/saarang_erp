@@ -26,7 +26,11 @@
                 </ol>
             {% endfor %}
         </td></tr>
-        <tr><td>Prcentage completed</td><td >{{ task.percent_completed }}</td></tr>
+        <tr><td>Prcentage completed</td><td >
+            <div class="progress progress-striped active">
+                <div class="bar bar-success" style="width: {{ task.percent_completed }}%;"></div>
+            </div>
+        </td></tr>
 </table>
 {% if comments %}
     <h4>Comments</h4>
