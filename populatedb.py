@@ -7,7 +7,7 @@ coordperm = ['add_post', 'add_topic', 'add_task', 'close_task', 'comment_task',
 	'update_task_status', 'view_task', 'change_userprofile']
 coreperm = ['add_user', 'add_department', 'add_event', 'add_post', 'add_topic',
 	'add_comment', 'add_task', 'approve_task', 'change_task', 'close_task', 
-	'comment_task', 'view_task', 'add_userprofile', 'change_userprofile']
+	'comment_task', 'view_task', 'add_userprofile', 'update_task_status','change_userprofile']
 def populate():
 	print 'Regarding Forum'
 	print 'Creating Users...'
