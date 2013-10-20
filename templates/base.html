@@ -5,6 +5,11 @@
 
 <head>
     <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+    <style>
+        body {
+        padding-top: 60px; /* When using the navbar-top-fixed */
+        }
+    </style>
     <link href="{% static 'css/bootstrap-responsive.css' %}" rel="stylesheet">
     <link href="{% static 'css/bootstrap-rowlink.css' %}" rel="stylesheet">
     
@@ -13,7 +18,7 @@
     <title>{% block title %}Saarang ERP{% endblock %}</title>
 
     {% block topbar %}
-        <div class="navbar navbar-inverse">
+        <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="navbar-inner">
                 <div class="container">
                     <a href="#" class="brand">Saarang ERP</a>
@@ -85,9 +90,9 @@
         </div>
     </div>
 
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script src="{% static 'js/bootstrap.js' %}"></script>
     <script src="{% static 'js/bootstrap-rowlink.js' %}"></script>
-  
 
 </body>
 </html>

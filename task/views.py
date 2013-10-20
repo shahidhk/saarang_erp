@@ -17,6 +17,7 @@ import datetime as dt
 
 noperm = "You don't have permission to "
 
+@login_required
 def origin_task_create(request):
     print request.user.has_perm('task.add_task')
     if not request.user.has_perm('task.add_task'):
@@ -42,10 +43,12 @@ def origin_task_create(request):
             'title': "Add a new Task"
 		}
     return render(request, 'task/task.html', to_return)
-    
+
+@login_required
 def index(request):
     return  HttpResponse("HELLO")
 
+@login_required
 def show_task(request):
     tasks = Task.objects.all()
     to_return = {
@@ -54,6 +57,7 @@ def show_task(request):
                 }   
     return render(request, 'task/show_task.html', to_return)
 
+@login_required
 def origin_core_approval(request, task_id):
     if not request.user.has_perm('task.approve_task'):
         return render(request, 'alert.html', {'msg': noperm + 'approve task', 'type': 'error'})
@@ -87,6 +91,7 @@ def origin_core_approval(request, task_id):
         # TODO: destin_dept is shown as id, change it to Verbal
     return render(request, 'task/task.html', to_return)
 
+@login_required
 def destin_core_approval(request, task_id):
     if not request.user.has_perm('task.approve_task'):
         return render(request, 'alert.html', {'msg': noperm + 'approve task', 'type': 'error'})
@@ -121,6 +126,7 @@ def destin_core_approval(request, task_id):
         }
     return render(request, 'task/task.html', to_return)
 
+@login_required
 def show_task_details(request, task_id):
     if not request.user.has_perm('task.view_task'):
         return render(request, 'alert.html', {'msg': noperm + 'view task', 'type': 'error'})
@@ -140,6 +146,7 @@ def show_task_details(request, task_id):
     
     return render(request, 'task/show_task_details.html', to_return)
 
+@login_required
 def my_task(request):
     tasks = Task.objects.filter(destin_core_assgnd_coord__id = request.user.id)
     to_return = {
@@ -148,6 +155,7 @@ def my_task(request):
                 }
     return render(request, 'task/show_task.html', to_return)
 
+@login_required
 def dept_task(request):
     tasks = Task.objects.filter(destin_dept__id = request.user.userprofile.dept.id)
     print request.user.userprofile.dept
@@ -157,6 +165,7 @@ def dept_task(request):
                 }
     return render(request, 'task/show_task.html', to_return)
 
+@login_required
 def pending_approval(request):
     if not request.user.has_perm('task.approve_task'):
         return render(request, 'alert.html', {'msg': noperm + 'aprove task', 'type': 'error'})
@@ -171,6 +180,7 @@ def pending_approval(request):
                 }
     return render(request, 'task/approval_list.html', to_return)
 
+@login_required
 def task_update(request, task_id):
     if not request.user.has_perm('task.update_task_status'):
         return render(request, 'alert.html', {'msg': noperm + 'update task status', 'type': 'error'})
@@ -206,6 +216,7 @@ def task_update(request, task_id):
                 }
     return render(request, 'task/update_task.html', to_return)
 
+@login_required
 def task_acknowledge(request, task_id):
     task = get_object_or_404(Task, pk=task_id)
     if task.destin_coord_acknowledged == False:
@@ -222,6 +233,7 @@ def task_acknowledge(request, task_id):
                 }
     return redirect(show_task_details, task_id = task.id)
 
+@login_required
 def task_comment(request, task_id):
     if not request.user.has_perm('task.comment_task'):
         return render(request, 'alert.html', {'msg': noperm + 'comment task', 'type': 'error'})

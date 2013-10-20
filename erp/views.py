@@ -19,6 +19,7 @@ from erp.forms import DepartmentForm, EventForm, AddUserForm
 # Consts
 noperm = "You don't have permission to "
 
+@login_required
 def home(request):
     '''
         Renders the home page, display the name and a welcome message, have to change to preferred view
@@ -44,10 +45,10 @@ def login_user(request):
                     login(request, user) # log in the user
                     return redirect('erp.views.home')
                 else:
-                    return render(request, 'alert.html', {'msg': 'Account not active, contact admin. You have been suspended', 'type': 'warning'})
+                    return render(request, 'login.html', {'msg': 'Account not active, contact admin. You have been suspended', 'type': 'warning'})
             else:
                 print 'invalid'
-                return render(request, 'alert.html', {'msg': 'Invalid credentials', 'type': 'error'})
+                return render(request, 'login.html', {'msg': 'Incorrect Username or Password!', 'type': 'error'})
         else:
             next=request.path
             return render(request, 'login.html', {'next': next})
@@ -57,7 +58,7 @@ def logout_user(request):
         Logs out a user
     '''
     logout(request)
-    return render(request, 'alert.html', {'msg': 'You have been logged out', 'type': 'warning'})
+    return render(request, 'login.html', {'msg': 'You have been logged out', 'type': 'warning'})
 
 def page(request):
     '''
@@ -78,6 +79,7 @@ def page(request):
     html='Hello %s , Welcome to saarang erp, you are a %s ' % (request.user.username, state)
     return HttpResponse(html)
 
+@login_required
 def add_user(request):
     if not request.user.has_perm('erp.add_user'):
         return render(request, 'alert.html', {'msg': noperm + 'add user', 'type': 'error'})
@@ -101,6 +103,7 @@ def add_user(request):
         }
     return render(request, 'task/task.html', to_return)
 
+@login_required
 def add_dept(request):
     if not request.user.has_perm('erp.add_department'):
         return render(request, 'alert.html', {'msg': noperm + 'add departmnet', 'type': 'error'})
@@ -120,6 +123,7 @@ def add_dept(request):
         }
     return render(request, 'task/task.html', to_return)
 
+@login_required
 def add_event(request):
     if not request.user.has_perm('erp.add_event'):
         return render(request, 'alert.html', {'msg': noperm + 'add event', 'type': 'error'})

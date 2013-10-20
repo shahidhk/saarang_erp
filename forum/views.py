@@ -12,6 +12,7 @@ from forum.forms import AddTopicForm, AddPostForm
 from userprofile.models import UserProfile
 from userprofile.forms import UserProfileForm
 
+@login_required
 def index(request):
     html='Hello %s , Welcome to saarang erp ' % request.user.username
     print html
@@ -24,6 +25,7 @@ def index(request):
             }
     return render(request, 'forum/forum.html', to_return)
 
+@login_required
 def show_forum(request, forum_id):
     '''
     html='i got %d' % int(forum_id)
@@ -43,6 +45,7 @@ def show_forum(request, forum_id):
     return render(request, 'forum/show_forum.html', to_return)
 
 #Topic
+@login_required
 def show_topic(request, topic_id):
     '''html='i got %d' % int(topic_id)
     return HttpResponse(html)'''
@@ -70,6 +73,7 @@ def show_topic(request, topic_id):
                 }
     return render(request, 'forum/show_topic.html', to_return)
 
+@login_required
 def add_topic(request, forum_id):
     '''Adds a new task to the department forum'''
     forum = get_object_or_404(Forum, pk=forum_id)
@@ -90,6 +94,7 @@ def add_topic(request, forum_id):
         form=AddTopicForm()
     return render(request, 'forum/add.html',{'form':form})
 
+@login_required
 def add_post(request, topic_id):
     topic = get_object_or_404(Topic, pk=topic_id)
     profile = get_object_or_404(UserProfile, pk=request.user.id)
@@ -121,22 +126,27 @@ def add_post(request, topic_id):
         form=AddPostForm()
     return render(request, 'forum/add.html',{'form':form})
 
+@login_required
 def delete_posts(request, topic_id):
     html='i got %d' % int(topic_id)
     return HttpResponse(html)
 
+@login_required
 def open_close_topic(request, topic_id, action):
     html='i got %d and %s' % (int(topic_id),str(action))
     return HttpResponse(html)
 
+@login_required
 def show_post(request, post_id):
     post= get_object_or_404(Post, pk=post_id)
     return render(request, 'forum/show_post.html',{'post':post})
 
+@login_required
 def edit_post(request, post_id):
     html='i got %d' % int(post_id)
     return HttpResponse(html)
 
+@login_required
 def delete_post(request, post_id):
     html='i got %d' % int(post_id)
     return HttpResponse(html)
