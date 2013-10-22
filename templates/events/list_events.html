@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load url from future %}
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<h1>Events</h1>
+
+{% if not events %}
+<div class="alert alert-success">  
+    There are no events to display
+</div>
+{% else %}
+<table class="table-bordered table-striped table">
+    <thead>
+        <tr class="rowlink" onclick="document.location = '{% url 'events.views.add_event' %}';">
+            <td colspan=5 style="text-align:center">
+                <input type="button" class="btn" value="New event" onclick="document.location = '{% url 'events.views.add_event' %}';" >
+            </td>
+        </tr>
+        
+        <th>Name</th>
+        <th>Google group</th>
+    </thead>
+    <tbody>
+        {% for event in events %}
+            <tr class="rowlink" onclick="document.location = '{% url 'events.views.details_event' event.pk %}';">
+                <td >{{ event.long_name }}</td>
+                <td >{{ event.google_group }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+{% endblock %}
