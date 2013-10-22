@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User, Group, Permission
 from forum.models import Forum
-from erp.models import Department, Event
+from erp.models import Department
+from events.models import Event
 from django.conf import settings
 
 coordperm = ['add_post', 'add_topic', 'add_task', 'close_task', 'comment_task', 

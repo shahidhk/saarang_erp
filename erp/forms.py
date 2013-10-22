@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 
 #From models
-from models import Department, Event
+from models import Department
 class UserLoginForm(forms.Form):
     '''
         Meant to be the Loginform at the Homepage, not implemented yet
@@ -17,10 +17,6 @@ class DepartmentForm(forms.ModelForm):
     class Meta:
         model = Department # Mentions the model
         
-class EventForm(forms.ModelForm):
-    class Meta:
-        model = Event
-
 class AddUserForm(forms.Form):
     username = forms.CharField()
     password = forms.CharField(widget=forms.PasswordInput)

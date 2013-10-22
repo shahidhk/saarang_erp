@@ -1,7 +1,8 @@
 from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User, Group
-from erp.models import Department, Event
+from erp.models import Department
+from events.models import Event
 import datetime
 now = datetime.datetime.now()
 date = now.strftime("%Y-%m-%d")

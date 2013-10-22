@@ -3,7 +3,8 @@ from django.conf import settings
 from django.contrib.auth.models import User, Group
 from django.utils.translation import ugettext_lazy as _
 from django.db.models.signals import post_save
-from erp.models import Department, Event
+from erp.models import Department
+from events.models import Event
 # Create your models here.
 class UserProfile(models.Model):
     status_choices=(

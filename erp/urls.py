@@ -12,7 +12,6 @@ urlpatterns = patterns('',
     url(r'^$', 'erp.views.home', name='home'),
     # url(r'^erp/', include('erp.foo.urls')),
     url(r'^newdept/$', 'erp.views.add_dept', name='add_dept'),
-    url(r'^newevent/$', 'erp.views.add_event', name='add_event'),
     url(r'^newuser/$', 'erp.views.add_user', name='add_user'),
 
     # Uncomment the admin/doc line below to enable admin documentation:
@@ -26,6 +25,9 @@ urlpatterns = patterns('',
     
     # Include urls from task
     url(r'^task/', include('task.urls')),
+
+    # Include urls from events
+    url(r'^event/', include('events.urls')),   
 
 	url(r'^login/$', 'erp.views.login_user', name='login'),
 	url(r'^logout/$', 'erp.views.logout_user', name='logout_user'),

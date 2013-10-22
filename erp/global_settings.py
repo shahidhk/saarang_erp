@@ -97,6 +97,7 @@ INSTALLED_APPS = (
     'userprofile',
     'erp',
     'task',
+    'events',
 )
 
 # A sample logging configuration. The only tangible logging

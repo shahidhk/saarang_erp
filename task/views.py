@@ -24,7 +24,7 @@ def origin_task_create(request):
         return render(request, 'alert.html', {'msg': noperm + 'create task', 'type': 'error'})
     if request.method == 'POST':
         otcForm = AddTaskForm(request.POST, request.FILES)
-        if otcForm.is_valid:
+        if otcForm.is_valid():
             print "data valid"
             data = otcForm.save(commit=False)
             data.author = request.user
@@ -61,7 +61,11 @@ def show_task(request):
 def origin_core_approval(request, task_id):
     if not request.user.has_perm('task.approve_task'):
         return render(request, 'alert.html', {'msg': noperm + 'approve task', 'type': 'error'})
-    task = get_object_or_404(Task, pk=task_id)
+    try:
+        task = get_object_or_404(Task, pk=task_id)
+    except Exception, e:
+        print e
+        raise Http404
     ocaForm = OriginCoreApprovalForm(instance = task)
     hidden = (('Destination department', task.destin_dept), ('Created by', task.author), 
             ('Title', task.title), ('Summary', task.summary), ('Description', task.description), 
@@ -69,7 +73,7 @@ def origin_core_approval(request, task_id):
             ('Priority assigned', task.origin_priority),)
     if request.method == 'POST':
         ocaForm = OriginCoreApprovalForm(data = request.POST, instance = task)
-        if ocaForm.is_valid:
+        if ocaForm.is_valid():
             data = ocaForm.save(commit=False)
             data.time_origin_core_approval = dt.datetime.now()
             data.save()
@@ -106,7 +110,7 @@ def destin_core_approval(request, task_id):
             ('Origin core assigned Coord', task.origin_core_assgnd_coord),)
     if request.method == 'POST':
         dcaForm = DestinCoreApprovalForm(data = request.POST, instance = task)
-        if dcaForm.is_valid:
+        if dcaForm.is_valid():
             data = dcaForm.save(commit=False)
             data.time_destin_core_approval = dt.datetime.now()
             data.save()
@@ -157,7 +161,11 @@ def my_task(request):
 
 @login_required
 def dept_task(request):
-    tasks = Task.objects.filter(destin_dept__id = request.user.userprofile.dept.id)
+    try:
+        tasks = Task.objects.filter(destin_dept__id = request.user.userprofile.dept.id)
+    except Exception, e:
+        print e
+        raise Http404
     print request.user.userprofile.dept
     to_return = {
                 'tasks': tasks,
@@ -193,7 +201,7 @@ def task_update(request, task_id):
     if request.method == 'POST':
         tuForm = TaskUpdateForm(data = request.POST, instance = task)
         cForm = CommentForm(data = request.POST)
-        if tuForm.is_valid:
+        if tuForm.is_valid():
             tuForm.save()
             Cdata = cForm.save(commit = False)
             Cdata.author = request.user
@@ -243,7 +251,7 @@ def task_comment(request, task_id):
     msg=''
     if request.method == 'POST':
         cForm = CommentForm(data = request.POST)
-        if cForm.is_valid:
+        if cForm.is_valid():
             Cdata = cForm.save(commit = False)
             Cdata.author = request.user
             Cdata.task = task

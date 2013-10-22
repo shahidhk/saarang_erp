@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.decorators import permission_required
+from django.core.urlresolvers import reverse
 
 # From models
 from  forum.models import Forum, Topic, Post
@@ -14,7 +15,7 @@ from  forum.models import Forum, Topic, Post
 import datetime
 
 # From forms
-from erp.forms import DepartmentForm, EventForm, AddUserForm
+from erp.forms import DepartmentForm, AddUserForm
 
 # Consts
 noperm = "You don't have permission to "
@@ -58,7 +59,7 @@ def logout_user(request):
         Logs out a user
     '''
     logout(request)
-    return render(request, 'login.html', {'msg': 'You have been logged out', 'type': 'warning'})
+    return HttpResponseRedirect(reverse('login'))
 
 def page(request):
     '''
@@ -109,7 +110,7 @@ def add_dept(request):
         return render(request, 'alert.html', {'msg': noperm + 'add departmnet', 'type': 'error'})
     if request.method == 'POST':
         deptForm = DepartmentForm(request.POST)
-        if deptForm.is_valid:
+        if deptForm.is_valid():
             print "data valid"      
             deptForm.save()
         else:
@@ -120,25 +121,5 @@ def add_dept(request):
             'form':deptForm,
             'action':  "",
             'title': "Add a new Department"
-        }
-    return render(request, 'task/task.html', to_return)
-
-@login_required
-def add_event(request):
-    if not request.user.has_perm('erp.add_event'):
-        return render(request, 'alert.html', {'msg': noperm + 'add event', 'type': 'error'})
-    if request.method == 'POST':
-        eventForm = EventForm(request.POST)
-        if eventForm.is_valid:
-            print "data valid"      
-            eventForm.save()
-        else:
-            print "didnt validate"
-    else:
-        eventForm = EventForm()
-    to_return={
-            'form':eventForm,
-            'action':  "",
-            'title': "Add a new Event"
         }
     return render(request, 'task/task.html', to_return)
