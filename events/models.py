@@ -7,22 +7,22 @@ from erp.models import Department
 class Event(models.Model):
     name = models.CharField(max_length=50, unique=True)
     dept = models.ForeignKey(Department, related_name='parent_department', blank=True, null=True)
-    long_name = models.CharField(max_length=100)
-    description = models.TextField(max_length=1500)
-    google_group = models.CharField(max_length=200)
+    google_group = models.CharField(max_length=200,blank=True,null=True)
     CATEGORY_CHOICES = (
         ('onsite', 'Onsite'),
         ('online', 'Online'),
         ('pre_reg', 'Pre registerd'),
         )
-    category = models.CharField(choices=CATEGORY_CHOICES, max_length=50)
-    ideation = models.TextField(max_length=1500)
-    spons_writeup = models.TextField(max_length=1500)
-    publicity_writeup = models.TextField(max_length=1500)
-    hospi_writeup = models.TextField(max_length=1500)
-    format_rules = models.TextField(max_length=1500)
-    inter_dept_rels = models.TextField(max_length=1500)
-    prev_data = models.FileField(upload_to = 'attachments', blank=True, null=True)
-
+    registration_info = models.TextField(max_length=2000,blank=True,null=True)
+    category = models.CharField(choices=CATEGORY_CHOICES, max_length=50,blank=True)
+    event_format = models.TextField(max_length=1500,blank=True,null=True)
+    about = models.TextField(max_length=3000,blank=True,null=True)
+    faqs = models.ManyToManyField('FAQ',related_name='event_faq',blank=True,null=True)
+    FAQs = models.TextField(max_length=5000,blank=True,null=True)
     def __unicode__(self):
         return self.long_name
+
+
+class FAQ(models.Model):
+    question = models.CharField(max_length=200)
+    answer = models.TextField(max_length=1000)

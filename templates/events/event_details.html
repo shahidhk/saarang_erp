@@ -1,0 +1,250 @@
+{% extends "base.html" %}
+{% load url from future %}
+{% block title %}Events | Saarang ERP{% endblock %}
+
+{% block content %}
+
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+<div class="span9 container">
+    <ul class="nav nav-tabs">
+      <li class="active">
+        <a href="#details" data-toggle="tab">Details</a>
+      </li>
+      <li><a href="#about" data-toggle="tab">About</a></li>
+      <li><a href="#faq" data-toggle="tab">FAQs</a></li>
+      <li><a href="#format" data-toggle="tab">Format</a></li>
+      <li><a href="#reg" data-toggle="tab">Registration</a></li>
+    </ul>    
+    <div class="tab-content">
+        <div class="tab-pane active" id="details">
+          {% if messages %}
+          <ul class="messages">
+              {% for message in messages %}
+              <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+              {% endfor %}
+          </ul>
+          {% endif %}
+          <div class="span9 container">
+              <form class="form-horizontal" action="{% url 'event_det' %}" method="POST" {% if form.is_multipart %}enctype="multipart/form-data"{% endif %}>
+                  <legend>Details</legend>
+                  {% csrf_token %}
+                  {{ form.media }}
+                  {% if form.errors %}
+                      <div class="alert alert-error">
+                          <ul>
+                              {% for error in form.non_field_errors %}
+                              <li>{{ error }}</li>
+                              {% endfor %}
+                          </ul>
+                      </div>
+                  {% endif %}
+                  {% for field in form.visible_fields %}
+                      <div class="control-group {{ field.html_name }} {% if field.errors %}error{% endif %}">
+                      <label class="control-label">{{ field.label }}{% if field.field.required %} *{% endif %}</label>
+                          <div class="controls"> {{ field }}
+                              {% if field.errors %}
+                                  <span class="help-inline">
+                                      {{ field.errors.as_text }}
+                                  </span>
+                              {% endif %} 
+                          </div>
+                      </div>
+                  {% endfor %}
+                  {% for field in form.hidden_fields %}
+                      {{ field }}
+                  {% endfor %}
+                  <div class="form-actions"> <input class="btn btn-primary btn-large" type="submit" value="Submit"/>
+                  </div>
+              </form>
+          </div>
+        </div>        
+        <div class="tab-pane" id="about">
+          {% if messages %}
+          <ul class="messages">
+              {% for message in messages %}
+              <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+              {% endfor %}
+          </ul>
+          {% endif %}
+          <div class="span9 container">
+              <form class="form-horizontal" action="{% url 'event_about' %}" method="POST" {% if form.is_multipart %}enctype="multipart/form-data"{% endif %}>
+                  <legend>About</legend>
+                  {% csrf_token %}
+                  {{ form_intro.media }}
+                  {% if form_intro.errors %}
+                      <div class="alert alert-error">
+                          <ul>
+                              {% for error in form_intro.non_field_errors %}
+                              <li>{{ error }}</li>
+                              {% endfor %}
+                          </ul>
+                      </div>
+                  {% endif %}
+                  {% for field in form_intro.visible_fields %}
+                      <div class="control-group {{ field.html_name }} {% if field.errors %}error{% endif %}">
+                          <br/>
+                          <div class=""> {{ field }}
+                              {% if field.errors %}
+                                  <span class="help-inline">
+                                      {{ field.errors.as_text }}
+                                  </span>
+                              {% endif %} 
+                          </div>
+                      </div>
+                  {% endfor %}
+                  {% for field in form_intro.hidden_fields %}
+                      {{ field }}
+                  {% endfor %}
+                  <div class="form-actions"> <input class="btn btn-primary btn-large" type="submit" value="Submit"/>
+                  </div>
+              </form>
+          </div>
+        </div>        
+        <div class="tab-pane" id="faq">
+          {% if messages %}
+          <ul class="messages">
+              {% for message in messages %}
+              <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+              {% endfor %}
+          </ul>
+          {% endif %}
+          <div class="span9 container">
+              <form class="form-horizontal" action="{% url 'event_faq' %}" method="POST" {% if form.is_multipart %}enctype="multipart/form-data"{% endif %}>
+                  <legend>FAQs</legend>
+                  {% csrf_token %}
+                  {{ form_faq.media }}
+                  {% if form_reg.errors %}
+                      <div class="alert alert-error">
+                          <ul>
+                              {% for error in form_faq.non_field_errors %}
+                              <li>{{ error }}</li>
+                              {% endfor %}
+                          </ul>
+                      </div>
+                  {% endif %}
+                  {% for field in form_faq.visible_fields %}
+                      <div class="control-group {{ field.html_name }} {% if field.errors %}error{% endif %}">
+                          <div class=""> {{ field }}
+                              {% if field.errors %}
+                                  <span class="help-inline">
+                                      {{ field.errors.as_text }}
+                                  </span>
+                              {% endif %} 
+                          </div>
+                      </div>
+                  {% endfor %}
+                  {% for field in form_faq.hidden_fields %}
+                      {{ field }}
+                  {% endfor %}
+                  <div class="form-actions"> <input class="btn btn-primary btn-large" type="submit" value="Submit"/>
+                  </div>
+              </form>
+          </div>
+        </div>        
+        <div class="tab-pane" id="format">
+          {% if messages %}
+          <ul class="messages">
+              {% for message in messages %}
+              <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+              {% endfor %}
+          </ul>
+          {% endif %}
+          <div class="span9 container">
+              <form class="form-horizontal" action="{% url 'event_format' %}" method="POST" {% if form.is_multipart %}enctype="multipart/form-data"{% endif %}>
+                  <legend>Format</legend>
+                  {% csrf_token %}
+                  {{ form_format.media }}
+                  {% if form_format.errors %}
+                      <div class="alert alert-error">
+                          <ul>
+                              {% for error in form_format.non_field_errors %}
+                              <li>{{ error }}</li>
+                              {% endfor %}
+                          </ul>
+                      </div>
+                  {% endif %}
+                  {% for field in form_format.visible_fields %}
+                      <div class="control-group {{ field.html_name }} {% if field.errors %}error{% endif %}">
+                          <div class=""> {{ field }}
+                              {% if field.errors %}
+                                  <span class="help-inline">
+                                      {{ field.errors.as_text }}
+                                  </span>
+                              {% endif %} 
+                          </div>
+                      </div>
+                  {% endfor %}
+                  {% for field in form_format.hidden_fields %}
+                      {{ field }}
+                  {% endfor %}
+                  <div class="form-actions"> <input class="btn btn-primary btn-large" type="submit" value="Submit"/>
+                  </div>
+              </form>
+          </div>
+        </div>        
+        <div class="tab-pane" id="reg">
+          {% if messages %}
+          <ul class="messages">
+              {% for message in messages %}
+              <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+              {% endfor %}
+          </ul>
+          {% endif %}
+          <div class="span9 container">
+              <form class="form-horizontal" action="{% url 'event_reg' %}" method="POST" {% if form.is_multipart %}enctype="multipart/form-data"{% endif %}>
+                  <legend>Registration</legend>
+                  {% csrf_token %}
+                  {{ form_reg.media }}
+                  {% if form_reg.errors %}
+                      <div class="alert alert-error">
+                          <ul>
+                              {% for error in form_reg.non_field_errors %}
+                              <li>{{ error }}</li>
+                              {% endfor %}
+                          </ul>
+                      </div>
+                  {% endif %}
+                  {% for field in form_reg.visible_fields %}
+                      <div class="control-group {{ field.html_name }} {% if field.errors %}error{% endif %}">
+                      {% if forloop.counter != 2 %}
+                      <label class="control-label">{{ field.label }}{% if field.field.required %} *{% endif %}</label>
+                          <div class="controls"> {{ field }}
+                              {% if field.errors %}
+                                  <span class="help-inline">
+                                      {{ field.errors.as_text }}
+                                  </span>
+                              {% endif %} 
+                          </div>
+                      {% else %}
+                      <label class="control-label">{{ field.label }}{% if field.field.required %} *{% endif %}</label>
+                          </br>
+                          </br>
+                          <div class=""> {{ field }}
+                              {% if field.errors %}
+                                  <span class="help-inline">
+                                      {{ field.errors.as_text }}
+                                  </span>
+                              {% endif %} 
+                          </div>
+                      {% endif %}
+                      </div>
+                  {% endfor %}
+                  {% for field in form_reg.hidden_fields %}
+                      {{ field }}
+                  {% endfor %}
+                  <div class="form-actions"> <input class="btn btn-primary btn-large" type="submit" value="Submit"/>
+                  </div>
+              </form>
+          </div>
+        </div>        
+    </div>
+</div>
+
+
+{% endblock %}

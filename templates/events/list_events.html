@@ -24,7 +24,7 @@
     <tbody>
         {% for event in events %}
             <tr class="rowlink" onclick="document.location = '{% url 'events.views.details_event' event.pk %}';">
-                <td >{{ event.long_name }}</td>
+                <td >{{ event.name }}</td>
                 <td >{{ event.google_group }}</td>
             </tr>
         {% endfor %}

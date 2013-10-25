@@ -49,7 +49,7 @@ def create_dept():
 		#Create Department
 		dept = Department.objects.create(name=i, long_name=j, description='Description about '+j)
 		dept.save()
-		evt = Event.objects.create(name='event'+i, long_name= 'Event'+i, description= 'Descrtiption of Event', dept = Department.objects.get(name=i))
+		evt = Event.objects.create(name='event'+i, dept = Department.objects.get(name=i))
 		evt.save()
 
 		print j + ' created'

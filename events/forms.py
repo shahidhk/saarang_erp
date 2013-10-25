@@ -7,3 +7,25 @@ from models import Event
 class EventForm(forms.ModelForm):
     class Meta:
         model = Event
+        fields = ['name','dept','google_group']
+
+class EventRegistrationForm(forms.ModelForm):
+	class Meta:
+		model = Event
+		fields = ['category','registration_info']
+
+class IntroductionForm(forms.ModelForm):
+	class Meta:
+		model = Event
+		fields = ['about']
+
+class FormatForm(forms.ModelForm):
+	class Meta:
+		model = Event
+		fields = ['event_format']
+
+class FAQForm(forms.ModelForm):
+	class Meta:
+		model = Event
+		fields = ['FAQs']
+
