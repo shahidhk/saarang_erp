@@ -12,7 +12,7 @@ coreperm = ['add_user', 'add_department', 'add_event', 'add_post', 'add_topic',
 def populate():
 	print 'Regarding Forum'
 	print 'Creating Users...'
-	for i in range(1,10):
+	for i in range(1,3):
 		dat = User.objects.create_user('ee13b00'+str(i),'ee12b00'+str(i)+'@saarang.org','pass')
 		dat.save()
 		print 'ee13b00'+ str(i)+ ' '+'created'
@@ -42,7 +42,6 @@ def populate():
 	coordgrp.save()
 
 	print 'For Task app'
-	create_dept()
 
 def create_dept():
 	for i,j in settings.DEPARTMENTS:

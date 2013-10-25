@@ -12,6 +12,7 @@
     </style>
     <link href="{% static 'css/bootstrap-responsive.css' %}" rel="stylesheet">
     <link href="{% static 'css/bootstrap-rowlink.css' %}" rel="stylesheet">
+
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -109,6 +110,12 @@
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script src="{% static 'js/bootstrap.js' %}"></script>
     <script src="{% static 'js/bootstrap-rowlink.js' %}"></script>
-
+    <script src="{% static 'js/jquery.dataTables.js' %}"></script>
+    <script src="{% static 'js/jquery.js' %}"></script>
+    <script type="text/javascript" charset="utf-8">
+            $(document).ready(function() {
+                $('#data_table').dataTable();
+            } );
+        </script>
 </body>
 </html>

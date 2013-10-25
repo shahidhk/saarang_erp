@@ -4,25 +4,25 @@
 
 {% block content %}
 <h1>{{ task.title }}</h1>
-
 {% if not tasks %}
 <div class="alert alert-success">  
     There are no tasks to display
 </div>
 {% else %}
-<table class="table-bordered table-striped table">
+<table class="table-bordered table-striped table" id="data_table">
     <thead>
         <tr class="rowlink" onclick="document.location = '{% url 'task.views.origin_task_create' %}';">
             <td colspan=5 style="text-align:center">
                 <input type="button" class="btn" value="New task" onclick="document.location = '{% url 'task.views.origin_task_create' %}';" >
             </td>
         </tr>
-        
+        <tr>
         <th>Title</th>
         <th>by</th>
         <th>From Dept</th>
         <th>Summary</th>
         <th>Deadline></th>
+        </tr>   
     </thead>
     <tbody>
     	{% for task in tasks %}

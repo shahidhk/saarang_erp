@@ -1,12 +1,10 @@
 from django.db import models
-from django.conf import settings
-from django.contrib.auth.models import User, Group
 
-from erp.models import Department
+from erp.models import SubDepartment
 
 class Event(models.Model):
     name = models.CharField(max_length=50, unique=True)
-    dept = models.ForeignKey(Department, related_name='parent_department', blank=True, null=True)
+    sub_dept = models.ForeignKey(SubDepartment, related_name='parent_department', default=name)
     long_name = models.CharField(max_length=100)
     description = models.TextField(max_length=1500)
     google_group = models.CharField(max_length=200)
