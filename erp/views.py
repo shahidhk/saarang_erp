@@ -15,7 +15,7 @@ from  forum.models import Forum, Topic, Post
 import datetime
 
 # From forms
-from erp.forms import DepartmentForm, AddUserForm
+from erp.forms import DepartmentForm, AddUserForm, SubDepartmentForm
 
 # Consts
 noperm = "You don't have permission to "
@@ -26,8 +26,7 @@ def home(request):
         Renders the home page, display the name and a welcome message, have to change to preferred view
         based on user type
     '''
-    name=request.user.first_name + " " + request.user.last_name
-    return render_to_response('home.html', {'user': name}, context_instance=RequestContext(request))
+    return render_to_response('home.html',context_instance=RequestContext(request))
     
 def login_user(request):
     '''
@@ -123,3 +122,33 @@ def add_dept(request):
             'title': "Add a new Department"
         }
     return render(request, 'task/task.html', to_return)
+
+@login_required
+def add_subdept(request):
+    if not request.user.has_perm('erp.add_subdepartment'):
+        return render(request, 'alert.html', {'msg': noperm + 'add departmnet', 'type': 'error'})
+    if request.method == 'POST':
+        subdeptForm = SubDepartmentForm(request.POST)
+        if subdeptForm.is_valid():
+            print "data valid"      
+            subdeptForm.save()
+        else:
+            print "didnt validate"
+    else:
+        subdeptForm = SubDepartmentForm()
+    to_return={
+            'form':subdeptForm,
+            'action':  "",
+            'title': "Add a new Sub Department"
+        }
+    return render(request, 'task/task.html', to_return)
+
+@login_required
+def contacts(request):
+    contacts = []
+    contacts = User.objects.all()
+    print contacts
+    to_return={
+            'contacts': contacts,
+        }
+    return render(request, 'contacts.html', to_return)

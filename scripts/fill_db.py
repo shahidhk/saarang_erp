@@ -1,9 +1,49 @@
 from django.contrib.auth.models import User, Group, Permission
 from erp.models import Department, SubDepartment
 import xlrd
+from forum.models import Forum
+from erp.models import Department
+from events.models import Event
+from django.conf import settings
 
 book = xlrd.open_workbook('scripts/erp_users.xls')
+coordperm = ['add_post', 'add_topic', 'add_task', 'close_task', 'comment_task', 
+	'update_task_status', 'view_task', 'change_userprofile']
+coreperm = ['add_user', 'add_department', 'add_subdepartment', 'add_event', 'add_post', 'add_topic',
+	'add_comment', 'add_task', 'approve_task', 'change_task', 'close_task', 
+	'comment_task', 'view_task', 'add_userprofile', 'update_task_status','change_userprofile']
+def populate():
+	print 'Regarding Forum'
+	print 'Creating Users...'
+	for i in range(1,3):
+		dat = User.objects.create_user('ee13b00'+str(i),'ee12b00'+str(i)+'@saarang.org','pass')
+		dat.save()
+		print 'ee13b00'+ str(i)+ ' '+'created'
 
+	print 'Creating Forums...'
+	for i,j in settings.DEPARTMENTS:
+		dept = Forum.objects.create(title=j, department=i)
+		dept.save()
+		print j + ' Forum created'
+
+	print 'Creating Groups...'
+	for i in ['Core', 'Coord', 'Convenor']:
+		grp = Group.objects.create(name=i)
+		print i +' group created'
+		# TODO: Add permissions to groups
+
+	print 'Initialisation Complete!'
+	print 'Adding permissions'
+	coregrp = Group.objects.get(name='core')
+	for perm in coreperm:
+		coregrp.permissions.add(Permission.objects.get(codename=perm))
+	coregrp.save()
+
+	coordgrp = Group.objects.get(name='coord')
+	for perm in coordperm:
+		coordgrp.permissions.add(Permission.objects.get(codename=perm))
+	coordgrp.save()
+	
 def add_dept():
     sheet = book.sheet_by_name('departments')
     # (name, long_name)
@@ -14,7 +54,7 @@ def add_dept():
         obj.save()
 
 def add_subdept():
-    sheet = book.sheet_by_name('subdepartments  ')
+    sheet = book.sheet_by_name('subdepartments')
     data = zip(sheet.col_values(0),sheet.col_values(2),sheet.col_values(1))
     for d, sd, lsd in data:
         print d, sd, lsd
@@ -55,7 +95,7 @@ def add_mobile():
         core.save()
 
 def add_coords():
-    sheet = book.sheet_by_name('Sheet7')
+    sheet = book.sheet_by_name('coords')
     # (name, roll num, email, mobile, dept, subdept)
     data = zip (sheet.col_values(0),sheet.col_values(1),sheet.col_values(2),sheet.col_values(3),sheet.col_values(4),sheet.col_values(5))
     for n,ro,e,mo,d,sd in data:
@@ -71,3 +111,10 @@ def add_coords():
         profile.save()
         coord.save()
         print n+" added"
+
+def add():
+    populate()
+    add_dept()
+    add_subdept()
+    add_cores()
+    add_coords()

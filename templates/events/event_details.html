@@ -12,6 +12,7 @@
 </ul>
 {% endif %}
 <div class="span9 container">
+  <h3>{{ event.name }}</h3>
     <ul class="nav nav-tabs">
       <li class="active">
         <a href="#details" data-toggle="tab">Details</a>
@@ -31,7 +32,7 @@
           </ul>
           {% endif %}
           <div class="span9 container">
-              <form class="form-horizontal" action="{% url 'event_det' %}" method="POST" {% if form.is_multipart %}enctype="multipart/form-data"{% endif %}>
+              <form class="form-horizontal" action="{% url 'events.views.event_det' event.pk %}" method="POST" {% if form.is_multipart %}enctype="multipart/form-data"{% endif %}>
                   <legend>Details</legend>
                   {% csrf_token %}
                   {{ form.media }}
@@ -73,7 +74,7 @@
           </ul>
           {% endif %}
           <div class="span9 container">
-              <form class="form-horizontal" action="{% url 'event_about' %}" method="POST" {% if form.is_multipart %}enctype="multipart/form-data"{% endif %}>
+              <form class="form-horizontal" action="{% url 'events.views.event_about' event.pk %}" method="POST" {% if form.is_multipart %}enctype="multipart/form-data"{% endif %}>
                   <legend>About</legend>
                   {% csrf_token %}
                   {{ form_intro.media }}
@@ -115,7 +116,7 @@
           </ul>
           {% endif %}
           <div class="span9 container">
-              <form class="form-horizontal" action="{% url 'event_faq' %}" method="POST" {% if form.is_multipart %}enctype="multipart/form-data"{% endif %}>
+              <form class="form-horizontal" action="{% url 'events.views.event_faq' event.pk %}" method="POST" {% if form.is_multipart %}enctype="multipart/form-data"{% endif %}>
                   <legend>FAQs</legend>
                   {% csrf_token %}
                   {{ form_faq.media }}
@@ -156,7 +157,7 @@
           </ul>
           {% endif %}
           <div class="span9 container">
-              <form class="form-horizontal" action="{% url 'event_format' %}" method="POST" {% if form.is_multipart %}enctype="multipart/form-data"{% endif %}>
+              <form class="form-horizontal" action="{% url 'events.views.event_format' event.pk %}" method="POST" {% if form.is_multipart %}enctype="multipart/form-data"{% endif %}>
                   <legend>Format</legend>
                   {% csrf_token %}
                   {{ form_format.media }}
@@ -197,7 +198,7 @@
           </ul>
           {% endif %}
           <div class="span9 container">
-              <form class="form-horizontal" action="{% url 'event_reg' %}" method="POST" {% if form.is_multipart %}enctype="multipart/form-data"{% endif %}>
+              <form class="form-horizontal" action="{% url 'events.views.event_reg' event.pk %}" method="POST" {% if form.is_multipart %}enctype="multipart/form-data"{% endif %}>
                   <legend>Registration</legend>
                   {% csrf_token %}
                   {{ form_reg.media }}

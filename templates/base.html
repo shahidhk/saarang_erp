@@ -4,14 +4,19 @@
 <html lang="en">
 
 <head>
-    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
-    <style>
-        body {
-        padding-top: 60px; /* When using the navbar-top-fixed */
-        }
-    </style>
-    <link href="{% static 'css/bootstrap-responsive.css' %}" rel="stylesheet">
-    <link href="{% static 'css/bootstrap-rowlink.css' %}" rel="stylesheet">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>{% block title %}Saarang ERP{% endblock %}</title>
+
+    <script src="{% static 'js/smoothness/jquery-1.9.1.js' %}"></script>
+    <script src="{% static 'js/smoothness/jquery-ui-1.10.3.custom.js' %}"></script>
+
+    <script src="{% static 'js/bootstrap.js' %}"></script>
+    <script src="{% static 'js/bootstrap-rowlink.js' %}"></script>
+    
+    <script src="{% static 'js/datatable/jquery.dataTables.js' %}"></script>
+    <script src="{% static 'js/tabletools/TableTools.js' %}"></script>
+    <script src="{% static 'js/tabletools/ZeroClipboard.js' %}"></script>
 
     
     <script type="text/javascript" src="{{ STATIC_URL }}js/tinymce/tinymce.min.js"></script>
@@ -40,9 +45,40 @@
             ]
          });
     </script>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <script>
+$(document).ready( function () {
+    $('#datatable').dataTable( {
+        "bJQueryUI": true,
+        "sPaginationType": "full_numbers",
+        "sDom": '<"H"Tfr>t<"F"ip>',
+        "oTableTools": {
+            "aButtons": [
+                "copy", "csv", "xls", "pdf",
+                {
+                    "sExtends":    "collection",
+                    "sButtonText": "Save",
+                    "aButtons":    [ "csv", "xls", "pdf" ]
+                }
+            ]
+        }
+    } );
+} );
+</script>
 
-    <title>{% block title %}Saarang ERP{% endblock %}</title>
+    <link href="{% static 'css/smoothness/jquery-ui-1.10.3.custom.css' %}" rel="stylesheet" media="screen">
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+    <style>
+        body {
+        padding-top: 60px; /* When using the navbar-top-fixed */
+        }
+    </style>
+    <link href="{% static 'css/bootstrap-responsive.css' %}" rel="stylesheet">
+    <link href="{% static 'css/bootstrap-rowlink.css' %}" rel="stylesheet">
+    <link href="{% static 'css/datatable/jquery.dataTables.css' %}" rel="stylesheet" media="screen">
+    <link href="{% static 'css/datatable/jquery.dataTables_themeroller.css' %}" rel="stylesheet" media="screen">
+    <link href="{% static 'css/tabletools/TableTools.css' %}" rel="stylesheet" media="screen">
+    <link href="{% static 'css/tabletools/TableTools_JUI.css' %}" rel="stylesheet" media="screen">
+
 
     {% block topbar %}
         <div class="navbar navbar-inverse navbar-fixed-top">
@@ -61,10 +97,13 @@
                     </div>
                     <div class="btn-group pull-right">
                     <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="icon-user"></i> {{ request.user }} <span class="caret"></span>
+                        <i class="icon-user"></i> {{ user.first_name }} <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
                         <li><a href="{% url 'userprofile.views.profile' %}"><i class="icon-wrench"></i> Profile</a></li>
+                        <li><a href="/accounts/password_change/"><i class="icon-barcode"></i> Change password</a></li>
+                        <li class="divider"></li>
+                        <li><a href="{% url 'erp.views.contacts' %}"><i class="icon-tasks"></i> Contacts</a></li>
                         <li class="divider"></li>
                         <li><a href="{% url 'erp.views.logout_user' %}"><i class="icon-share"></i> Logout</a></li>
                     </ul>
@@ -90,6 +129,9 @@
                         <li>
                             <a href="{% url 'erp.views.add_dept' %}"><i class="icon-chevron-right"></i> Add Department</a>
                         </li>
+                        <li>
+                            <a href="{% url 'erp.views.add_subdept' %}"><i class="icon-chevron-right"></i> Add Sub Department</a>
+                        </li>
                         
                     </ul>
                   </li>
@@ -105,7 +147,7 @@
                             <a href="{% url 'task.views.dept_task' %}"><i class="icon-chevron-right"></i> My Department Tasks</a>
                         </li>
                         <li>
-                            <a href="{% url 'task.views.pending_approval' %}"><i class="icon-chevron-right"></i> Pending to approve</a>
+                            <a href="{% url 'task.views.pending_approval' %}"><i class="icon-chevron-right"></i> Pending approval</a>
                         </li>
                     </ul>
                   </li>
@@ -117,6 +159,13 @@
                         </li>
                         
                     </ul>
+                    <ul class="nav-list nav">
+                        <li>
+                            <a href="{% url 'events.views.list_events' %}"><i class="icon-chevron-right"></i> Edit event</a>
+                        </li>
+                        
+                    </ul>
+
                   </li>
             <!--
             TODO: Split tasks into My Tasks, Department tasks etc
@@ -132,16 +181,5 @@
 
         </div>
     </div>
-
-    <script src="http://code.jquery.com/jquery-latest.js"></script>
-    <script src="{% static 'js/bootstrap.js' %}"></script>
-    <script src="{% static 'js/bootstrap-rowlink.js' %}"></script>
-    <script src="{% static 'js/jquery.dataTables.js' %}"></script>
-    <script src="{% static 'js/jquery.js' %}"></script>
-    <script type="text/javascript" charset="utf-8">
-            $(document).ready(function() {
-                $('#data_table').dataTable();
-            } );
-        </script>
 </body>
 </html>

@@ -10,7 +10,7 @@ from django.core.urlresolvers import reverse
 
 # From models
 from models import Event
-from erp.models import Department
+from erp.models import Department, SubDepartment
 # From python
 import datetime
 
@@ -26,12 +26,13 @@ def add_event(request):
     # #    return render(request, 'alert.html', {'msg': noperm + 'add event', 'type': 'error'})
     to_return={}
     if request.method == 'POST':
+        status = request.user.userprofile.status
+        subdept = request.user.userprofile.sub_dept
         eventForm = EventForm(request.POST)
         if eventForm.is_valid():
-            name = eventForm.cleaned_data['name']
-            dept = eventForm.cleaned_data['dept']
-            google_group = eventForm.cleaned_data['google_group']
-            event = Event.objects.create(name=name,dept=dept,google_group=google_group)
+            if status == 'coord' and eventForm.cleaned_data['sub_dept'] != subdept:
+                return render(request, 'alert.html', {'msg': 'You dont have permission to create this event', 'type': 'error'})
+            eventForm.save()
             return HttpResponseRedirect(reverse('list_events'))
         else:
             print "didnt validate"
@@ -47,6 +48,10 @@ def add_event(request):
 @login_required
 def list_events(request):
     events = Event.objects.all()
+    if request.user.userprofile.status == 'core':
+        pass
+    elif request.user.userprofile.status == 'coord':
+        events = events.filter(sub_dept=request.user.userprofile.sub_dept)
     to_return={
             'events':events,
         }
@@ -55,12 +60,18 @@ def list_events(request):
 @login_required
 def details_event(request, event_id):
     event = get_object_or_404(Event, pk=event_id)
+    if request.user.userprofile.status == 'core':
+        pass
+    elif request.user.userprofile.status == 'coord':
+        if request.user.userprofile.sub_dept != event.sub_dept:
+            return render(request, 'alert.html', {'msg': 'You dont have permission to access this event', 'type': 'error'})
     eventForm = EventForm(instance=event)
     faqForm = FAQForm(instance=event)
     introForm = IntroductionForm(instance=event)
     registrationForm = EventRegistrationForm(instance=event)
-    formatForm = FormatForm()
+    formatForm = FormatForm(instance=event)
     to_return={
+        'event': event,
         'form':eventForm,
         'form_intro':introForm,
         'form_reg':registrationForm,
@@ -76,13 +87,8 @@ def event_det(request,event_id):
     if request.method == 'POST':
         eventForm = EventForm(request.POST)
         if eventForm.is_valid():
-            name = eventForm.cleaned_data['name']
-            dept = eventForm.cleaned_data['dept']
-            google_group = eventForm.cleaned_data['google_group']
-            event.name = name
-            event.dept = dept
-            event.google_group = google_group
-            event.save()
+            event.name = eventForm.cleaned_data['name']
+            eventForm.save()
         else:
             print "didnt validate"
         return HttpResponseRedirect(reverse('details_event',args=(event.id,)))
