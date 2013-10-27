@@ -88,7 +88,8 @@ def event_det(request,event_id):
         eventForm = EventForm(request.POST)
         if eventForm.is_valid():
             event.name = eventForm.cleaned_data['name']
-            eventForm.save()
+            event.google_group = eventForm.cleaned_data['google_group']
+            event.save()
         else:
             print "didnt validate"
         return HttpResponseRedirect(reverse('details_event',args=(event.id,)))

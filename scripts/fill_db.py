@@ -118,3 +118,12 @@ def add():
     add_subdept()
     add_cores()
     add_coords()
+
+def add_events():
+    sheet = book.sheet_by_name('events')
+    data = zip(sheet.col_values(0),sheet.col_values(1),sheet.col_values(2))
+    for d, ln, sd in data:
+        print d, sd, ln
+        obj = Event.objects.create(sub_dept=SubDepartment.objects.get(name=sd), name=ln)
+        print ln
+        obj.save()
