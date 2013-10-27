@@ -15,7 +15,7 @@ from erp.models import Department, SubDepartment
 import datetime
 
 # From forms
-from forms import EventForm,EventRegistrationForm,IntroductionForm,FormatForm,FAQForm, PrizesForm
+from forms import CreateEventForm,EventForm,EventRegistrationForm,IntroductionForm,FormatForm,FAQForm, PrizesForm
 
 # Consts
 noperm = "You don't have permission to "
@@ -28,7 +28,7 @@ def add_event(request):
     if request.method == 'POST':
         status = request.user.userprofile.status
         subdept = request.user.userprofile.sub_dept
-        eventForm = EventForm(request.POST)
+        eventForm = CreateEventForm(request.POST)
         if eventForm.is_valid():
             if status == 'coord' and eventForm.cleaned_data['sub_dept'] != subdept:
                 return render(request, 'alert.html', {'msg': 'You dont have permission to create this event', 'type': 'error'})
@@ -37,7 +37,7 @@ def add_event(request):
         else:
             print "didnt validate"
     else:
-        eventForm = EventForm()
+        eventForm = CreateEventForm()
         to_return={
             'form':eventForm,
             'action':  "",

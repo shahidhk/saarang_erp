@@ -71,6 +71,10 @@ $(document).ready( function () {
         body {
         padding-top: 60px; /* When using the navbar-top-fixed */
         }
+        .icon-saarang {
+            background-image: url("{% static 'img/favicon.png' %}");
+            background-position: center center;
+        }
     </style>
     <link href="{% static 'css/bootstrap-responsive.css' %}" rel="stylesheet">
     <link href="{% static 'css/bootstrap-rowlink.css' %}" rel="stylesheet">
@@ -79,16 +83,20 @@ $(document).ready( function () {
     <link href="{% static 'css/tabletools/TableTools.css' %}" rel="stylesheet" media="screen">
     <link href="{% static 'css/tabletools/TableTools_JUI.css' %}" rel="stylesheet" media="screen">
 
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{% static 'img/favicon.png' %}" type="image/x-icon">
+    <link rel="icon" href="{% static 'img/favicon.png' %}" type="image/x-icon">
+
 
     {% block topbar %}
         <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="navbar-inner">
                 <div class="container">
-                    <a href="#" class="brand">Saarang ERP</a>
+                    <a href="#" class="brand">Saarang <img src="{% static 'img/favicon.png' %}"/ height="10%" width="10%"> ERP</a>
                     <div class="nav-collapse collapse">
                         <ul class="nav">
-                            <li><a href="{% url 'erp.views.home' %}">Home</a></li>
-                            <li><a href="{% url 'forum.views.index' %}">Forum</a></li>
+                            <li><a href="{% url 'erp.views.home' %}"><i class="icon-home icon-white"></i> Home</a></li>
+                            <li><a href="{% url 'forum.views.index' %}"><i class="icon-pencil icon-white"></i> Forum</a></li>
                         <!--
                             <li><a href="#">Deals</a></li>
                             <li><a href="#">Submit</a></li>
@@ -119,10 +127,10 @@ $(document).ready( function () {
     <div class="row">
         {% block sidebar %}
               <div class="span3 bs-docs-sidebar">
-                <ul class="nav nav-list bs-docs-sidenav affix-top" data-spy="affix" data-offset-top="100">
+                <ul class="nav nav-list bs-docs-sidenav affix" data-spy="affix" data-offset-top="100">
                   <li class="header"><h3>Welcome</h3></li>
                   {% if user.userprofile.status == 'core' %}
-                  <li><a href="{% url 'task.views.show_task' %}"><i class="icon-chevron-down"></i> Manage</a>
+                  <li><a href="{% url 'task.views.show_task' %}"><i class="icon-list-alt"></i> Manage</a>
                     <ul class="nav-list nav">
                         <li>
                             <a href="{% url 'erp.views.add_user' %}"><i class="icon-chevron-right"></i> Add User</a>
@@ -137,7 +145,7 @@ $(document).ready( function () {
                     </ul>
                   </li>
                   {% endif %}
-                  <li><a href="#"><i class="icon-chevron-down"></i> Tasks</a>
+                  <li><a href="#"><i class="icon-tasks"></i> Tasks</a>
                     <ul class="nav-list nav">
                         <li>
                             <a href="{% url 'task.views.origin_task_create' %}"><i class="icon-chevron-right"></i> Create new Task</a>
@@ -156,7 +164,7 @@ $(document).ready( function () {
                     </ul>
                   </li>
 
-                  <li><a href="{% url 'events.views.list_events' %}"><i class="icon-chevron-down"></i> Events</a>
+                  <li><a href="{% url 'events.views.list_events' %}"><i class="icon-bookmark"></i> Events</a>
                     <ul class="nav-list nav">
                         <li>
                             <a href="{% url 'events.views.add_event' %}"><i class="icon-chevron-right"></i> Create new event</a>

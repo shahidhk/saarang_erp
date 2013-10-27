@@ -43,6 +43,7 @@
         <div class="form-actions"> <input class="btn btn-primary btn-large" type="submit" value="Submit"/> {% block extra_buttons %} {% endblock extra_buttons %}
         </div>
     </form>
+    {% if user.userprofile.status == 'core' %}Please add the event as a Sub-Department if cannot find it in the list.<br> <button onclick="document.location = '{% url 'erp.views.add_subdept' %}';">Add Subdepartment</button>{% else %}Please ask your core to create a Sub Department for you event if you dont find it in the list{% endif %}
 </div>
 
 
