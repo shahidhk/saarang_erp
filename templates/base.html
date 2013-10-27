@@ -101,7 +101,7 @@ $(document).ready( function () {
                     </a>
                     <ul class="dropdown-menu">
                         <li><a href="{% url 'userprofile.views.profile' %}"><i class="icon-wrench"></i> Profile</a></li>
-                        <li><a href="/accounts/password_change/"><i class="icon-barcode"></i> Change password</a></li>
+                        <li><a href="{% url 'django.contrib.auth.views.password_change' %}"><i class="icon-barcode"></i> Change password</a></li>
                         <li class="divider"></li>
                         <li><a href="{% url 'erp.views.contacts' %}"><i class="icon-tasks"></i> Contacts</a></li>
                         <li class="divider"></li>
@@ -121,6 +121,7 @@ $(document).ready( function () {
               <div class="span3 bs-docs-sidebar">
                 <ul class="nav nav-list bs-docs-sidenav affix-top" data-spy="affix" data-offset-top="100">
                   <li class="header"><h3>Welcome</h3></li>
+                  {% if user.userprofile.status == 'core' %}
                   <li><a href="{% url 'task.views.show_task' %}"><i class="icon-chevron-down"></i> Manage</a>
                     <ul class="nav-list nav">
                         <li>
@@ -135,7 +136,8 @@ $(document).ready( function () {
                         
                     </ul>
                   </li>
-                  <li><a href="{% url 'task.views.show_task' %}"><i class="icon-chevron-down"></i> Tasks</a>
+                  {% endif %}
+                  <li><a href="#"><i class="icon-chevron-down"></i> Tasks</a>
                     <ul class="nav-list nav">
                         <li>
                             <a href="{% url 'task.views.origin_task_create' %}"><i class="icon-chevron-right"></i> Create new Task</a>
@@ -146,9 +148,11 @@ $(document).ready( function () {
                         <li>
                             <a href="{% url 'task.views.dept_task' %}"><i class="icon-chevron-right"></i> My Department Tasks</a>
                         </li>
+                        {% if user.userprofile.status == 'core' %}
                         <li>
                             <a href="{% url 'task.views.pending_approval' %}"><i class="icon-chevron-right"></i> Pending approval</a>
                         </li>
+                        {% endif %}
                     </ul>
                   </li>
 
