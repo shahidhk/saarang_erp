@@ -21,6 +21,7 @@
       <li><a href="#faq" data-toggle="tab">FAQs</a></li>
       <li><a href="#format" data-toggle="tab">Format</a></li>
       <li><a href="#reg" data-toggle="tab">Registration</a></li>
+      <li><a href="#prizes" data-toggle="tab">Prizes</a></li>
     </ul>    
     <div class="tab-content">
         <div class="tab-pane active" id="details">
@@ -237,6 +238,47 @@
                       </div>
                   {% endfor %}
                   {% for field in form_reg.hidden_fields %}
+                      {{ field }}
+                  {% endfor %}
+                  <div class="form-actions"> <input class="btn btn-primary btn-large" type="submit" value="Submit"/>
+                  </div>
+              </form>
+          </div>
+        </div>
+        <div class="tab-pane" id="prizes">
+          {% if messages %}
+          <ul class="messages">
+              {% for message in messages %}
+              <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+              {% endfor %}
+          </ul>
+          {% endif %}
+          <div class="span9 container">
+              <form class="form-horizontal" action="{% url 'events.views.event_prizes' event.pk %}" method="POST" {% if form.is_multipart %}enctype="multipart/form-data"{% endif %}>
+                  <legend>Prizes</legend>
+                  {% csrf_token %}
+                  {{ form_prizes.media }}
+                  {% if form_prizes.errors %}
+                      <div class="alert alert-error">
+                          <ul>
+                              {% for error in form_prizes.non_field_errors %}
+                              <li>{{ error }}</li>
+                              {% endfor %}
+                          </ul>
+                      </div>
+                  {% endif %}
+                  {% for field in form_prizes.visible_fields %}
+                      <div class="control-group {{ field.html_name }} {% if field.errors %}error{% endif %}">
+                          <div class=""> {{ field }}
+                              {% if field.errors %}
+                                  <span class="help-inline">
+                                      {{ field.errors.as_text }}
+                                  </span>
+                              {% endif %} 
+                          </div>
+                      </div>
+                  {% endfor %}
+                  {% for field in form_prizes.hidden_fields %}
                       {{ field }}
                   {% endfor %}
                   <div class="form-actions"> <input class="btn btn-primary btn-large" type="submit" value="Submit"/>

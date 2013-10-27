@@ -29,3 +29,7 @@ class FAQForm(forms.ModelForm):
 		model = Event
 		fields = ['FAQs']
 
+class PrizesForm(forms.ModelForm):
+	class Meta:
+		model = Event
+		fields = ['prizes']

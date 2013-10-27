@@ -147,7 +147,6 @@ def add_subdept(request):
 def contacts(request):
     contacts = []
     contacts = User.objects.all()
-    print contacts
     to_return={
             'contacts': contacts,
         }

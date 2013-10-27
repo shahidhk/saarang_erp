@@ -15,7 +15,7 @@ from erp.models import Department, SubDepartment
 import datetime
 
 # From forms
-from forms import EventForm,EventRegistrationForm,IntroductionForm,FormatForm,FAQForm
+from forms import EventForm,EventRegistrationForm,IntroductionForm,FormatForm,FAQForm, PrizesForm
 
 # Consts
 noperm = "You don't have permission to "
@@ -70,11 +70,13 @@ def details_event(request, event_id):
     introForm = IntroductionForm(instance=event)
     registrationForm = EventRegistrationForm(instance=event)
     formatForm = FormatForm(instance=event)
+    prizesForm = PrizesForm(instance=event)
     to_return={
         'event': event,
         'form':eventForm,
         'form_intro':introForm,
         'form_reg':registrationForm,
+        'form_prizes':prizesForm,
         'form_faq':faqForm,
         'form_format':formatForm,
         'action':  "",
@@ -139,6 +141,18 @@ def event_format(request,event_id):
         if formatForm.is_valid():
             format = formatForm.cleaned_data['event_format']
             event.event_format = format
+            event.save()
+        else:
+            print "didnt validate"
+        return HttpResponseRedirect(reverse('details_event',args=(event.id,)))
+
+def event_prizes(request,event_id):
+    event = get_object_or_404(Event, pk=event_id)
+    if request.method == 'POST':
+        prizeForm = PrizesForm(request.POST)
+        if prizeForm.is_valid():
+            prizes = prizeForm.cleaned_data['prizes']
+            event.prizes = prizes
             event.save()
         else:
             print "didnt validate"
