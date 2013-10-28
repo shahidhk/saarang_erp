@@ -2,9 +2,8 @@
 import global_settings
 from global_settings import *
 
-LOGIN_URL = '/login/'
+LOGIN_URL = "/erp14/login/"
 
-# Database Settings
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
@@ -16,14 +15,15 @@ DATABASES = {
     }
 }
 
+
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = '/path/upto/repo/saarang_erp/media'
+MEDIA_ROOT = '/var/sites/saarang_2014/saarang_erp/media'
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
-MEDIA_URL = 'http://domain.com/media/'
+MEDIA_URL = 'http://saarang.iitm.ac.in/erp14/media/'
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
@@ -40,11 +40,11 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    '/path/upto/repo/saarang_erp/static',
+    '/var/sites/saarang_2014/saarang_erp/static',
 )
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    '/path/upto/repo/saarang_erp/templates',
+    '/var/sites/saarang_2014/saarang_erp/templates',
 )

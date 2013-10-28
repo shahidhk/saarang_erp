@@ -1,0 +1,9 @@
+{% if latest_list %}
+    <ul>
+{% for user in latest_list %}
+    <li>{{ user.username }}   requests for {{user.transa}}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No users are available.</p>
+{% endif %}

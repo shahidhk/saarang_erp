@@ -1,0 +1,36 @@
+#AliasMatch ^/([^/]*\.css) /home/shahidh/works/saarang/saarang_erp/static/css/$1
+WSGIPythonPath ~/.virtualenvs/saarang2014/lib/python2.6/site-packages/django
+<VirtualHost *:80>
+
+	ServerName saarang.iitm.ac.in
+	ServerAlias saarang.iitm.ac.in
+	ServerAdmin saarango@saarang.iitm.ac.in
+
+	Alias /media/ /var/sites/saarang_2014/saarang_erp/media/
+	Alias /static/ /var/sites/saarang_2014/saarang_erp/static/
+
+	<Directory /var/sites/saarang_2014/saarang_erp/static>
+		Order deny,allow
+		Allow from all
+	</Directory>
+
+	<Directory /var/sites/saarang_2014/saarang_erp/media>
+		Order deny,allow
+		Allow from all
+	</Directory>
+	 <Directory /var/sites/saarang_2014/saarang_erp>
+	    Order deny,allow
+	    Allow from all
+	    </Directory>
+	# WSGIDaemonProcess saarang.iitm.ac.in/erp14 processes=2 threads=15 display-name=%{GROUP}
+	 WSGIProcessGroup saarang.iitm.ac.in/erp14
+	WSGIScriptAlias /erp14 /var/sites/saarang_2014/saarang_erp/erp/wsgi.py
+
+	<Directory /var/sites/saarang_2014/saarang_erp/erp>
+	<Files wsgi.py>
+	Order allow,deny
+	Allow from all
+	</Files>
+	</Directory>
+
+</VirtualHost>

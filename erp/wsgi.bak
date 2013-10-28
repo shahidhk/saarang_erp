@@ -1,0 +1,12 @@
+<VirtualHost *:80>
+        ServerAdmin saarang.iitm.ac.in
+        ServerName saarang.iitm.ac.in
+        ServerAlias saarang.iitm.ac.in
+        #DocumentRoot /var/sites/saarang_2014/saarang_erp
+	WSGIScriptAlias /erp14 /var/sites/saarang_2014/saarang_erp/erp/wsgi.py
+
+        Alias /static/ /var/sites/saarang_2014/saarang_erp/static/
+        <Location "/static/">
+            Options -Indexes
+        </Location>
+</VirtualHost>

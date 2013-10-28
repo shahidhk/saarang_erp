@@ -1,0 +1,25 @@
+<head>
+    <title>New user registration</title>
+</head>
+<body>
+    <h1>Join us</h1>
+
+    {% if form.errors %}
+        <p style="color: red;">
+            Please correct the error{{ form.errors|pluralize }} below.
+        </p>
+        {% for error in form.errors %}
+        	<li>{{error}}</li>
+        {% endfor %}
+    {% endif %}
+    {% if err %}
+    	<p style="color:red">{{err}}</p>
+    {% endif %}
+    <form action="" method="post">
+        <table>
+            {{ form.as_table }}
+        </table>
+        {% csrf_token %}
+        <input type="submit" value="Submit">
+    </form>
+</body>

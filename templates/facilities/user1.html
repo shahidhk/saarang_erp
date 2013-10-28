@@ -1,0 +1,33 @@
+{{ form.non_field_errors }}
+    <div class="fieldWrapper">
+        {{ form.user.errors }}
+        <label for="id_user">User Name :</label>
+        {{ form.user }}
+    </div>
+    <div class="fieldWrapper">
+        {{ form.phone.errors }}
+        <label for="id_phone">Your Phone no.:</label>
+        {{ form.phone }}
+    </div>
+    <div class="fieldWrapper">
+        {{ form.ip_date.errors }}
+        {{ form.help_text }}
+        <label for="id_ip_date">Date required:</label>
+        {{ form.ip_date }}
+    </div>
+    <div class="fieldWrapper">
+        {{ form.ip_time.errors }}
+        <label for="id_ip_time">Time required:</label>
+        {{ form.ip_time }}
+    </div>
+    <div class="fieldWrapper">
+        {{ form.ip_copies.errors }}
+        <label for="id_ip_copies">No.of copies:</label>
+        {{ form.ip_copies }}
+    </div>
+    <div class="fieldWrapper">
+        {{ form.ven_comments.errors }}
+        <ul>
+        <label for="id_ven_comments">Comments:</label></ul>
+       <ul> {{ form.ven_comments }}</ul>
+    </div>
