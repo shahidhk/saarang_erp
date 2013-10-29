@@ -4,6 +4,7 @@ from erp.models import SubDepartment
 
 class Event(models.Model):
     name = models.CharField(max_length=50)
+    oneliner = models.CharField(max_length=250,blank=True)
     sub_dept = models.ForeignKey(SubDepartment, related_name='parent_department')
     google_group = models.CharField(max_length=200,blank=True,null=True)
     CATEGORY_CHOICES = (

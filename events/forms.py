@@ -12,7 +12,7 @@ class CreateEventForm(forms.ModelForm):
 class EventForm(forms.ModelForm):
     class Meta:
         model = Event
-        fields = ['name','google_group']
+        fields = ['name','google_group','oneliner']
 
 class EventRegistrationForm(forms.ModelForm):
 	class Meta:
