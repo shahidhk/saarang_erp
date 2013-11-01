@@ -1,0 +1,216 @@
+[
+    {
+        "pk": 1, 
+        "model": "forum.forum", 
+        "fields": {
+            "department": "public", 
+            "post_count": 0, 
+            "last_post": null, 
+            "topic_count": 0, 
+            "title": "Public"
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "forum.forum", 
+        "fields": {
+            "department": "coregroup", 
+            "post_count": 1, 
+            "last_post": 2, 
+            "topic_count": 1, 
+            "title": "Core Group"
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "forum.forum", 
+        "fields": {
+            "department": "qms", 
+            "post_count": 0, 
+            "last_post": null, 
+            "topic_count": 0, 
+            "title": "QMS"
+        }
+    }, 
+    {
+        "pk": 4, 
+        "model": "forum.forum", 
+        "fields": {
+            "department": "webops", 
+            "post_count": 0, 
+            "last_post": null, 
+            "topic_count": 0, 
+            "title": "Web Operations"
+        }
+    }, 
+    {
+        "pk": 5, 
+        "model": "forum.forum", 
+        "fields": {
+            "department": "publicity", 
+            "post_count": 0, 
+            "last_post": null, 
+            "topic_count": 0, 
+            "title": "Publicity"
+        }
+    }, 
+    {
+        "pk": 6, 
+        "model": "forum.forum", 
+        "fields": {
+            "department": "ticketsales", 
+            "post_count": 0, 
+            "last_post": null, 
+            "topic_count": 0, 
+            "title": "Ticketsales"
+        }
+    }, 
+    {
+        "pk": 7, 
+        "model": "forum.forum", 
+        "fields": {
+            "department": "spons", 
+            "post_count": 0, 
+            "last_post": null, 
+            "topic_count": 0, 
+            "title": "Sponsorship"
+        }
+    }, 
+    {
+        "pk": 8, 
+        "model": "forum.forum", 
+        "fields": {
+            "department": "fr", 
+            "post_count": 0, 
+            "last_post": null, 
+            "topic_count": 0, 
+            "title": "Facilities & Requirements"
+        }
+    }, 
+    {
+        "pk": 9, 
+        "model": "forum.forum", 
+        "fields": {
+            "department": "design", 
+            "post_count": 0, 
+            "last_post": null, 
+            "topic_count": 0, 
+            "title": "Design"
+        }
+    }, 
+    {
+        "pk": 10, 
+        "model": "forum.forum", 
+        "fields": {
+            "department": "hospi", 
+            "post_count": 0, 
+            "last_post": null, 
+            "topic_count": 0, 
+            "title": "Hospitality"
+        }
+    }, 
+    {
+        "pk": 11, 
+        "model": "forum.forum", 
+        "fields": {
+            "department": "events", 
+            "post_count": 0, 
+            "last_post": null, 
+            "topic_count": 0, 
+            "title": "Events"
+        }
+    }, 
+    {
+        "pk": 12, 
+        "model": "forum.forum", 
+        "fields": {
+            "department": "finance", 
+            "post_count": 0, 
+            "last_post": null, 
+            "topic_count": 0, 
+            "title": "Finance"
+        }
+    }, 
+    {
+        "pk": 13, 
+        "model": "forum.forum", 
+        "fields": {
+            "department": "security", 
+            "post_count": 0, 
+            "last_post": null, 
+            "topic_count": 0, 
+            "title": "Security"
+        }
+    }, 
+    {
+        "pk": 14, 
+        "model": "forum.forum", 
+        "fields": {
+            "department": "proshows", 
+            "post_count": 1, 
+            "last_post": 1, 
+            "topic_count": 1, 
+            "title": "Pro Shows"
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "forum.topic", 
+        "fields": {
+            "updated": "2013-10-30T17:56:30Z", 
+            "forum": 2, 
+            "created": "2013-10-30T17:55:21Z", 
+            "post_count": 1, 
+            "views": 4, 
+            "creator": 25, 
+            "iswork": true, 
+            "closed": false, 
+            "title": "Using ERP? Have problems?", 
+            "last_post": 2, 
+            "usertags": []
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "forum.topic", 
+        "fields": {
+            "updated": "2013-10-30T17:21:13Z", 
+            "forum": 14, 
+            "created": "2013-10-30T17:16:53Z", 
+            "post_count": 1, 
+            "views": 7, 
+            "creator": 19, 
+            "iswork": true, 
+            "closed": false, 
+            "title": "Website Write-ups", 
+            "last_post": 1, 
+            "usertags": []
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "forum.post", 
+        "fields": {
+            "updated": null, 
+            "updated_by": null, 
+            "created": "2013-10-30T17:21:13Z", 
+            "title": "Website Write-ups", 
+            "topic": 1, 
+            "user": 19, 
+            "description": "<p>Rock Show:</p>\r\n<p>Architects are a 4-piece English band from Brighton. Known as <em>Unharmonic</em> at the time of their formation in 2004, the band changed their name to <em>Counting the Days,</em> before finally adopting their current name. Primarily a metal-core band, Architects are also proficient in progressive metal, mathcore and post-hardcore genres.</p>\r\n<p>The past decade of their existence saw the release of 5 albums and one split up with <em>Dead Swans,&nbsp;</em>with their sixth album recently released. They are all set to release a film &ndash; <em>One Hundred Days: The Story of Architects Almost World Tour- </em>about the 100 day tour for which funding was completely raised from loyal fans. The band has played in some of the biggest festivals in the world, like Download, Summer Breeze, Resurrection Fest, Grasspop Metal Meeting, Sonisphere Festival, and Hellfest, each boasting five-figure audiences, and has toured in some of the most coveted tours like the Vans Wraped Tour, with some of the biggest names in the metal world like Deftones, August Burns Red, Enter Shikari, Whitechapel, and All That Remains, to name but a few.</p>\r\n<p>Referred to as \"pumped with both controlled rage and unhindered heart, accessible and ambitious, aggressive and beautiful\", Architects have performed at various places all over the world, including America, Canada, Germany, England, Malaysia, Philippines and other countries of Europe, Australia and Asia, making the crowd go berserk in every performance. This January, Architects will be enthralling the Indian audience for the first ever time, headlining the Saarang 2014 Rockshow. This will be one great show for not just metal lovers, but for anyone who appreciate some good music!</p>\r\n<p>Classical Night:</p>\r\n<p>The prodigal Violin duo, fondly addressed as Ganesh-Kumaresh, took to the violin like a fish to water. Having delivered over a hundred performances before the tender age of ten, they moved on from strength to strength, emerging as one of the finest violinists of today. Popularly recognized for their refreshingly entertaining and interactive concerts, Ganesh-Kumaresh will feature in Classical Night, Saarang 2014 - treating the audience to an evening of pure delight and magic.</p>\r\n<p><span>Sonal Mansingh, a recipient of Padma Vibhushan, is one of the most eminent Odissi dancers of today, apart from being proficient in various other dance forms. Having started her dancing career at the age of four, she went on to master the dance form in every possible way, having over 50 years of dancing experience. Over the years, dance has taken her all over the world&nbsp;and brought her many awards, including the&nbsp;<a title=\"Padma Bhushan\" href=\"http://en.wikipedia.org/wiki/Padma_Bhushan\" target=\"_blank\"><span style=\"text-decoration: none;\">Padma Bhushan</span></a><span style=\"text-align: start;\">,&nbsp;<a title=\"Sangeet Natak Akademi Award\" href=\"http://en.wikipedia.org/wiki/Sangeet_Natak_Akademi_Award\" target=\"_blank\"><span style=\"text-decoration: none;\">Sangeet Natak Akademi Award</span></a>, the&nbsp;<a title=\"Padma Vibhushan\" href=\"http://en.wikipedia.org/wiki/Padma_Vibhushan\" target=\"_blank\"><span style=\"text-decoration: none;\">Padma Vibhushan</span></a> among others. Saarang 2014 gives to all dance lovers a chance to witness this great maestro at work, right here at Chennai.&nbsp; <br /></span></span></p>\r\n<p><span><span style=\"text-align: start;\">Choreo Night:<br /></span></span></p>\r\n<p><span><span style=\"text-align: start;\"><span style=\"font-size: 11pt; font-family: Calibri,sans-serif;\">Choreo Night being the biggest inter-collegiate group dance competition in South India, is a platform for the nation's best dance crews to show their moves. Watch them set the stage ablaze in a night of mind blowing entertainment and immense fun. The proceeds from this night will go to charity. Be there to experience one of the best performances of your life and support the cause.</span></span></span></p>"
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "forum.post", 
+        "fields": {
+            "updated": null, 
+            "updated_by": null, 
+            "created": "2013-10-30T17:56:30Z", 
+            "title": "Using ERP? Have problems? Post here.", 
+            "topic": 2, 
+            "user": 25, 
+            "description": "<p>We'd like to get people started on using this, so post any feedback/suggestions you have here. &nbsp;</p>"
+        }
+    }
+]

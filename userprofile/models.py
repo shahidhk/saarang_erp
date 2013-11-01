@@ -4,6 +4,7 @@ from django.contrib.auth.models import User, Group
 from django.utils.translation import ugettext_lazy as _
 from django.db.models.signals import post_save
 from erp.models import Department, SubDepartment
+from events.models import Event
 # Create your models here.
 class UserProfile(models.Model):
     status_choices=(
@@ -24,6 +25,7 @@ class UserProfile(models.Model):
     post_count = models.IntegerField(default=0, null=True)
     dept = models.ForeignKey(Department, related_name='user_department', null=True, blank=True)
     sub_dept = models.ForeignKey(SubDepartment, related_name='user_sub_department', null=True, blank=True)
+    events = models.ManyToManyField(Event, related_name='user_events', null=True, blank=True)
     dob = models.DateField(null=True, blank=True)
     mobile = models.BigIntegerField(max_length=10, default=0)
     mobile_home = models.BigIntegerField(max_length=10,  blank=True, null=True)

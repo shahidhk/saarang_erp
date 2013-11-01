@@ -5,6 +5,7 @@ from forum.models import Forum
 from erp.models import Department
 from events.models import Event
 from django.conf import settings
+from userprofile.models import UserProfile
 
 book = xlrd.open_workbook('scripts/erp_users.xls')
 coordperm = ['add_post', 'add_topic', 'add_task', 'close_task', 'comment_task', 
@@ -43,6 +44,7 @@ def populate():
 	for perm in coordperm:
 		coordgrp.permissions.add(Permission.objects.get(codename=perm))
 	coordgrp.save()
+
 	
 def add_dept():
     sheet = book.sheet_by_name('departments')
@@ -127,3 +129,63 @@ def add_events():
         obj = Event.objects.create(sub_dept=SubDepartment.objects.get(name=sd), name=ln)
         print ln
         obj.save()
+
+def add_new_event_subdepts():
+    sheet = book.sheet_by_name('eventssubdept')
+    data = zip(sheet.col_values(0),sheet.col_values(2),sheet.col_values(1))
+    for d, sd, lsd in data:
+        print d, sd, lsd
+        obj = SubDepartment.objects.create(dept=Department.objects.get(name=d), name=sd, long_name=lsd, description="Description for "+lsd)
+        obj.save()
+
+def add_new_events():
+    sheet = book.sheet_by_name('new_events')
+    data = zip(sheet.col_values(0),sheet.col_values(1),sheet.col_values(2))
+    for sd, ev, le in data:
+        print sd, ev, le
+        try:
+            subd = SubDepartment.objects.get(name=sd)
+        except Exception, e:
+            if e.message == 'Event matching query does not exist.':
+                subd = SubDepartment.objects.create(name=sd)
+            else:
+                print 'other error', e.message
+        try:
+            obj = Event.objects.get(name='le')
+        except Exception, e:
+            if e.message == 'Event matching query does not exist.':
+                obj = Event.objects.create(sub_dept=subd, long_name=ev, name=le)
+            else:
+                obj.sub_dept = subd
+                obj.name = le
+                obj.long_name = ev
+        print le
+        obj.save()
+
+def add_events_coords():
+    sheet = book.sheet_by_name('events_coords')
+    # username, subdept, events
+    data = zip(sheet.col_values(1),sheet.col_values(6),sheet.col_values(5))
+    for uname, subd, e in data:
+        user = User.objects.get(username=uname)
+        print user.pk
+        try:
+            prof = UserProfile.objects.get(user_id=user.pk)
+        except Exception, e:
+            prof = UserProfile.objects.create(user_id=user.pk, status='coord', dept=Department.objects.get(name='events'))
+        print user
+        try:
+            subdept = SubDepartment.objects.get(name=subd)
+            ev = Event.objects.get(long_name=e)
+        except Exception, e:
+            raise e
+        try:
+            prof.sub_dept = subdept
+            prof.events = ev
+        except Exception, e:
+            raise e
+    prof.save()
+    user.save()
+
+def add_refresh():
+    

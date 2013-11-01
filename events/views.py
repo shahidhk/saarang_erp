@@ -51,7 +51,7 @@ def list_events(request):
     if request.user.userprofile.status == 'core':
         pass
     elif request.user.userprofile.status == 'coord':
-        events = events.filter(sub_dept=request.user.userprofile.sub_dept)
+        events = request.user.userprofile.events.all()
     to_return={
             'events':events,
         }
@@ -63,7 +63,10 @@ def details_event(request, event_id):
     if request.user.userprofile.status == 'core':
         pass
     elif request.user.userprofile.status == 'coord':
-        if request.user.userprofile.sub_dept != event.sub_dept:
+        coord_events = request.user.userprofile.events.all()
+        if event in coord_events:
+            pass
+        else:
             return render(request, 'alert.html', {'msg': 'You dont have permission to access this event', 'type': 'error'})
     eventForm = EventForm(instance=event)
     faqForm = FAQForm(instance=event)
@@ -89,8 +92,10 @@ def event_det(request,event_id):
     if request.method == 'POST':
         eventForm = EventForm(request.POST)
         if eventForm.is_valid():
-            event.name = eventForm.cleaned_data['name']
+            print 'valid'
+            event.long_name = eventForm.cleaned_data['long_name']
             event.google_group = eventForm.cleaned_data['google_group']
+            event.oneliner = eventForm.cleaned_data['oneliner']
             event.save()
         else:
             print "didnt validate"

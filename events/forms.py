@@ -7,12 +7,12 @@ from models import Event
 class CreateEventForm(forms.ModelForm):
     class Meta:
         model = Event
-        fields = ['name', 'sub_dept','google_group']
+        fields = ['name', 'long_name', 'sub_dept','google_group']
 
 class EventForm(forms.ModelForm):
     class Meta:
         model = Event
-        fields = ['name','google_group','oneliner']
+        fields = ['long_name','google_group','oneliner']
 
 class EventRegistrationForm(forms.ModelForm):
 	class Meta:
