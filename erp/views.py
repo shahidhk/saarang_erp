@@ -58,7 +58,7 @@ def logout_user(request):
         Logs out a user
     '''
     logout(request)
-    return HttpResponseRedirect(reverse('login'))
+    return redirect(home)
 
 def page(request):
     '''
