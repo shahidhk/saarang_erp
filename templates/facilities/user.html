@@ -13,7 +13,9 @@
 {% endif %}
 <div class="span9 container">
     <form class="form-horizontal" action="" method="POST" {% if form.is_multipart %}enctype="multipart/form-data"{% endif %}>
-        <legend>Create a new event</legend>
+        <legend>
+	{{form_heading}}
+	</legend>
         {% csrf_token %}
         {{ form.media }}
         {% if form.errors %}
