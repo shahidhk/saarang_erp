@@ -99,6 +99,7 @@ INSTALLED_APPS = (
     'task',
     'events',
     'ticket',
+    'registration',
 )
 
 # A sample logging configuration. The only tangible logging

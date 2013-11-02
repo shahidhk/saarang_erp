@@ -58,7 +58,7 @@ def logout_user(request):
         Logs out a user
     '''
     logout(request)
-    return HttpResponseRedirect(reverse('login'))
+    return redirect(home)
 
 def page(request):
     '''
@@ -81,7 +81,7 @@ def page(request):
 
 @login_required
 def add_user(request):
-    if not request.user.has_perm('erp.add_user'):
+    if not request.user.has_perm('auth.add_user'):
         return render(request, 'alert.html', {'msg': noperm + 'add user', 'type': 'error'})
     if request.method == 'POST':
         newuserForm = AddUserForm(request.POST)

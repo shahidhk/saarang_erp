@@ -10,4 +10,4 @@ class UserForm(ModelForm):
 class UserProfileForm(ModelForm):
     class Meta:
         model = UserProfile
-        exclude = ['user', 'post_count', 'status', 'dept', 'sub_dept']
+        exclude = ['user', 'post_count', 'status', 'dept', 'sub_dept', 'events']

@@ -5,129 +5,90 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>{% block title %}Saarang ERP{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-    <script src="{% static 'js/smoothness/jquery-1.9.1.js' %}"></script>
-    <script src="{% static 'js/smoothness/jquery-ui-1.10.3.custom.js' %}"></script>
-
-    <script src="{% static 'js/bootstrap.js' %}"></script>
-    <script src="{% static 'js/bootstrap-rowlink.js' %}"></script>
-    
-    <script src="{% static 'js/datatable/jquery.dataTables.js' %}"></script>
-    <script src="{% static 'js/tabletools/TableTools.js' %}"></script>
-    <script src="{% static 'js/tabletools/ZeroClipboard.js' %}"></script>
-
-    
-    <script type="text/javascript" src="{{ STATIC_URL }}js/tinymce/tinymce.min.js"></script>
-
-    <script>
-        tinymce.init({
-            selector: "textarea",
-            theme: "modern",
-            width: 750,
-            height: 300,
-            plugins: [
-                 "advlist autolink link lists charmap print preview hr anchor pagebreak spellchecker",
-                 "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime nonbreaking",
-                 "save table contextmenu directionality emoticons template paste textcolor "
-           ],
-           content_css: "css/content.css",
-           toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | print preview media fullpage | forecolor backcolor emoticons",
-           style_formats: [
-                {title: 'Bold text', inline: 'b'},
-                {title: 'Red text', inline: 'span', styles: {color: '#ff000'}},
-                {title: 'Red header', block: 'h1', styles: {color: '#ff0000'}},
-                {title: 'Example 1', inline: 'span', classes: 'example1'},
-                {title: 'Example 2', inline: 'span', classes: 'example2'},
-                {title: 'Table styles'},
-                {title: 'Table row 1', selector: 'tr', classes: 'tablerow1'}
-            ]
-         });
-    </script>
-    <script>
-$(document).ready( function () {
-    $('#datatable').dataTable( {
-        "bJQueryUI": true,
-        "sPaginationType": "full_numbers",
-        "sDom": '<"H"Tfr>t<"F"ip>',
-        "oTableTools": {
-            "aButtons": [
-                "copy", "csv", "xls", "pdf",
-                {
-                    "sExtends":    "collection",
-                    "sButtonText": "Save",
-                    "aButtons":    [ "csv", "xls", "pdf" ]
-                }
-            ]
-        }
-    } );
-} );
-</script>
-
+<!-- Styles begin -->
     <link href="{% static 'css/smoothness/jquery-ui-1.10.3.custom.css' %}" rel="stylesheet" media="screen">
     <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+    <link href="{% static 'css/bootstrap-responsive.css' %}" rel="stylesheet">
+    <link href="{% static 'css/docs.css' %}" rel="stylesheet">
+    <link href="{% static 'css/prettify.css' %}" rel="stylesheet">
     <style>
         body {
-        padding-top: 60px; /* When using the navbar-top-fixed */
+        padding-top: 40px;
+        padding-bottom: 60px;
         }
-        .icon-saarang {
-            background-image: url("{% static 'img/favicon.png' %}");
-            background-position: center center;
-        }
+      }
     </style>
-    <link href="{% static 'css/bootstrap-responsive.css' %}" rel="stylesheet">
     <link href="{% static 'css/bootstrap-rowlink.css' %}" rel="stylesheet">
     <link href="{% static 'css/datatable/jquery.dataTables.css' %}" rel="stylesheet" media="screen">
     <link href="{% static 'css/datatable/jquery.dataTables_themeroller.css' %}" rel="stylesheet" media="screen">
     <link href="{% static 'css/tabletools/TableTools.css' %}" rel="stylesheet" media="screen">
     <link href="{% static 'css/tabletools/TableTools_JUI.css' %}" rel="stylesheet" media="screen">
+<!-- Styles end -->
 
-    <!-- Favicon -->
+<!-- Favicon -->
     <link rel="shortcut icon" href="{% static 'img/favicon.png' %}" type="image/x-icon">
     <link rel="icon" href="{% static 'img/favicon.png' %}" type="image/x-icon">
 
+</head>
 
+<body data-spy="scroll" data-target=".bs-docs-sidebar">
+ 
+ <!-- NavBar Begins -->
     {% block topbar %}
         <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="navbar-inner">
                 <div class="container">
-                    <a href="#" class="brand">Saarang <img src="{% static 'img/favicon.png' %}"/ height="10%" width="10%"> ERP</a>
+                  <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  </button>
+                    <a href="http://saarang.org" class="brand" target="_blank"><img src="{% static 'img/favicon.png' %}" height="75%" width="75%"/></a>
                     <div class="nav-collapse collapse">
                         <ul class="nav">
                             <li><a href="{% url 'erp.views.home' %}"><i class="icon-home icon-white"></i> Home</a></li>
                             <li><a href="{% url 'forum.views.index' %}"><i class="icon-pencil icon-white"></i> Forum</a></li>
-                        <!--
-                            <li><a href="#">Deals</a></li>
-                            <li><a href="#">Submit</a></li>
-                        -->
                         </ul>
+                        <div class="btn-group pull-right">
+                        <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="icon-user"></i> {{ user.first_name }} <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{% url 'userprofile.views.profile' %}"><i class="icon-wrench"></i> Profile</a></li>
+                            <li><a href="{% url 'django.contrib.auth.views.password_change' %}"><i class="icon-barcode"></i> Change password</a></li>
+                            <li class="divider"></li>
+                            <li><a href="{% url 'erp.views.contacts' %}"><i class="icon-tasks"></i> Contacts</a></li>
+                            <li class="divider"></li>
+                            <li><a href="{% url 'erp.views.logout_user' %}"><i class="icon-share"></i> Logout</a></li>
+                        </ul>
+                      </div>
                     </div>
-                    <div class="btn-group pull-right">
-                    <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="icon-user"></i> {{ user.first_name }} <span class="caret"></span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a href="{% url 'userprofile.views.profile' %}"><i class="icon-wrench"></i> Profile</a></li>
-                        <li><a href="{% url 'django.contrib.auth.views.password_change' %}"><i class="icon-barcode"></i> Change password</a></li>
-                        <li class="divider"></li>
-                        <li><a href="{% url 'erp.views.contacts' %}"><i class="icon-tasks"></i> Contacts</a></li>
-                        <li class="divider"></li>
-                        <li><a href="{% url 'erp.views.logout_user' %}"><i class="icon-share"></i> Logout</a></li>
-                    </ul>
-                </div>
                 </div>
             </div>
         </div>
     {% endblock %}
-</head>
+<!-- NavBar Ends -->
 
-<body>
+<!-- Subhead
+================================================== 
+<header class="jumbotron subhead" id="overview">
+  <div class="container">
+    ERP Notifications
+  </div>
+</header>
+-->
     <div class="container">
-    <div class="row">
+      <div class="row">
+<!-- Sidebar Begins -->
         {% block sidebar %}
+        
               <div class="span3 bs-docs-sidebar">
-                <ul class="nav nav-list bs-docs-sidenav affix" data-spy="affix" data-offset-top="100">
+                <ul class="nav nav-list bs-docs-sidenav">
                   <li class="header"><h3>Welcome</h3></li>
                   {% if user.userprofile.status == 'core' %}
                   <li><a href="{% url 'task.views.show_task' %}"><i class="icon-list-alt"></i> Manage</a>
@@ -140,6 +101,9 @@ $(document).ready( function () {
                         </li>
                         <li>
                             <a href="{% url 'erp.views.add_subdept' %}"><i class="icon-chevron-right"></i> Add Sub Department</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'registration.views.list_users' %}"><i class="icon-chevron-right"></i> Main Site registrations</a>
                         </li>
                         
                     </ul>
@@ -204,20 +168,92 @@ $(document).ready( function () {
                         </li>
                     </ul>
                   </li>
-
             <!--
             TODO: Split tasks into My Tasks, Department tasks etc
                   <li><a href="#responsive"><i class="icon-chevron-right"></i> Responsive design</a></li>
               -->
                 </ul>
-              </div>
+            </div>
         {% endblock %}
+<!-- SideBar Ends -->
 
+<!-- Content begin -->
         <div class="span9" id="content">
             {% block content %}{% endblock %}
         </div>
-
+<!-- Content ends -->
         </div>
     </div>
+
+<!-- Copyright bar begin -->
+    <div class = "navbar navbar-fixed-bottom ">
+      <div class="navbar-inner">
+        <div class="container">
+        <p class="text-center muted" style="padding-top:10px;">&copy; Copyright 2014 - Saarang WebOps</p></div>
+      </div>
+    </div>
+<!-- Copyright bar ends -->
+
+<!-- JavaScripts begin -->
+    <script src="{% static 'js/smoothness/jquery-1.9.1.js' %}"></script>
+    <script src="{% static 'js/smoothness/jquery-ui-1.10.3.custom.js' %}"></script>
+
+    <script src="{% static 'js/bootstrap.js' %}"></script>
+    <script src="{% static 'js/bootstrap-rowlink.js' %}"></script>
+    
+    <script src="{% static 'js/datatable/jquery.dataTables.js' %}"></script>
+    <script src="{% static 'js/tabletools/TableTools.js' %}"></script>
+    <script src="{% static 'js/tabletools/ZeroClipboard.js' %}"></script>
+    <script src="{% static 'js/prettify.js' %}"></script>
+    <script src="{% static 'js/holder.js' %}"></script>
+    
+    
+    <script type="text/javascript" src="{{ STATIC_URL }}js/tinymce/tinymce.min.js"></script>
+
+    <script>
+        tinymce.init({
+            selector: "textarea",
+            theme: "modern",
+            width: 750,
+            height: 300,
+            plugins: [
+                 "advlist autolink link lists charmap print preview hr anchor pagebreak spellchecker",
+                 "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime nonbreaking",
+                 "save table contextmenu directionality emoticons template paste textcolor "
+           ],
+           content_css: "css/content.css",
+           toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | print preview media fullpage | forecolor backcolor emoticons",
+           style_formats: [
+                {title: 'Bold text', inline: 'b'},
+                {title: 'Red text', inline: 'span', styles: {color: '#ff000'}},
+                {title: 'Red header', block: 'h1', styles: {color: '#ff0000'}},
+                {title: 'Example 1', inline: 'span', classes: 'example1'},
+                {title: 'Example 2', inline: 'span', classes: 'example2'},
+                {title: 'Table styles'},
+                {title: 'Table row 1', selector: 'tr', classes: 'tablerow1'}
+            ]
+         });
+    </script>
+    <script>
+      $(document).ready( function () {
+          $('#datatable').dataTable( {
+              "bJQueryUI": true,
+              "sPaginationType": "full_numbers",
+              "sDom": '<"H"Tfr>t<"F"ip>',
+              "oTableTools": {
+                  "aButtons": [
+                      "copy", "csv", "xls", "pdf",
+                      {
+                          "sExtends":    "collection",
+                          "sButtonText": "Save",
+                          "aButtons":    [ "csv", "xls", "pdf" ]
+                      }
+                  ]
+              }
+          } );
+      } );
+    </script>
+<!-- JavaScripts end -->
+
 </body>
 </html>
