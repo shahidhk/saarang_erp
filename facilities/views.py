@@ -16,7 +16,7 @@ from userprofile.models import UserProfile
 #		return render(request,'contact.html',{'form':form})
 	
 def req(request):
-	return render(request,'facilities/fac.html')
+	return render(request,'base.html')
 
 def trans(request):
 	form=Transport_form()
