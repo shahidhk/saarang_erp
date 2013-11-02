@@ -32,6 +32,8 @@ urlpatterns = patterns('',
     # Include urls from events
     url(r'^event/', include('events.urls')),   
 
+    url(r'^registration/', include('registration.urls')),
+
 	url(r'^login/$', 'erp.views.login_user', name='login'),
 	url(r'^logout/$', 'erp.views.logout_user', name='logout_user'),
 
