@@ -30,7 +30,7 @@ class UserProfile(models.Model):
     mobile = models.BigIntegerField(max_length=10, default=0)
     mobile_home = models.BigIntegerField(max_length=10,  blank=True, null=True)
     facebook = models.URLField(blank=True, null=True)
-    hostel = models.CharField(max_length=60, choices=settings.HOSTELS)
+    hostel = models.CharField(max_length=60, choices=settings.HOSTELS, blank=True, null=True)
     room = models.IntegerField(max_length=4, blank=True, null=True)
     
     class Meta:
