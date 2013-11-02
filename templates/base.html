@@ -69,12 +69,51 @@ $(document).ready( function () {
     <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
     <style>
         body {
-        padding-top: 60px; /* When using the navbar-top-fixed */
+        height: 100%;
         }
-        .icon-saarang {
-            background-image: url("{% static 'img/favicon.png' %}");
-            background-position: center center;
+        html{
+        height: 100%;
+        /* The html and body elements cannot have any padding or margin. */
+      }
+
+      /* Wrapper for page content to push down footer */
+      #wrap {
+        min-height: 100%;
+        height: auto !important;
+        height: 100%;
+        /* Negative indent footer by it's height */
+        margin: 0 auto -60px;
+      }
+
+      /* Set the fixed height of the footer here */
+      #push,
+      #footer {
+        height: 60px;
+      }
+      #footer {
+        background-color: #f5f5f5;
+      }
+
+      /* Lastly, apply responsive CSS fixes as necessary */
+      @media (max-width: 767px) {
+        #footer {
+          margin-left: -20px;
+          margin-right: -20px;
+          padding-left: 20px;
+          padding-right: 20px;
         }
+      }
+      #wrap > .container {
+        padding-top: 60px;
+      }
+      .container .credit {
+        margin: 20px 0;
+      }
+
+      code {
+        font-size: 80%;
+      }
+
     </style>
     <link href="{% static 'css/bootstrap-responsive.css' %}" rel="stylesheet">
     <link href="{% static 'css/bootstrap-rowlink.css' %}" rel="stylesheet">
@@ -87,12 +126,16 @@ $(document).ready( function () {
     <link rel="shortcut icon" href="{% static 'img/favicon.png' %}" type="image/x-icon">
     <link rel="icon" href="{% static 'img/favicon.png' %}" type="image/x-icon">
 
+</head>
 
+<body>
+    <!-- Part 1: Wrap all page content here -->
+    <div id="wrap">
     {% block topbar %}
         <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="navbar-inner">
                 <div class="container">
-                    <a href="#" class="brand">Saarang <img src="{% static 'img/favicon.png' %}"/ height="10%" width="10%"> ERP</a>
+                    <a href="http://saarang.org" class="brand" target="_blank"><img src="{% static 'img/favicon.png' %}" height="75%" width="75%"/></a>
                     <div class="nav-collapse collapse">
                         <ul class="nav">
                             <li><a href="{% url 'erp.views.home' %}"><i class="icon-home icon-white"></i> Home</a></li>
@@ -120,9 +163,7 @@ $(document).ready( function () {
             </div>
         </div>
     {% endblock %}
-</head>
 
-<body>
     <div class="container">
     <div class="row">
         {% block sidebar %}
@@ -193,5 +234,9 @@ $(document).ready( function () {
 
         </div>
     </div>
+</div>
+    <div id="footer">
+        <div class="container">
+    <p class="text-center muted ">&copy; Copyright 2014 - Saarang WebOps</p></div></div>
 </body>
 </html>

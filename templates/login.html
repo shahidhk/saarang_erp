@@ -9,10 +9,14 @@
     <title>SaarangERP - Login</title>
     <meta name="viewport" content="width=device-width,initial-scale=1" />
 
-    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
-    <link href="{% static 'css/bootstrap-responsive.css' %}" rel="stylesheet">
-    <link href="{% static 'css/bootstrap-rowlink.css' %}" rel="stylesheet">
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" />
+    <link href="{% static 'css/bootstrap-responsive.css' %}" rel="stylesheet" />
+    <link href="{% static 'css/bootstrap-rowlink.css' %}" rel="stylesheet" />
     
+       <!-- Favicon -->
+    <link rel="shortcut icon" href="{% static 'img/favicon.png' %}" type="image/x-icon" />
+    <link rel="icon" href="{% static 'img/favicon.png' %}" type="image/x-icon" />
+
     <style>
 body{background-color: #F7F7F6;}
 .login{padding-top: 65px;}
@@ -30,7 +34,7 @@ body{background-color: #F7F7F6;}
  
             </a>
  
-    <a href="#" class="brand">Saarang ERP</a>
+    <a href="#" class="brand"><img src="{% static 'img/favicon.png' %}" height="75%" width="75%"/></a>
  
     <div class="nav-collapse collapse pull-right">
         <ul class="nav">
@@ -102,17 +106,21 @@ body{background-color: #F7F7F6;}
 <h3>Forgot Password</h3>
 </div>
 <div class="modal-body">
-<p>Enter your username to reset the password</p>
+<p>Please contact your Core or send an email to <a href="mailto:webadmin@saarang.org">webadmin@saarang.org</a></p>
+<!--
 <form>
       <div class="controls controls-row">
           <input id="name" name="name" type="text" class="span3" placeholder="Name" />
       </div>
  
 </form>
+-->
 </div>
 <div class="modal-footer">
+    <!--
 <a href="#" class="btn btn-primary">Submit</a>
 <a href="#" class="btn" data-dismiss="modal">Close</a>
+-->
 </div>
 </div>
  
