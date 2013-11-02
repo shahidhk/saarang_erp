@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+{% extends "base.html" %}
+{% load url from future %}
+{% block title %}Contacts | Saarang ERP{% endblock %}
+
+{% block content %}
+{% load staticfiles %}
+
+<div id="container" >
+    <h2>Contacts</h2>
+    <table id="datatable">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Designation</th>
+                <th>Department</th>
+                <th>Sub Department / Event</th>
+                <th>Phone</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for contact in contacts %}
+                {% if contact.first_name %}
+                    <tr>
+                        <td>{{ contact.first_name }}</td>
+                        <td>{{ contact.email }}</td>
+                        <td>{{ contact.userprofile.status|title }}</td>
+                        <td>{{ contact.userprofile.dept.long_name }}</td>
+                        <td>{{ contact.userprofile.sub_dept.long_name }}</td>
+                        <td>{{ contact.userprofile.mobile }}</td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

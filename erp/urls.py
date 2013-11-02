@@ -12,7 +12,10 @@ urlpatterns = patterns('',
     url(r'^$', 'erp.views.home', name='home'),
     # url(r'^erp/', include('erp.foo.urls')),
     url(r'^newdept/$', 'erp.views.add_dept', name='add_dept'),
+    url(r'^newsubdept/$', 'erp.views.add_subdept', name='add_subdept'),
     url(r'^newuser/$', 'erp.views.add_user', name='add_user'),
+    url(r'^contacts/$', 'erp.views.contacts', name='contacts'),
+    url(r'^accounts/', include('django.contrib.auth.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
@@ -30,6 +33,7 @@ urlpatterns = patterns('',
     url(r'^event/', include('events.urls')),   
 
     url(r'^facilities/', include('facilities.urls')),   
+    url(r'^registration/', include('registration.urls')),
 
 	url(r'^login/$', 'erp.views.login_user', name='login'),
 	url(r'^logout/$', 'erp.views.logout_user', name='logout_user'),

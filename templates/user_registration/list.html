@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load url from future %}
+{% block title %}{{ title }} | Saarang ERP{% endblock %}
+
+{% block content %}
+
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+<div class="span9 container">
+    <table class="table" id="datatable">
+     <thead>
+        <tr>
+        <th>Saarang ID</th>
+        <th>Name</th>
+        <th>Gender</th>
+        <th>Email</th>
+        <th>Mobile</th>
+        <th>Facebook</th>
+        <th>College</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users %}
+            <tr class="rowlink" onclick="document.location = '{% url 'registration.views.show_user' user.pk %}';">
+                <td>{{ user.saarang_id }}</td>
+                <td >{{ user.name }}</td>
+                <td >{{ user.gender }}</td>
+                <td >{{ user.email }}</td>
+                <td >{{ user.mobile }}</td>
+                <td >{{ user.fb_id }}</td>
+                <td >{{ user.college }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+
+
+{% endblock %}

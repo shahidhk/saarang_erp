@@ -10,7 +10,7 @@
     There are no events to display
 </div>
 {% else %}
-<table class="table-bordered table-striped table">
+<table id ="datatable" class="table-bordered table-striped table">
     <thead>
         <tr class="rowlink" onclick="document.location = '{% url 'events.views.add_event' %}';">
             <td colspan=5 style="text-align:center">
