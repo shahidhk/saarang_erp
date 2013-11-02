@@ -169,16 +169,42 @@ $(document).ready( function () {
                         <li>
                             <a href="{% url 'events.views.add_event' %}"><i class="icon-chevron-right"></i> Create new event</a>
                         </li>
-                        
                     </ul>
                     <ul class="nav-list nav">
                         <li>
                             <a href="{% url 'events.views.list_events' %}"><i class="icon-chevron-right"></i> Edit event</a>
                         </li>
-                        
                     </ul>
-
                   </li>
+
+                  <li><a href="#"><i class="icon-book"></i> Ticket</a>
+                    <ul class="nav-list nav">
+                        <li>
+                            <a href="{% url 'ticket.views.create_ticket' %}"><i class="icon-chevron-right"></i> Create new Ticket</a>
+                        </li>
+                    </ul>
+                    <ul class="nav-list nav">
+                        <li>
+                            <a href="{% url 'ticket.views.ticket_list' %}"><i class="icon-chevron-right"></i> Edit Ticket</a>
+                        </li>
+                    </ul>
+                    <ul class="nav-list nav">
+                        <li>
+                            <a href="{% url 'ticket.views.new_transaction' %}"><i class="icon-chevron-right"></i> New Transaction</a>
+                        </li>
+                    </ul>
+                    <ul class="nav-list nav">
+                        <li>
+                            <a href="{% url 'ticket.views.transaction_list' %}"><i class="icon-chevron-right"></i> Transaction History</a>
+                        </li>
+                    </ul>
+                    <ul class="nav-list nav">
+                        <li>
+                            <a href="{% url 'ticket.views.statistics' %}"><i class="icon-chevron-right"></i> Statistics</a>
+                        </li>
+                    </ul>
+                  </li>
+
             <!--
             TODO: Split tasks into My Tasks, Department tasks etc
                   <li><a href="#responsive"><i class="icon-chevron-right"></i> Responsive design</a></li>

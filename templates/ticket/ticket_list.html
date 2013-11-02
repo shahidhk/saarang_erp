@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load url from future %}
+{% block title %}Edit Tickets | Saarang ERP{% endblock %}
+
+{% block content %}
+
+<div class="span9 container">
+	<br/>
+	<table class='table table-bordered'>
+		<thead>
+			<th>#</th>
+			<th>Ticket Name</th>
+			<th>Show</th>
+			<th>Discounted</th>
+			<th>Cost</th>
+			<th></th>
+		</thead>
+		{% for ticket in tickets %}
+		<tr {% if ticket.active %}class="success"{% else %} class="error"{% endif %}>
+			<td>{{ forloop.counter }}</td>
+			<td>{{ ticket.ticket_name }}</td>
+			<td>{{ ticket.ticket_show }}</td>
+			<td>
+				{% if ticket.ticket_is_discounted %}
+					<i class="icon-ok"></i>
+				{% else %}
+					<i class="icon-remove"></i>
+				{% endif %}
+			</td>
+			<td>{{ ticket.cost }}</td>
+			<td><a href="{% url 'ticket.views.edit_ticket' ticket.id %}"><i class="icon-pencil"></i> Edit</a></td>
+		</tr>	
+		{% endfor %}
+	</table>	
+</div>
+
+
+{% endblock %}

@@ -32,6 +32,9 @@ urlpatterns = patterns('',
     # Include urls from events
     url(r'^event/', include('events.urls')),   
 
+    # Include urls from ticket
+    url(r'^ticket/', include('ticket.urls')),
+
 	url(r'^login/$', 'erp.views.login_user', name='login'),
 	url(r'^logout/$', 'erp.views.logout_user', name='logout_user'),
 
