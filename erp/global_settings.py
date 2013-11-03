@@ -100,6 +100,7 @@ INSTALLED_APPS = (
     'events',
     'ticket',
     'registration',
+    'notifications',
 )
 
 # A sample logging configuration. The only tangible logging

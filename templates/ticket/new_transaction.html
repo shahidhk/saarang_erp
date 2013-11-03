@@ -3,7 +3,14 @@
 {% block title %}Create Ticket | Saarang ERP{% endblock %}
 
 {% block content %}
-
+<br/><br/>
+{% if messages %}
+    {% for message in messages %}
+    <div class='alert {% if message.tags %} alert-{{ message.tags }}{% endif %}'>
+    {{ message }}
+    </div>
+    <!-- {% if message.tags %} class="alert-{{ message.tags }}"{% endif %}    {% endfor %} -->
+{% endif %}
 <div class="span9 container">
     <table class="table table-bordered table-striped table-condensed">
         <thead>
@@ -38,7 +45,7 @@
         table.innerHTML='<thead><th>Serial No.</th><th>Ticket Name</th><th>Cost</th><th>Count</th><th>Total</th></thead>';
         var i=0;
         var total=0,total_tickets=0;
-        document.getElementById('div_customerid').innerHTML='<div class="control-group"><label class="control-label" for="inputid">Customer Id.</label><div class="controls"><input type="text" id="inputcustomerid" placeholder="Example:EE11B053" name="costumerid"></div></div>';
+        document.getElementById('div_customerid').innerHTML='<div class="control-group"><label class="control-label" for="inputid">Customer Id.</label><div class="controls"><input type="text" id="inputcustomerid" placeholder="Example:EE11B053" name="customerid"></div></div>';
         {% for ticket in tickets %}
             var input_ticket = document.getElementById("ticket_count{{forloop.counter}}");          
             if( Number(input_ticket.value) != 0)
