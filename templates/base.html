@@ -93,8 +93,8 @@
 <div class="container span3">
 <!-- SideBar Accordion -->
 <blockquote>
-<p class="text-left text-success">Welcome</p>
-<small>to Saarang ERP, &nbsp;start here</small>
+<p class="text-left text-success">Saarang ERP</p>
+<small>Start Here</small>
 </blockquote>
 
 <div class="accordion" id="sidebar" >
@@ -116,7 +116,7 @@
             <a href="{% url 'erp.views.add_subdept' %}"><i class="icon-chevron-right"></i> Add Sub Department</a>
           </li>
           <li>
-            <a href="{% url 'registration.views.list_users' %}"><i class="icon-chevron-right"></i> Main Site registrations</a>
+            <a href="{% url 'registration.views.list_users' %}"><i class="icon-chevron-right"></i>Registered Users List</a>
           </li>
         </ul>
       </div>
@@ -137,7 +137,7 @@
             <a href="{% url 'task.views.my_task' %}"><i class="icon-chevron-right"></i> My Tasks</a>
           </li>
           <li>
-            <a href="{% url 'task.views.dept_task' %}"><i class="icon-chevron-right"></i> My Department Tasks</a>
+            <a href="{% url 'task.views.dept_task' %}"><i class="icon-chevron-right"></i>Department Tasks</a>
           </li>
           {% if user.userprofile.status == 'core' %}
           <li>
@@ -157,11 +157,11 @@
       <div class="accordion-inner">
         <ul class="nav-list nav">
           <li>
-            <a href="{% url 'events.views.add_event' %}"><i class="icon-chevron-right"></i> Create new event</a>
+            <a href="{% url 'events.views.add_event' %}"><i class="icon-chevron-right"></i>Add an Event</a>
           </li>
 
           <li>
-            <a href="{% url 'events.views.list_events' %}"><i class="icon-chevron-right"></i> Edit event</a>
+            <a href="{% url 'events.views.list_events' %}"><i class="icon-chevron-right"></i> Edit Event</a>
           </li>
         </ul>
       </div>
@@ -178,7 +178,7 @@
         <ul class="nav-list nav">
           {% if user.userprofile.status == 'core' %}
               <li>
-                  <a href="{% url 'ticket.views.create_ticket' %}"><i class="icon-chevron-right"></i> Create new Ticket</a>
+                  <a href="{% url 'ticket.views.create_ticket' %}"><i class="icon-chevron-right"></i>Add a Ticket</a>
               </li>
               <li>
                   <a href="{% url 'ticket.views.ticket_list' %}"><i class="icon-chevron-right"></i> Edit Ticket</a>
@@ -217,7 +217,7 @@
     <div class = "navbar navbar-fixed-bottom ">
       <div class="navbar-inner">
         <div class="container">
-        <p class="text-center muted" style="padding-top:10px;">&copy; Copyright 2014 - Saarang WebOps</p></div>
+        <p class="text-center muted" style="padding-top:10px;">&copy; Copyright 2014 - Saarang WebOps Team</p></div>
       </div>
     </div>
 <!-- Copyright bar ends -->
