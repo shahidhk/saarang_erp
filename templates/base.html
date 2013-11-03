@@ -31,7 +31,7 @@
     <link href="{% static 'css/datatable/jquery.dataTables_themeroller.css' %}" rel="stylesheet" media="screen">
     <link href="{% static 'css/tabletools/TableTools.css' %}" rel="stylesheet" media="screen">
     <link href="{% static 'css/tabletools/TableTools_JUI.css' %}" rel="stylesheet" media="screen">
-    <link href="{% static 'css/select2-bootstrap.css' %}" rel="stylesheet">
+    <link href="{% static 'css/select2.css' %}" rel="stylesheet">
 
 <!-- Styles end -->
 
@@ -223,7 +223,7 @@
 <!-- Copyright bar ends -->
 
 <!-- JavaScripts begin -->
-    <script src="{% static 'js/smoothness/jquery-1.9.1.js' %}"></script>
+    <script src="{% static 'js/jquery-1.9.1.js' %}"></script>
     <script src="{% static 'js/smoothness/jquery-ui-1.10.3.custom.js' %}"></script>
 
     <script src="{% static 'js/bootstrap.js' %}"></script>
@@ -283,6 +283,9 @@
       } );
     </script>
 
+    <script>
+        $(document).ready(function() { $("#multiselect").select2(); });
+    </script>
 <!-- JavaScripts end -->
 
 </body>
