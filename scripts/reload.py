@@ -6,6 +6,7 @@ from forum.models import Forum
 from erp.models import Department
 from events.models import Event
 from django.conf import settings
+import subprocess
 
 book = xlrd.open_workbook('scripts/erp_users.xls')
 
@@ -137,3 +138,21 @@ def reload():
     add_cores()
     add_events()
     add_coords()
+
+def reset():
+    if raw_input("Are you sure you want to reset the entire erp database? Please make sure you make a backup of the database. (Yes/No): ") == "Yes":
+        #subprocess.call(['mysqldump -u saarango -p saarango_erp >~/erp_`date -Idate`'])
+        print "Flushing the db....."
+        subprocess.call(['./manage.py','flush'])
+        print "Db flushed."
+        print "Removing all the migration folders."
+        apps_list = ['erp','events','tickets','registration','task','forum','notifications','userprofile']
+        for i in apps_list:
+            subprocess.call(['rm',i+'/migrations/*'])
+            print i+": Removed migration files."
+            print i+": Recreating the migration files."
+            subprocess.call(['./manage.py','schemamigration','--initial',i])
+            print i+": Created the migration files"
+        subprocess.call(['./manage.py','migrate'])
+
+                    
