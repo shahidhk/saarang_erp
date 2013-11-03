@@ -4,7 +4,7 @@
 
 {% block content %}
 <div id='nav_buttons_begin'>
-                <input type="button" class="btn" value="Back to Topics" onclick="document.location = '{% url 'forum.views.show_forum' topic.forum.pk %}';"  >
+                <input type="button" class="btn" value="Back to the Forum" onclick="document.location = '{% url 'forum.views.show_forum' topic.forum.pk %}';"  >
                 <input type="button" class="btn" value="Reply" onclick="document.location = '{% url 'forum.views.add_post' topic.pk %}';" ><span class="badge badge-important">{{ post_count|add:-1 }}</span> 
             </div>
 <h1>{{ topic.title }}</h1>
@@ -14,7 +14,6 @@ Thread started by {{ topic.creator }} on {{ topic.created }}
         <tr class="rowlink" onclick="document.location = '{% url 'forum.views.add_post' topic.pk %}';">
             </td>
         </tr>
-        
         <th>Who</th>
         <th>What</th>
         <th>When</th>

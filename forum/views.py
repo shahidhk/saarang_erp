@@ -99,6 +99,11 @@ def add_topic(request, forum_id):
 def add_post(request, topic_id):
     topic = get_object_or_404(Topic, pk=topic_id)
     profile = get_object_or_404(UserProfile, pk=request.user.id)
+    posts = topic.posts.all().select_related()
+    for i in posts:
+        # This will truncates the description if it is greater than 100 characters and adds some dots
+        i.description = (i.description[:100] + " ....") if len(i.description) > 100 else i.description
+        #i.description = i.description
     if request.method == 'POST':
         form=AddPostForm(request.POST)
         if form.is_valid():
@@ -125,7 +130,7 @@ def add_post(request, topic_id):
                 messages.warning(request, error)
     else:
         form=AddPostForm()
-    return render(request, 'forum/add.html',{'form':form})
+    return render(request, 'forum/add.html',{ 'form':form, 'topic': topic, 'post_count': topic.post_count, 'posts': posts, })
 
 @login_required 
 def delete_posts(request, topic_id):
