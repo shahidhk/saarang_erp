@@ -15,7 +15,7 @@ from erp.models import Department, SubDepartment
 import datetime
 
 # From forms
-from forms import CreateEventForm,EventForm,EventRegistrationForm,IntroductionForm,FormatForm,FAQForm, PrizesForm
+from forms import *
 
 # Consts
 noperm = "You don't have permission to "
@@ -32,7 +32,12 @@ def add_event(request):
         if eventForm.is_valid():
             if status == 'coord' and eventForm.cleaned_data['sub_dept'] != subdept:
                 return render(request, 'alert.html', {'msg': 'You dont have permission to create this event', 'type': 'error'})
-            eventForm.save()
+            event = eventForm.save()
+            print event
+            coords= request.POST.getlist('coords')
+            for coord_id in coords:
+                coord = User.objects.get(pk=coord_id)
+                coord.userprofile.events.add(event)
             return HttpResponseRedirect(reverse('list_events'))
         else:
             print "didnt validate"
@@ -68,7 +73,13 @@ def details_event(request, event_id):
             pass
         else:
             return render(request, 'alert.html', {'msg': 'You dont have permission to access this event', 'type': 'error'})
-    eventForm = EventForm(instance=event)
+    coords_for_event = []
+    for user in User.objects.all():
+        for eve in user.get_profile().events.all():
+            if eve == event:
+                coords_for_event.append(user.pk)
+    print coords_for_event
+    eventForm = EventForm(instance=event, initial={'coords':coords_for_event } )
     faqForm = FAQForm(instance=event)
     introForm = IntroductionForm(instance=event)
     registrationForm = EventRegistrationForm(instance=event)
@@ -98,6 +109,10 @@ def event_det(request,event_id):
             event.oneliner = eventForm.cleaned_data['oneliner']
             event.email = eventForm.cleaned_data['email'] 
             event.save()
+            coords= request.POST.getlist('coords')
+            for coord_id in coords:
+                coord = User.objects.get(pk=coord_id)
+                coord.userprofile.events.add(event)
         else:
             print "didnt validate"
         return HttpResponseRedirect(reverse('details_event',args=(event.id,)))

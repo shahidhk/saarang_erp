@@ -21,7 +21,6 @@ class Event(models.Model):
     faqs = models.ManyToManyField('FAQ',related_name='event_faq',blank=True,null=True)
     FAQs = models.TextField(max_length=5000,blank=True,null=True)
     prizes = models.TextField(max_length=3000,blank=True,null=True)
-    event_emailid = models.EmailField(blank=True)
     def __unicode__(self):
         return self.name
 

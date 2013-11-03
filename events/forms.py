@@ -13,6 +13,8 @@ class CreateEventForm(forms.ModelForm):
         fields = ['name', 'long_name', 'sub_dept','google_group', 'email']
 
 class EventForm(forms.ModelForm):
+    COORDS = [[coord.id, coord.first_name] for coord in Group.objects.get(name="coord").user_set.all()]
+    coords = forms.MultipleChoiceField(choices=COORDS, initial='39')
     class Meta:
         model = Event
         fields = ['long_name','google_group','oneliner', 'email']
