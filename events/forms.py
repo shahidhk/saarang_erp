@@ -7,14 +7,14 @@ from models import Event,EventRegistration
 
 class CreateEventForm(forms.ModelForm):
     COORDS = [[coord.id, coord.first_name] for coord in Group.objects.get(name="coord").user_set.all()]
-    coords = forms.MultipleChoiceField(choices=COORDS)
+    coords = forms.MultipleChoiceField(choices=COORDS, required=False)
     class Meta:
         model = Event
         fields = ['name', 'long_name', 'sub_dept','google_group', 'email','is_team']
 
 class EventForm(forms.ModelForm):
     COORDS = [[coord.id, coord.first_name] for coord in Group.objects.get(name="coord").user_set.all()]
-    coords = forms.MultipleChoiceField(choices=COORDS, initial='39')
+    coords = forms.MultipleChoiceField(choices=COORDS, required=False)
     class Meta:
         model = Event
         fields = ['long_name','google_group','oneliner', 'email','is_team','registration_open','registration_close_date']

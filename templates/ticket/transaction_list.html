@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load url from future %}
+{% block title %}Edit Tickets | Saarang ERP{% endblock %}
+
+{% block content %}
+
+<div class="span9 container">
+<table id ="datatable" class="table-bordered table-striped table">
+    <thead>
+        <th>Transaction ID</th>
+        <th>Challan Number</th>
+        <th>Customer ID</th>
+        <th>Ticket Name</th>
+        <th>Ticket Count</th>
+        <th>Cost</th>
+        <th>Sold By</th>
+        <th>Timestamp</th>
+
+    </thead>
+    <tbody>
+        {% for trans in transaction_list %}
+        <tr>
+            <td>{{ trans.id }}</td>
+            <td>{{ trans.challan_number }}</td>
+            <td>{{ trans.customer_id }}</td>
+            <td>
+                <ul>
+                {% for ticket in trans.ticket_final.all %}
+                    <li>{{ ticket.ticket.ticket_name }}</li>
+                {% endfor %}
+                </ul>
+            </td>
+            <td>
+                {% for ticket in trans.ticket_final.all %}
+                    {{ ticket.ticket_count }}<br/>
+                {% endfor %}
+            </td>
+            <td>{{ trans.cost }}</td>
+            <td>{{ trans.coord.user.first_name }}</td>
+            <td>{{ trans.timestamp|time:'H:i' }} {{ trans.timestamp|date:'D d/m/o' }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+
+
+{% endblock %}

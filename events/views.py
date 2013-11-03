@@ -75,9 +75,13 @@ def details_event(request, event_id):
             return render(request, 'alert.html', {'msg': 'You dont have permission to access this event', 'type': 'error'})
     coords_for_event = []
     for user in User.objects.all():
-        for eve in user.get_profile().events.all():
-            if eve == event:
-                coords_for_event.append(user.pk)
+        try:
+            for eve in user.get_profile().events.all():
+                if eve == event:
+                    coords_for_event.append(user.pk)
+        except Exception, e:
+            print e.message
+        
     print coords_for_event
     eventForm = EventForm(instance=event, initial={'coords':coords_for_event } )
     faqForm = FAQForm(instance=event)

@@ -98,7 +98,9 @@ INSTALLED_APPS = (
     'erp',
     'task',
     'events',
+    'ticket',
     'registration',
+    'notifications',
 )
 
 # A sample logging configuration. The only tangible logging

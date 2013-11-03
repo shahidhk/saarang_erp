@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load url from future %}
+{% block title %}Edit Tickets | Saarang ERP{% endblock %}
+
+{% block content %}
+
+<div class="span9 container">
+	<br/>
+	<table class='table table-bordered' id="datatable">
+		<thead>
+			<th>#</th>
+			<th>Ticket Name</th>
+			<th>Show</th>
+			<th>Ticekts Sold</th>
+			<th>Total Income</th>
+		</thead>
+		{% for ticket,income,count in zip_data %}
+		<tr>
+			<td>{{ forloop.counter }}</td>
+			<td>{{ ticket.ticket_name }}</td>
+			<td>{{ ticket.ticket_show }}</td>
+			<td>{{ count }}</td>
+			<td>{{ income }}</td>
+		</tr>	
+		{% endfor %}
+		<tr>
+			<td>Total</td>
+			<td></td>
+			<td></td>
+			<td>{{tot_count}}</td>
+			<td>{{tot_inc}}</td>
+		</tr>
+	</table>	
+</div>
+
+
+{% endblock %}
