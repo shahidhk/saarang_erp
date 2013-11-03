@@ -22,12 +22,17 @@
         padding-bottom: 60px;
         }
       }
+      .id_coords{
+        width:300px;
+      }
     </style>
     <link href="{% static 'css/bootstrap-rowlink.css' %}" rel="stylesheet">
     <link href="{% static 'css/datatable/jquery.dataTables.css' %}" rel="stylesheet" media="screen">
     <link href="{% static 'css/datatable/jquery.dataTables_themeroller.css' %}" rel="stylesheet" media="screen">
     <link href="{% static 'css/tabletools/TableTools.css' %}" rel="stylesheet" media="screen">
     <link href="{% static 'css/tabletools/TableTools_JUI.css' %}" rel="stylesheet" media="screen">
+    <link href="{% static 'css/select2-bootstrap.css' %}" rel="stylesheet">
+
 <!-- Styles end -->
 
 <!-- Favicon -->
@@ -75,79 +80,97 @@
 <!-- NavBar Ends -->
 
 <!-- Subhead
-================================================== 
+==================================================-->
 <header class="jumbotron subhead" id="overview">
   <div class="container">
     ERP Notifications
   </div>
 </header>
--->
-    <div class="container">
+
+    <div class="container" style="padding-top:20px;">
       <div class="row">
-<!-- Sidebar Begins -->
-        {% block sidebar %}
-        
-              <div class="span3 bs-docs-sidebar">
-                <ul class="nav nav-list bs-docs-sidenav">
-                  <li class="header"><h3>Welcome</h3></li>
-                  {% if user.userprofile.status == 'core' %}
-                  <li><a href="{% url 'task.views.show_task' %}"><i class="icon-list-alt"></i> Manage</a>
-                    <ul class="nav-list nav">
-                        <li>
-                            <a href="{% url 'erp.views.add_user' %}"><i class="icon-chevron-right"></i> Add User</a>
-                        </li>
-                        <li>
-                            <a href="{% url 'erp.views.add_dept' %}"><i class="icon-chevron-right"></i> Add Department</a>
-                        </li>
-                        <li>
-                            <a href="{% url 'erp.views.add_subdept' %}"><i class="icon-chevron-right"></i> Add Sub Department</a>
-                        </li>
-                        <li>
-                            <a href="{% url 'registration.views.list_users' %}"><i class="icon-chevron-right"></i> Main Site registrations</a>
-                        </li>
-                        
-                    </ul>
-                  </li>
-                  {% endif %}
-                  <li><a href="#"><i class="icon-tasks"></i> Tasks</a>
-                    <ul class="nav-list nav">
-                        <li>
-                            <a href="{% url 'task.views.origin_task_create' %}"><i class="icon-chevron-right"></i> Create new Task</a>
-                        </li>
-                        <li>
-                            <a href="{% url 'task.views.my_task' %}"><i class="icon-chevron-right"></i> My Tasks</a>
-                        </li>
-                        <li>
-                            <a href="{% url 'task.views.dept_task' %}"><i class="icon-chevron-right"></i> My Department Tasks</a>
-                        </li>
-                        {% if user.userprofile.status == 'core' %}
-                        <li>
-                            <a href="{% url 'task.views.pending_approval' %}"><i class="icon-chevron-right"></i> Pending approval</a>
-                        </li>
-                        {% endif %}
-                    </ul>
-                  </li>
 
-                  <li><a href="{% url 'events.views.list_events' %}"><i class="icon-bookmark"></i> Events</a>
-                    <ul class="nav-list nav">
-                        <li>
-                            <a href="{% url 'events.views.add_event' %}"><i class="icon-chevron-right"></i> Create new event</a>
-                        </li>
-                        
-                    </ul>
-                    <ul class="nav-list nav">
-                        <li>
-                            <a href="{% url 'events.views.list_events' %}"><i class="icon-chevron-right"></i> Edit event</a>
-                        </li>
-                        
-                    </ul>
+<div class="container span3">
+<!-- SideBar Accordion -->
+<blockquote>
+<p class="text-left text-success">Welcome</p>
+<small>to Saarang ERP, &nbsp;start here</small>
+</blockquote>
 
-                  </li>
-                </ul>
-            </div>
-        {% endblock %}
-<!-- SideBar Ends -->
+<div class="accordion" id="sidebar" >
+{% if user.userprofile.status == 'core' %}
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#sidebar" href="#manage"><i class="icon-list-alt"></i> Manage</a>
+    </div>
+    <div id="manage" class="accordion-body collapse">
+      <div class="accordion-inner">
+        <ul class="nav-list nav">
+          <li>
+            <a href="{% url 'erp.views.add_user' %}"><i class="icon-chevron-right"></i> Add User</a>
+          </li>
+          <li>
+            <a href="{% url 'erp.views.add_dept' %}"><i class="icon-chevron-right"></i> Add Department</a>
+          </li>
+          <li>
+            <a href="{% url 'erp.views.add_subdept' %}"><i class="icon-chevron-right"></i> Add Sub Department</a>
+          </li>
+          <li>
+            <a href="{% url 'registration.views.list_users' %}"><i class="icon-chevron-right"></i> Main Site registrations</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+{% endif %}
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#sidebar" href="#tasks"><i class="icon-tasks"></i> Tasks</a>
+    </div>
+    <div id="tasks" class="accordion-body collapse">
+      <div class="accordion-inner">
+        <ul class="nav-list nav">
+          <li>
+            <a href="{% url 'task.views.origin_task_create' %}"><i class="icon-chevron-right"></i> Create new Task</a>
+          </li>
+          <li>
+            <a href="{% url 'task.views.my_task' %}"><i class="icon-chevron-right"></i> My Tasks</a>
+          </li>
+          <li>
+            <a href="{% url 'task.views.dept_task' %}"><i class="icon-chevron-right"></i> My Department Tasks</a>
+          </li>
+          {% if user.userprofile.status == 'core' %}
+          <li>
+            <a href="{% url 'task.views.pending_approval' %}"><i class="icon-chevron-right"></i> Pending approval</a>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </div>
 
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#sidebar" href="#events"><i class="icon-bookmark"></i> Events</a>
+    </div>
+    <div id="events" class="accordion-body collapse">
+      <div class="accordion-inner">
+        <ul class="nav-list nav">
+          <li>
+            <a href="{% url 'events.views.add_event' %}"><i class="icon-chevron-right"></i> Create new event</a>
+          </li>
+
+          <li>
+            <a href="{% url 'events.views.list_events' %}"><i class="icon-chevron-right"></i> Edit event</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SideBar accordion ends -->
+</div>
 <!-- Content begin -->
         <div class="span9" id="content">
             {% block content %}{% endblock %}
@@ -177,6 +200,7 @@
     <script src="{% static 'js/tabletools/ZeroClipboard.js' %}"></script>
     <script src="{% static 'js/prettify.js' %}"></script>
     <script src="{% static 'js/holder.js' %}"></script>
+    <script src="{% static 'js/select2.js' %}"></script>
     
     
     <script type="text/javascript" src="{{ STATIC_URL }}js/tinymce/tinymce.min.js"></script>
@@ -224,6 +248,7 @@
           } );
       } );
     </script>
+
 <!-- JavaScripts end -->
 
 </body>

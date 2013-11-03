@@ -96,6 +96,7 @@ def event_det(request,event_id):
             event.long_name = eventForm.cleaned_data['long_name']
             event.google_group = eventForm.cleaned_data['google_group']
             event.oneliner = eventForm.cleaned_data['oneliner']
+            event.email = eventForm.cleaned_data['email'] 
             event.save()
         else:
             print "didnt validate"
