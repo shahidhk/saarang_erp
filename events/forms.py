@@ -47,3 +47,13 @@ class PrizesForm(forms.ModelForm):
 class EventRegistrationForm(forms.ModelForm):
 	class Meta:
 		model = EventRegistration
+
+class EventRegistrationForm(forms.ModelForm):
+    class Meta:
+        model = EventRegistration
+        exclude = ['score']
+
+class ChangeScoreForm(forms.ModelForm):
+    class Meta:
+        model = EventRegistration
+        fields = ['participant', 'score']

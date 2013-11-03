@@ -7,7 +7,7 @@ def add_user(request):
     if request.method == 'POST':
         userform =SaarangUserForm(request.POST)
         if userform.is_valid():
-            SaarangUserForm.save()
+            userform.save()
         else:
             userform = SaarangUserForm(request.POST)
     else:

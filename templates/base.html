@@ -116,7 +116,10 @@
             <a href="{% url 'erp.views.add_subdept' %}"><i class="icon-chevron-right"></i> Add Sub Department</a>
           </li>
           <li>
-            <a href="{% url 'registration.views.list_users' %}"><i class="icon-chevron-right"></i> Main Site registrations</a>
+            <a href="{% url 'registration.views.add_user' %}"><i class="icon-chevron-right"></i> Register Saarang User</a>
+          </li>
+          <li>
+            <a href="{% url 'registration.views.list_users' %}"><i class="icon-chevron-right"></i> Main Site user registrations</a>
           </li>
         </ul>
       </div>
@@ -161,7 +164,10 @@
           </li>
 
           <li>
-            <a href="{% url 'events.views.list_events' %}"><i class="icon-chevron-right"></i> Edit event</a>
+            <a href="{% url 'events.views.list_events' %}"><i class="icon-chevron-right"></i> List all events</a>
+          </li>
+          <li>
+            <a href="{% url 'events.views.register' %}"><i class="icon-chevron-right"></i> Register for    an event</a>
           </li>
         </ul>
       </div>
