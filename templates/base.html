@@ -167,6 +167,34 @@
       </div>
     </div>
   </div>
+
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#sidebar" href="#ticket"><i class="icon-bookmark"></i> Tickets</a>
+    </div>
+    <div id="ticket" class="accordion-body collapse">
+      <div class="accordion-inner">
+        <ul class="nav-list nav">
+              <li>
+                  <a href="{% url 'ticket.views.create_ticket' %}"><i class="icon-chevron-right"></i> Create new Ticket</a>
+              </li>
+              <li>
+                  <a href="{% url 'ticket.views.ticket_list' %}"><i class="icon-chevron-right"></i> Edit Ticket</a>
+              </li>
+              <li>
+                  <a href="{% url 'ticket.views.new_transaction' %}"><i class="icon-chevron-right"></i> New Transaction</a>
+              </li>
+              <li>
+                  <a href="{% url 'ticket.views.transaction_list' %}"><i class="icon-chevron-right"></i> Transaction History</a>
+              </li>
+              <li>
+                  <a href="{% url 'ticket.views.statistics' %}"><i class="icon-chevron-right"></i> Statistics</a>
+              </li>
+          </ul>
+        </ul>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- SideBar accordion ends -->
