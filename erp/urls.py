@@ -17,6 +17,7 @@ urlpatterns = patterns('',
     url(r'^contacts/$', 'erp.views.contacts', name='contacts'),
     url(r'^accounts/', include('django.contrib.auth.urls')),
 
+    url(r'^test/$', 'erp.views.test', name='add_dept'),
     # Uncomment the admin/doc line below to enable admin documentation:
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 

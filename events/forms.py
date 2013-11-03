@@ -1,18 +1,21 @@
 # From django
 from django import forms
+from django.contrib.auth.models import Group
 
 #From models
 from models import Event
 
 class CreateEventForm(forms.ModelForm):
+    COORDS = [[coord.id, coord.first_name] for coord in Group.objects.get(name="coord").user_set.all()]
+    coords = forms.MultipleChoiceField(choices=COORDS)
     class Meta:
         model = Event
-        fields = ['name', 'long_name', 'sub_dept','google_group']
+        fields = ['name', 'long_name', 'sub_dept','google_group', 'email']
 
 class EventForm(forms.ModelForm):
     class Meta:
         model = Event
-        fields = ['long_name','google_group','oneliner']
+        fields = ['long_name','google_group','oneliner', 'email']
 
 class EventRegistrationForm(forms.ModelForm):
 	class Meta:
