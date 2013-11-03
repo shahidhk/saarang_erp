@@ -8,6 +8,7 @@ class Event(models.Model):
     oneliner = models.CharField(max_length=250,blank=True)
     sub_dept = models.ForeignKey(SubDepartment, related_name='parent_department')
     google_group = models.CharField(max_length=200,blank=True,null=True)
+    email = models.EmailField(max_length=100, blank=True, null=True)
     CATEGORY_CHOICES = (
         ('onsite', 'Onsite'),
         ('online', 'Online'),

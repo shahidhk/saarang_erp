@@ -1,0 +1,110 @@
+{% load staticfiles %}
+{% load url from future %}
+<html>
+  <head>
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+
+    <link href="{% static 'css/select2-bootstrap.css' %}" rel="stylesheet">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+    <script src="{% static 'js/select2.js' %}"></script>
+     <script src="{% static 'js/jquery-ui-1.8.20.custom.min.js' %}"></script>
+    
+    <script type="text/javascript">
+    $(document).ready(function() {
+        $("#id_coords").select2();
+    });
+    </script>
+          <script>
+          $(document).ready(function() {
+
+              function setupExampleCode(id) {
+                  var s = $("#script_"+id).html();
+                  s = s.replace(/</g, "&lt;");
+                  s = s.substr(s.indexOf("\n") + 1);
+                  s = s.substr(s.indexOf("\n") + 1);
+                  s = s.substr(0, s.lastIndexOf("\n"));
+                  s = s.substr(0, s.lastIndexOf("\n"));
+                  $("#code_"+id).html(s);
+              }
+
+              var i, e;
+              for (i = 2; ; i++) {
+                  e = $("#script_e" + i);
+                  if (e.length == 0) break;
+                  setupExampleCode("e" + i);
+              }
+
+              prettyPrint();
+          });
+      </script>
+        <style type="text/css">
+        .zebra { background-color: #efefef; }
+
+        img.flag { height: 10px; width: 15px; padding-right: 10px; }
+
+        .movie-result td {vertical-align: top }
+        .movie-image { width: 60px; }
+        .movie-image img { height: 80px; width: 60px;  }
+        .movie-info { padding-left: 10px; vertical-align: top; }
+        .movie-title { font-size: 1.2em; padding-bottom: 15px; }
+        .movie-synopsis { font-size: .8em; color: #888; }
+        .select2-highlighted .movie-synopsis { font-size: .8em; color: #eee; }
+        .bigdrop.select2-container .select2-results {max-height: 300px;}
+        .bigdrop .select2-results {max-height: 300px;}
+        .com { color: #93a1a1; }
+.lit { color: #195f91; }
+.pun, .opn, .clo { color: #93a1a1; }
+.fun { color: #dc322f; }
+.str, .atv { color: #D14; }
+.kwd, .linenums .tag { color: #1e347b; }
+.typ, .atn, .dec, .var { color: teal; }
+.pln { color: #48484c; }
+
+.prettyprint {
+  padding: 8px;
+  background-color: #f7f7f9;
+  border: 1px solid #e1e1e8;
+}
+.prettyprint.linenums {
+  -webkit-box-shadow: inset 40px 0 0 #fbfbfc, inset 41px 0 0 #ececf0;
+     -moz-box-shadow: inset 40px 0 0 #fbfbfc, inset 41px 0 0 #ececf0;
+          box-shadow: inset 40px 0 0 #fbfbfc, inset 41px 0 0 #ececf0;
+}
+
+/* Specify class=linenums on a pre to get line numbering */
+ol.linenums {
+  margin: 0 0 0 33px; /* IE indents via margin-left */
+}
+ol.linenums li {
+  padding-left: 12px;
+  color: #bebec5;
+  line-height: 18px;
+  text-shadow: 0 1px 0 #fff;
+}
+      </style>
+
+  </head>
+  <body>
+    <select multiple="multiple" name="coords" id="id_coords" class="populate">
+      <option value="28">Anandu Bhadran</option>
+      <option value="29">Piyush</option>
+      <option value="30">Vinay Kumar Tulluri</option>
+      <option value="31">Aparna Mohan</option>
+      <option value="32">Varun</option>
+      <option value="33">Arya Prakash</option>
+      <option value="34">Vimal Aditya</option>
+      <option value="35">Aditya Bhaskar</option>
+      <option value="36">A Dinesh Kumar</option>
+      <option value="37">Gayathri M</option>
+      <option value="38">Kumar Mridul</option>
+      <option value="39">Animesh Bagora</option>
+      <option value="40">Akshat Dave</option>
+      <option value="41">Sachin Nayak</option>
+      <option value="42">Santhosh Kumar V</option>
+      <option value="43">Mithun K</option>
+      <option value="44">Sreedeep S</option>
+    </select>
+  </body
+</html>

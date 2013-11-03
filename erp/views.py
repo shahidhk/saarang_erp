@@ -60,24 +60,12 @@ def logout_user(request):
     logout(request)
     return redirect(home)
 
-def page(request):
+def test(request):
     '''
         Gen test view
     '''
-    users_in_coords = Group.objects.get(name="Coords").user_set.all()
-    users_in_cores = Group.objects.get(name="Cores").user_set.all()
-    users_in_convenors = Group.objects.get(name="Convenors").user_set.all()
-
-    if request.user in users_in_coords:
-        state='Coord'
-    elif request.user in users_in_cores:
-        state='Core'
-    elif request.user in users_in_convenors:
-        state='Convenor'
-    else:
-        state='Unknown'
-    html='Hello %s , Welcome to saarang erp, you are a %s ' % (request.user.username, state)
-    return HttpResponse(html)
+    return render(request, 'acc.html')
+    
 
 @login_required
 def add_user(request):
