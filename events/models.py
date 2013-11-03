@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 from erp.models import SubDepartment
 
@@ -21,6 +22,9 @@ class Event(models.Model):
     faqs = models.ManyToManyField('FAQ',related_name='event_faq',blank=True,null=True)
     FAQs = models.TextField(max_length=5000,blank=True,null=True)
     prizes = models.TextField(max_length=3000,blank=True,null=True)
+    is_team = models.BooleanField(default=False,verbose_name='Team Event')
+    registration_open = models.BooleanField(default=True)
+    registration_close_date = models.DateField(blank=True,null=True)
     def __unicode__(self):
         return self.name
 
@@ -28,3 +32,16 @@ class Event(models.Model):
 class FAQ(models.Model):
     question = models.CharField(max_length=200)
     answer = models.TextField(max_length=1000)
+
+class Team(models.Model):
+    leader = models.ForeignKey(User,related_name='team_leader')
+    members = models.ManyToManyField(User,related_name='team_member')
+
+class EventRegistration(models.Model):
+    participant = models.ForeignKey(User,related_name='event_reg_user')
+    event = models.ForeignKey(Event,related_name='reg_event')
+    team = models.ForeignKey(Team,related_name='event_reg_team',blank=True,null=True)
+    is_participating = models.BooleanField(default=True)
+    score = models.IntegerField(default=0)
+
+

@@ -82,7 +82,7 @@ def details_event(request, event_id):
     eventForm = EventForm(instance=event, initial={'coords':coords_for_event } )
     faqForm = FAQForm(instance=event)
     introForm = IntroductionForm(instance=event)
-    registrationForm = EventRegistrationForm(instance=event)
+    registrationForm = EventRegistrationInfoForm(instance=event)
     formatForm = FormatForm(instance=event)
     prizesForm = PrizesForm(instance=event)
     to_return={
@@ -144,7 +144,7 @@ def event_about(request,event_id):
 def event_reg(request,event_id):
     event = get_object_or_404(Event, pk=event_id)
     if request.method == 'POST':
-        registrationForm = EventRegistrationForm(request.POST)
+        registrationForm = EventRegistrationInfoForm(request.POST)
         if registrationForm.is_valid():
             category = registrationForm.cleaned_data['category']
             registration_info = registrationForm.cleaned_data['registration_info']
@@ -178,3 +178,6 @@ def event_prizes(request,event_id):
         else:
             print "didnt validate"
         return HttpResponseRedirect(reverse('details_event',args=(event.id,)))
+
+def registration_event(request,event_id):
+    return 1
