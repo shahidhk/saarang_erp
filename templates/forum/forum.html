@@ -4,11 +4,12 @@
 
 {% block content %}
 <h1>Saarang ERP</h1>
-<table class="table-bordered table-striped table" >
+<table id="datatable" class="table-bordered table-striped table" >
      <thead>
         <th>Department</th>
         <th>Topics</th>
         <th>Posts</th>
+        <th>Last Post By</th>
         <th>Last Post</th>
     </thead>
     <tbody>
@@ -17,7 +18,8 @@
                 <td>{{ forum.title }}</td>
                 <td >{{ forum.topic_count }}</td>
                 <td >{{ forum.post_count }}</td>
-                <td >{{ forum.last_post|linebreaksbr }}</td>
+                <td >{{ forum.last_post.user.first_name|linebreaksbr }}</td>
+                <td >{{ forum.last_post|safe|linebreaksbr }}</td>
             </tr>
         {% endfor %}
     </tbody>

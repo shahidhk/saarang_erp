@@ -88,7 +88,7 @@ class Post(models.Model):
         verbose_name_plural = _('Posts')
 
     def __unicode__(self):
-        return self.title
+        return self.description
 
     #def save(self):
     #    pass

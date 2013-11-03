@@ -14,7 +14,7 @@ from userprofile.forms import UserProfileForm
 
 @login_required
 def index(request):
-    html='Hello %s , Welcome to saarang erp ' % request.user.username
+    html='Hello %s , Welcome to the Saarang ERP ' % request.user.username
     print html
     forums=Forum.objects.all()
     user=request.user
@@ -66,6 +66,7 @@ def show_topic(request, topic_id):
     for i in posts:
         # This will truncates the description if it is greater than 100 characters and adds some dots
         i.description = (i.description[:100] + " ....") if len(i.description) > 100 else i.description
+        #i.description = i.description
     to_return = {
                 'topic': topic,
                 'post_count': topic.post_count,
@@ -126,7 +127,7 @@ def add_post(request, topic_id):
         form=AddPostForm()
     return render(request, 'forum/add.html',{'form':form})
 
-@login_required
+@login_required 
 def delete_posts(request, topic_id):
     html='i got %d' % int(topic_id)
     return HttpResponse(html)

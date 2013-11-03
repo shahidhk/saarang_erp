@@ -21,7 +21,7 @@
             <tr>
                 <td>{{ event.long_name }}<div class="pull-right"><a href="{% url 'events.views.details_event' event.pk %}"><button class='btn btn-small btn-primary'><i class='icon-pencil'></i></button></a> <a href="{% url 'events.views.list_registrations' event.pk %}"><button class='btn btn-small btn-success'>Registrations</button></a></div></td>
                 <td>{{ event.google_group }}</td>
-                <td>{{ event.event_emailid }}</td>
+                <td>{{ event.email }}</td>
                 
             </tr>
         {% endfor %}
