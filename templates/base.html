@@ -116,7 +116,7 @@
             <a href="{% url 'erp.views.add_subdept' %}"><i class="icon-chevron-right"></i> Add Sub Department</a>
           </li>
           <li>
-            <a href="{% url 'registration.views.list_users' %}"><i class="icon-chevron-right"></i>Registered Users List</a>
+            <a href="{% url 'registration.views.list_users' %}"><i class="icon-chevron-right"></i> Registered Users List</a>
           </li>
         </ul>
       </div>
@@ -137,7 +137,7 @@
             <a href="{% url 'task.views.my_task' %}"><i class="icon-chevron-right"></i> My Tasks</a>
           </li>
           <li>
-            <a href="{% url 'task.views.dept_task' %}"><i class="icon-chevron-right"></i>Department Tasks</a>
+            <a href="{% url 'task.views.dept_task' %}"><i class="icon-chevron-right"></i> Department Tasks</a>
           </li>
           {% if user.userprofile.status == 'core' %}
           <li>
@@ -157,7 +157,7 @@
       <div class="accordion-inner">
         <ul class="nav-list nav">
           <li>
-            <a href="{% url 'events.views.add_event' %}"><i class="icon-chevron-right"></i>Add an Event</a>
+            <a href="{% url 'events.views.add_event' %}"><i class="icon-chevron-right"></i> Add an Event</a>
           </li>
 
           <li>
@@ -178,7 +178,7 @@
         <ul class="nav-list nav">
           {% if user.userprofile.status == 'core' %}
               <li>
-                  <a href="{% url 'ticket.views.create_ticket' %}"><i class="icon-chevron-right"></i>Add a Ticket</a>
+                  <a href="{% url 'ticket.views.create_ticket' %}"><i class="icon-chevron-right"></i> Add a Ticket</a>
               </li>
               <li>
                   <a href="{% url 'ticket.views.ticket_list' %}"><i class="icon-chevron-right"></i> Edit Ticket</a>
