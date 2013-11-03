@@ -187,5 +187,5 @@ def add_events_coords():
     prof.save()
     user.save()
 
-def add_refresh():
+# def add_refresh():
     
