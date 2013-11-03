@@ -39,16 +39,15 @@ def show_forum(request, forum_id):
                 'posts': forum.post_count,
                 'topics': topics,
                 }   
-    for j in topics:
-        print j
+    #for j in topics:
+        #print j
  
     return render(request, 'forum/show_forum.html', to_return)
 
 #Topic
 @login_required
 def show_topic(request, topic_id):
-    '''html='i got %d' % int(topic_id)
-    return HttpResponse(html)'''
+    '''html='i got %d' % int(topic_id) return HttpResponse(html)'''
     post_request = request.method == "POST"
     user_is_authenticated = request.user.is_authenticated()
     if post_request and not user_is_authenticated:
@@ -63,10 +62,10 @@ def show_topic(request, topic_id):
     #if request.user.is_authenticated():
     #    topic.update_read(request.user)
     posts = topic.posts.all().select_related()
-    for i in posts:
-        # This will truncates the description if it is greater than 100 characters and adds some dots
-        i.description = (i.description[:100] + " ....") if len(i.description) > 100 else i.description
-        #i.description = i.description
+    #for i in posts:
+        ## This will truncates the description if it is greater than 100 characters and adds some dots
+        #i.description = (i.description[:300] + " ....") if len(i.description) > 300 else i.description
+        ##i.description = i.description
     to_return = {
                 'topic': topic,
                 'post_count': topic.post_count,
@@ -78,6 +77,8 @@ def show_topic(request, topic_id):
 def add_topic(request, forum_id):
     '''Adds a new task to the department forum'''
     forum = get_object_or_404(Forum, pk=forum_id)
+    topics = forum.topics.order_by('-updated').select_related()
+       
     if request.method == 'POST':
         form=AddTopicForm(request.POST)
         if form.is_valid():
@@ -93,16 +94,16 @@ def add_topic(request, forum_id):
                 pass
     else:
         form=AddTopicForm()
-    return render(request, 'forum/add.html',{'form':form})
+    return render(request, 'forum/add_topic.html',{'form':form, 'forum': forum, 'topics': topics, })
 
 @login_required
 def add_post(request, topic_id):
     topic = get_object_or_404(Topic, pk=topic_id)
     profile = get_object_or_404(UserProfile, pk=request.user.id)
     posts = topic.posts.all().select_related()
-    for i in posts:
+    #for i in posts:
         # This will truncates the description if it is greater than 100 characters and adds some dots
-        i.description = (i.description[:100] + " ....") if len(i.description) > 100 else i.description
+        #i.description = (i.description[:300] + " ....") if len(i.description) > 300 else i.description
         #i.description = i.description
     if request.method == 'POST':
         form=AddPostForm(request.POST)

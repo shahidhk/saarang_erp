@@ -8,7 +8,7 @@
                 <input type="button" class="btn" value="Reply" onclick="document.location = '{% url 'forum.views.add_post' post.topic.pk %}';" ><span class="badge badge-important">{{ post_count|add:-1 }}</span> 
             </div>
 <h1>{{ post.topic.title }}</h1>
-Thread started by {{ post.topic.creator }} on {{ post.topic.created }}
+Thread started by {{ post.topic.creator.first_name }} on {{ post.topic.created }}
 <table class="table-bordered table-striped table" style="table-layout:fixed" >
     <thead>
         <th colspan="1">Who</th>
@@ -17,7 +17,7 @@ Thread started by {{ post.topic.creator }} on {{ post.topic.created }}
     </thead>
     <tbody>
     	
-                <td colspan="1" >{{ post.user }}</td>
+                <td colspan="1" >{{ post.user.first_name }}</td>
                 <td colspan="3" style="overflow:auto"><p>{{ post.description|safe|linebreaksbr }}</p></td>
                 <td colspan="1">{{ post.created }}</td>
             </tr>

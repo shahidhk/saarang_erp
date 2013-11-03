@@ -5,22 +5,25 @@
 {% block content %}
 <div id='nav_buttons_begin'>
                 <input type="button" class="btn" value="Back to the Forum" onclick="document.location = '{% url 'forum.views.show_forum' topic.forum.pk %}';"  >
-                <input type="button" class="btn" value="Reply" onclick="document.location = '{% url 'forum.views.add_post' topic.pk %}';" ><span class="badge badge-important">{{ post_count|add:-1 }}</span> </div> <h1>{{ topic.title }}</h1> Thread started by {{ topic.creator }} on {{ topic.created }} <table class="table-bordered table-striped table">
+                <input type="button" class="btn" value="Reply" onclick="document.location = '{% url 'forum.views.add_post' topic.pk %}';" ><span class="badge badge-important">{{ post_count|add:-1 }}</span> </div> 
+<h1>{{ topic.title }}</h1> 
+Thread started by {{ topic.creator.first_name }} on {{ topic.created }} 
+<table class="table-bordered table-striped table" style="table-layout:fixed">
     <thead>
         <tr class="rowlink" onclick="document.location = '{% url 'forum.views.add_post' topic.pk %}';">
             </td>
         </tr>
-        <th>Who</th>
-        <th>What</th>
-        <th>When</th>
+        <th colspan='1'>Who</th>
+        <th colspan='3'>What</th>
+        <th colspan='1'>When</th>
     </thead>
     <tbody>
     	{% for post in posts %}
             <tr class="rowlink" onclick="document.location = '{% url 'forum.views.show_post' post.pk %}';">
                 <!--<td >{{ post.title }}</td>-->
-                <td width="10" >{{ post.user }}</td>
-                <td width="30"><p>{{ post.description|safe }}</p></td>
-                <td width="10">{{ post.created }}</td>
+                <td colspan='1'>{{ post.user.first_name }}</td>
+                <td colspan='3' style="overflow:auto"><p>{{ post.description|safe }}</p></td>
+                <td colspan='1'>{{ post.created }}</td>
             </tr>
         {% endfor %}
         <tr class="rowlink" onclick="document.location = '{% url 'forum.views.show_forum' topic.forum.pk %}';">
