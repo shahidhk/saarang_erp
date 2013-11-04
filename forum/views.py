@@ -11,6 +11,8 @@ import datetime
 from forum.forms import AddTopicForm, AddPostForm
 from userprofile.models import UserProfile
 from userprofile.forms import UserProfileForm
+from notifications.models import Notification
+from erp.models import Department
 
 @login_required
 def index(request):
@@ -85,6 +87,19 @@ def add_topic(request, forum_id):
             data.creator=request.user
             forum.topic_count+=1
             data.save()
+            body = '<span style="color:blue;">%s</span> started <span style="color:red;">%s</span> under <span style="color:green;">%s</span>' %(request.user.first_name,data.title,data.forum.title)
+            link = '/forum/topic/%d/' %(data.id)
+            notif = Notification(notif_body=body,link=link)
+            notif.save()
+            if data.forum.department == 'public':
+                notif.is_public = True
+            elif data.forum.department == 'coregroup':
+                for user in Group.objects.get(name='Core').user_set.all():
+                    notif.receive_users.add(user)
+            else:
+                notif.depts.add(Department.objects.get(name=data.forum.department))
+            notif.save()
+            print notif.depts.all()
             forum.save()
             return redirect('forum.views.add_post',topic_id=data.pk)
         else:
@@ -107,6 +122,22 @@ def add_post(request, topic_id):
             data.user=request.user
             data.topic=topic
             data.save()
+            body = '<span style="color:blue;">%s</span> posted in <span style="color:red;">%s</span> under <span style="color:green;">%s</span>' %(request.user.first_name,data.topic.title,data.topic.forum.title)
+            link = '/forum/topic/%d/' %(data.topic.id)
+            notif = Notification(notif_body=body,link=link)
+            notif.save()
+            if data.topic.forum.department == 'public':
+                notif.is_public = True
+            elif data.topic.forum.department == 'coregroup':
+                print '-------------------'
+                print 'coregroup'
+                print '-------------------'
+                for user in Group.objects.get(name='Core').user_set.all():
+                    notif.receive_users.add(user)
+            else:
+                notif.receive_depts.add(Department.objects.get(name=data.topic.forum.department))
+            notif.save()
+            print notif.receive_depts.all()
             topic.updated=datetime.datetime.now()
             topic.post_count+=1
             topic.last_post=data
