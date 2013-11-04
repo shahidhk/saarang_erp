@@ -31,7 +31,7 @@
     <link href="{% static 'css/datatable/jquery.dataTables_themeroller.css' %}" rel="stylesheet" media="screen">
     <link href="{% static 'css/tabletools/TableTools.css' %}" rel="stylesheet" media="screen">
     <link href="{% static 'css/tabletools/TableTools_JUI.css' %}" rel="stylesheet" media="screen">
-    <link href="{% static 'css/select2-bootstrap.css' %}" rel="stylesheet">
+    <link href="{% static 'css/select2.css' %}" rel="stylesheet">
 
 <!-- Styles end -->
 
@@ -93,8 +93,8 @@
 <div class="container span3">
 <!-- SideBar Accordion -->
 <blockquote>
-<p class="text-left text-success">Welcome</p>
-<small>to Saarang ERP, &nbsp;start here</small>
+<p class="text-left text-success">Saarang ERP</p>
+<small>Start Here</small>
 </blockquote>
 
 <div class="accordion" id="sidebar" >
@@ -115,9 +115,6 @@
           <li>
             <a href="{% url 'erp.views.add_subdept' %}"><i class="icon-chevron-right"></i> Add Sub Department</a>
           </li>
-          <li>
-            <a href="{% url 'registration.views.list_users' %}"><i class="icon-chevron-right"></i> Main Site registrations</a>
-          </li>
         </ul>
       </div>
     </div>
@@ -137,7 +134,7 @@
             <a href="{% url 'task.views.my_task' %}"><i class="icon-chevron-right"></i> My Tasks</a>
           </li>
           <li>
-            <a href="{% url 'task.views.dept_task' %}"><i class="icon-chevron-right"></i> My Department Tasks</a>
+            <a href="{% url 'task.views.dept_task' %}"><i class="icon-chevron-right"></i> Department Tasks</a>
           </li>
           {% if user.userprofile.status == 'core' %}
           <li>
@@ -157,11 +154,44 @@
       <div class="accordion-inner">
         <ul class="nav-list nav">
           <li>
-            <a href="{% url 'events.views.add_event' %}"><i class="icon-chevron-right"></i> Create new event</a>
+            <a href="{% url 'events.views.add_event' %}"><i class="icon-chevron-right"></i> Add an Event</a>
           </li>
 
           <li>
-            <a href="{% url 'events.views.list_events' %}"><i class="icon-chevron-right"></i> Edit event</a>
+            <a href="{% url 'events.views.list_events' %}"><i class="icon-chevron-right"></i> List all events</a>
+          </li>
+          <li>
+            <a href="{% url 'events.views.register' %}"><i class="icon-chevron-right"></i> Register for an event</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#sidebar" href="#registrations"><i class="icon-qrcode"></i> Registrations</a>
+    </div>
+    <div id="registrations" class="accordion-body collapse">
+      <div class="accordion-inner">
+        <ul class="nav-list nav">
+          <li>
+            <a href="{% url 'registration.views.list_users' %}"><i class="icon-chevron-right"></i> Main Site user registrations</a>
+          </li>
+          <li>
+            <a href="{% url 'registration.views.add_user' %}"><i class="icon-chevron-right"></i> Register Saarang User</a>
+          </li>
+          <li>
+            <a href="{% url 'events.views.register' %}"><i class="icon-chevron-right"></i> Register for an event</a>
+          </li>
+          <li>
+            <a href="{% url 'events.views.list_events' %}"><i class="icon-chevron-right"></i> Event registrations</a>
+          </li>
+          <li>
+            <a href="{% url 'events.views.add_team' %}"><i class="icon-chevron-right"></i> Add a team</a>
+          </li>
+          <li>
+            <a href="{% url 'events.views.list_teams' %}"><i class="icon-chevron-right"></i> List all teams</a>
           </li>
         </ul>
       </div>
@@ -178,7 +208,7 @@
         <ul class="nav-list nav">
           {% if user.userprofile.status == 'core' %}
               <li>
-                  <a href="{% url 'ticket.views.create_ticket' %}"><i class="icon-chevron-right"></i> Create new Ticket</a>
+                  <a href="{% url 'ticket.views.create_ticket' %}"><i class="icon-chevron-right"></i> Add a Ticket</a>
               </li>
               <li>
                   <a href="{% url 'ticket.views.ticket_list' %}"><i class="icon-chevron-right"></i> Edit Ticket</a>
@@ -217,13 +247,13 @@
     <div class = "navbar navbar-fixed-bottom ">
       <div class="navbar-inner">
         <div class="container">
-        <p class="text-center muted" style="padding-top:10px;">&copy; Copyright 2014 - Saarang WebOps</p></div>
+        <p class="text-center muted" style="padding-top:10px;">&copy; Copyright 2014 - Saarang WebOps Team</p></div>
       </div>
     </div>
 <!-- Copyright bar ends -->
 
 <!-- JavaScripts begin -->
-    <script src="{% static 'js/smoothness/jquery-1.9.1.js' %}"></script>
+    <script src="{% static 'js/jquery-1.9.1.js' %}"></script>
     <script src="{% static 'js/smoothness/jquery-ui-1.10.3.custom.js' %}"></script>
 
     <script src="{% static 'js/bootstrap.js' %}"></script>
@@ -283,6 +313,9 @@
       } );
     </script>
 
+    <script>
+        $(document).ready(function() { $("#multiselect").select2(); });
+    </script>
 <!-- JavaScripts end -->
 
 </body>

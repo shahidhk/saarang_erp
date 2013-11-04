@@ -7,15 +7,13 @@
 {% if messages %}
 <ul class="messages">
     {% for message in messages %}
-    <div class='alert {% if message.tags %} alert-{{ message.tags }}{% endif %}'>
-    {{ message }}
-    </div>
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
     {% endfor %}
 </ul>
 {% endif %}
 <div class="span9 container">
     <form class="form-horizontal" action="" method="POST" {% if form.is_multipart %}enctype="multipart/form-data"{% endif %}>
-        <legend>Create a new event</legend>
+        <legend>Register for an event</legend>
         {% csrf_token %}
         {{ form.media }}
         {% if form.errors %}
@@ -36,8 +34,12 @@
                             {{ field.errors.as_text }}
                         </span>
                     {% endif %} 
+                    {% if field.name == 'team' %}
+                       <input type="button" value="Add team" button class='btn btn-small' onclick="document.location = '{% url 'events.views.add_team' %}';"></input>
+                    {% endif %}
                 </div>
             </div>
+
         {% endfor %}
         {% for field in form.hidden_fields %}
             {{ field }}
@@ -46,7 +48,7 @@
         <div class="form-actions"> <input class="btn btn-primary btn-large" type="submit" value="Submit"/> {% block extra_buttons %} {% endblock extra_buttons %}
         </div>
     </form>
-    {% if user.userprofile.status == 'core' %}Please add the event as a Sub-Department if cannot find it in the list.<br> <button onclick="document.location = '{% url 'erp.views.add_subdept' %}';">Add Subdepartment</button>{% else %}Please ask your core to create a Sub Department for your event if you dont find it in the list{% endif %}
+   
 </div>
 
 

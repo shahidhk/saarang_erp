@@ -15,4 +15,4 @@ class AddPostForm(ModelForm):
     class Meta:
         model = Post
         # Specify the fiels to include, all others are excluded
-        fields=['title','description']
+        fields=['description']
