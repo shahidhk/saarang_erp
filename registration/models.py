@@ -16,3 +16,5 @@ class SaarangUser(models.Model):
     )
     gender = models.CharField(max_length=10, choices=GENDER_CHOICES)
     password = models.CharField(max_length=128)
+    def __unicode__(self):
+        return self.name

@@ -1,4 +1,6 @@
 # Create your views here.
+from django.http import HttpResponseRedirect, HttpResponse, Http404
+from django.core.urlresolvers import reverse
 from django.shortcuts import render
 from forms import SaarangUserForm
 from models import SaarangUser
@@ -7,7 +9,8 @@ def add_user(request):
     if request.method == 'POST':
         userform =SaarangUserForm(request.POST)
         if userform.is_valid():
-            SaarangUserForm.save()
+            userform.save()
+            return HttpResponseRedirect(reverse('saarang_users'))
         else:
             userform = SaarangUserForm(request.POST)
     else:
@@ -30,9 +33,19 @@ def list_users(request):
 
 def show_user(request, user_id):
     user = SaarangUser.objects.get(pk=user_id)
+    userform = SaarangUserForm(instance=user)
+    if request.method == 'POST':
+        userform =SaarangUserForm(request.POST)
+        if userform.is_valid():
+            userform.save()
+            return HttpResponseRedirect(reverse('saarang_users'))
+        else:
+            userform = SaarangUserForm(request.POST)
+    else:
+        userform = SaarangUserForm(instance=user)
     to_return={
-            'user':user,
+            'form':userform,
             'action':  "",
-            'title': "Registerd user details"
+            'title': "Add a new User"
         }
-    return render(request, 'user_registration/user.html', to_return)
+    return render(request, 'user_registration/new.html', to_return)

@@ -3,7 +3,7 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block content %}
-<h1>Events</h1>
+<legend>Events</legend>
 
 {% if not events %}
 <div class="alert alert-success">  
@@ -12,20 +12,17 @@
 {% else %}
 <table id ="datatable" class="table-bordered table-striped table">
     <thead>
-        <tr class="rowlink" onclick="document.location = '{% url 'events.views.add_event' %}';">
-            <td colspan=5 style="text-align:center">
-                <input type="button" class="btn" value="New event" onclick="document.location = '{% url 'events.views.add_event' %}';" >
-            </td>
-        </tr>
-        
         <th>Name</th>
         <th>Google group</th>
+        <th>Event Email ID</th>
     </thead>
     <tbody>
         {% for event in events %}
-            <tr class="rowlink" onclick="document.location = '{% url 'events.views.details_event' event.pk %}';">
-                <td >{{ event.long_name }}</td>
-                <td >{{ event.google_group }}</td>
+            <tr>
+                <td>{{ event.long_name }}<div class="pull-right"><a href="{% url 'events.views.details_event' event.pk %}"><button class='btn btn-small btn-primary'><i class='icon-pencil'></i></button></a> <a href="{% url 'events.views.list_registrations' event.pk %}"><button class='btn btn-small btn-success'>Registrations</button></a></div></td>
+                <td>{{ event.google_group }}</td>
+                <td>{{ event.event_emailid }}</td>
+                
             </tr>
         {% endfor %}
     </tbody>

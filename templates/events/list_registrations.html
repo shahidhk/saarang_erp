@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load url from future %}
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<legend>Registrations for {{ event.long_name }}</legend>
+
+{% if not registrations %}
+<div class="alert alert-success">  
+    There are no registrations to display
+</div>
+{% else %}
+<table id ="datatable" class="table-bordered table-striped table">
+    <thead>
+        <th>Participant</th>
+        <th>Team</th>
+        <th>Participating</th>
+        <th>Score</th>
+    </thead>
+    <tbody>
+        {% for regn in registrations %}
+            <tr>
+                <td>{{ regn.participant }}</td>
+                <td>{{ regn.team }}</td>
+                <td>{{ regn.is_participating }}</td>
+                <td>{{ regn.score }}<div class="pull-right"><a href="{% url 'events.views.change_score' regn.pk %}"><button class='btn btn-small btn-primary'><i class='icon-pencil'></i></button></a></div></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+{% endblock %}

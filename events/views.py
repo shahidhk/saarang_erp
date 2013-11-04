@@ -86,7 +86,7 @@ def details_event(request, event_id):
     eventForm = EventForm(instance=event, initial={'coords':coords_for_event } )
     faqForm = FAQForm(instance=event)
     introForm = IntroductionForm(instance=event)
-    registrationForm = EventRegistrationForm(instance=event)
+    registrationForm = EventRegistrationInfoForm(instance=event)
     formatForm = FormatForm(instance=event)
     prizesForm = PrizesForm(instance=event)
     to_return={
@@ -148,7 +148,7 @@ def event_about(request,event_id):
 def event_reg(request,event_id):
     event = get_object_or_404(Event, pk=event_id)
     if request.method == 'POST':
-        registrationForm = EventRegistrationForm(request.POST)
+        registrationForm = EventRegistrationInfoForm(request.POST)
         if registrationForm.is_valid():
             category = registrationForm.cleaned_data['category']
             registration_info = registrationForm.cleaned_data['registration_info']
@@ -182,3 +182,68 @@ def event_prizes(request,event_id):
         else:
             print "didnt validate"
         return HttpResponseRedirect(reverse('details_event',args=(event.id,)))
+
+def register(request):
+    registerForm = EventRegistrationForm()
+    if request.method == 'POST':
+        registerForm = EventRegistrationForm(request.POST)
+        if registerForm.is_valid():
+            registerForm.save()
+            print registerForm.cleaned_data['event']
+            event = Event.objects.get(long_name=registerForm.cleaned_data['event'])
+            return HttpResponseRedirect(reverse('event_registrations', args=(event.id,)))
+        else:
+            print "didnt validate"
+            registerForm = EventRegistrationForm(request.POST)
+    to_return={
+        'form': registerForm,
+    }
+    return render(request, 'events/register.html', to_return)
+
+def list_registrations(request, event_id):
+    event = get_object_or_404(Event, pk=event_id)
+    registrations = EventRegistration.objects.filter(event=event)
+    to_return = {
+        'event': event,
+        'registrations': registrations,
+    }
+    return render(request, 'events/list_registrations.html', to_return)
+
+def change_score(request, regn_id):
+    regn = get_object_or_404(EventRegistration, pk=regn_id)
+    changescoreForm = ChangeScoreForm(instance=regn)
+    if request.method == 'POST':
+        changescoreForm = ChangeScoreForm(request.POST)
+        if changescoreForm.is_valid():
+            regn.score = request.POST['score']
+            regn.save()
+            return HttpResponseRedirect(reverse('event_registrations', args=(regn.event.id,)))
+        else:
+            print "didnt validate"
+            changescoreForm = ChangeScoreForm(request.POST)
+    to_return={
+        'form': changescoreForm,
+    }
+    return render(request, 'events/change_score.html', to_return)
+
+def add_team(request):
+    addteamForm = AddTeamForm()
+    if request.method == 'POST':
+        addteamForm = AddTeamForm(request.POST)
+        if addteamForm.is_valid():
+            addteamForm.save()
+            return HttpResponseRedirect(reverse('register_event'))
+        else:
+            print "didnt validate"
+            addteamForm = AddTeamForm(request.POST)
+    to_return={
+        'form': addteamForm,
+    }
+    return render(request, 'events/add_team.html', to_return)
+
+def list_teams(request):
+    teams = Team.objects.all()
+    to_return={
+        'teams': teams,
+    }
+    return render(request, 'events/list_teams.html', to_return)
