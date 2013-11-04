@@ -35,8 +35,11 @@ class FAQ(models.Model):
     answer = models.TextField(max_length=1000)
 
 class Team(models.Model):
+    name = models.CharField(max_length=100)
     leader = models.ForeignKey(SaarangUser,related_name='team_leader')
     members = models.ManyToManyField(SaarangUser,related_name='team_member')
+    def __unicode__(self):
+        return str(self.name) + " lead by " + str(self.leader)
 
 class EventRegistration(models.Model):
     participant = models.ForeignKey(SaarangUser,related_name='event_reg_user')
@@ -44,5 +47,6 @@ class EventRegistration(models.Model):
     team = models.ForeignKey(Team,related_name='event_reg_team',blank=True,null=True)
     is_participating = models.BooleanField(default=True)
     score = models.IntegerField(default=0)
-
+    def __unicode__(self):
+        return str(self.participant) +' for ' + str(self.event)
 

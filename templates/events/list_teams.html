@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load url from future %}
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<legend>Teams registered</legend>
+
+{% if not teams %}
+<div class="alert alert-success">  
+    There are no teams to display
+</div>
+{% else %}
+<table id ="datatable" class="table-bordered table-striped table">
+    <thead>
+        <th>Team name</th>
+        <th>Leader</th>
+        <th>Members</th>
+    </thead>
+    <tbody>
+        {% for team in teams %}
+            <tr>
+                <td>{{ team.name }}</td>
+                <td>{{ team.leader }}</td>
+                <td>{{ team.members }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+{% endblock %}

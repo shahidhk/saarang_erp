@@ -224,4 +224,23 @@ def change_score(request, regn_id):
     return render(request, 'events/change_score.html', to_return)
 
 def add_team(request):
-    return 1
+    addteamForm = AddTeamForm()
+    if request.method == 'POST':
+        addteamForm = AddTeamForm(request.POST)
+        if addteamForm.is_valid():
+            addteamForm.save()
+            return HttpResponseRedirect(reverse('register_event'))
+        else:
+            print "didnt validate"
+            addteamForm = AddTeamForm(request.POST)
+    to_return={
+        'form': addteamForm,
+    }
+    return render(request, 'events/add_team.html', to_return)
+
+def list_teams(request):
+    teams = Team.objects.all()
+    to_return={
+        'teams': teams,
+    }
+    return render(request, 'events/list_teams.html', to_return)

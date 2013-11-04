@@ -3,7 +3,7 @@ from django import forms
 from django.contrib.auth.models import Group
 
 #From models
-from models import Event,EventRegistration
+from models import Event, EventRegistration, Team
 
 class CreateEventForm(forms.ModelForm):
     COORDS = [[coord.id, coord.first_name] for coord in Group.objects.get(name="coord").user_set.all()]
@@ -57,3 +57,7 @@ class ChangeScoreForm(forms.ModelForm):
     class Meta:
         model = EventRegistration
         fields = ['participant', 'score']
+
+class AddTeamForm(forms.ModelForm):
+    class Meta:
+        model = Team

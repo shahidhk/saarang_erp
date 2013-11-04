@@ -13,7 +13,7 @@
 {% endif %}
 <div class="span9 container">
     <form class="form-horizontal" action="" method="POST" {% if form.is_multipart %}enctype="multipart/form-data"{% endif %}>
-        <legend>Register for an event</legend>
+        <legend>Add a new Team</legend>
         {% csrf_token %}
         {{ form.media }}
         {% if form.errors %}
@@ -34,9 +34,7 @@
                             {{ field.errors.as_text }}
                         </span>
                     {% endif %} 
-                    {% if field.name == 'team' %}
-                       <input type="button" value="Add team" button class='btn btn-small' onclick="document.location = '{% url 'events.views.add_team' %}';"></input>
-                    {% endif %}
+                    
                 </div>
             </div>
 
