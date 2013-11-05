@@ -14,7 +14,13 @@ class SaarangUser(models.Model):
         ('male', 'Male'),
         ('female', 'Female'),
     )
+    ACTIVATION_CHOICES = (
+        ('0','Activation email sent'),
+        ('1','Activated'),
+        ('2','Profile completed'),
+    )
     gender = models.CharField(max_length=10, choices=GENDER_CHOICES)
+    activate_status = models.IntegerField(choices = ACTIVATION_CHOICES) #New field with choices as ACTIVATION_CHOICES
     password = models.CharField(max_length=128)
     def __unicode__(self):
         return self.name
