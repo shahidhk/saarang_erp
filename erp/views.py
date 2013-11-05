@@ -28,14 +28,29 @@ def home(request):
         Renders the home page, display the name and a welcome message, have to change to preferred view
         based on user type
     '''
-    notif_list_pub = Notification.objects.filter(is_public=True)
-    if request.user.get_profile().sub_dept:
-        notif_list_subdept = Notification.objects.filter(is_public=False).filter(receive_subdepts = request.user.get_profile().sub_dept).order_by('-timestamp')
-    notif_list_dept = Notification.objects.filter(is_public=False).filter(receive_depts = request.user.get_profile().dept).order_by('-timestamp')
-    notif_list_event=[]
-    for event in request.user.get_profile().events.all():
-        notif_list_event.append(Notification.objects.filter(is_public=False).filter(receive_events = event)).order_by('-timestamp')
-    notif_list_ind = Notification.objects.filter(is_public=False).filter(receive_users = request.user).order_by('-timestamp')
+    try:
+        notif_list_pub = Notification.objects.filter(is_public=True)
+    except Exception, e:
+        print e.message
+    try:
+        if request.user.get_profile().sub_dept:
+            notif_list_subdept = Notification.objects.filter(is_public=False).filter(receive_subdepts = request.user.get_profile().sub_dept).order_by('-timestamp')
+    except Exception, e:
+        print e.message
+    try:
+        notif_list_dept = Notification.objects.filter(is_public=False).filter(receive_depts = request.user.get_profile().dept).order_by('-timestamp')
+    except Exception,e:
+        print e.message
+        notif_list_event=[]
+    try:     
+        for event in request.user.get_profile().events.all():
+            notif_list_event.append(Notification.objects.filter(is_public=False).filter(receive_events = event)).order_by('-timestamp')
+    except Exception, e:
+        print e.message
+    try:
+        notif_list_ind = Notification.objects.filter(is_public=False).filter(receive_users = request.user).order_by('-timestamp')
+    except Exception,e:
+        print e.message   
     return render_to_response('home.html',locals(),context_instance=RequestContext(request))
     
 def login_user(request):
