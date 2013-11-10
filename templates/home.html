@@ -5,11 +5,6 @@
 {% block content %}
 <h1>Saarang ERP</h1>
 
-<script type="text/javascript">
-function al(){
-    alert('afasfas');
-};
-</script>
 <h3>Hello {{ user.first_name }}, Welcome to Saarang ERP</h3>
 <div class='row-fluid'>
     <div class='span6 well' style='max-height:200px;overflow:auto;'>
@@ -18,7 +13,7 @@ function al(){
         {% for notif_pub in notif_list_dept %}
         <small>At {{ notif_pub.timestamp }},</small>
         <div class='alert alert-info'>
-            <button type="button" class="close" data-dismiss="alert" onclick='al({{ notif_pub.id }})'>&times;</button>
+            <!--<button type="button" class="close" data-dismiss="alert" onclick='al({{ notif_pub.id }})'>&times;</button>-->
             <a href="{{ notif_pub.link }}">{{ notif_pub.notif_body|safe }}</a><br/>
         </div>
         {% endfor %}
@@ -29,7 +24,7 @@ function al(){
         {% for notif in notif_list_subdept %}
         <small>At {{ notif.timestamp }},</small>
         <div class='alert alert-info'>
-            <button type="button" class="close" data-dismiss="alert" onclick='al({{ notif.id }})'>&times;</button>
+            <!--<button type="button" class="close" data-dismiss="alert" onclick='al({{ notif.id }})'>&times;</button>-->
             <a href="{{ notif.link }}">{{ notif.notif_body|safe }}</a><br/>
         </div>
         {% endfor %}
@@ -42,7 +37,7 @@ function al(){
         {% for notif in notif_list_event %}
         <small>At {{ notif.timestamp }},</small>
         <div class='alert alert-info'>
-            <button type="button" class="close" data-dismiss="alert" onclick='al({{ notif.id }})'>&times;</button>
+            <!--<button type="button" class="close" data-dismiss="alert" onclick='al({{ notif.id }})'>&times;</button>-->
             <a href="{{ notif.link }}">{{ notif.notif_body|safe }}</a><br/>
         </div>
         {% endfor %}
@@ -53,7 +48,7 @@ function al(){
         {% for notif in notif_list_ind %}
         <small>At {{ notif.timestamp }},</small>
         <div class='alert alert-info'>
-            <button type="button" class="close" data-dismiss="alert" onclick='al({{ notif.id }})'>&times;</button>
+            <!--<button type="button" class="close" data-dismiss="alert" onclick='al({{ notif.id }})'>&times;</button>-->
             <a href="{{ notif.link }}">{{ notif.notif_body|safe }}</a><br/>
         </div>
         {% endfor %}
@@ -66,7 +61,7 @@ function al(){
         {% for notif in notif_list_pub %}
         <small>At {{ notif.timestamp }},</small>
         <div class='alert alert-info'>
-            <button type="button" class="close" data-dismiss="alert" onclick='al({{ notif.id }})'>&times;</button>
+            <!--<button type="button" class="close" data-dismiss="alert" onclick='al({{ notif.id }})'>&times;</button>-->
             <a href="{{ notif.link }}">{{ notif.notif_body|safe }}</a><br/>
         </div>
         <hr/>

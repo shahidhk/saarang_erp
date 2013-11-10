@@ -44,7 +44,7 @@ def home(request):
         notif_list_event=[]
     try:     
         for event in request.user.get_profile().events.all():
-            notif_list_event.append(Notification.objects.filter(is_public=False).filter(receive_events = event)).order_by('-timestamp')
+            notif_list_event.append(Notification.objects.filter(is_public=False).filter(receive_events = event).order_by('-timestamp'))
     except Exception, e:
         print e.message
     try:
