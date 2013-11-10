@@ -26,6 +26,7 @@ class Event(models.Model):
     is_team = models.BooleanField(default=False,verbose_name='Team Event')
     registration_open = models.BooleanField(default=True)
     registration_close_date = models.DateField(blank=True,null=True)
+    contacts = models.TextField(max_length=700,blank=True,null=True)
     def __unicode__(self):
         return self.long_name
 

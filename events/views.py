@@ -111,6 +111,7 @@ def event_det(request,event_id):
             event.long_name = eventForm.cleaned_data['long_name']
             event.google_group = eventForm.cleaned_data['google_group']
             event.oneliner = eventForm.cleaned_data['oneliner']
+            event.is_team = eventForm.cleaned_data['is_team'] 
             event.email = eventForm.cleaned_data['email'] 
             event.save()
             coords= request.POST.getlist('coords')
@@ -223,6 +224,7 @@ def change_score(request, regn_id):
             changescoreForm = ChangeScoreForm(request.POST)
     to_return={
         'form': changescoreForm,
+        'regn': regn,
     }
     return render(request, 'events/change_score.html', to_return)
 
