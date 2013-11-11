@@ -5,11 +5,20 @@ from django.shortcuts import render
 from forms import SaarangUserForm
 from models import SaarangUser
 
+def auto_id(user_id):
+    base = 'SA14'
+    num = "{:0>5d}".format(user_id)
+    sid = base + num
+    return sid
+
 def add_user(request):
     if request.method == 'POST':
         userform =SaarangUserForm(request.POST)
         if userform.is_valid():
-            userform.save()
+            user = userform.save()
+            user.saarang_id = auto_id(user.pk)
+            user.save()
+            # userform.saarang_id = auto_id()
             return HttpResponseRedirect(reverse('saarang_users'))
         else:
             userform = SaarangUserForm(request.POST)
