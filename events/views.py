@@ -74,22 +74,19 @@ def details_event(request, event_id):
         else:
             return render(request, 'alert.html', {'msg': 'You dont have permission to access this event', 'type': 'error'})
     coords_for_event = []
-    for user in User.objects.all():
-        try:
-            for eve in user.get_profile().events.all():
-                if eve == event:
-                    coords_for_event.append(user.pk)
-        except Exception, e:
-            print e.message
+
+    for user in event.user_events.all():
+        coords_for_event.append(user.user_id)
         
-    print coords_for_event
     eventForm = EventForm(instance=event, initial={'coords':coords_for_event } )
     faqForm = FAQForm(instance=event)
     introForm = IntroductionForm(instance=event)
     registrationForm = EventRegistrationInfoForm(instance=event)
     formatForm = FormatForm(instance=event)
     prizesForm = PrizesForm(instance=event)
+    contacts = event.contacts
     to_return={
+        'contacts': contacts,
         'event': event,
         'form':eventForm,
         'form_intro':introForm,
@@ -102,6 +99,7 @@ def details_event(request, event_id):
     }
     return render(request, 'events/event_details.html', to_return)
 
+@login_required
 def event_det(request,event_id):
     event = get_object_or_404(Event, pk=event_id)
     if request.method == 'POST':
@@ -122,6 +120,7 @@ def event_det(request,event_id):
             print "didnt validate"
         return HttpResponseRedirect(reverse('details_event',args=(event.id,)))
 
+@login_required
 def event_faq(request,event_id):
     event = get_object_or_404(Event, pk=event_id)
     if request.method == 'POST':
@@ -134,6 +133,7 @@ def event_faq(request,event_id):
             print "didnt validate"
         return HttpResponseRedirect(reverse('details_event',args=(event.id,)))
 
+@login_required
 def event_about(request,event_id):
     event = get_object_or_404(Event, pk=event_id)
     if request.method == 'POST':
@@ -146,6 +146,7 @@ def event_about(request,event_id):
             print "didnt validate"
         return HttpResponseRedirect(reverse('details_event',args=(event.id,)))
 
+@login_required
 def event_reg(request,event_id):
     event = get_object_or_404(Event, pk=event_id)
     if request.method == 'POST':
@@ -160,6 +161,7 @@ def event_reg(request,event_id):
             print "didnt validate"
         return HttpResponseRedirect(reverse('details_event',args=(event.id,)))
 
+@login_required
 def event_format(request,event_id):
     event = get_object_or_404(Event, pk=event_id)
     if request.method == 'POST':
@@ -172,6 +174,7 @@ def event_format(request,event_id):
             print "didnt validate"
         return HttpResponseRedirect(reverse('details_event',args=(event.id,)))
 
+@login_required
 def event_prizes(request,event_id):
     event = get_object_or_404(Event, pk=event_id)
     if request.method == 'POST':
@@ -184,6 +187,7 @@ def event_prizes(request,event_id):
             print "didnt validate"
         return HttpResponseRedirect(reverse('details_event',args=(event.id,)))
 
+@login_required
 def register(request):
     registerForm = EventRegistrationForm()
     if request.method == 'POST':
@@ -201,6 +205,7 @@ def register(request):
     }
     return render(request, 'events/register.html', to_return)
 
+@login_required
 def list_registrations(request, event_id):
     event = get_object_or_404(Event, pk=event_id)
     registrations = EventRegistration.objects.filter(event=event)
@@ -210,6 +215,8 @@ def list_registrations(request, event_id):
     }
     return render(request, 'events/list_registrations.html', to_return)
 
+
+@login_required
 def list_all_registrations(request):
     regs = EventRegistration.objects.all().order_by('-id')
     to_return = {
@@ -217,6 +224,7 @@ def list_all_registrations(request):
     }
     return render(request, 'events/all_registrations.html', to_return)
 
+@login_required
 def change_score(request, regn_id):
     regn = get_object_or_404(EventRegistration, pk=regn_id)
     changescoreForm = ChangeScoreForm(instance=regn)
@@ -235,6 +243,7 @@ def change_score(request, regn_id):
     }
     return render(request, 'events/change_score.html', to_return)
 
+@login_required
 def add_team(request):
     addteamForm = AddTeamForm()
     if request.method == 'POST':
@@ -250,6 +259,7 @@ def add_team(request):
     }
     return render(request, 'events/add_team.html', to_return)
 
+@login_required
 def list_teams(request):
     teams = Team.objects.all()
     to_return={

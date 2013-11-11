@@ -8,7 +8,6 @@ from userprofile.models import UserProfile
 from userprofile.forms import UserProfileForm, UserForm
 
 def profile(request):
-    
     profile = request.user.get_profile()
     u = request.user
     form = UserProfileForm( instance = profile )

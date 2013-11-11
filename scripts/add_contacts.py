@@ -1,11 +1,14 @@
 from events.models import Event
 from django.contrib.auth.models import User
 
-def add_contacts():
+def update_contacts():
     events = Event.objects.all()
     for event in events:
-        event.contacts='<p>For futher querries contact '+event.email+'</p><br/><strong>Coordinators</strong><br/>'
+        text = '<p>For futher queries contact <a href="mailto:'+event.email+ '">' + event.email + '</a></p><br/><p><b>Coordinators:</b></p><p><ol>'
         for user in event.user_events.all():
-            event.contacts+=user.user.get_full_name()+'<br/>'+str(user.mobile)+'<br/><br/>'
+            coord = User.objects.get(pk=user.user_id)
+            text += '<li>' + coord.first_name +', Email: <a href="mailto:'+ coord.email+'">'+coord.email+'</a>, Phone: '+str(coord.userprofile.mobile)+'</li>'
+        text+='</ol></p>'
+        event.contacts = text
         event.save()
-
+        print event.long_name, 'saved'

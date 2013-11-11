@@ -4,12 +4,23 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import render
 from forms import SaarangUserForm
 from models import SaarangUser
+from django.contrib.auth.decorators import login_required
 
+def auto_id(user_id):
+    base = 'SA14'
+    num = "{:0>5d}".format(user_id)
+    sid = base + num
+    return sid
+
+@login_required
 def add_user(request):
     if request.method == 'POST':
         userform =SaarangUserForm(request.POST)
         if userform.is_valid():
-            userform.save()
+            user = userform.save()
+            user.saarang_id = auto_id(user.pk)
+            user.save()
+            # userform.saarang_id = auto_id()
             return HttpResponseRedirect(reverse('saarang_users'))
         else:
             userform = SaarangUserForm(request.POST)
@@ -22,6 +33,7 @@ def add_user(request):
         }
     return render(request, 'user_registration/new.html', to_return)
 
+@login_required
 def list_users(request):
     users = SaarangUser.objects.all()
     to_return={
@@ -31,6 +43,7 @@ def list_users(request):
         }
     return render(request, 'user_registration/list.html', to_return)
 
+@login_required
 def show_user(request, user_id):
     user = SaarangUser.objects.get(pk=user_id)
     userform = SaarangUserForm(instance=user)

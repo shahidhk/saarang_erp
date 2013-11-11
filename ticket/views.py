@@ -15,6 +15,7 @@ from django.core.urlresolvers import reverse
 from django.forms.formsets import formset_factory
 
 # Create your views here.
+@login_required
 def create_ticket(request):
     to_return={}
     if request.method == 'POST':
@@ -34,11 +35,13 @@ def create_ticket(request):
         }
     return render(request, 'ticket/create_ticket.html', to_return )
 
+@login_required
 def ticket_list(request):
     tickets = Ticket.objects.all()
     recieve_signal_print.send(sender=None)
     return render(request, 'ticket/ticket_list.html', locals())
 
+@login_required
 def edit_ticket(request,ticket_id):
     ticket = get_object_or_404(Ticket,id=ticket_id)
     to_return={}
@@ -61,11 +64,13 @@ def edit_ticket(request,ticket_id):
         }
     return render(request, 'ticket/edit_ticket.html', to_return)
 
+@login_required
 def delete_ticket(request,ticket_id):
     ticket = get_object_or_404(Ticket,id=ticket_id)
     ticket.delete()
     return HttpResponseRedirect(reverse('ticket_list'))
 
+@login_required
 def new_transaction(request):
     tickets = Ticket.objects.filter(active=True)
     if request.method == 'POST':
@@ -106,10 +111,12 @@ def new_transaction(request):
         return HttpResponseRedirect(reverse('new_transaction'))
     return render(request, 'ticket/new_transaction.html', locals())
 
+@login_required
 def transaction_list(request):
     transaction_list = Transaction_final.objects.all()
     return render(request, 'ticket/transaction_list.html', locals())
 
+@login_required
 def statistics(request):
     tickets = Ticket.objects.all()
     income = []
