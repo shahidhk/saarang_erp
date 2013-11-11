@@ -25,6 +25,12 @@
                 </ul>
             </div>
         {% endif %}
+        <div class="control-group">
+        <label class="control-label">Participant </label>
+            <div class="controls">
+                <input type='text' value='{{regn.participant}}' disabled />
+            </div>
+        </div>
         {% for field in form.visible_fields %}
             <div class="control-group {{ field.html_name }} {% if field.errors %}error{% endif %}">
             <label class="control-label">{{ field.label }}{% if field.field.required %} *{% endif %}</label>

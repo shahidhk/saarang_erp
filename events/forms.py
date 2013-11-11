@@ -59,7 +59,7 @@ class EventRegistrationForm(forms.ModelForm):
 class ChangeScoreForm(forms.ModelForm):
     class Meta:
         model = EventRegistration
-        fields = ['participant', 'score']
+        fields = ['score']
 
 class AddTeamForm(forms.ModelForm):
     class Meta:
