@@ -22,6 +22,7 @@
       <li><a href="#format" data-toggle="tab">Format</a></li>
       <li><a href="#reg" data-toggle="tab">Registration</a></li>
       <li><a href="#prizes" data-toggle="tab">Prizes</a></li>
+      <li><a href="#contacts" data-toggle="tab">Contacts</a></li>
     </ul>    
     <div class="tab-content">
         <div class="tab-pane active" id="details">
@@ -284,6 +285,19 @@
                   <div class="form-actions"> <input class="btn btn-primary btn-large" type="submit" value="Submit"/>
                   </div>
               </form>
+          </div>
+        </div>
+        <div class="tab-pane" id="Contacts">
+          {% if messages %}
+          <ul class="messages">
+              {% for message in messages %}
+              <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+              {% endfor %}
+          </ul>
+          {% endif %}
+          <div class="span9 container">
+                  <legend>Contacts</legend>
+                  {{ contacts }}
           </div>
         </div>        
     </div>
