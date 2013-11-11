@@ -17,7 +17,6 @@ urlpatterns = patterns('',
     url(r'^score/(?P<regn_id>\d+)/$', 'events.views.change_score', name='change_score'),
     url(r'^addteam/$', 'events.views.add_team', name='add_team'),
     url(r'^teams/$', 'events.views.list_teams', name='list_teams'),
-
-
+    url(r'^all_reg/$', 'events.views.list_all_registrations', name='list_all_registrations'),
 
 )

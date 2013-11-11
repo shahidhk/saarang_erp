@@ -210,6 +210,13 @@ def list_registrations(request, event_id):
     }
     return render(request, 'events/list_registrations.html', to_return)
 
+def list_all_registrations(request):
+    regs = EventRegistration.objects.all().order_by('-id')
+    to_return = {
+        'regs': regs,
+    }
+    return render(request, 'events/all_registrations.html', to_return)
+
 def change_score(request, regn_id):
     regn = get_object_or_404(EventRegistration, pk=regn_id)
     changescoreForm = ChangeScoreForm(instance=regn)

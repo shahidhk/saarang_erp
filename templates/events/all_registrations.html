@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<legend>Registration History</legend>
+{% for reg in regs %}
+
+{% if reg.event.is_team %}
+<p>{{forloop.counter}}) <span style='color:blue'>{{reg.participant.email}}</span> from <span style='color:red'>{{reg.team}}</span> registered under <span style='color:green'>{{reg.event}}</span> </p> 
+{% else %}
+<p>{{forloop.counter}}) <span style='color:blue'>{{reg.participant.email}}</span> registered under <span style='color:green'>{{reg.event}}</span> </p> 
+{% endif %}
+
+{% endfor %}
+
+{% endblock %}

@@ -40,7 +40,7 @@ class Team(models.Model):
     leader = models.ForeignKey(SaarangUser,related_name='team_leader')
     members = models.ManyToManyField(SaarangUser,related_name='team_member')
     def __unicode__(self):
-        return str(self.name) + " lead by " + str(self.leader)
+        return (str(self.name) + ' lead by ' + str(self.leader))
 
 class EventRegistration(models.Model):
     participant = models.ForeignKey(SaarangUser,related_name='event_reg_user')
@@ -48,6 +48,8 @@ class EventRegistration(models.Model):
     team = models.ForeignKey(Team,related_name='event_reg_team',blank=True,null=True)
     is_participating = models.BooleanField(default=True)
     score = models.IntegerField(default=0)
+    timestamp = models.DateTimeField(blank=True,null=True,auto_now_add=True)
+
     def __unicode__(self):
         return str(self.participant) +' for ' + str(self.event)
 
