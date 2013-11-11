@@ -23,7 +23,6 @@ class Event(models.Model):
     faqs = models.ManyToManyField('FAQ',related_name='event_faq',blank=True,null=True)
     FAQs = models.TextField(max_length=5000,blank=True,null=True)
     prizes = models.TextField(max_length=3000,blank=True,null=True)
-    #contact = models.TextField(max_length=2000, blank=True, null=True)
     is_team = models.BooleanField(default=False,verbose_name='Team Event')
     registration_open = models.BooleanField(default=True)
     registration_close_date = models.DateField(blank=True,null=True)

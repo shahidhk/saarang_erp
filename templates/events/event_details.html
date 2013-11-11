@@ -287,7 +287,7 @@
               </form>
           </div>
         </div>
-        <div class="tab-pane" id="Contacts">
+        <div class="tab-pane" id="contacts">
           {% if messages %}
           <ul class="messages">
               {% for message in messages %}
@@ -296,8 +296,7 @@
           </ul>
           {% endif %}
           <div class="span9 container">
-                  <legend>Contacts</legend>
-                  {{ contacts }}
+                  {{ contacts|safe }}
           </div>
         </div>        
     </div>
