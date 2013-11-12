@@ -316,6 +316,28 @@
       } );
     </script>
 
+<!-- For forum table --> 
+<script>
+      $(document).ready( function () {
+          $('#forumtable').dataTable( {
+              "bJQueryUI": true,
+              "sPaginationType": "full_numbers",
+              "sDom": '<"H"Tfr>t<"F"ip>',
+              'iDisplayLength': 14,
+              "oTableTools": {
+                  "aButtons": [
+                      "copy", "csv", "xls", "pdf",
+                      {
+                          "sExtends":    "collection",
+                          "sButtonText": "Save",
+                          "aButtons":    [ "csv", "xls", "pdf" ]
+                      }
+                  ]
+              }
+          } );
+      } );
+</script>
+
     <script>
         $(document).ready(function() { $("#multiselect").select2(); });
     </script>

@@ -6,7 +6,7 @@
 <div id='nav_buttons_begin'>
                 <input type="button" class="btn" value="Back to Forum Index" onclick="document.location = '{% url 'forum.views.index' %}';"  >
                 <input type="button" class="btn" value="Start a new Thread" onclick="document.location = '{% url 'forum.views.add_topic' forum.pk %}';" > </div> 
-<h1>{{ forum.title }}</h1>
+<legend>{{ forum.title }}</legend>
 <table class="table-bordered table-striped table" style="table-layout:fixed">
     <thead>
     <tr class="rowlink" onclick="document.location = '{% url 'forum.views.add_topic' forum.pk %}';">
