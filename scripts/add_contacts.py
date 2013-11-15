@@ -12,3 +12,6 @@ def update_contacts():
         event.contacts = text
         event.save()
         print event.long_name, 'saved'
+
+if __name__ == '__main__':
+    update_contacts()
