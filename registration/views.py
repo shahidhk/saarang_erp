@@ -7,7 +7,7 @@ from models import SaarangUser
 from django.contrib.auth.decorators import login_required
 
 def auto_id(user_id):
-    base = 'SA14'
+    base = 'SA14W'
     num = "{:0>5d}".format(user_id)
     sid = base + num
     return sid
