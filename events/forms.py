@@ -20,7 +20,7 @@ class EventForm(forms.ModelForm):
     coords.widget.attrs.update({'id': 'multiselect', 'placeholder': 'Select coordinators', 'style':'width:300px'})
     class Meta:
         model = Event
-        fields = ['long_name','google_group','oneliner', 'email','is_team','registration_open','registration_close_date']
+        fields = ['long_name','google_group','oneliner', 'email','is_team','registration_open','registration_close_date','is_active']
 
 class EventRegistrationInfoForm(forms.ModelForm):
 	class Meta:
@@ -28,30 +28,36 @@ class EventRegistrationInfoForm(forms.ModelForm):
 		fields = ['category','registration_info']
 
 class IntroductionForm(forms.ModelForm):
-	class Meta:
-		model = Event
-		fields = ['about']
+    is_shown = forms.BooleanField(initial=True,label='Show')
+    class Meta:
+        model = Event
+        fields = ['about']
 
 class FormatForm(forms.ModelForm):
-	class Meta:
-		model = Event
-		fields = ['event_format']
+    is_shown = forms.BooleanField(initial=True,label='Show')
+    class Meta:
+        model = Event
+        fields = ['event_format']
 
 class FAQForm(forms.ModelForm):
-	class Meta:
-		model = Event
-		fields = ['FAQs']
+    is_shown = forms.BooleanField(initial=True,label='Show')
+    class Meta:
+        model = Event
+        fields = ['FAQs']
 
 class PrizesForm(forms.ModelForm):
-	class Meta:
-		model = Event
-		fields = ['prizes']
+    is_shown = forms.BooleanField(initial=True,label='Show')
+    class Meta:
+        model = Event
+        fields = ['prizes']
 
 class EventRegistrationForm(forms.ModelForm):
-	class Meta:
-		model = EventRegistration
+    is_shown = forms.BooleanField(initial=True,label='Show')
+    class Meta:
+        model = EventRegistration
 
 class EventRegistrationForm(forms.ModelForm):
+    is_shown = forms.BooleanField(initial=True,label='Show')
     class Meta:
         model = EventRegistration
         exclude = ['score']
