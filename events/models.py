@@ -12,9 +12,9 @@ class Event(models.Model):
     google_group = models.CharField(max_length=200,blank=True,null=True)
     email = models.EmailField(max_length=100, blank=True, null=True)
     CATEGORY_CHOICES = (
-        ('onsite', 'Onsite'),
-        ('online', 'Online'),
-        ('pre_reg', 'Pre registerd'),
+        ('Onsite', 'Onsite'),
+        ('Online', 'Online'),
+        ('Pre-registered', 'Pre registerd'),
         )
     registration_info = models.TextField(max_length=2000,blank=True,null=True)
     category = models.CharField(choices=CATEGORY_CHOICES, max_length=50,blank=True)
@@ -27,6 +27,8 @@ class Event(models.Model):
     registration_open = models.BooleanField(default=True)
     registration_close_date = models.DateField(blank=True,null=True)
     contacts = models.TextField(max_length=700,blank=True,null=True)
+    options = models.CharField(max_length=5000,blank=True)
+    
     def __unicode__(self):
         return self.long_name
 

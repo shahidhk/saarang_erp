@@ -110,6 +110,8 @@ def event_det(request,event_id):
             event.google_group = eventForm.cleaned_data['google_group']
             event.oneliner = eventForm.cleaned_data['oneliner']
             event.is_team = eventForm.cleaned_data['is_team'] 
+            event.registration_open = eventForm.cleaned_data['registration_open'] 
+            event.registration_close_date = eventForm.cleaned_data['registration_close_date'] 
             event.email = eventForm.cleaned_data['email'] 
             event.save()
             coords= request.POST.getlist('coords')
