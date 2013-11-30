@@ -22,4 +22,6 @@ def get_photos():
 
 def update_db():
     for user in users:
-        
+        prof = user.get_profile()
+        # prof.avatar
+        # Have to comlete adding Image
