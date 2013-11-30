@@ -28,7 +28,9 @@ class Event(models.Model):
     registration_close_date = models.DateField(blank=True,null=True)
     contacts = models.TextField(max_length=700,blank=True,null=True)
     options = models.CharField(max_length=5000,blank=True)
-    
+    is_active = models.BooleanField(default=True)   
+    visible_fields = models.CharField(max_length=10,blank=True,default='11111',verbose_name='Is Active')
+
     def __unicode__(self):
         return self.long_name
 
@@ -51,6 +53,8 @@ class EventRegistration(models.Model):
     is_participating = models.BooleanField(default=True)
     score = models.IntegerField(default=0)
     timestamp = models.DateTimeField(blank=True,null=True,auto_now_add=True)
+    url1 = models.URLField(max_length=500)
+    url2 = models.URLField(max_length=500)
 
     def __unicode__(self):
         return str(self.participant) +' for ' + str(self.event)
