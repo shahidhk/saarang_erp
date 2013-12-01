@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 
 from erp.models import SubDepartment
 from registration.models import SaarangUser
+from hospi.models import Team
 
 class Event(models.Model):
     name = models.CharField(max_length=50)
@@ -39,13 +40,6 @@ class FAQ(models.Model):
     question = models.CharField(max_length=200)
     answer = models.TextField(max_length=1000)
 
-class Team(models.Model):
-    name = models.CharField(max_length=100)
-    leader = models.ForeignKey(SaarangUser,related_name='team_leader')
-    members = models.ManyToManyField(SaarangUser,related_name='team_member')
-    def __unicode__(self):
-        return (str(self.name) + ' lead by ' + str(self.leader))
-
 class EventRegistration(models.Model):
     participant = models.ForeignKey(SaarangUser,related_name='event_reg_user')
     event = models.ForeignKey(Event,related_name='reg_event')
@@ -53,8 +47,8 @@ class EventRegistration(models.Model):
     is_participating = models.BooleanField(default=True)
     score = models.IntegerField(default=0)
     timestamp = models.DateTimeField(blank=True,null=True,auto_now_add=True)
-    url1 = models.URLField(max_length=500)
-    url2 = models.URLField(max_length=500)
+    #url1 = models.URLField(max_length=500)
+    #url2 = models.URLField(max_length=500)
 
     def __unicode__(self):
         return str(self.participant) +' for ' + str(self.event)

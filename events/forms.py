@@ -4,7 +4,8 @@ from django.contrib.auth.models import Group
 from django.forms.widgets import SelectMultiple
 
 #From models
-from models import Event, EventRegistration, Team
+from models import Event, EventRegistration
+from hospi.models import Team
 
 class CreateEventForm(forms.ModelForm):
     COORDS = [[coord.id, coord.first_name] for coord in Group.objects.get(name="coord").user_set.all()]

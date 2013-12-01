@@ -42,6 +42,9 @@ urlpatterns = patterns('',
     # Include urls from notifications
     url(r'^registration/', include('notifications.urls')),
 
+    # Include urls from hospi
+    url(r'^hospi/', include('hospi.urls')),
+
 	url(r'^login/$', 'erp.views.login_user', name='login'),
 	url(r'^logout/$', 'erp.views.logout_user', name='logout_user'),
 
