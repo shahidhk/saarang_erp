@@ -10,7 +10,9 @@
             {{ msg }}
         </div>
     {% endif %}
-
+{% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">{{ message }}<a class="close" data-dismiss="alert" href="#">&times;</a></div>
+{% endfor %}
 <div class="well well-large">
     Welcome, {{ leader.name }}
     <div class="row">

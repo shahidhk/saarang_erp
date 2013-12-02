@@ -51,6 +51,7 @@ urlpatterns = patterns('',
     # Include Profile urls
     url(r'^profile/$', include('userprofile.urls')),
 
+
     # For media urls
     (r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
 )

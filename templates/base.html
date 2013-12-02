@@ -79,11 +79,13 @@
         </div>
     {% endblock %}
 <!-- NavBar Ends -->
-
 <!-- Subhead
 ==================================================--> 
 <header class="jumbotron subhead" id="overview">
   <div class="container">
+{% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">{{ message }}<a class="close" data-dismiss="alert" href="#">&times;</a></div>
+{% endfor %}
     ERP Notifications
   </div>
 </header>
@@ -166,6 +168,24 @@
           </li>
           <li>
             <a href="{% url 'events.views.list_all_registrations' %}"><i class="icon-chevron-right"></i> Registration list</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+<div class="accordion-group">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#sidebar" href="#hospi"><i class="icon-fire"></i> Hospi</a>
+    </div>
+    <div id="hospi" class="accordion-body collapse">
+      <div class="accordion-inner">
+        <ul class="nav-list nav">
+          <li>
+            <a href="{% url 'hospi.views.list_registered_teams' %}"><i class="icon-chevron-right"></i> Accommodation registrations</a>
+          </li>
+          <li>
+            <a href="{% url 'hospi.views.statistics' %}"><i class="icon-chevron-right"></i> Accommodation statistics</a>
           </li>
         </ul>
       </div>
@@ -342,6 +362,14 @@
     <script>
         $(document).ready(function() { $("#multiselect").select2(); });
     </script>
+
+<script type="text/javascript">
+$('#teamdetailsModal').on('hidden', function() {
+    $(this).removeData('modal').find('.modal-body').html('');
+});
+</script>
+
+
 <!-- JavaScripts end -->
 
 </body>

@@ -1,4 +1,5 @@
 # Django global settings for saarang_erp project.
+import django.conf.global_settings as DEFAULT_SETTINGS
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG

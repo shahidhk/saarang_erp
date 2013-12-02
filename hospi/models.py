@@ -24,3 +24,15 @@ class Team(models.Model):
     def get_total_count(self):
         mem = len(self.members.all())
         return mem+1
+
+    def get_male_count(self):
+        mem = len(self.members.all().filter(gender='male'))
+        if self.leader.gender == 'male':
+            mem +=1
+        return mem
+
+    def get_female_count(self):
+        mem = len(self.members.all().filter(gender='female'))
+        if self.leader.gender == 'female':
+            mem +=1
+        return mem
