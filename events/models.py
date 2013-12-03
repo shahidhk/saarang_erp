@@ -44,7 +44,11 @@ class Team(models.Model):
     leader = models.ForeignKey(SaarangUser,related_name='team_leader')
     members = models.ManyToManyField(SaarangUser,related_name='team_member')
     def __unicode__(self):
-        return (str(self.name) + ' lead by ' + str(self.leader))
+        try:
+            ret_val = (str(self.name)+ ' lead by '+ str(self.leader))
+        except Exception,e:
+            ret_val = 'None'
+        return ret_val
 
 class EventRegistration(models.Model):
     participant = models.ForeignKey(SaarangUser,related_name='event_reg_user')
@@ -53,8 +57,9 @@ class EventRegistration(models.Model):
     is_participating = models.BooleanField(default=True)
     score = models.IntegerField(default=0)
     timestamp = models.DateTimeField(blank=True,null=True,auto_now_add=True)
-    url1 = models.URLField(max_length=500)
-    url2 = models.URLField(max_length=500)
+    options = models.TextField(max_length=10000,blank=True,null=True)
+    # url1 = models.URLField(max_length=500)
+    # url2 = models.URLField(max_length=500)
 
     def __unicode__(self):
         return str(self.participant) +' for ' + str(self.event)

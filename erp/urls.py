@@ -40,7 +40,7 @@ urlpatterns = patterns('',
     url(r'^registration/', include('registration.urls')),
 
     # Include urls from notifications
-    url(r'^registration/', include('notifications.urls')),
+    url(r'^notifications/', include('notifications.urls')),
 
 	url(r'^login/$', 'erp.views.login_user', name='login'),
 	url(r'^logout/$', 'erp.views.logout_user', name='logout_user'),

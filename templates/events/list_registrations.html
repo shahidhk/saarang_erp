@@ -16,14 +16,26 @@
         <th>Team</th>
         <th>Participating</th>
         <th>Score</th>
+        <th>Options</th>
+        <th>Edit</th>
     </thead>
     <tbody>
-        {% for regn in registrations %}
+        {% for regn,options in registrations %}
             <tr>
                 <td>{{ regn.participant }}</td>
                 <td>{{ regn.team }}</td>
                 <td>{{ regn.is_participating }}</td>
-                <td>{{ regn.score }}<div class="pull-right"><a href="{% url 'events.views.change_score' regn.pk %}"><button class='btn btn-small btn-primary'><i class='icon-pencil'></i></button></a></div></td>
+                <td>{{ regn.score }}</td>
+                <td>
+                    {% for field,value in options %}
+                        {% if forloop.counter != 1 %}
+                            <hr>
+                        {% endif %}    
+                    <b>{{ field }}</b> : {{ value }}
+                    {% endfor %}
+                </td>
+                <td>
+                <div class="pull-right"><a href="{% url 'events.views.change_score' regn.pk %}"><button class='btn btn-small btn-primary'><i class='icon-pencil'></i></button></a></div></td>
             </tr>
         {% endfor %}
     </tbody>
