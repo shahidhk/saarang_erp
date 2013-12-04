@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% load url from future %}
+{% load staticfiles %}
+{% block title %}Room map | Hospitality | Saarang ERP{% endblock %}
+
+{% block content %}
+<style type="text/css">
+
+
+.wrapper {
+
+    text-align: center;
+
+  }
+ 
+  .inner {
+    text-align: center;
+
+    padding: 10px;
+  }
+</style>
+<legend>Room map</legend>
+<div class="well row-fluid">
+    {% for hostel in hostels %}
+        {% if forloop.counter0|divisibleby:4 %}
+            <div class="row-fluid">
+        {% endif %}
+            <a class="span3" data-target="#hostelModal" href="{% url 'hospi.views.hostel_details' hostel.pk %}">
+            <div class="wrapper alert {% if hostel.gender == 'male' %}alert-success{% elif hostel.gender == 'female' %}alert-error{%endif%}">
+                <div class="inner">
+                        <p>
+                            <strong>{{ hostel.name }}</strong>
+                        </p>
+                        <p>
+                            {{ hostel.get_room_count }} rooms
+                        </p>
+                        <p>
+                            {{ hostel.get_current_population }} alloted
+                        </p>
+                </div>
+            </div>
+
+            </a>
+        {% if forloop.counter|divisibleby:4 %}
+            </div>
+        {% endif %}
+
+    {% endfor %}
+
+</div>
+
+
+<div id="hostelModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="hostelModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="hostelModalLabel">Hostel room map</h3>
+  </div>
+  <div class="modal-body">
+    <p>One fine body…</p>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+  </div>
+</div>
+
+<script type="text/javascript">
+$("a[data-target=#hostelModal]").click(function(event) {
+    event.preventDefault();
+    var target = $(this).attr("href");
+    $("#hostelModal .modal-body").load(target, function() {
+         $("#hostelModal").modal("show");
+    });
+});
+</script>
+{% endblock content %}
+

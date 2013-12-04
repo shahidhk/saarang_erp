@@ -78,19 +78,27 @@ Total: {{ team.get_total_count }} members. ( {{ team.get_male_count }} males and
 <hr/>
 
 Accomodation
-<a type="button" id="myPopover" class="btn btn-default" data-toggle="popover" data-html="true" data-placement="top" data-content="<form action=&quot;{% url 'hospi.views.update_status' team.pk %}&quot; method='post'>{% csrf_token %}<label class='radio inline'><input type='radio' name='status' value='requested'><span class='label label-info'>Pending</span></label><label class='radio inline'><input type='radio' name='status' value='confirmed'><span class='label label-success'>Confirm</span></label><label class='radio inline'><input type='radio' name='status' value='waitlisted'><span class='label label-warning'>Waitlist</span></label><label class='radio inline'><input type='radio' name='status' value='rejected'><span class='label label-important'>Reject</span></label><hr/><input type='submit' class='btn btn-small' value='Update'></input></form>" data-original-title="Update status" title="">
-      
+{% if team.checked_status == 'out'%}
+<a type="button" id="myPopover" onclick="$('#myPopover').popover();" class="btn btn-default" data-toggle="popover" data-html="true" data-placement="top" data-content="<form action=&quot;{% url 'hospi.views.update_status' team.pk %}&quot; method='post'>{% csrf_token %}<label class='radio inline'><input type='radio' name='status' value='not_req'><span class='label'>Not required</span></label><label class='radio inline'><input type='radio' name='status' value='requested'><span class='label label-info'>Pending</span></label><label class='radio inline'><input type='radio' name='status' value='confirmed'><span class='label label-success'>Confirm</span></label><label class='radio inline'><input type='radio' name='status' value='waitlisted'><span class='label label-warning'>Waitlist</span></label><label class='radio inline'><input type='radio' name='status' value='rejected'><span class='label label-important'>Reject</span></label><hr/><input type='submit' class='btn btn-small' value='Update'></input></form>" data-original-title="Update status" title="">
 
 {% if team.accomodation_status == 'requested' %}
                             <span class="label label-info">Pending for approval</span>
                         {% elif team.accomodation_status == 'confirmed' %}
                             <span class="label label-success">Confirmed</span>
+                        {% elif team.accomodation_status == 'not_req' %}
+                            <span class="label">Not required</span>
                         {% elif team.accomodation_status == 'waitlisted' %}
                             <span class="label label-warning">Waitlisted</span>
                         {% elif team.accomodation_status == 'rejected' %}
                             <span class="label label-important">Rejected</span>   
                         {% endif %}
 </a>
+{% endif %}
+{% if team.accomodation_status == 'confirmed' and team.checked_status != 'in' %}
+<a href="{% url 'hospi.views.check_in_team' team.pk %}" data-target="#checkinModal" class="btn btn-success"><i class="icon-home"></i> Check-in</a>
+{% elif team.accomodation_status == 'confirmed' and team.checked_status == 'in' %}<span class="badge badge-success"><i class="icon-home icon-white"></i> IN</span>
+<a href="{% url 'hospi.views.check_out_team' team.pk %}" data-target="#checkoutModal" class="btn btn-danger"><i class="icon-home"></i> Check-out</a>
+{% endif %}
                         <hr/>
 <table class="table table-borderless">
     <tr>
@@ -104,6 +112,32 @@ Accomodation
 </table>
 </center>
   
+
+
+<div id="checkinModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="checkinModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" onclick="$('#checkinModal').modal('hide');" aria-hidden="true">×</button>
+    <h3 id="checkinModalLabel">Check in team</h3>
+  </div>
+  <div class="modal-body">
+    <p>One fine body…</p>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" onclick="$('#checkinModal').modal('hide');" aria-hidden="true">Close</button>
+   
+  </div>
+</div>
+
+
+<script type="text/javascript">
+$("a[data-target=#checkinModal]").click(function(event) {
+    event.preventDefault();
+    var target = $(this).attr("href");
+    $("#checkinModal .modal-body").load(target, function() {
+         $("#checkinModal").modal("show");
+    });
+});
+</script>
 <script type="text/javascript">
       $('#myPopover').popover();
 </script> 

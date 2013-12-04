@@ -4,8 +4,7 @@ from django.contrib.auth.models import Group
 from django.forms.widgets import SelectMultiple
 
 #From models
-from models import Event, EventRegistration
-from hospi.models import Team
+from models import Event, EventRegistration, Team
 
 class CreateEventForm(forms.ModelForm):
     COORDS = [[coord.id, coord.first_name] for coord in Group.objects.get(name="coord").user_set.all()]
@@ -71,3 +70,10 @@ class ChangeScoreForm(forms.ModelForm):
 class AddTeamForm(forms.ModelForm):
     class Meta:
         model = Team
+        exclude = ['team_sid', 'checked_status']
+    def __init__(self, *args, **kwargs):
+        super(AddTeamForm, self).__init__(*args, **kwargs)
+        self.fields['members'].widget.attrs['id'] = "multiselect"
+        self.fields['members'].widget.attrs['style'] = "width: 220px;"
+
+

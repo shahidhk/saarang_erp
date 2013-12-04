@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load url from future %}
+{% load staticfiles %}
+{% block title %}All teams | Hospitality | Saarang ERP{% endblock %}
+
+{% block content %}
+{% if not teams %}
+<div class="alert alert-error">  
+    There are no teams to display
+</div>
+{% else %}
+<table id ="datatable" class="table-bordered table-striped table">
+    <thead>
+        <th>Team name</th>
+        <th>Leader</th>
+        <th>Members</th>
+    </thead>
+    <tbody>
+        {% for team in teams %}
+            <tr>
+                <td>{{ team.name }}</td>
+                <td>{{ team.leader }}</td>
+                <td>{% for member in team.members.all %}
+                    {{ member }}, 
+                    {% endfor %}
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+{% endblock content %}

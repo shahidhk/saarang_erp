@@ -6,7 +6,10 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
 from registration.models import SaarangUser
-from models import Team
+from models import Hostel, Room
+from events.models import Team
+from forms import HostelForm, RoomForm
+from events.forms import AddTeamForm
 
 ####################################################################
 # Mainsite Views
@@ -68,7 +71,7 @@ def add_accomodation(request):
 
 @login_required
 def list_registered_teams(request):
-    teams = Team.objects.all().exclude(accomodation_status='not_req')
+    teams = Team.objects.all()
     to_return = {
        'teams':teams,
     }
@@ -78,7 +81,6 @@ def list_registered_teams(request):
 def team_details(request, team_id):
     team = get_object_or_404(Team, pk=team_id)
     to_return = {
-
        'team':team,
     }
     return render(request, 'hospi/team_details.html', to_return)
@@ -86,6 +88,9 @@ def team_details(request, team_id):
 @login_required
 def update_status(request, team_id):
     team = get_object_or_404(Team, pk=team_id)
+    if team.members.filter(email=team.leader.email):
+        team.members.remove(team.leader)
+        messages.warning(request, 'For '+ team.name + ' : ' + team.team_sid +', Team leader found in members list also. Successfully removed!')
     data = request.POST.copy()
     stat = ''
     try:
@@ -163,3 +168,181 @@ def statistics(request):
         num_waitlisted_teams + num_rejected_teams
 
     return render(request, 'hospi/statistics.html', locals())
+
+#####################################################################################
+
+# Hospi Control room
+@login_required
+def add_hostel_rooms(request):
+    hostelform = HostelForm()
+    roomform = RoomForm()
+    to_return = {
+        'hostelform':hostelform,
+        'roomform':roomform,
+    }
+    return render(request, 'hospi/add_hostel_rooms.html', to_return)
+
+@login_required
+def add_hostel(request):
+    try:
+        hostel = HostelForm(request.POST)
+        hos = hostel.save()
+        messages.success(request, 'Hostel ' + hos.name + ' successfully added')
+    except Exception, e:
+        messages.error(request, 'Some error occured. Please contact webops with this message: '+ e.message)
+    return redirect('hospi_room_map')
+
+@login_required
+def add_room(request):
+    try:
+        room = RoomForm(request.POST)
+        rom = room.save()
+        messages.success(request, 'Room ' + rom.name + ' successfully added')
+    except Exception, e:
+        messages.error(request, 'Some error occured. Please contact webops with this message: '+ e.message)
+    return redirect('hospi_room_map')
+
+@login_required
+def room_map(request):
+    hostels = Hostel.objects.all()
+    to_return = {
+        'hostels':hostels,
+    }
+    return render(request, 'hospi/room_map.html', to_return)
+
+@login_required
+def hostel_details(request, hostel_id):
+    hostel = get_object_or_404(Hostel, pk=hostel_id)
+    rooms = hostel.parent_hostel.all()
+    to_return={
+        'hostel':hostel,
+        'rooms':rooms,
+    }
+    return render(request, 'hospi/hostel_details.html', to_return)
+
+@login_required
+def room_details(request, room_id):
+    room = get_object_or_404(Room, pk=room_id)
+    to_return={
+        'room':room,
+    }
+    return render(request, 'hospi/room_details.html', to_return)
+
+@login_required
+def list_all_teams(request):
+    teams = Team.objects.all()
+    to_return={
+        'teams':teams,
+    }
+    return render(request, 'hospi/list_all_teams.html', to_return)    
+
+def auto_id(team_id):
+    base = 'SA2014'
+    num = "{:0>3d}".format(team_id)
+    sid = base + num
+    return sid
+
+@login_required
+def add_team(request):
+    addteamForm = AddTeamForm()
+    to_return={
+        'form': addteamForm,
+        }
+    return render(request, 'hospi/add_team.html', to_return)
+
+@login_required
+def save_team(request):
+    addteamForm = AddTeamForm(request.POST)
+    if addteamForm.is_valid():
+        try:
+            team = addteamForm.save()
+            team.team_sid = auto_id(team.pk)
+            team.save()
+            messages.success(request, team.name +' added successfully. Saarang ID is '+team.team_sid)
+        except Exception, e:
+            messages.error(request, 'Some error occured. please try again: '+e.message)
+    else:
+        messages.error(request, 'Some error occured. please try again')
+    return redirect('hospi_list_registered_teams')
+
+@login_required
+def check_in_team(request, team_id):
+    '''Needs to add some validators'''
+    team = get_object_or_404(Team, pk=team_id)
+    if team.get_male_count() == 0 and team.get_female_count==0:
+        messages.error(request, 'Incomplete team profile')
+    if team.members.filter(email=team.leader.email):
+        team.members.remove(team.leader)
+    if team.get_female_count() and team.get_male_count():
+        print 'Mixed Team'
+        males = team.get_male_members()
+        females = team.get_female_members()
+        male_rooms = Room.objects.filter(hostel__gender='male')
+        female_rooms = Room.objects.filter(hostel__gender='female')
+        return render(request, 'hospi/check_in_mixed.html', locals())
+    elif team.get_male_count():
+        print 'Male Team'
+        males = team.get_male_members()
+        male_rooms = Room.objects.filter(hostel__gender='male')
+        return render(request, 'hospi/check_in_males.html', locals())
+    elif team.get_female_count():
+        print 'Female Team'
+        females = team.get_female_members()
+        female_rooms = Room.objects.filter(hostel__gender='female')
+        return render(request, 'hospi/check_in_females.html', locals())
+    return HttpResponse("<div class='alert alert-error'> Incomplete team profile</div>")
+
+@login_required
+def check_in_mixed(request):
+    data = request.POST.copy()
+    team = get_object_or_404(Team, pk=data['team_id'])
+    males = team.get_male_members()
+    females = team.get_female_members()
+    for male in males:
+        room = get_object_or_404(Room, pk=data[male.saarang_id])
+        room.occupants.add(male)
+        room.save()
+    for female in females:
+        room = get_object_or_404(Room, pk=data[female.saarang_id])
+        room.occupants.add(female)
+        room.save()
+    team.checked_status = 'in'
+    team.save()
+    messages.success(request, team.team_sid + ' checked in successfully')
+    return redirect('hospi_list_registered_teams')
+
+@login_required
+def check_in_males(request):
+    data = request.POST.copy()
+    team = get_object_or_404(Team, pk=data['team_id'])
+    males = team.get_male_members()
+    for male in males:
+        room = get_object_or_404(Room, pk=data[male.saarang_id])
+        room.occupants.add(male)
+        room.save()
+    team.checked_status = 'in'
+    team.save()
+    messages.success(request, team.team_sid + ' checked in successfully')
+    return redirect('hospi_list_registered_teams')
+
+@login_required
+def check_in_females(request):
+    data = request.POST.copy()
+    team = get_object_or_404(Team, pk=data['team_id'])
+    females = team.get_female_members()
+    for female in females:
+        room = get_object_or_404(Room, pk=data[female.saarang_id])
+        room.occupants.add(female)
+        room.save()
+    team.checked_status = 'in'
+    team.save()
+    messages.success(request, team.team_sid + ' checked in successfully')
+    return redirect('hospi_list_registered_teams')
+
+@login_required
+def check_out_team(request, team_id):
+    team = get_object_or_404(Team, pk=data['team_id'])
+    
+    messages.success(request, team.team_sid + ' checked out successfully')
+    return redirect('hospi_list_registered_teams')
+
