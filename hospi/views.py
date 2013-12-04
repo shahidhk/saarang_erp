@@ -341,8 +341,13 @@ def check_in_females(request):
 
 @login_required
 def check_out_team(request, team_id):
-    team = get_object_or_404(Team, pk=data['team_id'])
-    
+    team = get_object_or_404(Team, pk=team_id)
+    members = team.members.all()
+    for member in members:
+        room = member.room_occupant.all()[0]
+        room.occupants.remove(member)
+        room.save()
+    team.checked_status = 'out'
+    team.save()
     messages.success(request, team.team_sid + ' checked out successfully')
     return redirect('hospi_list_registered_teams')
-
