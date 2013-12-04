@@ -23,7 +23,7 @@
         {% for regn,options in registrations %}
             <tr>
                 <td>{{ regn.participant }}</td>
-                <td>{{ regn.team }}</td>
+                <td>{{ regn.team.name }}</td>
                 <td>{{ regn.is_participating }}</td>
                 <td>{{ regn.score }}</td>
                 <td>
