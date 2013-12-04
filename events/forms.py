@@ -70,3 +70,10 @@ class ChangeScoreForm(forms.ModelForm):
 class AddTeamForm(forms.ModelForm):
     class Meta:
         model = Team
+        exclude = ['team_sid', 'checked_status']
+    def __init__(self, *args, **kwargs):
+        super(AddTeamForm, self).__init__(*args, **kwargs)
+        self.fields['members'].widget.attrs['id'] = "multiselect"
+        self.fields['members'].widget.attrs['style'] = "width: 220px;"
+
+
