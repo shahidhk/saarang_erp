@@ -42,11 +42,15 @@ urlpatterns = patterns('',
     # Include urls from notifications
     url(r'^notifications/', include('notifications.urls')),
 
+    # Include urls from hospi
+    url(r'^hospi/', include('hospi.urls')),
+
 	url(r'^login/$', 'erp.views.login_user', name='login'),
 	url(r'^logout/$', 'erp.views.logout_user', name='logout_user'),
 
     # Include Profile urls
     url(r'^profile/$', include('userprofile.urls')),
+
 
     # For media urls
     (r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),

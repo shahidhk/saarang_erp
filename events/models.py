@@ -42,13 +42,65 @@ class FAQ(models.Model):
 class Team(models.Model):
     name = models.CharField(max_length=100)
     leader = models.ForeignKey(SaarangUser,related_name='team_leader')
-    members = models.ManyToManyField(SaarangUser,related_name='team_member')
+    members = models.ManyToManyField(SaarangUser,related_name='team_members', blank=True)
+    team_sid = models.CharField(max_length=20)
+    ACCOMODATION_CHOICES = (
+        ('not_req', 'Accomodation not required'),
+        ('requested', 'Accomodation requested'),
+        ('confirmed', 'Request confirmed'),
+        ('waitlisted', 'Waitlisted'),
+        ('rejected', 'Rejected'),
+        )
+    accomodation_status = models.CharField(max_length=50, choices=ACCOMODATION_CHOICES, default='not_req')
+    date_of_arrival = models.DateField(blank=True, null=True)
+    time_of_arrival = models.TimeField(blank=True,null=True)
+    date_of_departure =  models.DateField(blank=True, null=True)
+    time_of_departure = models.TimeField(blank=True, null=True)
+    CHECKED_CHOICES = (
+        ('in', 'in'),
+        ('out', 'out'),
+        )
+    checked_status = models.CharField(max_length=50, choices=CHECKED_CHOICES, default='out')
     def __unicode__(self):
         try:
             ret_val = (str(self.name)+ ' lead by '+ str(self.leader))
         except Exception,e:
             ret_val = 'None'
         return ret_val
+
+    def get_total_count(self):
+        mem = len(self.members.all())
+        return mem+1
+
+    def get_male_count(self):
+        mem = len(self.members.all().filter(gender='male'))
+        if self.leader.gender == 'male':
+            mem +=1
+        return mem
+
+    def get_female_count(self):
+        mem = len(self.members.all().filter(gender='female'))
+        if self.leader.gender == 'female':
+            mem +=1
+        return mem
+
+    # def is_mixed(self):
+    #     if self.get_female_count() and self.get_male_count():
+    #         return True
+    #     else:
+    #         return False
+
+    def get_male_members(self):
+        mem = list(self.members.filter(gender='male'))
+        if self.leader.gender == 'male':
+            mem.append(self.leader)
+        return mem
+
+    def get_female_members(self):
+        mem = list(self.members.filter(gender='female'))
+        if self.leader.gender == 'female':
+            mem.append(self.leader)
+        return mem
 
 class EventRegistration(models.Model):
     participant = models.ForeignKey(SaarangUser,related_name='event_reg_user')

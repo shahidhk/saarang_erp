@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 {% load staticfiles %}
 {% load url from future %}
+{% load erp_tags %}
 <html lang="en">
 
 <head>
@@ -32,6 +33,7 @@
     <link href="{% static 'css/tabletools/TableTools.css' %}" rel="stylesheet" media="screen">
     <link href="{% static 'css/tabletools/TableTools_JUI.css' %}" rel="stylesheet" media="screen">
     <link href="{% static 'css/select2.css' %}" rel="stylesheet">
+    <script src="{% static 'js/jquery-1.9.1.js' %}"></script>
 
 <!-- Styles end -->
 
@@ -56,8 +58,9 @@
                     <a href="http://saarang.org" class="brand" target="_blank"><img src="{% static 'img/favicon.png' %}" height="75%" width="75%"/></a>
                     <div class="nav-collapse collapse">
                         <ul class="nav">
-                            <li><a href="{% url 'erp.views.home' %}"><i class="icon-home icon-white"></i> Home</a></li>
-                            <li><a href="{% url 'forum.views.index' %}"><i class="icon-pencil icon-white"></i> Forum</a></li>
+                            <li {% if request.path == '/' %}class='active'{% endif %}><a href="{% url 'erp.views.home' %}"><i class="icon-home icon-white"></i> Home</a></li>
+                            <li {% if request.path|app_name == 'forum' %}class='active'{% endif %}><a href="{% url 'forum.views.index' %}"><i class="icon-pencil icon-white"></i> Forum</a></li>
+                            <li {% if request.path|app_name == 'hospi' %}class='active'{% endif %}><a href="{% url 'hospi.views.list_registered_teams' %}"><i class="icon-fire icon-white"></i> Hospi</a></li>
                         </ul>
                         <div class="btn-group pull-right">
                         <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
@@ -78,12 +81,16 @@
         </div>
     {% endblock %}
 <!-- NavBar Ends -->
-
 <!-- Subhead
 ==================================================--> 
 <header class="jumbotron subhead" id="overview">
   <div class="container">
+{% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">{{ message }}<a class="close" data-dismiss="alert" href="#">&times;</a></div>
+{% endfor %}
     ERP Notifications
+    Path:{{ request.path }}<br/>
+    app_name:{{ request.path|app_name }}
   </div>
 </header>
 
@@ -124,7 +131,7 @@
     <div class="accordion-heading">
       <a class="accordion-toggle" data-toggle="collapse" data-parent="#sidebar" href="#tasks"><i class="icon-tasks"></i> Tasks</a>
     </div>
-    <div id="tasks" class="accordion-body collapse">
+    <div id="tasks" class="accordion-body collapse {% if request.path|app_name == 'task' %}in{% endif %}">
       <div class="accordion-inner">
         <ul class="nav-list nav">
           <li>
@@ -150,7 +157,7 @@
     <div class="accordion-heading">
       <a class="accordion-toggle" data-toggle="collapse" data-parent="#sidebar" href="#events"><i class="icon-bookmark"></i> Events</a>
     </div>
-    <div id="events" class="accordion-body collapse">
+    <div id="events" class="accordion-body collapse {% if request.path|app_name == 'event' %}in{% endif %}">
       <div class="accordion-inner">
         <ul class="nav-list nav">
           <li>
@@ -170,6 +177,8 @@
       </div>
     </div>
   </div>
+
+  {% include 'hospi/sidebar.html' %}
 
   <div class="accordion-group">
     <div class="accordion-heading">
@@ -341,6 +350,9 @@
     <script>
         $(document).ready(function() { $("#multiselect").select2(); });
     </script>
+
+
+
 <!-- JavaScripts end -->
 
 </body>
