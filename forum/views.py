@@ -90,7 +90,7 @@ def add_topic(request, forum_id):
             forum.topic_count+=1
             data.save()
             body = '<span style="color:blue;">%s</span> started <span style="color:red;">%s</span> under <span style="color:green;">%s</span>' %(request.user.first_name,data.title,data.forum.title)
-            link = '/erp14/forum/topic/%d/' %(data.id)
+            link = '/forum/topic/%d/' %(data.id)
             notif = Notification(notif_body=body,link=link)
             notif.save()
             if data.forum.department == 'public':
@@ -130,7 +130,7 @@ def add_post(request, topic_id):
             data.topic=topic
             data.save()
             body = '<span style="color:blue;">%s</span> posted in <span style="color:red;">%s</span> under <span style="color:green;">%s</span>' %(request.user.first_name,data.topic.title,data.topic.forum.title)
-            link = '/erp14/forum/topic/%d/' %(data.topic.id)
+            link = '/forum/topic/%d/' %(data.topic.id)
             notif = Notification(notif_body=body,link=link)
             notif.save()
             if data.topic.forum.department == 'public':
