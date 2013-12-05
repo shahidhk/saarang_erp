@@ -1,11 +1,10 @@
-
     
     <div class="row-fluid well">
     {% for room in rooms %}
         {% if forloop.counter0|divisibleby:4 %}
             <div class="row-fluid">
         {% endif %}
-            <a class="span3" data-target="#roomModal" href="{% url 'hospi.views.room_details' room.pk %}">
+            <a class="span3" data-target="#roomModal" href="#{% url 'hospi.views.room_details' room.pk %}" onclick='open_modal(this);'>
             <div class="wrapper alert {% if room.get_occupants_count %}alert-error{% else %}alert-success{%endif%}">
                 <div class="inner">
                         <p>
@@ -45,11 +44,10 @@
 </div>
 
 <script type="text/javascript">
-$("a[data-target=#roomModal]").click(function(event) {
-    event.preventDefault();
-    var target = $(this).attr("href");
+var open_modal = function(elem) {
+    var target = $(elem).attr("href").slice(1);
     $("#roomModal .modal-body").load(target, function() {
          $("#roomModal").modal("show");
     });
-});
+}
 </script>

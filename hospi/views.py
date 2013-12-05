@@ -14,7 +14,7 @@ from events.forms import AddTeamForm
 ####################################################################
 # Mainsite Views
 def home(request):
-    email = 'muhammedshahid.k@gmail.com'
+    email = 'shebi.cetian2011@gmail.com'
     user = SaarangUser.objects.get(email=email)
     teams_leading = user.team_leader.all()
     team = teams_leading[0]

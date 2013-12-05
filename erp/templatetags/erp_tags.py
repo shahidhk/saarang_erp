@@ -10,6 +10,6 @@ register.filter('split', split)
 
 def app_name(value):
     '''Return the first word if url is given'''
-    return value.split('/')[1]
+    return value.split('/')[2]
 
 register.filter('app_name', app_name)
