@@ -36,6 +36,9 @@ urlpatterns = patterns('',
     # Include urls from ticket
     url(r'^ticket/', include('ticket.urls')),
 
+    # Include urls from ticket
+    url(r'^main/', include('main.urls')),
+
     # Include urls from registration
     url(r'^registration/', include('registration.urls')),
 
@@ -46,6 +49,7 @@ urlpatterns = patterns('',
     url(r'^hospi/', include('hospi.urls')),
 
 	url(r'^login/$', 'erp.views.login_user', name='login'),
+
 	url(r'^logout/$', 'erp.views.logout_user', name='logout_user'),
 
     # Include Profile urls

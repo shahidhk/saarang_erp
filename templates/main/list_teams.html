@@ -1,0 +1,36 @@
+{% extends "main/main_profile_edit.html" %}
+
+{% block main_body %}
+
+<table class='table table-bordered'>
+    <thead>
+        <th>Team ID</th>
+        <th>Team Name</th>
+        <th>Team leader</th>
+        <th>Team members</th>
+        <th>Register</th>
+    </thead>
+        {% for team in team_list %}
+        <tr>
+            <td>{{ team.id }}</td>
+            <td>{{ team.name }}</td>
+            <td>{{ team.leader }} </td>
+            <td>
+                {% for member in team.members.all %}
+                    {{ member }}</br>
+                {% endfor %}
+            </td>
+            {% if team.leader == user %}
+                <td><a href = "/main/register_team/{{eId}}/{{emailId}}/{{team.id}}/"><button type='button' class='btn btn-small btn-primary'>Register using this team</button></a></td>
+            {% else %}
+                <td>Only team leaders can register</td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+</table>
+<center><b>OR</b></center>
+</br>
+<center><a href="/main/create_team/{{emailId}}/{{eId}}/"><button type='button' class='btn btn-success'>Create New Team</button></a></center>
+
+
+{% endblock %}
