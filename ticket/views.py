@@ -38,7 +38,6 @@ def create_ticket(request):
 @login_required
 def ticket_list(request):
     tickets = Ticket.objects.all()
-    recieve_signal_print.send(sender=None)
     return render(request, 'ticket/ticket_list.html', locals())
 
 @login_required

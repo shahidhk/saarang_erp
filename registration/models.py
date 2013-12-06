@@ -11,8 +11,8 @@ class SaarangUser(models.Model):
     college = models.CharField(max_length=150)
     fb_token = models.TextField(max_length=1000)
     GENDER_CHOICES = (
-        ('male', 'Male'),
-        ('female', 'Female'),
+        ('Male', 'Male'),
+        ('Female', 'Female'),
     )
     ACTIVATION_CHOICES = (
         ('0','Activation email sent'),
