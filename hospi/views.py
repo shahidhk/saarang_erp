@@ -337,13 +337,7 @@ def save_team(request):
             team.save()
             messages.success(request, team.name +' added successfully. Saarang ID is '+team.team_sid)
         except Exception, e:
-<<<<<<< HEAD
             messages.error(request, 'Some error occured. please try again: ' + e.message)
-            raise e
-=======
-	    raise e
-            messages.error(request, 'Some error occured. please try again: '+e.message)
->>>>>>> 8b24295c75a426094b2f51c6e711c06730f6eb80
     else:
         messages.error(request, 'Some error occured. please try again')
     return redirect('hospi_list_registered_teams')

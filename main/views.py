@@ -13,7 +13,12 @@ from django.contrib import messages
 from registration.models import SaarangUser
 from main.forms import ProfileEditForm,CreateTeamForm,EventOptionsForm
 from events.models import Event,EventRegistration,Team
-from hospi.views import auto_id
+
+def auto_id(team_id):
+    base = 'SA2014'
+    num = "{0:0>3d}".format(team_id)
+    sid = base + num
+    return sid
 
 EVENT_WITH_OPTIONS = [35,50,17,52,46,26,7,15]
 
