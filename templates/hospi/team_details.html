@@ -30,18 +30,22 @@
      -moz-background-clip: padding;
           background-clip: padding-box;
 }
-</style>
+</style><div class="alert alert-info">
 <table class="table table-borderless">
     <tr>
-        <td>Name:</td>
-        <td>{{ team.name }}</td>
+        <td>name:</td>
+        <td><strong>{{ team.name }}</strong></td>
     </tr>
     <tr>
         <td>ID:</td>
         <td>{{ team.team_sid }}</td>
     </tr>
     <tr>
-        <td>Leader name:</td>
+        <td>for:</td>
+        <td>{% for event in team.event_reg_team.all %}{{ event }}, {% endfor %}</td>
+    </tr>
+    <tr>
+        <td>leader name:</td>
         <td>{{ team.leader.name }}</td>
     </tr>
     <tr>
@@ -60,39 +64,41 @@
         <td>city:</td>
         <td>{{ team.leader.city }}</td>
     </tr>
-</table><hr/>
-Members<hr/>
+</table></div>
+<div class="alert alert-success">
+<strong>Total {{ team.get_total_count }} members. ( {{ team.get_male_count }} males and {{ team.get_female_count }} females )</strong><hr/>
 <table class="table table-borderless">
     {% for member in team.members.all %}
-<tr>
-                    <td>{{ forloop.counter }}</td>
-                    <td width=20px><a href="#">{{ member.saarang_id }}</a></td>
-                    <td>{{ member.gender|title }}</td>
-                    <td>{{ member.email }}</td>
-                    <td>{{ member.name }}</td>
-                </tr>
+    <tr>
+      <td>{{ forloop.counter }}</td>
+      <td width=20px><a href="#">{{ member.saarang_id }}</a></td>
+      <td>{{ member.gender|title }}</td>
+      <td>{{ member.email }}</td>
+      <td>{{ member.name }}</td>
+    </tr>
     {% endfor %}
 </table>
-<strong>
-Total: {{ team.get_total_count }} members. ( {{ team.get_male_count }} males and {{ team.get_female_count }} females )</strong>
+
 <hr/>
-
+</div>
+<div class="alert alert-error">
 Accomodation
-{% if team.checked_status == 'out'%}
-<a type="button" id="myPopover" onclick="$('#myPopover').popover();" class="btn btn-default" data-toggle="popover" data-html="true" data-placement="top" data-content="<form action=&quot;{% url 'hospi.views.update_status' team.pk %}&quot; method='post'>{% csrf_token %}<label class='radio inline'><input type='radio' name='status' value='not_req'><span class='label'>Not required</span></label><label class='radio inline'><input type='radio' name='status' value='requested'><span class='label label-info'>Pending</span></label><label class='radio inline'><input type='radio' name='status' value='confirmed'><span class='label label-success'>Confirm</span></label><label class='radio inline'><input type='radio' name='status' value='waitlisted'><span class='label label-warning'>Waitlist</span></label><label class='radio inline'><input type='radio' name='status' value='rejected'><span class='label label-important'>Reject</span></label><hr/><input type='submit' class='btn btn-small' value='Update'></input></form>" data-original-title="Update status" title="">
-
-{% if team.accomodation_status == 'requested' %}
-                            <span class="label label-info">Pending for approval</span>
-                        {% elif team.accomodation_status == 'confirmed' %}
-                            <span class="label label-success">Confirmed</span>
-                        {% elif team.accomodation_status == 'not_req' %}
-                            <span class="label">Not required</span>
-                        {% elif team.accomodation_status == 'waitlisted' %}
-                            <span class="label label-warning">Waitlisted</span>
-                        {% elif team.accomodation_status == 'rejected' %}
-                            <span class="label label-important">Rejected</span>   
-                        {% endif %}
-</a>
+{% if team.checked_status == 'out' %}
+{% if editable %}
+  <a type="button" id="myPopover" onclick="$('#myPopover').popover();" class="btn btn-default" data-toggle="popover" data-html="true" data-placement="top" data-content="<form action=&quot;{% url 'hospi.views.update_status' team.pk %}&quot; method='post'>{% csrf_token %}<label class='radio inline'><input type='radio' name='status' value='not_req'><span class='label'>Not required</span></label><label class='radio inline'><input type='radio' name='status' value='requested'><span class='label label-info'>Pending</span></label><label class='radio inline'><input type='radio' name='status' value='confirmed'><span class='label label-success'>Confirm</span></label><label class='radio inline'><input type='radio' name='status' value='waitlisted'><span class='label label-warning'>Waitlist</span></label><label class='radio inline'><input type='radio' name='status' value='rejected'><span class='label label-important'>Reject</span></label><hr/>Status once changed to Confirm or Reject cannot be reverted back<input type='submit' class='btn btn-small' value='Update'></input></form>" data-original-title="Update status" title="">{% endif %}
+    {% if team.accomodation_status == 'requested' %}
+      <span class="label label-info">Pending for approval</span>
+    {% elif team.accomodation_status == 'confirmed' %}
+      <span class="label label-success">Confirmed</span>
+    {% elif team.accomodation_status == 'not_req' %}
+      <span class="label">Not required</span>
+    {% elif team.accomodation_status == 'waitlisted' %}
+      <span class="label label-warning">Waitlisted</span>
+    {% elif team.accomodation_status == 'rejected' %}
+      <span class="label label-important">Rejected</span>   
+    {% endif %}
+{% if editable %} 
+  </a>{% endif %}
 {% endif %}
 {% if team.accomodation_status == 'confirmed' and team.checked_status != 'in' %}
 <a href="{% url 'hospi.views.check_in_team' team.pk %}" data-target="#checkinModal" class="btn btn-success"><i class="icon-home"></i> Check-in</a>
@@ -109,7 +115,8 @@ Accomodation
         <th>to</th>
         <td>{{ team.time_of_departure|title }} on {{ team.date_of_departure }}</td>
     </tr>
-</table>
+</table><hr/>
+</div>
 </center>
   
 
@@ -138,6 +145,8 @@ $("a[data-target=#checkinModal]").click(function(event) {
     });
 });
 </script>
+{% if editable %}
 <script type="text/javascript">
       $('#myPopover').popover();
 </script> 
+{% endif %}

@@ -7,41 +7,81 @@ from django.contrib import messages
 
 from registration.models import SaarangUser
 from models import Hostel, Room
-from events.models import Team
+from events.models import Team, EventRegistration, Event
 from forms import HostelForm, RoomForm
 from events.forms import AddTeamForm
 
 ####################################################################
 # Mainsite Views
 def home(request):
-    email = 'shebi.cetian2011@gmail.com'
+    if not request.session.get('saaranguser_email'):
+        return redirect('hospi_login')
+    email = request.session.get('saaranguser_email')
     user = SaarangUser.objects.get(email=email)
     teams_leading = user.team_leader.all()
     team = teams_leading[0]
     members = teams_leading[0].members.all()
-
-    print user
-    print teams_leading
-    print members
+    edits = ['not_req', 'requested']
+    if team.accomodation_status in edits:
+        editable = True
+    else:
+        editable = False
+    print editable
     to_return = {
+        'editable':editable,
         'leader':user,
         'team':team,
         'members':members,
     }
     return render(request, 'hospi/home.html', to_return)
 
+def login(request):
+    if request.method == 'POST':
+        data=request.POST.copy()
+        try:
+            user = SaarangUser.objects.get(email=data['email'])
+            if user.password == data['password']:
+                request.session['saaranguser_email'] = user.email
+                return redirect('hospi_home')
+            else:
+                messages.error(request, 'Did u mis-spell your password?')
+        except Exception, e:
+            messages.error(request, 'Is your email id correct?')
+    return render(request, 'hospi/login.html')
+
+def logout(request):
+    try:
+        del request.session['saaranguser_email']
+        messages.success(request, 'You have been logged out')
+    except KeyError:
+        messages.warning(request, 'Please login first')
+    return redirect('hospi_login')
+
+
 def add_members(request):
     data = request.POST.copy()
     team = get_object_or_404(Team, pk=data['team_id'])
     return_list = zip(dict(request.POST)['email'],dict(request.POST)['college_id'])
+    not_registered =[]
     for member in return_list:
         uemail = member[0]
         uid = member[1]
-        user = get_object_or_404(SaarangUser, email=uemail)
-        new =  team.members.add(user)
-    messages.success(request, "Successfully added")
-
-    print Team.get_total_count(team)
+        try:
+            user = SaarangUser.objects.get(email=uemail)
+            if uid:
+                user.college_id = uid
+                user.save()
+            new = team.members.add(user)
+        except Exception, e:
+            not_registered.append(uemail)
+    if not not_registered:
+        messages.success(request, "Successfully added")
+    elif not_registered:
+        msg=''
+        for email in not_registered:
+            msg += email + ', '
+        messages.error(request,'Partially added members. ' + msg + 'have not registered \
+                with Saarang yet. Please ask them to register and try adding them again.')
     return redirect('hospi_home')
 
 def delete_member(request, team_id, member_id):
@@ -61,8 +101,22 @@ def add_accomodation(request):
     team.time_of_departure = data['dep_time']
     if team.accomodation_status == 'not_req':
         team.accomodation_status = 'requested'
+        messages.success(request, 'Successfully requested for accommodation.')
+    else:
+        messages.success(request, 'Details successfully updated.')
     team.save()
     return redirect('hospi_home')
+
+def generate_saar(request, team_id):
+    team = get_object_or_404(Team, pk=team_id)
+    leader = team.leader
+    members = team.members.all()
+    to_return = {
+        'leader':leader,
+        'team':team,
+        'members':members,
+    }
+    return render(request, 'hospi/saar.html', to_return)
 
 # End Mainsite views
 #######################################################################
@@ -71,7 +125,7 @@ def add_accomodation(request):
 
 @login_required
 def list_registered_teams(request):
-    teams = Team.objects.all()
+    teams = Team.objects.all().exclude(accomodation_status='not_req')
     to_return = {
        'teams':teams,
     }
@@ -80,8 +134,14 @@ def list_registered_teams(request):
 @login_required
 def team_details(request, team_id):
     team = get_object_or_404(Team, pk=team_id)
+    edit_list = ['confirmed', 'rejected']
+    if team.accomodation_status in edit_list:
+        editable = False
+    else:
+        editable=True
     to_return = {
-       'team':team,
+        'editable':editable,
+        'team':team,
     }
     return render(request, 'hospi/team_details.html', to_return)
 
@@ -238,14 +298,16 @@ def list_all_teams(request):
 
 def auto_id(team_id):
     base = 'SA2014'
-    num = "{:0>3d}".format(team_id)
+    num = "{:0>3}".format(team_id)
     sid = base + num
     return sid
 
 @login_required
 def add_team(request):
     addteamForm = AddTeamForm()
+    events = Event.objects.filter(is_team=True)
     to_return={
+        'events':events,
         'form': addteamForm,
         }
     return render(request, 'hospi/add_team.html', to_return)
@@ -253,10 +315,15 @@ def add_team(request):
 @login_required
 def save_team(request):
     addteamForm = AddTeamForm(request.POST)
+    data = request.POST.copy()
     if addteamForm.is_valid():
         try:
             team = addteamForm.save()
             team.team_sid = auto_id(team.pk)
+            event = Event.objects.get(pk=data['event_id'])
+            event_regn = EventRegistration.objects.create(participant=team.leader, \
+             event=event, team=team)
+            event_regn.save()
             team.save()
             messages.success(request, team.name +' added successfully. Saarang ID is '+team.team_sid)
         except Exception, e:

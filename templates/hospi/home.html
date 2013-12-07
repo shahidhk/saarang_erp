@@ -15,7 +15,7 @@
 {% endfor %}
 <div class="well well-large">
     Welcome, {{ leader.name }}
-    <div class="row">
+    <div class="row"><div class="pull-right"><a class="btn btn-danger" href="{% url 'hospi.views.logout' %}" ><i class="icon-off icon-white"></i> Logout</a></div>
         <div class="span3">
             <img src="{% static 'img/rhs.png' %}"/>
         </div>
@@ -24,9 +24,8 @@
         </div>
     </div>
     <div class='alert alert-info'>
-        <p>Click "Edit Team" to Add/Remove Members, Update Travel Details or Delete Team<br/>
-        You can Edit Your Profile till your Accommodation Request has been <span class="label label-success">Confirmed</span>, <span class="label label-important">Rejected</span> or <span class="label label-warning">Waitlisted</span><br/>
-        Click here for general instructions
+        <p>Click "Edit Team" to Add/Remove Members<br/>
+        You can Edit your team till your Accommodation Request has been <span class="label label-success">Confirmed</span>, <span class="label label-important">Rejected</span> or <span class="label label-warning">Waitlisted</span><br/>
         </p>
     </div>
 <style type="text/css">
@@ -59,11 +58,13 @@
                     <span class="label label-info">Requested</span>
                 {% elif team.accomodation_status == 'confirmed' %}
                     <span class="label label-success">Confirmed</span>
+                    <a href="{% url 'hospi.views.generate_saar' team.pk %}" target="_blank" class="btn btn-inverse btn-small"><i class="icon-file icon-white"></i> Get SAAR</a>
                 {% elif team.accomodation_status == 'waitlisted' %}
                     <span class="label label-warning">Waitlisted</span>
                 {% elif team.accomodation_status == 'rejected' %}
                     <span class="label label-important">Rejected</span>   
                 {% endif %}
+
                 </td>
             </tr>
         </table>
@@ -104,7 +105,9 @@
 
         <tr>
             <td colspan=3>
+                {% if editable %}
                 <a href="#addAccomodationModal" role="button" class="btn btn-success btn-small pull-right" data-toggle="modal">Edit</a>
+                {% endif %}
             </td>
         </tr>
     </table>
@@ -119,8 +122,7 @@
             {% for member in members %}
             <tr id="memberRow">
                 <td style="width: 5%;">{{ forloop.counter }}</td>
-                <td style="width: 15%;">{{ member.saarang_id }}</td>
-                <td style="width: 5%;"><a href="{% url 'hospi.views.delete_member' team.pk member.pk %}"><span class="badge badge-important">&times;</span></a></td>
+                <td style="width: 15%;">{{ member.saarang_id }}&nbsp;<a href="{% url 'hospi.views.delete_member' team.pk member.pk %}" class="close-btn" style="display: none;"><span class="badge badge-important">&times; Del</span></a></td>
                 <td>{{ member.email }}</td>
                 <td>{{ member.name }}</td>
                 <td>{{ member.mobile }}</td>
@@ -128,8 +130,11 @@
             {% endfor %}
         {% else %}<tr><td colspan=3 style="text-align: center; width: 100%;">Please add members</td></tr>
         {% endif %}
-    <tr><td colspan=6 style="text-align: left; width: 100%;"><a href="#addMemberModal" role="button" class="btn btn-info btn-small pull-right" data-toggle="modal">Add members</a>
-        <a onclick="edit()" role="button" class="btn btn-info btn-small pull-right" data-toggle="modal">Edit team </a></td></tr>
+    <tr><td colspan=5 style="text-align: left; width: 100%;">
+    {% if editable %}    
+        <a onclick=" $('.close-btn').css('display')=='none'? $('.close-btn').show(): $('.close-btn').hide();"  role="button" class="btn btn-info btn-small pull-right">Edit team </a>
+    {% endif %}
+    <a href="#addMemberModal" style="display: none;" role="button" class="btn btn-warning btn-small close-btn" data-toggle="modal"><i class="icon-plus"></i> Add members </a></td></tr>
     </table>
 </p>
 </div>
@@ -140,6 +145,7 @@
 </p>
 </div>
  
+ {% if editable %}
 <!-- Add member to team Modal -->
 <div id="addMemberModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="addMemberModalLabel" aria-hidden="true">
     <div class="modal-header">
@@ -206,6 +212,6 @@
         </form>
     </div>
 </div>
-
+{% endif %}
 </center>
 {% endblock %}
