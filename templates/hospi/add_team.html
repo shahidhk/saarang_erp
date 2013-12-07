@@ -1,5 +1,5 @@
-
-<form class="form-horizontal well" action="{% url 'hospi.views.save_team' %}" method="POST" {% if form.is_multipart %}enctype="multipart/form-data"{% endif %}>
+<div class="alert alert-info">
+<form class="form-horizontal" action="{% url 'hospi.views.save_team' %}" method="POST" {% if form.is_multipart %}enctype="multipart/form-data"{% endif %}>
         {% csrf_token %}
         {{ form.media }}
         {% if form.errors %}
@@ -22,17 +22,29 @@
                     {% endif %} 
                 </div>
             </div>
+            {% if forloop.counter == 2 %}
+            <div class="control-group">
+            <label class="control-label">Event participating *</label>
+                <div class="controls"> 
+                    <select name="event_id" id="multiselect">
+                        {% for event in events %}
+                            <option value="{{ event.pk }}">{{ event }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            {% endif %}
 
         {% endfor %}
         {% for field in form.hidden_fields %}
             {{ field }}
         {% endfor %}
 
-        <div class="form-actions"> <input class="btn btn-primary" type="submit" value="Save"/>
+        <div class="pull-right"> <input class="btn btn-primary" type="submit" value="Save"/>
         </div>
     </form>
-
+</div>
 <script type="text/javascript">
 
-    $(document).ready(function() { $("#multiselect").select2(); });
+    $(document).ready(function() { $("#multiselect1").select2(); });
 </script>
