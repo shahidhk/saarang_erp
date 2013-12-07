@@ -26,7 +26,7 @@
     </thead>
     <tbody>
         {% for user in users %}
-            <tr class="rowlink" onclick="document.location = '{% url 'registration.views.show_user' user.pk %}';">
+            <tr class="rowlink">
                 <td>{{ user.saarang_id }}</td>
                 <td >{{ user.name }}</td>
                 <td >{{ user.gender }}</td>
