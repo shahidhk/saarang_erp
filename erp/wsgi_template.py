@@ -16,8 +16,8 @@ framework.
 import os
 import sys
 # Adds required paths to system environment, very necessary
-path = '/path/to/repo/saarang_erp'
-path1 = '/path/to/repo/saarang_erp/erp'
+path = '/home/harsha/webops/saarang_erp'
+path1 = '/home/harsha/webops/saarang_erp/erp'
 
 if path not in sys.path:
     sys.path.append(path)

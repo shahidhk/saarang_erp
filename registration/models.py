@@ -6,13 +6,15 @@ class SaarangUser(models.Model):
     name = models.CharField(max_length=60)
     email = models.EmailField(max_length=100)
     mobile = models.BigIntegerField(max_length=10)
+    city = models.CharField(max_length=100)
     fb_id = models.CharField(max_length=50)
     friend_list = models.TextField(max_length=1000)
     college = models.CharField(max_length=150)
+    college_id = models.CharField(max_length=50)
     fb_token = models.TextField(max_length=1000)
     GENDER_CHOICES = (
-        ('male', 'Male'),
-        ('female', 'Female'),
+        ('Male', 'Male'),
+        ('Female', 'Female'),
     )
     ACTIVATION_CHOICES = (
         ('0','Activation email sent'),

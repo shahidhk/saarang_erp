@@ -1,0 +1,53 @@
+{% extends 'main/main_profile_edit.html' %}
+
+{% block main_body %}
+<center>
+     {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}    </ul>
+    {% endif %}
+    <div class="span9 container">
+        <form class="form-horizontal" action="" method="POST" {% if form.is_multipart %}enctype="multipart/form-data"{% endif %}>
+            <center><h3>Create Team</h3></center>
+            <hr>
+            {% csrf_token %}
+            {{ form.media }}
+            {% if form.errors %}
+                <div class="alert alert-error">
+                    <ul>
+                        {% for error in form.non_field_errors %}
+                        <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+            {% for field in form.visible_fields %}
+                <div class="control-group {{ field.html_name }} {% if field.errors %}error{% endif %}">
+                <label class="control-label">{{ field.label }}{% if field.field.required %} *{% endif %}</label>
+                    <div class="controls"> {{ field }}
+                        {% if field.errors %}
+                            <span class="help-inline">
+                                {{ field.errors.as_text }}
+                            </span>
+                        {% endif %} 
+                        </br></br>
+                        {{ field.help_text|safe }}
+                    </div>
+                </div>
+            {% endfor %}
+            {% for field in form.hidden_fields %}
+                {{ field }}
+            {% endfor %}
+            <hr>
+
+            <center>
+             <input class="btn btn-success btn-large" type="submit" value="Create team"/>
+             <a href="/erptest/main/list_teams/{{ eventId }}/{{ emailId }}/"><button class="btn btn-primary btn-large" type="button">Back</button></a>
+            </center>
+        </form>
+       
+    </div>
+</center>
+{% endblock %}

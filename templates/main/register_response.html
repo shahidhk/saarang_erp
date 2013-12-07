@@ -1,0 +1,9 @@
+{% extends 'main/main_profile_edit.html' %}
+
+{% block main_body %}
+
+{% for message in messages %}
+    <h3 class="text-center text-{{ message.tags }}">{{message}}</h3>'
+{% endfor %}
+
+{% endblock %}
