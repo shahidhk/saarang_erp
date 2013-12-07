@@ -19,7 +19,7 @@ def home(request):
     email = request.session.get('saaranguser_email')
     user = SaarangUser.objects.get(email=email)
     teams_leading = user.team_leader.all()
-    if teams_leading:
+    if len(user.team_leader.all()) != 0:
         team = teams_leading[0]
     else:
         messages.error(request, 'You do not lead any team. Please create a team')
@@ -336,6 +336,7 @@ def save_team(request):
             team.save()
             messages.success(request, team.name +' added successfully. Saarang ID is '+team.team_sid)
         except Exception, e:
+	    raise e
             messages.error(request, 'Some error occured. please try again: '+e.message)
     else:
         messages.error(request, 'Some error occured. please try again')
