@@ -58,7 +58,7 @@
     <div class='span6 well' style='height:200px;overflow:auto;'>
         <h5>Notifications(Public)</h5>
         <hr/>
-        {% for notif in notif_list_pub %}
+        {% for notif in notif_list_pub reversed %}
         <small>At {{ notif.timestamp }},</small>
         <div class='alert alert-info'>
             <!--<button type="button" class="close" data-dismiss="alert" onclick='al({{ notif.id }})'>&times;</button>-->

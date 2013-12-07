@@ -211,6 +211,21 @@ def register(request):
 def list_registrations(request, event_id):
     event = get_object_or_404(Event, pk=event_id)
     registrations = EventRegistration.objects.filter(event=event)
+    reg_options = []
+    for reg in registrations:
+        options = reg.options
+        options = options.split('|||')
+        field=[]
+        value=[]
+        for i in options:
+            field.append(i.split('===')[0])
+            try:
+                a=i.split('===')[1]
+            except:
+                a='None'
+            value.append(a)
+        reg_options.append(zip(field,value))
+    registrations=zip(registrations,reg_options)
     to_return = {
         'event': event,
         'registrations': registrations,
@@ -221,8 +236,23 @@ def list_registrations(request, event_id):
 @login_required
 def list_all_registrations(request):
     regs = EventRegistration.objects.all().order_by('-id')
+    reg_options = []
+    for reg in regs:
+        options = reg.options
+        options = options.split('|||')
+        field=[]
+        value=[]
+        for i in options:
+            field.append(i.split('===')[0])
+            try:
+                a=i.split('===')[1]
+            except:
+                a='None'
+            value.append(a)
+        reg_options.append(zip(field,value))
     to_return = {
         'regs': regs,
+        'options':reg_options,
     }
     return render(request, 'events/all_registrations.html', to_return)
 
