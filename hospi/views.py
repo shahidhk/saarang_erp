@@ -40,6 +40,11 @@ def login(request):
         data=request.POST.copy()
         try:
             user = SaarangUser.objects.get(email=data['email'])
+            try:
+                teams = user.team_leader.all()
+            except Exception, e:
+                messages.error(request, 'You do not lead any team. Please create a team')
+                return render(request, 'hospi/login.html')
             if user.password == data['password']:
                 request.session['saaranguser_email'] = user.email
                 return redirect('hospi_home')
