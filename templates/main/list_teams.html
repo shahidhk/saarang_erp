@@ -10,9 +10,9 @@
         <th>Team members</th>
         <th>Register</th>
     </thead>
-        {% for team in team_list %}
+        {% for team,reg in team_list %}
         <tr>
-            <td>{{ team.id }}</td>
+            <td>{{ team.sid }}</td>
             <td>{{ team.name }}</td>
             <td>{{ team.leader }} </td>
             <td>
@@ -21,9 +21,15 @@
                 {% endfor %}
             </td>
             {% if team.leader == user %}
+                {% if reg == 1 %}
                 <td><a href = "/main/register_team/{{eId}}/{{emailId}}/{{team.id}}/"><button type='button' class='btn btn-small btn-primary'>Register using this team</button></a></td>
+                {% elif reg == 2 %}
+                <td><button type='button' class='btn btn-small btn-primary disabled' >Already registered</button></td>
+                {% elif reg == 3 %}
+                <td><a href = "/main/band_details/{{eId}}/{{emailId}}/{{team.id}}/"><button type='button' class='btn btn-small btn-primary'>Update event submission details.</button></a></td>
+                {% endif %}
             {% else %}
-                <td>Only team leaders can register</td>
+                <td>Only team leaders can register or update</td>
             {% endif %}
         </tr>
         {% endfor %}

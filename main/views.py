@@ -11,8 +11,11 @@ import base64
 from django.contrib import messages
 
 from registration.models import SaarangUser
-from main.forms import ProfileEditForm,CreateTeamForm
+from main.forms import ProfileEditForm,CreateTeamForm,EventOptionsForm
 from events.models import Event,EventRegistration,Team
+from hospi.views import auto_id
+
+EVENT_WITH_OPTIONS = [35,50,17,52,46,26,7,15]
 
 def main_profile_edit(request,emailId):
     emailId = base64.b64decode(emailId)
@@ -43,12 +46,17 @@ def register_team(request,eventId,emailId,teamId):
     email = base64.b64decode(emailId)
     user = get_object_or_404(SaarangUser,email=email)
     if EventRegistration.objects.filter(event=event,team=team):
+        if event.id in EVENT_WITH_OPTIONS:
+            return HttpResponseRedirect(reverse('band_details',kwargs={'eventId':eventId,'emailId':emailId,'teamId':teamId}))
         messages.info(request,'Already registered for the event')
     else:
         if not event.registration_open :
             messages.info(request,'Registration is closed for the event.')
         else:
-            EventRegistration.objects.create(participant=user,team=team,event=event)
+            EventRegistration.objects.create(participant=user,team=team,event=event,options='')
+            if event.id in EVENT_WITH_OPTIONS:
+                email = base64.b64encode(emailId)
+                return HttpResponseRedirect(reverse('band_details',kwargs={'eventId':eventId,'emailId':emailId,'teamId':teamId}))
             messages.success(request,'Team registered successfully')
     return render(request, 'main/register_response.html')
 
@@ -57,9 +65,26 @@ def list_teams(request,eventId,emailId):
     event = get_object_or_404(Event,id=eventId)
     email = base64.b64decode(emailId)
     user = get_object_or_404(SaarangUser,email=email)
-    team_list = list(user.team_member.all())
-    for team in list(user.team_leader.all()):
-        team_list.append(team)
+    team_list = []
+    reg_list=[]
+    try:
+        team_list += list(user.team_member.all())
+    except:
+        pass
+    try:
+        team_list += list(user.team_leader.all())
+    except:
+        pass
+    event_reg = EventRegistration.objects.filter(event=event)
+    for team in team_list:
+        if event_reg.filter(team=team):
+            if event.id in EVENT_WITH_OPTIONS:
+                reg_list+=[3]
+            else:
+                reg_list+=[2]
+        else:
+            reg_list+=[1]
+    team_list = zip(team_list,reg_list)
     to_return = {
         'team_list':team_list,
         'user':user,
@@ -85,6 +110,7 @@ def register(request,eventId,emailId):
                     eventreg = EventRegistration()
                     eventreg.participant = user
                     eventreg.event = event
+                    eventreg.options = ''
                     eventreg.save()
                     messages.success(request,'Registered successfully.')
                 elif user.activate_status == 1:
@@ -95,17 +121,91 @@ def register(request,eventId,emailId):
         return render(request, 'main/register_response.html')
 
 def create_team(request,emailId,eventId):
-user = get_object_or_404(SaarangUser,email=emailId)
+    emailId = base64.b64decode(emailId)
+    user = get_object_or_404(SaarangUser,email=emailId)
+    emailId=base64.b64encode(emailId)
     if request.method == 'POST':
         createteamForm = CreateTeamForm(request.POST)   
         if createteamForm.is_valid():
             team_name = createteamForm.cleaned_data['team_name']
             team_members = createteamForm.cleaned_data['members']
-            for members in team_members.split(','):
-                 
+            team = Team()
+            team.name=team_name
+            team.leader = user
+            team.sid = auto_id(team.pk)
+            team.save()
+            for member_email in team_members.split(','):
+                try:
+                    member = SaarangUser.objects.get(email=member_email)
+                    team.members.add(member)
+                except:
+                    pass
+            team.save()
+        return HttpResponseRedirect(reverse('list_teams',kwargs={'eventId':eventId,'emailId':emailId}))#,kwargs={'eventId':eventId,'teamId':teamId,}))
     else:
         createteamForm =  CreateTeamForm()
         to_return={
             'form':createteamForm,
+            'emailId':emailId,
+            'eventId':eventId,
         }
-    return render(request, 'main/create_team.html',to_return)
+        return render(request, 'main/create_team.html',to_return)
+
+def band_details(request,eventId,emailId,teamId):
+    event = Event.objects.get(id=eventId)
+    team = Team.objects.get(id=teamId)
+    event_reg = EventRegistration.objects.get(event=event,team=team)
+    options = event_reg.options
+    print options
+    try:
+        options=options.split('|||')
+        print options
+    except:
+        pass
+    if request.method == 'POST':
+        eventoptionsForm = EventOptionsForm(request.POST)
+        if eventoptionsForm.is_valid():
+            submisssion1 = eventoptionsForm.cleaned_data['submission1']
+            submisssion2 = eventoptionsForm.cleaned_data['submission2']
+            submisssion3 = eventoptionsForm.cleaned_data['submission3']
+            band_email = eventoptionsForm.cleaned_data['band_email']
+            options = 'url1===' + submisssion1 + '|||url2===' + submisssion2 + '|||url3===' + submisssion3 + '|||band_email===' + band_email 
+            event_reg.options = options
+            print options
+            event_reg.save()
+            messages.success(request,'Details saved successfully')
+            return render(request, 'main/register_response.html')
+    else:
+        initial={}
+        try:
+            initial['submission1']=options[0].split('===')[1]
+            print options[0].split('===')[1]
+        except:
+            pass
+        try:
+            initial['submission2']=options[1].split('===')[1]
+            print options[1].split('===')[1]
+        except:
+            pass
+        try:
+            initial['submission3']=options[2].split('===')[1]
+            print options[2].split('===')[1]
+        except:
+            pass
+        try:
+            initial['band_email']=options[3].split('===')[1]
+            print options[3].split('===')[1]
+        except:
+            pass
+        print initial
+        eventoptionsForm = EventOptionsForm(initial=initial)
+        if event.id in [35,17]:
+            messages.info(request,'Please provide YouTube or Dropbox links to your <b>audio</b> submissions here.')
+        else:
+            messages.info(request,'Please provide YouTube or Dropbox links to your submissions here.')
+        to_return = {
+            'form':eventoptionsForm,
+            'eventId':eventId,
+            'emailId':emailId,
+        }
+        return render(request, 'main/band_details.html',to_return)

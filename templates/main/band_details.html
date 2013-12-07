@@ -5,12 +5,12 @@
      {% if messages %}
     <ul class="messages">
         {% for message in messages %}
-            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+            <div class="alert alert-{{ message.tags }}">{{ message|safe }}</div>
         {% endfor %}    </ul>
     {% endif %}
     <div class="span9 container">
         <form class="form-horizontal" action="" method="POST" {% if form.is_multipart %}enctype="multipart/form-data"{% endif %}>
-            <center><h3>Create Team</h3></center>
+            <center><h3>Media Links</h3></center>
             <hr>
             {% csrf_token %}
             {{ form.media }}
@@ -43,7 +43,7 @@
             <hr>
 
             <center>
-             <input class="btn btn-success btn-large" type="submit" value="Create team"/>
+             <input class="btn btn-success btn-large" type="submit" value="Update"/>
              <a href="/main/list_teams/{{ eventId }}/{{ emailId }}/"><button class="btn btn-primary btn-large" type="button">Back</button></a>
             </center>
         </form>

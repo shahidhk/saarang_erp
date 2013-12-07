@@ -14,4 +14,10 @@ class ProfileEditForm(forms.Form):
 
 class CreateTeamForm(forms.Form):
     team_name = forms.CharField(max_length=200,label='Team Name',help_text="You will be the leader of the team")
-    members = forms.CharField(max_length=5000,label='Email-IDs of the team members',help_text='Enter multiple Email-IDs seperated by a comma(,).')
+    members = forms.CharField(max_length=5000,label='Email-IDs of the team members',help_text='Enter multiple Email-IDs seperated by a comma(,).The members should be registered, or else register at <a href="www.saarang.org">Saarang</a>.')
+
+class EventOptionsForm(forms.Form):
+    submission1 = forms.CharField(max_length=500,label='First Submission',required=False)
+    submission2 = forms.CharField(max_length=500,label='Second Submission',required=False)    
+    submission3 = forms.CharField(max_length=500,label='Third Submission',required=False)    
+    band_email = forms.EmailField(label='Band Email Id',required=False,help_text='Please verify before submission')
