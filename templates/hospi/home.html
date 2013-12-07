@@ -1,0 +1,217 @@
+{% extends "hospi/hospi_base.html" %}
+{% load url from future %}
+{% load staticfiles %}
+{% block title %}Hospitality | Saarang 2014{% endblock %}
+
+{% block content %}
+<center>
+    {% if msg %}
+        <div class="alert alert-{{ type }}">
+            {{ msg }}
+        </div>
+    {% endif %}
+{% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">{{ message }}<a class="close" data-dismiss="alert" href="#">&times;</a></div>
+{% endfor %}
+<div class="well well-large">
+    Welcome, {{ leader.name }}
+    <div class="row"><div class="pull-right"><a class="btn btn-danger" href="{% url 'hospi.views.logout' %}" ><i class="icon-off icon-white"></i> Logout</a></div>
+        <div class="span3">
+            <img src="{% static 'img/rhs.png' %}"/>
+        </div>
+        <div class="span8">
+            <h1 class="span5">SAAR</h1>
+        </div>
+    </div>
+    <div class='alert alert-info'>
+        <p>Click "Edit Team" to Add/Remove Members<br/>
+        You can Edit your team till your Accommodation Request has been <span class="label label-success">Confirmed</span>, <span class="label label-important">Rejected</span> or <span class="label label-warning">Waitlisted</span><br/>
+        </p>
+    </div>
+<style type="text/css">
+/* borderless table */
+.table.table-borderless td, .table.table-borderless th {
+    border: 0 !important;
+}
+ 
+.table.table-borderless {
+    margin-bottom: 0px;
+}
+</style>
+<div class="alert alert-success">
+    <legend>Team Details</legend>
+    <p>
+        <table class="table table-condensed table-borderless">
+            <tr>
+                <td style="text-align: right; width: 45%;">Name</td><td style="text-align: center; width: 10%;"> : </td><td style="text-align: left; width: 45%;">{{ team.name }}</td>
+            </tr>
+            <tr>
+                <td style="text-align: right; width: 45%;">ID</td><td style="text-align: center; width: 10%;"> : </td><td style="text-align: left; width: 45%;">{{ team.team_sid }}</td>
+            </tr>
+            <tr>
+                <td style="text-align: right; width: 45%;">Accomodation Request</td><td style="text-align: center; width: 10%;"> : </td><td style="text-align: left; width: 45%;">
+                
+                {% if team.accomodation_status == 'not_req' %}
+                    <span class="label">Not required</span>
+                    <a href="#addAccomodationModal" role="button" class="btn btn-success btn-small pull-right" data-toggle="modal">Request for accomodation</a>
+                {% elif team.accomodation_status == 'requested' %}
+                    <span class="label label-info">Requested</span>
+                {% elif team.accomodation_status == 'confirmed' %}
+                    <span class="label label-success">Confirmed</span>
+                    <a href="{% url 'hospi.views.generate_saar' team.pk %}" target="_blank" class="btn btn-inverse btn-small"><i class="icon-file icon-white"></i> Get SAAR</a>
+                {% elif team.accomodation_status == 'waitlisted' %}
+                    <span class="label label-warning">Waitlisted</span>
+                {% elif team.accomodation_status == 'rejected' %}
+                    <span class="label label-important">Rejected</span>   
+                {% endif %}
+
+                </td>
+            </tr>
+        </table>
+    </p>
+</div>
+
+<div class="alert alert-block">
+  <legend>Team Leader</legend>
+  <p>
+    <table class="table table-condensed table-borderless">
+        <tr>
+            <td style="text-align: right; width: 45%;">Name</td><td style="text-align: center; width: 10%;"> : </td><td style="text-align: left; width: 45%;">{{ leader.name }}</td>
+        </tr>
+        <tr>
+            <td style="text-align: right; width: 45%;">ID</td><td style="text-align: center; width: 10%;"> : </td><td style="text-align: left; width: 45%;">{{ leader.saarang_id }}</td>
+        </tr>
+        <tr>
+            <td style="text-align: right; width: 45%;">Email</td><td style="text-align: center; width: 10%;"> : </td><td style="text-align: left; width: 45%;">{{ leader.email }}</td>
+        </tr>
+        <tr>
+            <td style="text-align: right; width: 45%;">Mobile</td><td style="text-align: center; width: 10%;"> : </td><td style="text-align: left; width: 45%;">{{ leader.mobile }}</td>
+        </tr>
+    </table>
+</p>
+</div>
+
+{% if not team.accomodation_status == 'not_req' %}
+<div class="alert alert-error">
+  <legend>Accomodation details</legend>
+  <p>
+    <table class="table table-condensed table-borderless">
+        <tr>
+            <td style="text-align: right; width: 45%;">From</td><td style="text-align: center; width: 10%;"> : </td><td style="text-align: left; width: 45%;">{{ team.time_of_arrival|title }} on {{ team.date_of_arrival }}</td>
+        </tr>
+        <tr>
+            <td style="text-align: right; width: 45%;">To</td><td style="text-align: center; width: 10%;"> : </td><td style="text-align: left; width: 45%;">{{ team.time_of_departure|title }} on {{ team.date_of_departure }}</td>
+        </tr>
+
+        <tr>
+            <td colspan=3>
+                {% if editable %}
+                <a href="#addAccomodationModal" role="button" class="btn btn-success btn-small pull-right" data-toggle="modal">Edit</a>
+                {% endif %}
+            </td>
+        </tr>
+    </table>
+</p>
+</div>
+{% endif %}
+<div class="alert alert-success">
+  <legend>Team Members</legend>
+  <p>
+    <table class="table table-bordered">
+        {% if members %}
+            {% for member in members %}
+            <tr id="memberRow">
+                <td style="width: 5%;">{{ forloop.counter }}</td>
+                <td style="width: 15%;">{{ member.saarang_id }}&nbsp;<a href="{% url 'hospi.views.delete_member' team.pk member.pk %}" class="close-btn" style="display: none;"><span class="badge badge-important">&times; Del</span></a></td>
+                <td>{{ member.email }}</td>
+                <td>{{ member.name }}</td>
+                <td>{{ member.mobile }}</td>
+            </tr>
+            {% endfor %}
+        {% else %}<tr><td colspan=3 style="text-align: center; width: 100%;">Please add members</td></tr>
+        {% endif %}
+    <tr><td colspan=5 style="text-align: left; width: 100%;">
+    {% if editable %}    
+        <a onclick=" $('.close-btn').css('display')=='none'? $('.close-btn').show(): $('.close-btn').hide();"  role="button" class="btn btn-info btn-small pull-right">Edit team </a>
+    {% endif %}
+    <a href="#addMemberModal" style="display: none;" role="button" class="btn btn-warning btn-small close-btn" data-toggle="modal"><i class="icon-plus"></i> Add members </a></td></tr>
+    </table>
+</p>
+</div>
+
+<div class="alert alert-info">
+  <p>
+   For hospitality related queries, please contact <a href="mailto:hospitality@saarang.org">hospitality@saarang.org</a>. If you have difficulty using the registration portal, please send an email to <a href="mailto:queries@saarang.org">queries@saarang.org</a>. Please provide full details of the problem you are facing while writing to the hospitality section or webadmin.
+</p>
+</div>
+ 
+ {% if editable %}
+<!-- Add member to team Modal -->
+<div id="addMemberModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="addMemberModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="addMemberModalLabel">Add members to team: {{ team.name }}</h3>
+    </div>
+    <div class="modal-body">
+        <form action="{% url 'hospi.views.add_members' %}" method="post" id="add_form">
+            {% csrf_token %}
+            <table id="mytable">
+                <tr> 
+                    <td style="width: 70%"><input class="input-block-level" type='email' name='email' placeholder='Email ID'></td>
+                    <td style="width: 30%"><input class='input-block-level' type='text' name='college_id' placeholder='College ID' ></td>
+                </tr>
+            </table>          
+            <script type="text/javascript">
+                function addpos()
+                {   table=document.getElementById("mytable");
+                var row=table.insertRow(-1);
+                var cell1=row.insertCell(0);
+                var cell2=row.insertCell(1);
+                cell1.innerHTML="<input type='email' class='input-block-level' name='email' placeholder='Email ID'>";
+                cell2.innerHTML="<input type='text' class='input-block-level' name='college_id' placeholder='College ID' />";
+                }
+            </script>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" value="+" type="button" id="morepos" onclick="addpos()"><i class="icon-plus"></i></button>
+                <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+                <input type='hidden' name='team_id' value='{{ team.pk }}'>
+                <input type='submit' class="btn btn-primary" value='Save changes'/>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Add accomodation to team Modal -->
+<div id="addAccomodationModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="addAccomodationLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 id="addAccomodationLabel">Add accomodation details for team: {{ team.name }}</h4>
+    </div>
+    <div class="modal-body">
+        <form action="{% url 'hospi.views.add_accomodation' %}" method="post" id="add_form">
+            {% csrf_token %}
+            <table id="mytable" class="table table-borderless">
+                <tr> 
+                    <th>Required from:</th>
+                    <td><input type='date' name="arr_date" value="2014-01-08">
+                    <td><input type='time' name="arr_time" value="20:00:00">
+                </tr>
+                <tr> 
+                    <th>to</th>
+                    <td><input type='date' name="dep_date" value="2014-01-11">
+                    <td><input type='time' name="dep_time" value="23:00:00">
+                </tr>
+            </table>          
+        </div>
+            <div class="modal-footer">
+                <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+                <input type='hidden' name='team_id' value='{{ team.pk }}'>
+                <input type='submit' class="btn btn-primary" value='Save changes'/>
+            </div>
+        </form>
+    </div>
+</div>
+{% endif %}
+</center>
+{% endblock %}

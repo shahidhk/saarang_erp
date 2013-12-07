@@ -1,19 +1,5 @@
-{% extends "base.html" %}
-{% load url from future %}
-{% block title %}Add event | Saarang ERP{% endblock %}
-
-{% block content %}
-
-{% if messages %}
-<ul class="messages">
-    {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-    {% endfor %}
-</ul>
-{% endif %}
-<div class="span9 container">
-    <form class="form-horizontal" action="" method="POST" {% if form.is_multipart %}enctype="multipart/form-data"{% endif %}>
-        <legend>Add a new Team</legend>
+<div class="alert alert-info">
+<form class="form-horizontal" action="{% url 'hospi.views.save_team' %}" method="POST" {% if form.is_multipart %}enctype="multipart/form-data"{% endif %}>
         {% csrf_token %}
         {{ form.media }}
         {% if form.errors %}
@@ -35,19 +21,30 @@
                         </span>
                     {% endif %} 
                 </div>
-                {{ field.help_text }}
             </div>
+            {% if forloop.counter == 2 %}
+            <div class="control-group">
+            <label class="control-label">Event participating *</label>
+                <div class="controls"> 
+                    <select name="event_id" id="multiselect">
+                        {% for event in events %}
+                            <option value="{{ event.pk }}">{{ event }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            {% endif %}
 
         {% endfor %}
         {% for field in form.hidden_fields %}
             {{ field }}
         {% endfor %}
 
-        <div class="form-actions"> <input class="btn btn-primary btn-large" type="submit" value="Submit"/> {% block extra_buttons %} {% endblock extra_buttons %}
+        <div class="pull-right"> <input class="btn btn-primary" type="submit" value="Save"/>
         </div>
     </form>
-   
 </div>
+<script type="text/javascript">
 
-
-{% endblock %}
+    $(document).ready(function() { $("#multiselect1").select2(); });
+</script>

@@ -1,0 +1,42 @@
+{% extends "main/main_profile_edit.html" %}
+
+{% block main_body %}
+
+<table class='table table-bordered'>
+    <thead>
+        <th>Team ID</th>
+        <th>Team Name</th>
+        <th>Team leader</th>
+        <th>Team members</th>
+        <th>Register</th>
+    </thead>
+        {% for team,reg in team_list %}
+        <tr>
+            <td>{{ team.sid }}</td>
+            <td>{{ team.name }}</td>
+            <td>{{ team.leader }} </td>
+            <td>
+                {% for member in team.members.all %}
+                    {{ member }}</br>
+                {% endfor %}
+            </td>
+            {% if team.leader == user %}
+                {% if reg == 1 %}
+                <td><a href = "/erptest/main/register_team/{{eId}}/{{emailId}}/{{team.id}}/"><button type='button' class='btn btn-small btn-primary'>Register using this team</button></a></td>
+                {% elif reg == 2 %}
+                <td><button type='button' class='btn btn-small btn-primary disabled' >Already registered</button></td>
+                {% elif reg == 3 %}
+                <td><a href = "/erptest/main/band_details/{{eId}}/{{emailId}}/{{team.id}}/"><button type='button' class='btn btn-small btn-primary'>Update event submission details.</button></a></td>
+                {% endif %}
+            {% else %}
+                <td>Only team leaders can register or update</td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+</table>
+<center><b>OR</b></center>
+</br>
+<center><a href="/erptest/main/create_team/{{emailId}}/{{eId}}/"><button type='button' class='btn btn-success'>Create New Team</button></a></center>
+
+
+{% endblock %}
