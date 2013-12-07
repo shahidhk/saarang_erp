@@ -52,9 +52,9 @@ class Team(models.Model):
         ('rejected', 'Rejected'),
         )
     accomodation_status = models.CharField(max_length=50, choices=ACCOMODATION_CHOICES, default='not_req')
-    date_of_arrival = models.DateField(blank=True, null=True, default='01/08/2014')
+    date_of_arrival = models.DateField(blank=True, null=True, default='2014-01-08')
     time_of_arrival = models.TimeField(blank=True,null=True, default='23:00:00')
-    date_of_departure =  models.DateField(blank=True, null=True, default='01/11/2014')
+    date_of_departure =  models.DateField(blank=True, null=True, default='2014-01-11')
     time_of_departure = models.TimeField(blank=True, null=True, default='10:00:00')
     CHECKED_CHOICES = (
         ('in', 'in'),
