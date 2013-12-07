@@ -62,7 +62,11 @@ class Team(models.Model):
         )
     checked_status = models.CharField(max_length=50, choices=CHECKED_CHOICES, default='out')
     def __unicode__(self):
-        return (str(self.name) + ' lead by ' + str(self.leader))
+        try:
+            ret_val = (str(self.name)+ ' lead by '+ str(self.leader))
+        except Exception,e:
+            ret_val = 'None'
+        return ret_val
 
     def get_total_count(self):
         mem = len(self.members.all())
@@ -105,8 +109,9 @@ class EventRegistration(models.Model):
     is_participating = models.BooleanField(default=True)
     score = models.IntegerField(default=0)
     timestamp = models.DateTimeField(blank=True,null=True,auto_now_add=True)
-    #url1 = models.URLField(max_length=500)
-    #url2 = models.URLField(max_length=500)
+    options = models.TextField(max_length=10000,blank=True,null=True)
+    # url1 = models.URLField(max_length=500)
+    # url2 = models.URLField(max_length=500)
 
     def __unicode__(self):
         return str(self.participant) +' for ' + str(self.event)
