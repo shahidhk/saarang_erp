@@ -19,7 +19,11 @@ def home(request):
     email = request.session.get('saaranguser_email')
     user = SaarangUser.objects.get(email=email)
     teams_leading = user.team_leader.all()
-    team = teams_leading[0]
+    if teams_leading:
+        team = teams_leading[0]
+    else:
+        messages.error(request, 'You do not lead any team. Please create a team')
+        return redirect('hospi_login')
     members = teams_leading[0].members.all()
     edits = ['not_req', 'requested']
     if team.accomodation_status in edits:
