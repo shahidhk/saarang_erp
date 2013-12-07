@@ -298,7 +298,7 @@ def list_all_teams(request):
 
 def auto_id(team_id):
     base = 'SA2014'
-    num = "{:0>3}".format(team_id)
+    num = "{0:0>3d}".format(team_id)
     sid = base + num
     return sid
 
