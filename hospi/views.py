@@ -19,9 +19,9 @@ def home(request):
     email = request.session.get('saaranguser_email')
     user = SaarangUser.objects.get(email=email)
     teams_leading = user.team_leader.all()
-    if teams_leading:
+    try:
         team = teams_leading[0]
-    else:
+    except Exception, e:
         messages.error(request, 'You do not lead any team. Please create a team')
         return redirect('hospi_login')
     members = teams_leading[0].members.all()
@@ -330,13 +330,15 @@ def save_team(request):
             team = addteamForm.save()
             team.team_sid = auto_id(team.pk)
             event = Event.objects.get(pk=data['event_id'])
+            print 'OK'
             event_regn = EventRegistration.objects.create(participant=team.leader, \
              event=event, team=team)
             event_regn.save()
             team.save()
             messages.success(request, team.name +' added successfully. Saarang ID is '+team.team_sid)
         except Exception, e:
-            messages.error(request, 'Some error occured. please try again: '+e.message)
+            messages.error(request, 'Some error occured. please try again: ' + e.message)
+            raise e
     else:
         messages.error(request, 'Some error occured. please try again')
     return redirect('hospi_list_registered_teams')
