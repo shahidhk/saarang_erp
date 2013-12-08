@@ -16,11 +16,7 @@ from events.models import Event,EventRegistration,Team
 
 def auto_id(team_id):
     base = 'SA2014'
-<<<<<<< Updated upstream
     num = "{0:0>3}".format(team_id)
-=======
-    num = "{0:0>3d}".format(int(team_id))
->>>>>>> Stashed changes
     sid = base + num
     return sid
 
