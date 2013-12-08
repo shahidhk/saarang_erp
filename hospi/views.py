@@ -30,7 +30,6 @@ def home(request):
         editable = True
     else:
         editable = False
-    print editable
     to_return = {
         'editable':editable,
         'leader':user,
