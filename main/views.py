@@ -16,11 +16,7 @@ from events.models import Event,EventRegistration,Team
 
 def auto_id(team_id):
     base = 'SA2014'
-<<<<<<< Updated upstream
-    num = "{0:0>3}".format(team_id)
-=======
-    num = "{0:0>3d}".format(int(team_id))
->>>>>>> Stashed changes
+    num = "{0:0>3d}".format((team_id))
     sid = base + num
     return sid
 
@@ -148,6 +144,7 @@ def create_team(request,emailId,eventId):
     emailId = base64.b64decode(emailId)
     user = get_object_or_404(SaarangUser,email=emailId)
     emailId=base64.b64encode(emailId)
+    mail_list=[]
     if request.method == 'POST':
         createteamForm = CreateTeamForm(request.POST)   
         if createteamForm.is_valid():
@@ -164,7 +161,7 @@ def create_team(request,emailId,eventId):
                 try:
                     member = SaarangUser.objects.get(email=member_email)
                     team.members.add(member)
-                    mail_list.append(member_email)
+                    #mail_list.append(member_email)
                     msg = '%s has been added to the team' %(member)
                     messages.success(request,msg)
                 except:
