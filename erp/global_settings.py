@@ -177,3 +177,5 @@ HOSTELS = (
         ('sharav','Sharavati'),
         ('sarayu','Sarayu'),
     )
+
+DEFAULT_FROM_EMAIL = 'webadmin@saarang.org'
