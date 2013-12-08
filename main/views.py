@@ -132,14 +132,17 @@ def create_team(request,emailId,eventId):
             team = Team()
             team.name=team_name
             team.leader = user
-            team.sid = auto_id(team.pk)
+            team.team_sid = auto_id(team.pk)
             team.save()
             for member_email in team_members.split(','):
                 try:
                     member = SaarangUser.objects.get(email=member_email)
                     team.members.add(member)
+                    msg = '%s successfully added to the team' %(member)
+                    messages.success(request,msg)
                 except:
-                    pass
+                    msg = '%s not added to the team. Only registered Email Ids can be added to the team.' 
+                    messages.error(request,msg)
             team.save()
         return HttpResponseRedirect(reverse('list_teams',kwargs={'eventId':eventId,'emailId':emailId}))#,kwargs={'eventId':eventId,'teamId':teamId,}))
     else:

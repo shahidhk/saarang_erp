@@ -1,6 +1,13 @@
 {% extends "main/main_profile_edit.html" %}
 
 {% block main_body %}
+ {% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+     <span class="close" data-dismiss="alert">&times;</span>
+     <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}    </ul>
+{% endif %}
 
 <table class='table table-bordered'>
     <thead>
@@ -22,11 +29,11 @@
             </td>
             {% if team.leader == user %}
                 {% if reg == 1 %}
-                <td><a href = "/erptest/main/register_team/{{eId}}/{{emailId}}/{{team.id}}/"><button type='button' class='btn btn-small btn-primary'>Register using this team</button></a></td>
+                <td><a href = "/main/register_team/{{eId}}/{{emailId}}/{{team.id}}/"><button type='button' class='btn btn-small btn-primary'>Register using this team</button></a></td>
                 {% elif reg == 2 %}
                 <td><button type='button' class='btn btn-small btn-primary disabled' >Already registered</button></td>
                 {% elif reg == 3 %}
-                <td><a href = "/erptest/main/band_details/{{eId}}/{{emailId}}/{{team.id}}/"><button type='button' class='btn btn-small btn-primary'>Update event submission details.</button></a></td>
+                <td><a href = "/main/band_details/{{eId}}/{{emailId}}/{{team.id}}/"><button type='button' class='btn btn-small btn-primary'>Update event submission details.</button></a></td>
                 {% endif %}
             {% else %}
                 <td>Only team leaders can register or update</td>
@@ -36,7 +43,7 @@
 </table>
 <center><b>OR</b></center>
 </br>
-<center><a href="/erptest/main/create_team/{{emailId}}/{{eId}}/"><button type='button' class='btn btn-success'>Create New Team</button></a></center>
+<center><a href="/main/create_team/{{emailId}}/{{eId}}/"><button type='button' class='btn btn-success'>Create New Team</button></a></center>
 
 
 {% endblock %}
