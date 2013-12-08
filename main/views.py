@@ -9,14 +9,18 @@ from django.contrib.auth.decorators import permission_required
 from django.core.urlresolvers import reverse
 import base64
 from django.contrib import messages
-
+from django.core.mail import send_mail
 from registration.models import SaarangUser
 from main.forms import ProfileEditForm,CreateTeamForm,EventOptionsForm
 from events.models import Event,EventRegistration,Team
 
 def auto_id(team_id):
     base = 'SA2014'
-    num = "{0:0>3d}".format(team_id)
+<<<<<<< Updated upstream
+    num = "{0:0>3}".format(team_id)
+=======
+    num = "{0:0>3d}".format(int(team_id))
+>>>>>>> Stashed changes
     sid = base + num
     return sid
 
@@ -59,6 +63,13 @@ def register_team(request,eventId,emailId,teamId):
             messages.info(request,'Registration is closed for the event.')
         else:
             EventRegistration.objects.create(participant=user,team=team,event=event,options='')
+            subject = 'Saarang 2014 Registration'
+            email_msg = '\tYou have registered to the event \'%s\' under the team \'%s\' at Saarng 2014\n\n\nRegards,\n\tWeb-operations department\n\tSaaraang 2014' %(event.name,team.name)
+            from_user = 'webadmin@saarang.org'
+            mail_list = [member.email for member in team.members.all()]
+            mail_list.append(email)
+            send_mail(subject, email_msg, from_user,mail_list, fail_silently=False)
+
             if event.id in EVENT_WITH_OPTIONS:
                 email = base64.b64encode(emailId)
                 return HttpResponseRedirect(reverse('band_details',kwargs={'eventId':eventId,'emailId':emailId,'teamId':teamId}))
@@ -118,6 +129,14 @@ def register(request,eventId,emailId):
                     eventreg.options = ''
                     eventreg.save()
                     messages.success(request,'Registered successfully.')
+                    subject = 'Saarang 2014 Registration'
+                    email_msg = '\tYou have registered to the event \'%s\' at Saarng 2014\n\n\nRegards,\n\tWeb-operations department\n\tSaaraang 2014' %(event.name)
+                    from_user = 'webadmin@saarang.org'
+                    mail_list = [emailId]
+                    try:
+                        send_mail(subject, email_msg, from_user,mail_list, fail_silently=False)
+                    except:
+                        pass
                 elif user.activate_status == 1:
                     messages.warning(request,'Please complete your profile to register for the event.')
                 else:
@@ -137,14 +156,29 @@ def create_team(request,emailId,eventId):
             team = Team()
             team.name=team_name
             team.leader = user
-            team.sid = auto_id(team.pk)
+            team.team_sid = '' 
+            team.save()
+            team.team_sid=auto_id(team.id)
             team.save()
             for member_email in team_members.split(','):
                 try:
                     member = SaarangUser.objects.get(email=member_email)
                     team.members.add(member)
+                    mail_list.append(member_email)
+                    msg = '%s has been added to the team' %(member)
+                    messages.success(request,msg)
                 except:
-                    pass
+                    pass            
+            subject = 'Saarang 2014 Registration'
+            email_msg = '\tYou have been added to the team %s by %s\n\n\nRegards,\n\tWeb-Operations Department\n\tSaarang 2014' %(team.name,user)
+            from_user = 'webadmin@saarang.org'
+            try:
+                send_mail(subject, email_msg, from_user,mail_list, fail_silently=False)
+                msg = 'Confirmation mail sent'
+                messages.success(request,msg)
+            except:
+                msg = 'Sending confirmation mail failed'
+                messages.error(request,msg)
             team.save()
         return HttpResponseRedirect(reverse('list_teams',kwargs={'eventId':eventId,'emailId':emailId}))#,kwargs={'eventId':eventId,'teamId':teamId,}))
     else:
