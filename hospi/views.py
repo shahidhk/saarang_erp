@@ -166,7 +166,7 @@ def user_save_team(request):
         team.save()
         messages.success(request, team.name +' added successfully. Saarang ID is '+team.team_sid)
     except Exception, e:
-        messages.error(request, 'Some error occured. please try again: ' + e.message)
+        messages.error(request, 'Some random error occured. please try again: ' + e.message)
     return redirect('hospi_prehome')
 
 def generate_saar(request, team_id):
