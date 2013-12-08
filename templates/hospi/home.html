@@ -15,7 +15,10 @@
 {% endfor %}
 <div class="well well-large">
     Welcome, {{ leader.name }}
-    <div class="row"><div class="pull-right"><a class="btn btn-danger" href="{% url 'hospi.views.logout' %}" ><i class="icon-off icon-white"></i> Logout</a></div>
+    <div class="row">
+        <div class="pull-right">
+        <a class="btn btn-warning" href="{% url 'hospi.views.prehome' %}" ><i class="icon-chevron-left icon-white"></i> Back</a></div>
+        <div class="pull-right"><a class="btn btn-danger" href="{% url 'hospi.views.logout' %}" ><i class="icon-off icon-white"></i> Logout</a></div>
         <div class="span3">
             <img src="{% static 'img/rhs.png' %}"/>
         </div>
