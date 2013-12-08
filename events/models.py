@@ -52,9 +52,9 @@ class Team(models.Model):
         ('rejected', 'Rejected'),
         )
     accomodation_status = models.CharField(max_length=50, choices=ACCOMODATION_CHOICES, default='not_req')
-    date_of_arrival = models.DateField(blank=True, null=True, default='01/08/2014')
+    date_of_arrival = models.DateField(blank=True, null=True, default='2014-01-08')
     time_of_arrival = models.TimeField(blank=True,null=True, default='23:00:00')
-    date_of_departure =  models.DateField(blank=True, null=True, default='01/11/2014')
+    date_of_departure =  models.DateField(blank=True, null=True, default='2014-01-11')
     time_of_departure = models.TimeField(blank=True, null=True, default='10:00:00')
     CHECKED_CHOICES = (
         ('in', 'in'),
@@ -109,7 +109,7 @@ class EventRegistration(models.Model):
     is_participating = models.BooleanField(default=True)
     score = models.IntegerField(default=0)
     timestamp = models.DateTimeField(blank=True,null=True,auto_now_add=True)
-    options = models.TextField(max_length=10000,blank=True,null=True)
+    options = models.TextField(max_length=10000,blank=True,null=True,default='')
     # url1 = models.URLField(max_length=500)
     # url2 = models.URLField(max_length=500)
 

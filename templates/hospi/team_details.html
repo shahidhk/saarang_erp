@@ -42,7 +42,7 @@
     </tr>
     <tr>
         <td>for:</td>
-        <td>{% for event in team.event_reg_team.all %}{{ event }}, {% endfor %}</td>
+        <td>{% for event in team.event_reg_team.all %}{{ event.event.long_name }}, {% endfor %}</td>
     </tr>
     <tr>
         <td>leader name:</td>
