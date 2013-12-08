@@ -16,7 +16,11 @@ from events.models import Event,EventRegistration,Team
 
 def auto_id(team_id):
     base = 'SA2014'
+<<<<<<< Updated upstream
     num = "{0:0>3}".format(team_id)
+=======
+    num = "{0:0>3d}".format(int(team_id))
+>>>>>>> Stashed changes
     sid = base + num
     return sid
 
@@ -152,7 +156,9 @@ def create_team(request,emailId,eventId):
             team = Team()
             team.name=team_name
             team.leader = user
-            team.team_sid = auto_id(team.pk)
+            team.team_sid = '' 
+            team.save()
+            team.team_sid=auto_id(team.id)
             team.save()
             for member_email in team_members.split(','):
                 try:
