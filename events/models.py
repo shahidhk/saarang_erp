@@ -109,7 +109,7 @@ class EventRegistration(models.Model):
     is_participating = models.BooleanField(default=True)
     score = models.IntegerField(default=0)
     timestamp = models.DateTimeField(blank=True,null=True,auto_now_add=True)
-    options = models.TextField(max_length=10000,blank=True,null=True)
+    options = models.TextField(max_length=10000,blank=True,null=True,default='')
     # url1 = models.URLField(max_length=500)
     # url2 = models.URLField(max_length=500)
 

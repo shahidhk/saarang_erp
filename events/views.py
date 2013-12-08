@@ -238,18 +238,19 @@ def list_all_registrations(request):
     regs = EventRegistration.objects.all().order_by('-id')
     reg_options = []
     for reg in regs:
-        options = reg.options
-        options = options.split('|||')
-        field=[]
-        value=[]
-        for i in options:
-            field.append(i.split('===')[0])
-            try:
-                a=i.split('===')[1]
-            except:
-                a='None'
-            value.append(a)
-        reg_options.append(zip(field,value))
+    	options = reg.options
+    	if options != None:
+            options = options.split('|||')
+            field=[]
+            value=[]
+            for i in options:
+                field.append(i.split('===')[0])
+                try:
+                    a=i.split('===')[1]
+                except:
+                    a='None'
+                value.append(a)
+            reg_options.append(zip(field,value))
     to_return = {
         'regs': regs,
         'options':reg_options,
