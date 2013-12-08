@@ -13,7 +13,7 @@
             <div class="span3">
                 <img src="{% static 'img/rhs.png' %}"/>
             </div>
-            <div class="span6"><center>
+            <div class="span6"><center>{{ user.name }}
                 <h3>Welcome to accommodation portal</h3><hr/></center>
             </div>
             <div class="pull-right"><a class="btn btn-danger" href="{% url 'hospi.views.logout' %}" ><i class="icon-off icon-white"></i> Logout</a></div>
@@ -86,7 +86,6 @@
                     <td>Accommodation status:
                         {% if team.accomodation_status == 'not_req' %}
                         <span class="label">Not required</span>
-                        <a href="#addAccomodationModal" role="button" class="btn btn-success btn-small pull-right" data-toggle="modal">Request for accomodation</a>
                         {% elif team.accomodation_status == 'requested' %}
                         <span class="label label-info">Requested</span>
                         {% elif team.accomodation_status == 'confirmed' %}
@@ -113,7 +112,6 @@
                     <td>Accommodation status:
                         {% if team.accomodation_status == 'not_req' %}
                         <span class="label">Not required</span>
-                        <a href="#addAccomodationModal" role="button" class="btn btn-success btn-small pull-right" data-toggle="modal">Request for accomodation</a>
                         {% elif team.accomodation_status == 'requested' %}
                         <span class="label label-info">Requested</span>
                         {% elif team.accomodation_status == 'confirmed' %}
