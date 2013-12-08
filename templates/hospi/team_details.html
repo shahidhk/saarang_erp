@@ -41,10 +41,6 @@
         <td>{{ team.team_sid }}</td>
     </tr>
     <tr>
-        <td>for:</td>
-        <td>{% for event in team.event_reg_team.all %}{{ event.event.long_name }}, {% endfor %}</td>
-    </tr>
-    <tr>
         <td>leader name:</td>
         <td>{{ team.leader.name }}</td>
     </tr>
@@ -71,7 +67,7 @@
     {% for member in team.members.all %}
     <tr>
       <td>{{ forloop.counter }}</td>
-      <td width=20px><a href="#">{{ member.saarang_id }}</a></td>
+      <td width="20px"><a href="#">{{ member.saarang_id }}</a></td>
       <td>{{ member.gender|title }}</td>
       <td>{{ member.email }}</td>
       <td>{{ member.name }}</td>

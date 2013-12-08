@@ -6,25 +6,60 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
 from registration.models import SaarangUser
-from models import Hostel, Room
+from models import Hostel, Room, HospiTeam
 from events.models import Team, EventRegistration, Event
-from forms import HostelForm, RoomForm
+from forms import HostelForm, RoomForm, HospiTeamForm
 from events.forms import AddTeamForm
 
 ####################################################################
 # Mainsite Views
+
+def prehome(request):
+    if not request.session.get('saaranguser_email'):
+        return redirect('hospi_login')
+    email = request.session.get('saaranguser_email')
+    user = SaarangUser.objects.get(email=email)
+    teams_leading = user.team_leader.all().exclude(accomodation_status='hospi')
+    teams_member = user.team_members.all()
+    hospi_teams_leading = user.hospi_team_leader.all()
+    hospi_teams_member = user.hospi_team_members.all()
+    return render(request, 'hospi/prehome.html', locals())
+
+def set_hospi_team(request, team_id):
+    request.session['current_team'] = team_id
+    team = get_object_or_404(HospiTeam, pk=team_id)
+    team.accomodation_status = 'requested'
+    team.save()
+    return redirect('hospi_home')
+
+def set_event_team(request, event_team_id):
+    event_team = get_object_or_404(Team, pk=event_team_id)
+    team = HospiTeam.objects.create(name=event_team.name, \
+        leader=event_team.leader, accomodation_status='requested')
+    for user in event_team.members.all():
+        team.members.add(user)
+    team.team_sid = auto_id(team.pk)
+    event_team.accomodation_status = 'hospi'
+    event_team.save()
+    team.save()
+    request.session['current_team'] = team.pk
+    return redirect('hospi_home')
+
+def details(request, team_id):
+    team = get_object_or_404(HospiTeam, pk=team_id)
+    request.session['current_team'] = team.pk
+    return redirect('hospi_home')
+    
 def home(request):
     if not request.session.get('saaranguser_email'):
         return redirect('hospi_login')
     email = request.session.get('saaranguser_email')
     user = SaarangUser.objects.get(email=email)
-    teams_leading = user.team_leader.all()
-    if len(user.team_leader.all()) != 0:
-        team = teams_leading[0]
-    else:
-        messages.error(request, 'You do not lead any team. Please create a team')
-        return redirect('hospi_login')
-    members = teams_leading[0].members.all()
+    if not request.session.get('current_team'):
+        return redirect('hospi_prehome')
+    team_id = request.session.get('current_team')
+    team = get_object_or_404(HospiTeam, pk=team_id)
+    members = team.members.all()
     edits = ['not_req', 'requested']
     if team.accomodation_status in edits:
         editable = True
@@ -50,7 +85,7 @@ def login(request):
                 return render(request, 'hospi/login.html')
             if user.password == data['password']:
                 request.session['saaranguser_email'] = user.email
-                return redirect('hospi_home')
+                return redirect('hospi_prehome')
             else:
                 messages.error(request, 'Did u mis-spell your password?')
         except Exception, e:
@@ -68,7 +103,7 @@ def logout(request):
 
 def add_members(request):
     data = request.POST.copy()
-    team = get_object_or_404(Team, pk=data['team_id'])
+    team = get_object_or_404(HospiTeam, pk=data['team_id'])
     return_list = zip(dict(request.POST)['email'],dict(request.POST)['college_id'])
     not_registered =[]
     for member in return_list:
@@ -93,7 +128,7 @@ def add_members(request):
     return redirect('hospi_home')
 
 def delete_member(request, team_id, member_id):
-    team = get_object_or_404(Team, pk=team_id)
+    team = get_object_or_404(HospiTeam, pk=team_id)
     user = get_object_or_404(SaarangUser, pk=member_id)
 
     team.members.remove(user)
@@ -101,7 +136,7 @@ def delete_member(request, team_id, member_id):
 
 def add_accomodation(request):
     data = request.POST.copy()
-    team = get_object_or_404(Team, pk=data['team_id'])
+    team = get_object_or_404(HospiTeam, pk=data['team_id'])
 
     team.date_of_arrival = data['arr_date']
     team.date_of_departure = data['dep_date']
@@ -115,8 +150,27 @@ def add_accomodation(request):
     team.save()
     return redirect('hospi_home')
 
+def user_add_team(request):
+    addteamForm = HospiTeamForm()
+    to_return={
+        'form': addteamForm,
+        }
+    return render(request, 'hospi/add_team.html', to_return)
+
+def user_save_team(request):
+    data = request.POST.copy()
+    user = SaarangUser.objects.get(email=request.session.get('saaranguser_email'))
+    try:
+        team = HospiTeam.objects.create(name=data['team_name'], leader=user )
+        team.team_sid = auto_id(team.pk)
+        team.save()
+        messages.success(request, team.name +' added successfully. Saarang ID is '+team.team_sid)
+    except Exception, e:
+        messages.error(request, 'Some error occured. please try again: ' + e.message)
+    return redirect('hospi_prehome')
+
 def generate_saar(request, team_id):
-    team = get_object_or_404(Team, pk=team_id)
+    team = get_object_or_404(HospiTeam, pk=team_id)
     leader = team.leader
     members = team.members.all()
     to_return = {
@@ -133,7 +187,7 @@ def generate_saar(request, team_id):
 
 @login_required
 def list_registered_teams(request):
-    teams = Team.objects.all().exclude(accomodation_status='not_req')
+    teams = HospiTeam.objects.all().exclude(accomodation_status='not_req')
     to_return = {
        'teams':teams,
     }
@@ -141,7 +195,7 @@ def list_registered_teams(request):
 
 @login_required
 def team_details(request, team_id):
-    team = get_object_or_404(Team, pk=team_id)
+    team = get_object_or_404(HospiTeam, pk=team_id)
     edit_list = ['confirmed', 'rejected']
     if team.accomodation_status in edit_list:
         editable = False
@@ -155,7 +209,7 @@ def team_details(request, team_id):
 
 @login_required
 def update_status(request, team_id):
-    team = get_object_or_404(Team, pk=team_id)
+    team = get_object_or_404(HospiTeam, pk=team_id)
     if team.members.filter(email=team.leader.email):
         team.members.remove(team.leader)
         messages.warning(request, 'For '+ team.name + ' : ' + team.team_sid +', Team leader found in members list also. Successfully removed!')
@@ -174,7 +228,7 @@ def update_status(request, team_id):
 
 @login_required
 def statistics(request):
-    teams = Team.objects.all().exclude(accomodation_status='not_req')
+    teams = HospiTeam.objects.all().exclude(accomodation_status='not_req')
 
     pending_teams = teams.filter(accomodation_status='requested')
     confirmed_teams = teams.filter(accomodation_status='confirmed')
@@ -298,41 +352,34 @@ def room_details(request, room_id):
 
 @login_required
 def list_all_teams(request):
-    teams = Team.objects.all()
+    teams = HospiTeam.objects.all()
     to_return={
         'teams':teams,
     }
     return render(request, 'hospi/list_all_teams.html', to_return)    
 
 def auto_id(team_id):
-    base = 'SA2014'
+    base = 'SA2014A'
     num = "{0:0>3d}".format(team_id)
     sid = base + num
     return sid
 
 @login_required
 def add_team(request):
-    addteamForm = AddTeamForm()
-    events = Event.objects.filter(is_team=True)
+    addteamForm = HospiTeamForm()
     to_return={
-        'events':events,
         'form': addteamForm,
         }
     return render(request, 'hospi/add_team.html', to_return)
 
 @login_required
 def save_team(request):
-    addteamForm = AddTeamForm(request.POST)
+    addteamForm = HospiTeamForm(request.POST)
     data = request.POST.copy()
     if addteamForm.is_valid():
         try:
             team = addteamForm.save()
             team.team_sid = auto_id(team.pk)
-            event = Event.objects.get(pk=data['event_id'])
-            print 'OK'
-            event_regn = EventRegistration.objects.create(participant=team.leader, \
-             event=event, team=team)
-            event_regn.save()
             team.save()
             messages.success(request, team.name +' added successfully. Saarang ID is '+team.team_sid)
         except Exception, e:
@@ -344,7 +391,7 @@ def save_team(request):
 @login_required
 def check_in_team(request, team_id):
     '''Needs to add some validators'''
-    team = get_object_or_404(Team, pk=team_id)
+    team = get_object_or_404(HospiTeam, pk=team_id)
     if team.get_male_count() == 0 and team.get_female_count==0:
         messages.error(request, 'Incomplete team profile')
     if team.members.filter(email=team.leader.email):
@@ -371,7 +418,7 @@ def check_in_team(request, team_id):
 @login_required
 def check_in_mixed(request):
     data = request.POST.copy()
-    team = get_object_or_404(Team, pk=data['team_id'])
+    team = get_object_or_404(HospiTeam, pk=data['team_id'])
     males = team.get_male_members()
     females = team.get_female_members()
     for male in males:
@@ -390,7 +437,7 @@ def check_in_mixed(request):
 @login_required
 def check_in_males(request):
     data = request.POST.copy()
-    team = get_object_or_404(Team, pk=data['team_id'])
+    team = get_object_or_404(HospiTeam, pk=data['team_id'])
     males = team.get_male_members()
     for male in males:
         room = get_object_or_404(Room, pk=data[male.saarang_id])
@@ -404,7 +451,7 @@ def check_in_males(request):
 @login_required
 def check_in_females(request):
     data = request.POST.copy()
-    team = get_object_or_404(Team, pk=data['team_id'])
+    team = get_object_or_404(HospiTeam, pk=data['team_id'])
     females = team.get_female_members()
     for female in females:
         room = get_object_or_404(Room, pk=data[female.saarang_id])
@@ -417,7 +464,7 @@ def check_in_females(request):
 
 @login_required
 def check_out_team(request, team_id):
-    team = get_object_or_404(Team, pk=team_id)
+    team = get_object_or_404(HospiTeam, pk=team_id)
     members = team.members.all()
     for member in members:
         room = member.room_occupant.all()[0]

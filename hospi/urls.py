@@ -2,13 +2,19 @@ from django.conf.urls import patterns, url
 
 urlpatterns = patterns('',
     # For mainsite
-    url(r'^$', 'hospi.views.home', name='hospi_home'),
+    url(r'^$', 'hospi.views.prehome', name='hospi_prehome'),
+    url(r'^home/$', 'hospi.views.home', name='hospi_home'),
     url(r'^login/$', 'hospi.views.login', name='hospi_login'),
     url(r'^logout/$', 'hospi.views.logout', name='hospi_logout'),
     url(r'^add_members/$', 'hospi.views.add_members', name='hospi_add_members'),
     url(r'^del_member/(?P<team_id>\d+)/(?P<member_id>\d+)/$', 'hospi.views.delete_member', name='hospi_del_member'),
     url(r'^add_accomod/$', 'hospi.views.add_accomodation', name='hospi_add_accomodation'),
     url(r'^saar/(?P<team_id>\d+)/$', 'hospi.views.generate_saar', name='hospi_saar'),
+    url(r'^add/team/$', 'hospi.views.user_add_team', name='hospi_user_add_team'),
+    url(r'^save/team/$', 'hospi.views.user_save_team', name='hospi_user_save_team'),
+    url(r'^set/hospi/(?P<team_id>\d+)/$', 'hospi.views.set_hospi_team', name='hospi_set_hospi_team'),
+    url(r'^set/event/(?P<event_team_id>\d+)//$', 'hospi.views.set_event_team', name='hospi_set_event_team'),
+    url(r'^details/(?P<team_id>\d+)/$', 'hospi.views.details', name='hospi_details'),
 
     # For ERP
     url(r'^admin/$', 'hospi.views.list_registered_teams', name='hospi_list_registered_teams'),
@@ -29,6 +35,5 @@ urlpatterns = patterns('',
     url(r'^admin/check_in_males/$', 'hospi.views.check_in_males', name='hospi_check_in_males'),
     url(r'^admin/check_in_females/$', 'hospi.views.check_in_females', name='hospi_check_in_females'),
     url(r'^admin/check_out/(?P<team_id>\d+)/$', 'hospi.views.check_out_team', name='hospi_check_out_team'),
-
 
     )

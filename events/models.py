@@ -15,7 +15,7 @@ class Event(models.Model):
         ('Onsite', 'Onsite'),
         ('Online', 'Online'),
         ('Pre-registered', 'Pre registerd'),
-        )
+    )
     registration_info = models.TextField(max_length=2000,blank=True,null=True)
     category = models.CharField(choices=CATEGORY_CHOICES, max_length=50,blank=True)
     event_format = models.TextField(max_length=3000,blank=True,null=True)
@@ -34,7 +34,6 @@ class Event(models.Model):
     def __unicode__(self):
         return self.long_name
 
-
 class FAQ(models.Model):
     question = models.CharField(max_length=200)
     answer = models.TextField(max_length=1000)
@@ -50,7 +49,7 @@ class Team(models.Model):
         ('confirmed', 'Request confirmed'),
         ('waitlisted', 'Waitlisted'),
         ('rejected', 'Rejected'),
-        )
+    )
     accomodation_status = models.CharField(max_length=50, choices=ACCOMODATION_CHOICES, default='not_req')
     date_of_arrival = models.DateField(blank=True, null=True, default='2014-01-08')
     time_of_arrival = models.TimeField(blank=True,null=True, default='23:00:00')
@@ -115,4 +114,3 @@ class EventRegistration(models.Model):
 
     def __unicode__(self):
         return str(self.participant) +' for ' + str(self.event)
-
