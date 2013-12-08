@@ -13,7 +13,7 @@ urlpatterns = patterns('',
     url(r'^add/team/$', 'hospi.views.user_add_team', name='hospi_user_add_team'),
     url(r'^save/team/$', 'hospi.views.user_save_team', name='hospi_user_save_team'),
     url(r'^set/hospi/(?P<team_id>\d+)/$', 'hospi.views.set_hospi_team', name='hospi_set_hospi_team'),
-    url(r'^set/event/(?P<event_team_id>\d+)//$', 'hospi.views.set_event_team', name='hospi_set_event_team'),
+    url(r'^set/event/(?P<event_team_id>\d+)/$', 'hospi.views.set_event_team', name='hospi_set_event_team'),
     url(r'^details/(?P<team_id>\d+)/$', 'hospi.views.details', name='hospi_details'),
 
     # For ERP
