@@ -61,7 +61,7 @@
             <table class="table table-bordered">
             {% for team in hospi_teams_leading %}
                 <tr class="rowlink" onclick="document.location = '{% url 'hospi.views.details' team.pk %}';" >
-                    <td>{{ team.team_sid }}</td>
+                    <td>{{ team.team_sid }}{% if team.accomodation_status == 'not_req' %}<a class="" href="{% url 'hospi.views.delete_team' team.pk %}" onclick="return confirm('Do you want to Delete this team?');"><span class="badge badge-important">&times; Del</span></a>{% endif %}</td>
                     <td>{{ team.name }}</td>
                     <td>{{ team.get_total_count }} members</td>
                     <td>Accommodation status:

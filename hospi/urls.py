@@ -16,6 +16,7 @@ urlpatterns = patterns('',
     url(r'^set/event/(?P<event_team_id>\d+)/$', 'hospi.views.set_event_team', name='hospi_set_event_team'),
     url(r'^details/(?P<team_id>\d+)/$', 'hospi.views.details', name='hospi_details'),
     url(r'^cancel/$', 'hospi.views.cancel_request', name='hospi_cancel_request'),
+    url(r'^delete/(?P<team_id>\d+)/$', 'hospi.views.delete_team', name='delete_team'),
 
     # For ERP
     url(r'^admin/$', 'hospi.views.list_registered_teams', name='hospi_list_registered_teams'),
