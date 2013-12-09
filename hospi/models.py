@@ -41,7 +41,8 @@ class Allotment(models.Model):
     alloted_by = models.ForeignKey(User, related_name='alloted_coord')
 
 class HospiTeam(models.Model):
-    name = models.CharField(max_length=100)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    name = models.CharFie??ld(max_length=100)
     leader = models.ForeignKey(SaarangUser,related_name='hospi_team_leader')
     members = models.ManyToManyField(SaarangUser,related_name='hospi_team_members', blank=True)
     team_sid = models.CharField(max_length=20)

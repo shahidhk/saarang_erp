@@ -4,6 +4,7 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.core.mail import send_mail, send_mass_mail
 
 from registration.models import SaarangUser
 from models import Hostel, Room, HospiTeam
@@ -126,9 +127,11 @@ def add_members(request):
     team = get_object_or_404(HospiTeam, pk=data['team_id'])
     return_list = zip(dict(request.POST)['email'],dict(request.POST)['college_id'])
     not_registered =[]
+    members = []
     for member in return_list:
         uemail = member[0]
         uid = member[1]
+        members.append(uemail)
         try:
             user = SaarangUser.objects.get(email=uemail)
             if uid:
@@ -145,6 +148,20 @@ def add_members(request):
             msg += email + ', '
         messages.error(request,'Partially added members. ' + msg + 'have not registered \
                 with Saarang yet. Please ask them to register and try adding them again.')
+
+    useremailtext = 'Hello,\n\n'+team.leader.email+' ('+team.leader.name+') '+\
+        'has added you to his/her team '+team.name+' for accommodation at IIT Madras during Saarang 2014. We will inform you when the request has been confirmed. \
+        \n\nWishing you a happy Saarang,\n\nWeb Operations Team,\nSaarang 2014'
+
+    nonuseremail = 'Hello,\n\n'+team.leader.email+' ('+team.leader.name+') '+\
+        'has tried to add you to his/her team '+team.name+' for accommodation at IIT Madras during Saarang 2014. But, since you have not registered at Saarang website(http://saarang.org), he/she could not add you. Please register at Saarang Website (http://saarang.org/2014/main/#register) and inform '+team.leader.name+' that you have registered. We will inform you when the request has been confirmed.\n \
+        \n\nWishing you a happy Saarang,\n\nWeb Operations Team,\nSaarang 2014'
+    usersubject =  'Accommodation at Saarang 2014'
+    nonusersubject = 'Please register at Saarang 2014 for accommodation'
+    usertuple = (usersubject, useremailtext, 'webadmin@saarang.org', [x for x in members if x not in not_registered])
+    nonusertuple=(nonusersubject, nonuseremail, 'webadmin@saarang.org', not_registered)
+    
+    send_mass_mail((usertuple, nonusertuple), fail_silently=False)
     return redirect('hospi_home')
 
 def delete_member(request, team_id, member_id):
@@ -152,6 +169,11 @@ def delete_member(request, team_id, member_id):
     user = get_object_or_404(SaarangUser, pk=member_id)
 
     team.members.remove(user)
+    emailtext = 'Hello,\n\nGreetings from Saarang 2014.\n\nYou have been removed from \nTeam name: '+team.name+'\nTeam leader: '+team.leader.email+' ('+team.leader.name+')\n\nWishing you a happy Saarang,\n\nWeb Operations Team,\nSaarang 2014'
+    emailsubject='You have been removed from team: '+team.name+', Saarang 2014'
+ 
+    send_mail(emailsubject, emailtext, 'webadmin@saarang.org', [user.email], fail_silently=False)
+
     return redirect('hospi_home')
 
 def add_accomodation(request):
@@ -205,8 +227,30 @@ def cancel_request(request):
     team.accomodation_status = 'not_req'
     team.save()
     messages.success(request, 'Accommodation request cancelled successfully!')
+    emailtext = 'Hello,\n\nGreetings from Saarang 2014.\n\nYour request for accommodation at IIT Madras for Saarang 2014 has been cancelled by team leader. \nTeam name: '+team.name+'\nTeam leader: '+team.leader.email+' ('+team.leader.name+')\n\nWishing you a happy Saarang,\n\nWeb Operations Team,\nSaarang 2014'
+    emailsubject='Accommodation request cancelled, Saarang 2014'
+    users=[]
+    for user in team.get_all_members():
+        users.append(user.email)
+    send_mail(emailsubject, emailtext, 'webadmin@saarang.org', users, fail_silently=False)
     return redirect('hospi_prehome')
 
+def delete_team(request, team_id):
+    if not request.session.get('saaranguser_email'):
+        messages.error(request, 'Please login to continue')
+        return redirect('hospi_login')
+    email = request.session.get('saaranguser_email')
+    user = SaarangUser.objects.get(email=email)
+    team = get_object_or_404(HospiTeam, pk=team_id)
+    emailtext = 'Hello,\n\nGreetings from Saarang 2014.\n\nYour team for accommodation at IIT Madras for Saarang 2014 has been deleted by team leader. \nTeam name: '+team.name+'\nTeam leader: '+team.leader.email+' ('+team.leader.name+')\n\nWishing you a happy Saarang,\n\nWeb Operations Team,\nSaarang 2014'
+    emailsubject='Accommodation request team deleted, Saarang 2014'
+    users=[]
+    for user in team.get_all_members():
+        users.append(user.email)
+    send_mail(emailsubject, emailtext, 'webadmin@saarang.org', users, fail_silently=False)
+    team.delete()
+    messages.success(request, 'Team has been successfully deleted')
+    return redirect('hospi_prehome')
 
 def generate_saar(request, team_id):
     team = get_object_or_404(HospiTeam, pk=team_id)
@@ -273,6 +317,12 @@ def update_status(request, team_id):
         team.accomodation_status = stat
         team.save()
         messages.success(request, 'Status for '+team.name+' successfully updated to '+stat)
+        emailtext = 'Hello,\n\nGreetings from Saarang 2014.\n\nYour request for accommodation at IIT Madras for Saarang 2014 has been '+stat+ '. \nTeam name: '+team.name+'\nTeam leader: '+team.leader.email+' ('+team.leader.name+')\n\nWishing you a happy Saarang,\n\nWeb Operations Team,\nSaarang 2014'
+        emailsubject='Accommodation request '+stat+', Saarang 2014'
+        users=[]
+        for user in team.get_all_members():
+            users.append(user.email)
+        send_mail(emailsubject, emailtext, 'webadmin@saarang.org', users, fail_silently=False)
     return redirect('hospi_list_registered_teams')
 
 @login_required
