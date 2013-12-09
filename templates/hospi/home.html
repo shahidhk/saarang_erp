@@ -68,6 +68,9 @@
                     <span class="label label-important">Rejected</span>   
                 {% endif %}
 
+                {% if team.accomodation_status != 'not_req' %}
+                <a href="{% url 'hospi.views.cancel_request' %}" onclick="return confirm('Are you sure you want to cancel your request?');" class="btn btn-danger btn-small pull-right"><i class="icon-remove-circle icon-white"></i> Cancel request</a>
+                {% endif %}
                 </td>
             </tr>
         </table>
@@ -114,6 +117,9 @@
             </td>
         </tr>
     </table>
+    <p>
+        Accommodation will be provided only from 10 PM on 8th January to 9AM on 13th January. Also check-in will only be possible from 12 midnight to 5 PM. 
+    </p>
 </p>
 </div>
 {% endif %}
@@ -125,7 +131,7 @@
             {% for member in members %}
             <tr id="memberRow" {% if member.accomod_is_confirmed and team.accomodation_status != 'confirmed' %}class="error"{% endif %}>
                 <td style="width: 5%;">{{ forloop.counter }}</td>
-                <td style="width: 15%;">{{ member.saarang_id }}&nbsp;<a href="{% url 'hospi.views.delete_member' team.pk member.pk %}" class="close-btn" style="display: none;"><span class="badge badge-important">&times; Del</span></a></td>
+                <td style="width: 15%;">{{ member.saarang_id }}&nbsp;<a href="{% url 'hospi.views.delete_member' team.pk member.pk %}" onclick="return confirm('Do you want to Delete this member?');" class="close-btn" style="display: none;"><span class="badge badge-important">&times; Del</span></a></td>
                 <td>{{ member.email }}</td>
                 <td>{{ member.name }}</td>
                 <td>{{ member.mobile }}</td>
@@ -133,12 +139,14 @@
             {% endfor %}
         {% else %}<tr><td colspan=3 style="text-align: center; width: 100%;">Please add members</td></tr>
         {% endif %}
+
     <tr><td colspan=5 style="text-align: left; width: 100%;">
     {% if editable %}    
         <a onclick=" $('.close-btn').css('display')=='none'? $('.close-btn').show(): $('.close-btn').hide();"  role="button" class="btn btn-info btn-small pull-right">Edit team </a>
     {% endif %}
     <a href="#addMemberModal" style="display: none;" role="button" class="btn btn-warning btn-small close-btn" data-toggle="modal"><i class="icon-plus"></i> Add members </a></td></tr>
     </table>
+
 </p>
 </div>
 
@@ -192,18 +200,21 @@
         <h4 id="addAccomodationLabel">Add accomodation details for team: {{ team.name }}</h4>
     </div>
     <div class="modal-body">
+        {% if team.leader.accomod_is_confirmed %}
+            Your accommodation has already been confirmed, you cannot request again.
+        {% else %}
         <form action="{% url 'hospi.views.add_accomodation' %}" method="post" id="add_form">
             {% csrf_token %}
             <table id="mytable" class="table table-borderless">
                 <tr> 
                     <th>Required from:</th>
-                    <td><input type='date' name="arr_date" value="2014-01-08">
-                    <td><input type='time' name="arr_time" value="20:00:00">
+                    <td><input type='date' name="arr_date" value="2014-01-07" min="2014-01-07" max="2014-01-12" >
+                    <td><input type='time' name="arr_time" value="09:00:00" min="00:00:00" max="17:00:00">
                 </tr>
                 <tr> 
                     <th>to</th>
-                    <td><input type='date' name="dep_date" value="2014-01-11">
-                    <td><input type='time' name="dep_time" value="23:00:00">
+                    <td><input type='date' name="dep_date" value="2014-01-13" min="2014-01-08" max="2014-01-13">
+                    <td><input type='time' name="dep_time" value="09:00:00" min="00:00:00" max="17:00:00">
                 </tr>
             </table>          
         </div>
@@ -213,6 +224,7 @@
                 <input type='submit' class="btn btn-primary" value='Save changes'/>
             </div>
         </form>
+        {% endif %}
     </div>
 </div>
 {% endif %}

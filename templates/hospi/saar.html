@@ -1,88 +1,118 @@
-{% extends "hospi/hospi_base.html" %}
+<!DOCTYPE html>
+
 {% load url from future %}
 {% load staticfiles %}
-{% block title %}Saarang Advance Accommodation Registration | {{team.team_sid }} | Saarang 2014{% endblock %}
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>SAAR | {{team.team_sid }} | Saarang 2014</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Saarang Advance Accommodation Registration">
+    <meta name="author" content="Web Operations Saarang 2014">
 
-{% block content %}
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{% static 'img/favicon.png' %}" type="image/x-icon">
+    <link rel="icon" href="{% static 'img/favicon.png' %}" type="image/x-icon">
 
-    <div class="">
-    <div class="row">
-        <center>
-            <img src="{% static 'img/rhs.png' %}"/><h1>SAAR</h1>
-        </center>
-    </div>
+    <style type="text/css">
+    table
+    {
+        border-collapse:collapse;
+        width: 100%;
+    }
+    table, tr, th, td
+    {
+        border: 1px solid black;
+    }
+    td
+    {
+        padding:5px;
+    }
+    </style>
+</head>
 
-<div class="alert alert-success">
-    <h4>Team Details</h4>
-    <p>
-        <table class="table table-condensed table-bordered">
-            <tr>
-                <td style="text-align: right; width: 45%;">Name</td><td style="text-align: left; width: 45%;">{{ team.name }}</td>
-            </tr>
-            <tr>
-                <td style="text-align: right; width: 45%;">ID</td><td style="text-align: left; width: 45%;">{{ team.team_sid }}</td>
-            </tr>
-            <tr>
-                <td style="text-align: right; width: 45%;">Accomodation Request</td><td style="text-align: left; width: 45%;">
-                    <span class="label label-success"><strong>CONFIRMED</strong></span>
-                </td>
-            </tr>
-        </table>
-    </p>
-</div>
+<body  style="font-family:helvetica">
+    <center>
 
-<div class="alert alert-block">
-  <h4>Team Leader</h4>
-  <p>
-    <table class="table table-condensed table-bordered">
-        <tr>
-            <td style="text-align: right; width: 45%;">Name</td><td style="text-align: left; width: 45%;">{{ leader.name }}</td>
+       SAAR | {{team.team_sid }} | Saarang 2014<br/>
+
+       <img src="{% static 'img/letter_head.jpg' %}"/><h1 style="color:#abdb16">Saarang Advance Accommodation Registration</h1>
+       <hr/>
+
+       <table >
+        <tr><th colspan=2>
+            <h3>Team Details</h3></th>
         </tr>
         <tr>
-            <td style="text-align: right; width: 45%;">ID</td><td style="text-align: left; width: 45%;">{{ leader.saarang_id }}</td>
+            <td width="40%" >Name</td><td >{{ team.name }}</td>
         </tr>
         <tr>
-            <td style="text-align: right; width: 45%;">Email</td><td style="text-align: left; width: 45%;">{{ leader.email }}</td>
+            <td >ID</td><td >{{ team.team_sid }}</td>
         </tr>
         <tr>
-            <td style="text-align: right; width: 45%;">Mobile</td><td style="text-align: left; width: 45%;">{{ leader.mobile }}</td>
-        </tr>
-    </table>
-</p>
-</div>
-<div class="alert alert-error">
-  <h4>Accomodation details</h4>
-  <p>
-    <table class="table table-condensed table-bordered">
-        <tr>
-            <td style="text-align: right; width: 45%;">From</td><td style="text-align: left; width: 45%;">{{ team.time_of_arrival|title }} on {{ team.date_of_arrival }}</td>
+            <td >No. of team members</td><td >{{ team.get_total_count }}</td>
         </tr>
         <tr>
-            <td style="text-align: right; width: 45%;">To</td><td style="text-align: left; width: 45%;">{{ team.time_of_departure|title }} on {{ team.date_of_departure }}</td>
-        </tr>
-    </table>
-</p>
-</div>
-<div class="alert alert-success">
-  <h4>Team Members</h4>
-  <p>
-    <table class="table table-bordered">
-            {% for member in members %}
-            <tr id="memberRow">
-                <td style="width: 5%;">{{ forloop.counter }}</td>
-                <td style="width: 15%;">{{ member.saarang_id }}&nbsp;<a href="{% url 'hospi.views.delete_member' team.pk member.pk %}" class="close-btn" style="display: none;"><span class="badge badge-important">&times; Del</span></a></td>
-                <td>{{ member.email }}</td>
-                <td>{{ member.name }}</td>
-                <td>{{ member.mobile }}</td>
-            </tr>
-            {% endfor %}
-    </table>
-</p>
+            <td >Accomodation Request</td><td >
+            <span class="label label-success"><strong style="color:green">CONFIRMED</strong></span>
+        </td>
+    </tr>
+</table>
+<br/>
+<table >
+
+    <tr><th colspan=2><h3>Team Leader</h3></th> </tr>
+    <tr>
+        <td width=40%>Name</td><td >{{ leader.name }}</td>
+    </tr>
+    <tr>
+        <td >ID</td><td >{{ leader.saarang_id }}</td>
+    </tr>
+    <tr>
+        <td >Email</td><td >{{ leader.email }}</td>
+    </tr>
+    <tr>
+        <td >Mobile</td><td >{{ leader.mobile }}</td>
+    </tr>
+</table>
+<br/>
+<table >
+    <tr><th colspan=2><h3>Accomodation details</h3></th> </tr>
+
+    <tr>
+        <td width=40%>From</td><td >{{ team.time_of_arrival|title }} on {{ team.date_of_arrival }}</td>
+    </tr>
+    <tr>
+        <td >To</td><td >{{ team.time_of_departure|title }} on {{ team.date_of_departure }}</td>
+    </tr>
+</table>
+<br/>
+
+<table>
+    <tr><th colspan=6><h3>Team Members</h3></th> </tr>
+
+    {% for member in members %}
+    <tr id="memberRow">
+        <td style="width: 5%; text-align:center">{{ forloop.counter }}</td>
+        <td style="width: 13%; text-align:center;">{{ member.saarang_id }}</td>
+        <td>{{ member.name }}</td>
+        <td>{{ member.email }}</td>
+
+        <td>{{ member.gender|title }}</td>
+        <td>{{ member.mobile }}</td>
+    </tr>
+    {% endfor %}
+</table><br/>
+
+<table>
+    <tr><th colspan=6><h3>Billing details</h3></th> </tr>
+
+</table><br/>
 Accommodation Charges = Rs. 200 per person per day for number of days less than 3 and Rs. 700 per person for number of days greater than 3
 
 Caution deposit=500 (upto 3 people), 1000(from 4 to 6), 1500 ( from 7 to 9) and thus the series
 
 Total Amount (to be paid at the time of check-in) = Accommodation Charges + Caution Deposit
-</div>
 
-{% endblock content %}
+</center>
+</body>
