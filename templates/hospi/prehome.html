@@ -18,6 +18,15 @@
             </div>
             <div class="pull-right"><a class="btn btn-danger" href="{% url 'hospi.views.logout' %}" ><i class="icon-off icon-white"></i> Logout</a></div>
         </div>
+
+        <div class="alert alert-warning">
+            <h5>General instructions</h5><hr/>
+            <li>You can request for accommodation inside IIT Madras Campus through this portal</li>
+            <li>One individual can avail accommodation in <strong>only one</strong> team</li>
+            <li>All requests have to get confirmed by Saarang</li>
+            <li>Upon confirmation you will receive SAAR (Saarang Advance Accommodation Registration)<br/> document which can also be downloaded from here</li>
+        </div>
+
         <div class="alert alert-success">
             <h5>You currently lead these teams:</h5><hr/>
             {% if teams_leading %}

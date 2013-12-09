@@ -24,5 +24,6 @@ class SaarangUser(models.Model):
     gender = models.CharField(max_length=10, choices=GENDER_CHOICES)
     activate_status = models.IntegerField(choices = ACTIVATION_CHOICES, default=0, blank=True, null=True) #New field with choices as ACTIVATION_CHOICES
     password = models.CharField(max_length=128)
+    accomod_is_confirmed = models.BooleanField(default=False)
     def __unicode__(self):
         return self.email

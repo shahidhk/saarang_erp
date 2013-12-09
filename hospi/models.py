@@ -103,3 +103,8 @@ class HospiTeam(models.Model):
         if self.leader.gender == 'female':
             mem.append(self.leader)
         return mem
+
+    def get_all_members(self):
+        mem = list(self.members.all())
+        mem.append(self.leader)
+        return mem

@@ -123,7 +123,7 @@
     <table class="table table-bordered">
         {% if members %}
             {% for member in members %}
-            <tr id="memberRow">
+            <tr id="memberRow" {% if member.accomod_is_confirmed and team.accomodation_status != 'confirmed' %}class="error"{% endif %}>
                 <td style="width: 5%;">{{ forloop.counter }}</td>
                 <td style="width: 15%;">{{ member.saarang_id }}&nbsp;<a href="{% url 'hospi.views.delete_member' team.pk member.pk %}" class="close-btn" style="display: none;"><span class="badge badge-important">&times; Del</span></a></td>
                 <td>{{ member.email }}</td>

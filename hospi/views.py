@@ -26,14 +26,25 @@ def prehome(request):
     return render(request, 'hospi/prehome.html', locals())
 
 def set_hospi_team(request, team_id):
-    request.session['current_team'] = team_id
     team = get_object_or_404(HospiTeam, pk=team_id)
+    members = team.members.all()
+    confirmed_list=[]
+    if team.leader.accomod_is_confirmed:
+        messages.error(request, 'Your accommodation has been confirmed in another team. \
+            You cannot request for accommodation again')
+        return redirect('hospi_prehome')
+
     team.accomodation_status = 'requested'
     team.save()
+    request.session['current_team'] = team_id
     return redirect('hospi_home')
 
 def set_event_team(request, event_team_id):
     event_team = get_object_or_404(Team, pk=event_team_id)
+    if event_team.leader.accomod_is_confirmed:
+        messages.error(request, 'Your accommodation has been confirmed in another team. \
+            You cannot request for accommodation again')
+        return redirect('hospi_prehome')
     team = HospiTeam.objects.create(name=event_team.name, \
         leader=event_team.leader, accomodation_status='requested')
     for user in event_team.members.all():
@@ -60,6 +71,15 @@ def home(request):
     team_id = request.session.get('current_team')
     team = get_object_or_404(HospiTeam, pk=team_id)
     members = team.members.all()
+    msg=''
+    if team.accomodation_status != 'confirmed':
+        for member in members:
+            if member.accomod_is_confirmed:
+                msg += member.email +', '
+        if msg:
+            messages.warning(request, msg + ': These members already have accommodation \
+                confirmed in other team. Please remove them, or they will be automatically \
+                removed upon confirmation.')
     edits = ['not_req', 'requested']
     if team.accomodation_status in edits:
         editable = True
@@ -221,6 +241,16 @@ def update_status(request, team_id):
         pass
     if stat:
         print stat
+        if stat == 'confirmed':
+            team.leader.accomod_is_confirmed = True
+            team.leader.save()
+            for member in team.members.all():
+                if member.accomod_is_confirmed == False:
+                    member.accomod_is_confirmed = True
+                    member.save()
+                else:
+                    team.members.remove(member)
+            team.save()
         team.accomodation_status = stat
         team.save()
         messages.success(request, 'Status for '+team.name+' successfully updated to '+stat)

@@ -65,7 +65,7 @@
 <strong>Total {{ team.get_total_count }} members. ( {{ team.get_male_count }} males and {{ team.get_female_count }} females )</strong><hr/>
 <table class="table table-borderless">
     {% for member in team.members.all %}
-    <tr>
+    <tr {% if member.accomod_is_confirmed and team.accomodation_status != 'confirmed' %}class="error"{% endif %} >
       <td>{{ forloop.counter }}</td>
       <td width="20px"><a href="#">{{ member.saarang_id }}</a></td>
       <td>{{ member.gender|title }}</td>
@@ -74,8 +74,9 @@
     </tr>
     {% endfor %}
 </table>
-
 <hr/>
+
+Members highlighted in red indicates people who have accommodation confirmed already in other teams. They will be automatically removed upon confirmation of this team. (Leader has been pre-notified)
 </div>
 <div class="alert alert-error">
 Accomodation
