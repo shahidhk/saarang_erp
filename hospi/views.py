@@ -157,7 +157,6 @@ def delete_member(request, team_id, member_id):
 def add_accomodation(request):
     data = request.POST.copy()
     team = get_object_or_404(HospiTeam, pk=data['team_id'])
-
     team.date_of_arrival = data['arr_date']
     team.date_of_departure = data['dep_date']
     team.time_of_arrival = data['arr_time']
@@ -188,6 +187,26 @@ def user_save_team(request):
     except Exception, e:
         messages.error(request, 'Some random error occured. please try again: ' + e.message)
     return redirect('hospi_prehome')
+
+def cancel_request(request):
+    if not request.session.get('saaranguser_email'):
+        return redirect('hospi_login')
+    email = request.session.get('saaranguser_email')
+    user = SaarangUser.objects.get(email=email)
+    if not request.session.get('current_team'):
+        return redirect('hospi_prehome')
+    team_id = request.session.get('current_team')
+    team = get_object_or_404(HospiTeam, pk=team_id)
+    members = team.get_all_members()
+    if team.accomodation_status == 'confirmed':
+        for member in members:
+            member.accomod_is_confirmed = False
+            member.save()
+    team.accomodation_status = 'not_req'
+    team.save()
+    messages.success(request, 'Accommodation request cancelled successfully!')
+    return redirect('hospi_prehome')
+
 
 def generate_saar(request, team_id):
     team = get_object_or_404(HospiTeam, pk=team_id)
