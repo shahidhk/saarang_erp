@@ -96,6 +96,8 @@
         <tr>
             <td style="text-align: right; width: 45%;">Mobile</td><td style="text-align: center; width: 10%;"> : </td><td style="text-align: left; width: 45%;">{{ leader.mobile }}</td>
         </tr>
+	<tr>
+            <td style="text-align: right; width: 45%;">Gender</td><td style="text-align: center; width: 10%;"> : </td><td style="text-align: left; width: 45%;">{{ leader.gender }} </td>  </tr>
     </table>
 </p>
 </div>
@@ -129,7 +131,16 @@
 <div class="alert alert-success">
   <legend>Team Members</legend>
   <p>
-    <table class="table table-bordered">
+    <table class="table table-bordered"
+<thead>
+<tr><th>No.</th>
+<th>Saarang ID</th>
+<th><Email</th>
+<th>Name</th>
+<th>Gender</th>
+<th>Mobile</th>
+</thead>
+<tbody>
         {% if members %}
             {% for member in members %}
             <tr id="memberRow" {% if member.accomod_is_confirmed and team.accomodation_status != 'confirmed' %}class="error"{% endif %}>
@@ -137,18 +148,19 @@
                 <td style="width: 15%;">{{ member.saarang_id }}&nbsp;<a href="{% url 'hospi.views.delete_member' team.pk member.pk %}" onclick="return confirm('Do you want to Delete this member?');" class="close-btn" style="display: none;"><span class="badge badge-important">&times; Del</span></a></td>
                 <td>{{ member.email }}</td>
                 <td>{{ member.name }}</td>
+		<td>{{ member.gender|title }}</td>
                 <td>{{ member.mobile }}</td>
             </tr>
             {% endfor %}
         {% else %}<tr><td colspan=3 style="text-align: center; width: 100%;">Please add members</td></tr>
         {% endif %}
-
-    <tr><td colspan=5 style="text-align: left; width: 100%;">
+	<strong style="color: red;">Please note that the profile of user should be complete in all manner. ie, no column should be blank in the table. It is very important for one to complete his/her profile esp NAME and GENDER, to be eligible for accommodation. This applies for team leader also.</strong>
+    <tr><td colspan=6 style="text-align: left; width: 100%;">
     {% if editable %}    
         <a onclick=" $('.close-btn').css('display')=='none'? $('.close-btn').show(): $('.close-btn').hide();"  role="button" class="btn btn-info btn-small pull-right">Edit team </a>
     {% endif %}
     <a href="#addMemberModal" style="display: none;" role="button" class="btn btn-warning btn-small close-btn" data-toggle="modal"><i class="icon-plus"></i> Add members </a></td></tr>
-    </table>
+</tbody>    </table>
 
 </p>
 </div>
