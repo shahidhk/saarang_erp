@@ -214,7 +214,10 @@ def list_registrations(request, event_id):
     reg_options = []
     for reg in registrations:
         options = reg.options
-        options = options.split('|||')
+        if options:
+	    options = options.split('|||')
+	else:
+	    options = 'None'
         field=[]
         value=[]
         for i in options:
