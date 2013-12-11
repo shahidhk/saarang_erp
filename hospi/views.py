@@ -24,6 +24,8 @@ def prehome(request):
     teams_member = user.team_members.all()
     hospi_teams_leading = user.hospi_team_leader.all()
     hospi_teams_member = user.hospi_team_members.all()
+    if not user.profile_is_complete():
+        messages.error(request, "Your profile is not complete. Click <a href='http://saarang.org/2014/main/#register' target='_blank'>here</a> to update your profile. ")
     return render(request, 'hospi/prehome.html', locals())
 
 def set_hospi_team(request, team_id):
@@ -67,6 +69,9 @@ def home(request):
         return redirect('hospi_login')
     email = request.session.get('saaranguser_email')
     user = SaarangUser.objects.get(email=email)
+    if not user.profile_is_complete():
+        messages.error(request, "Your profile is not complete. Click <a href='http://saarang.org/2014/main/#register' target='_blank'>here</a> to update your profile. ")
+        return redirect('hospi_prehome')
     if not request.session.get('current_team'):
         return redirect('hospi_prehome')
     team_id = request.session.get('current_team')
@@ -128,6 +133,8 @@ def add_members(request):
     return_list = zip(dict(request.POST)['email'],dict(request.POST)['college_id'])
     not_registered =[]
     members = []
+    profile_not_complete=[]
+    added=[]
     for member in return_list:
         uemail = member[0]
         uid = member[1]
@@ -137,31 +144,47 @@ def add_members(request):
             if uid:
                 user.college_id = uid
                 user.save()
-            new = team.members.add(user)
+            if user.profile_is_complete():
+                new = team.members.add(user)
+                added.append(uemail)
+            else:
+                profile_not_complete.append(uemail)
         except Exception, e:
             not_registered.append(uemail)
-    if not not_registered:
-        messages.success(request, "Successfully added")
-    elif not_registered:
+    if added:
+        t=''
+        for email in added:
+            t+=email+', '
+        messages.success(request, "Successfully added "+t)
+        useremailtext = 'Hello,\n\n'+team.leader.email+' ('+team.leader.name+') '+\
+        'has added you to his/her team '+team.name+' for accommodation at IIT Madras during Saarang 2014. We will inform you when the request has been confirmed. \
+        \n\nWishing you a happy Saarang,\n\nWeb Operations Team,\nSaarang 2014'
+        usersubject =  'Accommodation at Saarang 2014'
+        send_mail(usersubject, useremailtext, 'webadmin@saarang.org', added)
+
+    if not_registered:
         msg=''
         for email in not_registered:
             msg += email + ', '
-        messages.error(request,'Partially added members. ' + msg + 'have not registered \
+        messages.error(request,'Partially added /could not add members. ' + msg + 'have not registered \
                 with Saarang yet. Please ask them to register and try adding them again.')
-
-    useremailtext = 'Hello,\n\n'+team.leader.email+' ('+team.leader.name+') '+\
-        'has added you to his/her team '+team.name+' for accommodation at IIT Madras during Saarang 2014. We will inform you when the request has been confirmed. \
-        \n\nWishing you a happy Saarang,\n\nWeb Operations Team,\nSaarang 2014'
-
-    nonuseremail = 'Hello,\n\n'+team.leader.email+' ('+team.leader.name+') '+\
+        nonuseremail = 'Hello,\n\n'+team.leader.email+' ('+team.leader.name+') '+\
         'has tried to add you to his/her team '+team.name+' for accommodation at IIT Madras during Saarang 2014. But, since you have not registered at Saarang website(http://saarang.org), he/she could not add you. Please register at Saarang Website (http://saarang.org/2014/main/#register) and inform '+team.leader.name+' that you have registered. We will inform you when the request has been confirmed.\n \
         \n\nWishing you a happy Saarang,\n\nWeb Operations Team,\nSaarang 2014'
-    usersubject =  'Accommodation at Saarang 2014'
-    nonusersubject = 'Please register at Saarang 2014 for accommodation'
-    usertuple = (usersubject, useremailtext, 'webadmin@saarang.org', [x for x in members if x not in not_registered])
-    nonusertuple=(nonusersubject, nonuseremail, 'webadmin@saarang.org', not_registered)
-    
-    send_mass_mail((usertuple, nonusertuple), fail_silently=False)
+        nonusersubject = 'Please register at Saarang 2014 for accommodation'
+        send_mail(nonusersubject, nonuseremail, 'webadmin@saarang.org', not_registered)
+
+    if profile_not_complete:
+        print profile_not_complete
+        txt = ''
+        for email in profile_not_complete:
+            txt += email + ', '
+        messages.warning(request, 'Profile not complete. '+txt+" have not completed their profile at Saarang. Please ask them to click on the link they recieved thru email to update their profile, or ask them to Click <a href='http://saarang.org/2014/main/#register' target='_blank'>here</a> to update profile. ")
+        emailmsg = 'Hello,\n\n'+team.leader.email+' ('+team.leader.name+') '+\
+        'has tried to add you to his/her team '+team.name+' for accommodation at IIT Madras during Saarang 2014. But, since you have not completed your profile at Saarang website(http://saarang.org), he/she could not add you. Please update your profile at Saarang Website (http://saarang.org/2014/main/#register) and inform '+team.leader.name+' that you have completed the profile. We will inform you when the request has been confirmed.\n \
+        \n\nWishing you a happy Saarang,\n\nWeb Operations Team,\nSaarang 2014'
+        emailsub = 'Profile not complete. Accommodation, Saarang 2014'
+        send_mail(emailsub, emailmsg, 'webadmin@saarang.org', profile_not_complete)
     return redirect('hospi_home')
 
 def delete_member(request, team_id, member_id):

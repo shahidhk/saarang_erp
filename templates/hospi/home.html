@@ -11,7 +11,7 @@
         </div>
     {% endif %}
 {% for message in messages %}
-    <div class="alert alert-{{ message.tags }}">{{ message }}<a class="close" data-dismiss="alert" href="#">&times;</a></div>
+    <div class="alert alert-{{ message.tags }}">{{ message|safe }}<a class="close" data-dismiss="alert" href="#">&times;</a></div>
 {% endfor %}
 <div class="well well-large">
     Welcome, {{ leader.name }}
@@ -135,7 +135,7 @@
 <thead>
 <tr><th>No.</th>
 <th>Saarang ID</th>
-<th><Email</th>
+<th>Email</th>
 <th>Name</th>
 <th>Gender</th>
 <th>Mobile</th>
@@ -152,9 +152,9 @@
                 <td>{{ member.mobile }}</td>
             </tr>
             {% endfor %}
-        {% else %}<tr><td colspan=3 style="text-align: center; width: 100%;">Please add members</td></tr>
+        {% else %}<tr><td colspan=6 style="text-align: center; width: 100%;">Please add members</td></tr>
         {% endif %}
-	<strong style="color: red;">Please note that the profile of user should be complete in all manner. ie, no column should be blank in the table. It is very important for one to complete his/her profile esp NAME and GENDER, to be eligible for accommodation. This applies for team leader also.</strong>
+	<strong style="color: red;">Please note that the profile of user should be complete in all manner. ie, no column should be blank in the table. It is very important for one to complete his/her profile, to be eligible for accommodation. This applies for team leader also.</strong>
     <tr><td colspan=6 style="text-align: left; width: 100%;">
     {% if editable %}    
         <a onclick=" $('.close-btn').css('display')=='none'? $('.close-btn').show(): $('.close-btn').hide();"  role="button" class="btn btn-info btn-small pull-right">Edit team </a>
