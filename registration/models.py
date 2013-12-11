@@ -27,3 +27,9 @@ class SaarangUser(models.Model):
     accomod_is_confirmed = models.BooleanField(default=False)
     def __unicode__(self):
         return self.email
+
+    def profile_is_complete(self):
+        if (self.name and len(str((self.mobile)))==10 and self.college and self.gender):
+            return True
+        else:
+            return False
