@@ -94,14 +94,16 @@ class HospiTeam(models.Model):
     #         return False
 
     def get_male_members(self):
+        M=['male', 'Male']
         mem = list(self.members.filter(gender='male'))
-        if self.leader.gender == 'male':
+        if self.leader.gender in M:
             mem.append(self.leader)
         return mem
 
     def get_female_members(self):
+        F=['female', 'Female']
         mem = list(self.members.filter(gender='female'))
-        if self.leader.gender == 'female':
+        if self.leader.gender in F:
             mem.append(self.leader)
         return mem
 
