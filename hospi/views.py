@@ -25,7 +25,7 @@ def prehome(request):
     hospi_teams_leading = user.hospi_team_leader.all()
     hospi_teams_member = user.hospi_team_members.all()
     if not user.profile_is_complete():
-        messages.error(request, "Your profile is not complete. Click <a href='http://saarang.org/2014/main/#register' target='_blank'>here</a> to update your profile. ")
+        messages.error(request, "Your profile is not complete. Click <a href='http://saarang.org/2014/main/#login' target='_blank'>here</a> to update your profile. ")
     return render(request, 'hospi/prehome.html', locals())
 
 def set_hospi_team(request, team_id):
@@ -70,7 +70,7 @@ def home(request):
     email = request.session.get('saaranguser_email')
     user = SaarangUser.objects.get(email=email)
     if not user.profile_is_complete():
-        messages.error(request, "Your profile is not complete. Click <a href='http://saarang.org/2014/main/#register' target='_blank'>here</a> to update your profile. ")
+        messages.error(request, "Your profile is not complete. Click <a href='http://saarang.org/2014/main/#login' target='_blank'>here</a> to update your profile. ")
         return redirect('hospi_prehome')
     if not request.session.get('current_team'):
         return redirect('hospi_prehome')
@@ -179,9 +179,9 @@ def add_members(request):
         txt = ''
         for email in profile_not_complete:
             txt += email + ', '
-        messages.warning(request, 'Profile not complete. '+txt+" have not completed their profile at Saarang. Please ask them to click on the link they recieved thru email to update their profile, or ask them to Click <a href='http://saarang.org/2014/main/#register' target='_blank'>here</a> to update profile. ")
+        messages.warning(request, 'Profile not complete. '+txt+" have not completed their profile at Saarang. Please ask them to click on the link they recieved thru email to update their profile, or ask them to Click <a href='http://saarang.org/2014/main/#login' target='_blank'>here</a> to update profile. ")
         emailmsg = 'Hello,\n\n'+team.leader.email+' ('+team.leader.name+') '+\
-        'has tried to add you to his/her team '+team.name+' for accommodation at IIT Madras during Saarang 2014. But, since you have not completed your profile at Saarang website(http://saarang.org), he/she could not add you. Please update your profile at Saarang Website (http://saarang.org/2014/main/#register) and inform '+team.leader.name+' that you have completed the profile. We will inform you when the request has been confirmed.\n \
+        'has tried to add you to his/her team '+team.name+' for accommodation at IIT Madras during Saarang 2014. But, since you have not completed your profile at Saarang website(http://saarang.org), he/she could not add you. Please update your profile at Saarang Website (http://saarang.org/2014/main/#login) and inform '+team.leader.name+' that you have completed the profile. We will inform you when the request has been confirmed.\n \
         \n\nWishing you a happy Saarang,\n\nWeb Operations Team,\nSaarang 2014'
         emailsub = 'Profile not complete. Accommodation, Saarang 2014'
         send_mail(emailsub, emailmsg, 'webadmin@saarang.org', profile_not_complete)
