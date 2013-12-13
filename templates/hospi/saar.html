@@ -15,30 +15,55 @@
     <link rel="icon" href="{% static 'img/favicon.png' %}" type="image/x-icon">
 
     <style type="text/css">
+    @page {
+        size: A4 portrait;
+        margin: 1cm;
+    }
     table
     {
         border-collapse:collapse;
         width: 100%;
+        table-layout: fixed;
     }
-    table, tr, th, td
+    th, td
     {
-        border: 1px solid black;
+        border: thin solid #a4a4a4;
+        padding-left: 5px;
+        vertical-align: center;
     }
-    td
+    tr
     {
-        padding:5px;
+        height:10px;
+        padding-top: 5px;
+    }
+    th
+    {
+        background-color: #dfdfdf;
+    }
+    #bill td
+    {
+        text-align: center;
+    }
+    .currency
+    {
+        text-align: right;
+        padding-right: 5px;
+    }
+    .currency_header
+    {
+        text-align: center;
+        width: 15%;
     }
     </style>
 </head>
 
 <body  style="font-family:helvetica">
-    <center>
-
+<center>
        SAAR | {{team.team_sid }} | Saarang 2014<br/>
 
-       <img src="{% static 'img/letter_head.jpg' %}"/><h1 style="color:#abdb16">Saarang Advance Accommodation Registration</h1>
+       <img src="{{ STATIC_URL }}/img/letter_head.jpg" /><h1 style="color:#abdb16">Saarang Advance Accommodation Registration</h1>
        <hr/>
-
+</center>
        <table >
         <tr><th colspan=2>
             <h3>Team Details</h3></th>
@@ -58,7 +83,7 @@
         </td>
     </tr>
 </table>
-<br/>
+
 <table >
 
     <tr><th colspan=2><h3>Team Leader</h3></th> </tr>
@@ -75,7 +100,7 @@
         <td >Mobile</td><td >{{ leader.mobile }}</td>
     </tr>
 </table>
-<br/>
+
 <table >
     <tr><th colspan=2><h3>Accomodation details</h3></th> </tr>
 
@@ -86,28 +111,48 @@
         <td >To</td><td >{{ team.time_of_departure|title }} on {{ team.date_of_departure }}</td>
     </tr>
 </table>
-<br/>
+
 
 <table>
     <tr><th colspan=6><h3>Team Members</h3></th> </tr>
 
     {% for member in members %}
     <tr id="memberRow">
-        <td style="width: 5%; text-align:center">{{ forloop.counter }}</td>
-        <td style="width: 13%; text-align:center;">{{ member.saarang_id }}</td>
-        <td>{{ member.name }}</td>
-        <td>{{ member.email }}</td>
+        <td style="width: 3%; text-align:center;  padding-left:1px">{{ forloop.counter }}</td>
+        <td style="width: 12%; text-align:center; padding-left:1px">{{ member.saarang_id }}</td>
+        <td style="width: 32%;">{{ member.name }}</td>
+        <td style="width: 35%;">{{ member.email }}</td>
 
-        <td>{{ member.gender|title }}</td>
-        <td>{{ member.mobile }}</td>
+        <td style="width: 8%; text-align:center; padding-left:0px;">{{ member.gender|title }}</td>
+        <td style="width: 10%;">{{ member.mobile }}</td>
     </tr>
     {% endfor %}
-</table><br/>
+</table>
 
-<table>
-    <tr><th colspan=6><h3>Billing details</h3></th> </tr>
+<table id="bill">
+    <tr><th colspan=4><h3>Billing details</h3></th> </tr>
+
+    <tr>
+        <td>Days of stay</td>
+        <td>No. of members</td>
+        <td>Amount/team member</td>
+        <td class="currency_header" ><b>Total</b></td>
+    </tr>
+    <tr>
+        <td>{{ bill_data.days }}</td>
+        <td>{{ team.get_total_count }}</td>
+        <td>{{ bill_data.amt_head }} INR</td>
+        <td style="text-align: right;padding-right: 5px;" ><b>{{ bill_data.total }} INR</b></td>
+    </tr>
+    <tr>
+        <td colspan=3 style="text-align: right;padding-right: 5px;" ><b>Caution Deposit</b></td>
+        <td style="text-align: right;padding-right: 5px;" ><b>{{ bill_data.cd }} INR</b></td>
+    </tr>
+    <tr>
+        <td colspan=3 style="text-align: right;padding-right: 5px;" ><font size="1.3em"><b>Amount payable</b></font></td>
+        <td style="text-align: right;padding-right: 5px;" ><font size="1.5em"><b>{{ bill_data.grand_total }} INR</b></font></td>
+    </tr>
 
 </table><br/>
-Accommodation Charges = Rs. 300 per person per day
-</center>
+Accommodation Charges per person = Rs. 300 for first day and Rs. 250 for each following day.
 </body>

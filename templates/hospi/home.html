@@ -216,9 +216,11 @@
     </div>
     <div class="modal-body">
         {% if team.leader.accomod_is_confirmed %}
-            Your accommodation has already been confirmed, you cannot request again.
+        <div class="alert alert-error">
+            Your accommodation has already been confirmed, you cannot request again.</div>
         {% else %}
         <form action="{% url 'hospi.views.add_accomodation' %}" method="post" id="add_form">
+
             {% csrf_token %}
             <table id="mytable" class="table table-borderless">
                 <tr> 
@@ -231,7 +233,13 @@
                     <td><input type='date' name="dep_date" value="2014-01-13" min="2014-01-09" max="2014-01-13">
                     <td><input type='time' name="dep_time" value="09:00:00" min="00:00:00" max="17:00:00">
                 </tr>
-            </table>          
+            </table> <br/>
+            <div class="alert alert-error">
+            <center><b>Check in time:</b><br/></center> 10:00 hrs on 8th Jan 2014 to 17:00 hrs on 9th Jan 2014<br/>
+            00:00 hrs to 17:00 hrs on 10th, 11th and 12th Jan 2014<br/>
+            <center><b>Check out time:</b><br/></center> 00:00 hrs to 17:00 hrs on 9th, 10th, 11th, 12th Jan 2014<br/>
+            00:00 hrs to 09:00 hrs on 13th Jan 2014
+            </div>
         </div>
             <div class="modal-footer">
                 <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>

@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.mail import send_mail, send_mass_mail
+import utility as u
 
 from registration.models import SaarangUser
 from models import Hostel, Room, HospiTeam
@@ -276,15 +277,7 @@ def delete_team(request, team_id):
     return redirect('hospi_prehome')
 
 def generate_saar(request, team_id):
-    team = get_object_or_404(HospiTeam, pk=team_id)
-    leader = team.leader
-    members = team.members.all()
-    to_return = {
-        'leader':leader,
-        'team':team,
-        'members':members,
-    }
-    return render(request, 'hospi/saar.html', to_return)
+    return u.generate_pdf(request, team_id)
 
 # End Mainsite views
 #######################################################################
