@@ -1,10 +1,12 @@
 from django.db import models
 
+from userprofile.models import UserProfile
 # Create your models here.
+
 class Item(models.Model):
     name = models.CharField(max_length=100,verbose_name='Item name',unique=True)
     cost = models.IntegerField(verbose_name='Cost of a single unit')
-    description = models.CharField(max_length=100,blank=True,verbose_name='Description/comments')
+    description = models.TextField(max_length=1000,blank=True,verbose_name='Description/comments')
     is_active = models.BooleanField(default=True,verbose_name='Valid?')
     timestamp = models.DateTimeField(auto_now_add=True)
     count = models.IntegerField(default=0)
@@ -15,11 +17,11 @@ class Item(models.Model):
 class ItemRequest(models.Model):
     item_request = models.CharField(max_length=2000)
     total_cost = models.IntegerField()
-    request_by = models.ForeignKey(Userprofile,related_name='request_by')
+    request_by = models.ForeignKey(UserProfile,related_name='request_by')
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):
-        return 'Request by %s'm %(self.request_by) 
+        return 'Request by %s' %(self.request_by) 
 
     def get_item_list(self):
         item_list=[]
@@ -36,4 +38,12 @@ class ItemRequest(models.Model):
 
         super(Model, self).save(*args, **kwargs)
 
-x 
+class Memento(models.Model):
+    name = models.CharField(max_length=100,verbose_name='Name of the Memento',unique=True)
+    cost = models.IntegerField()
+    description = models.TextField(max_length=1000,blank=True)
+    is_active = models.BooleanField(default=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __unicode__(self):
+        return self.name
