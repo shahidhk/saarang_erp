@@ -55,6 +55,7 @@ class HospiTeam(models.Model):
         ('hospi', 'Added to hospi portal')
     )
     accomodation_status = models.CharField(max_length=50, choices=ACCOMODATION_CHOICES, default='not_req')
+    city = models.CharField(max_length=100, null=True, blank=True)
     date_of_arrival = models.DateField(blank=True, null=True, default='2014-01-08')
     time_of_arrival = models.TimeField(blank=True,null=True, default='23:00:00')
     date_of_departure =  models.DateField(blank=True, null=True, default='2014-01-11')

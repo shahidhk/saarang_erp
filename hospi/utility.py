@@ -15,30 +15,35 @@ def days(in_date, in_time, out_date, out_time):
     l3 = dt.datetime(2014, 1, 10, 9, 0)
     u3 = dt.datetime(2014, 1, 11, 17, 0)
     l4 = dt.datetime(2014, 1, 11, 9, 0)
-    # u4 = dt.datetime(2014, 1, 12, 17, 0)
-    # l5 = dt.datetime(2014, 1, 12, 9, 0)
-    u4 = dt.datetime(2014, 1, 13, 9, 0)
+    u4 = dt.datetime(2014, 1, 12, 17, 0)
+    l5 = dt.datetime(2014, 1, 12, 9, 0)
+    u5 = dt.datetime(2014, 1, 13, 9, 0)
     
-    span = [[l1,u1],[l2,u2],[l3,u3],[l4,u4]]
+    span = [[l1,u1],[l2,u2],[l3,u3],[l4,u4],[l5,u5]]
 
     in_stamp = dt.datetime.combine(in_date, in_time)
     out_stamp = dt.datetime.combine(out_date, out_time)
 
-    for i in xrange(0,4):
+    for i in xrange(0,5):
         if (in_stamp >= span[i][0] and in_stamp <= span[i][1] and in_stamp<span[i+1][0] ):
-            for j in xrange(i,4):
+            for j in xrange(i,5):
                 if out_stamp >= span[j][0] and out_stamp <= span[j][1]:
                     return j-i+1
+    return 0
 
 def bill(in_date, in_time, out_date, out_time, n):
     '''Calculate bill amount'''
-    days_of_stay = days(in_date,in_time,out_date,out_time)
+    dos = days(in_date,in_time,out_date,out_time)
+    if dos == 5:
+        days_of_stay = 4
+    else:
+        days_of_stay = dos
     amt_per_head = 300 + 250*(days_of_stay-1)
     amt_without_caution_deposit = ((300 + 250*(days_of_stay-1))*n)
     caution_deposit = cd(n)
     total_amt =  ( ((300 + 250*(days_of_stay-1))*n) + cd(n) )
     return {
-        'days':days_of_stay,
+        'days':dos,
         'amt_head':amt_per_head,
         'total':amt_without_caution_deposit,
         'cd':caution_deposit,
@@ -60,18 +65,19 @@ from django.shortcuts import render, redirect, get_object_or_404
 def link_callback(uri, rel):
     # use short variable names
     sUrl = settings.STATIC_URL      # Typically /static/
-    sRoot = settings.STATIC_ROOT    # Typically /home/userX/project_static/
+    sRoot = settings.STAT           # Typically /home/userX/project_static/
     mUrl = settings.MEDIA_URL       # Typically /static/media/
     mRoot = settings.MEDIA_ROOT     # Typically /home/userX/project_static/media/
 
-    sRoot = '/home/shahidg/works/saarang/erp_1.5/saarang_erp/static/'
     # convert URIs to absolute system paths
     if uri.startswith(mUrl):
         path = os.path.join(mRoot, uri.replace(mUrl, ""))
 
     elif uri.startswith(sUrl):
+        print uri
+        print sRoot
         path = os.path.join(sRoot, uri.replace(sUrl, ""))
-        
+        print path
     # make sure that file exists
     if not os.path.isfile(path):
             raise Exception(
@@ -84,7 +90,7 @@ def generate_pdf(request, team_id):
     # Prepare context
     team = get_object_or_404(HospiTeam, pk=team_id)
     leader = team.leader
-    members = team.members.all()
+    members = team.members.all().order_by('-gender')
     bill_data = bill(team.date_of_arrival, team.time_of_arrival, team.date_of_departure, team.time_of_departure, team.get_total_count())
     data = {
         'leader':leader,

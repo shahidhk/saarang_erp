@@ -77,6 +77,9 @@ def home(request):
         return redirect('hospi_prehome')
     team_id = request.session.get('current_team')
     team = get_object_or_404(HospiTeam, pk=team_id)
+    if team.members.filter(email=team.leader.email):
+        team.members.remove(team.leader)
+        messages.warning(request, 'Team leader found in members list also. Successfully removed!')
     members = team.members.all()
     msg=''
     if team.accomodation_status != 'confirmed':
@@ -92,11 +95,13 @@ def home(request):
         editable = True
     else:
         editable = False
+    bill_data = u.bill(team.date_of_arrival, team.time_of_arrival, team.date_of_departure, team.time_of_departure, team.get_total_count())
     to_return = {
         'editable':editable,
         'leader':user,
         'team':team,
         'members':members,
+        'bill_data':bill_data,
     }
     return render(request, 'hospi/home.html', to_return)
 
@@ -203,17 +208,26 @@ def delete_member(request, team_id, member_id):
 def add_accomodation(request):
     data = request.POST.copy()
     team = get_object_or_404(HospiTeam, pk=data['team_id'])
-    team.date_of_arrival = data['arr_date']
-    team.date_of_departure = data['dep_date']
-    team.time_of_arrival = data['arr_time']
-    team.time_of_departure = data['dep_time']
-    if team.accomodation_status == 'not_req':
-        team.accomodation_status = 'requested'
-        messages.success(request, 'Successfully requested for accommodation.')
-    else:
-        messages.success(request, 'Details successfully updated.')
-    team.save()
+    if data['updating'] == 'city':
+        team.city = data['city']
+        team.save()
+        messages.success(request, 'City updated.')
+        return redirect('hospi_home')
+    elif data['updating'] == 'all':
+        team.city = data['city']
+        team.date_of_arrival = data['arr_date']
+        team.date_of_departure = data['dep_date']
+        team.time_of_arrival = data['arr_time']
+        team.time_of_departure = data['dep_time']
+        if team.accomodation_status == 'not_req':
+            team.accomodation_status = 'requested'
+            messages.success(request, 'Successfully requested for accommodation.')
+        else:
+            messages.success(request, 'Details successfully updated.')
+        team.save()
+        return redirect('hospi_home')
     return redirect('hospi_home')
+
 
 def user_add_team(request):
     addteamForm = HospiTeamForm()
@@ -277,6 +291,17 @@ def delete_team(request, team_id):
     return redirect('hospi_prehome')
 
 def generate_saar(request, team_id):
+    if not request.session.get('saaranguser_email'):
+        return redirect('hospi_login')
+    email = request.session.get('saaranguser_email')
+    user = SaarangUser.objects.get(email=email)
+    team = get_object_or_404(HospiTeam, pk=team_id)
+    leader = team.leader
+    if team.leader != user:
+        messages.error(request, 'Please login first')
+        return redirect('hospi_login')
+    members = team.members.all()
+    # return render(request, 'hospi/saar.html', locals())
     return u.generate_pdf(request, team_id)
 
 # End Mainsite views

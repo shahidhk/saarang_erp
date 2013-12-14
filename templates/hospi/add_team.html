@@ -22,18 +22,6 @@
                     {% endif %} 
                 </div>
             </div>
-            {% if forloop.counter == 2 %}
-            <div class="control-group">
-            <label class="control-label">Event participating *</label>
-                <div class="controls"> 
-                    <select name="event_id" id="multiselect">
-                        {% for event in events %}
-                            <option value="{{ event.pk }}">{{ event }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-            </div>
-            {% endif %}
 
         {% endfor %}
         {% for field in form.hidden_fields %}
@@ -45,6 +33,8 @@
     </form>
 </div>
 <script type="text/javascript">
-
     $(document).ready(function() { $("#multiselect1").select2(); });
+
+    $(document).ready(function() { $("#multiselect").select2(); });
+
 </script>
