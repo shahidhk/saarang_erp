@@ -113,5 +113,5 @@ def generate_pdf(request, team_id):
     pdf = file.read()
     file.close()            # Don't forget to close the file handle
     response =  HttpResponse(pdf, mimetype='application/pdf')
-    # response['Content-Disposition'] = "attachment; filename='SAAR_"+team.team_sid+".pdf'"
+    response['Content-Disposition'] = "attachment; filename='SAAR_"+team.team_sid+".pdf'"
     return response
