@@ -1,3 +1,4 @@
+import time
 from django.core import mail
 
 from hospi.models import HospiTeam as ht
@@ -20,7 +21,7 @@ text = text_file.read()
 html = html_file.read()
 text_file.close()
 html_file.close()
-subject = 'Profile not completed - Accommodation Portal - Saarang 2014'
+subject = 'Profile not complete - Accommodation Portal - Saarang 2014'
 fr = 'webadmin@saarang.org'
 
 incomplete = list(set(incomplete))
@@ -33,9 +34,22 @@ for user in incomplete:
     print user, ' parsed'
 print 'Total ', len(email_list), ' emails has to be send.'
 
-def send_mail(start, step):
+def send_mail():
     print 'Initialising ...'
-    connection = mail.get_connection()
-    messages = email_list[start:start+step]
-    connection.send_messages(messages)
-    print 'Emails sent' 
+    total = len(email_list)
+    start = 0
+    step = 50
+    j=0
+    for i in range((total/50)+1):
+        print 'sending....'
+        connection = mail.get_connection()
+        messages = email_list[start:start+step]
+        for email in email_list[start:start+step]:
+            j+=1
+            print j,': ', email
+        connection.send_messages(messages)
+        print j, ' Emails sent. Waiting to send next batch'
+        start += step
+        time.sleep(10)
+
+    print 'finished'
