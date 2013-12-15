@@ -62,7 +62,7 @@
                 <td style="text-align: right; width: 45%;">ID</td><td style="text-align: center; width: 10%;"> : </td><td style="text-align: left; width: 45%;">{{ team.team_sid }}</td>
             </tr>
             <tr>
-                <td style="text-align: right; width: 45%;">City</td><td style="text-align: center; width: 10%;"> : </td><td style="text-align: left; width: 45%;">{% if not team.city %}<span style="color:red"><a href="#addCityModal" role="button" class="btn btn-warning btn-small" data-toggle="modal">Please update your city</a>{% else %}{{ team.city }}{% endif %}</td>
+                <td style="text-align: right; width: 45%;">City</td><td style="text-align: center; width: 10%;"> : </td><td style="text-align: left; width: 45%;">{% if not team.city %}<span style="color:red"><a href="#addCityModal" role="button" class="btn btn-warning btn-mini" data-toggle="modal">Please update your city</a>{% else %}{{ team.city }}{% endif %}</td>
             </tr>
             <tr>
                 <td style="text-align: right; width: 45%;">Accommodation Request</td><td style="text-align: center; width: 10%;"> : </td><td style="text-align: left; width: 45%;">
@@ -74,7 +74,7 @@
                     <span class="label label-info">Requested</span>
                 {% elif team.accomodation_status == 'confirmed' %}
                     <span class="label label-success">Confirmed</span>
-                    <a href="{% url 'hospi.views.generate_saar' team.pk %}" target="_blank" class="btn btn-inverse btn-small"><i class="icon-file icon-white"></i> Get SAAR</a>
+                    <a href="{% url 'hospi.views.generate_saar' team.pk %}" target="_blank" class="btn btn-inverse btn-mini"><i class="icon-file icon-white"></i> Get SAAR</a>
                 {% elif team.accomodation_status == 'waitlisted' %}
                     <span class="label label-warning">Waitlisted</span>
                 {% elif team.accomodation_status == 'rejected' %}
@@ -82,7 +82,7 @@
                 {% endif %}
 
                 {% if team.accomodation_status != 'not_req' %}
-                <a href="{% url 'hospi.views.cancel_request' %}" onclick="return confirm('Are you sure you want to cancel your request?');" class="btn btn-danger btn-small pull-right"><i class="icon-remove-circle icon-white"></i> Cancel request</a>
+                <a href="{% url 'hospi.views.cancel_request' %}" onclick="return confirm('Are you sure you want to cancel your request?');" class="btn btn-danger btn-mini pull-right"><i class="icon-remove-circle icon-white"></i> Cancel request</a>
                 {% endif %}
                 </td>
             </tr>
