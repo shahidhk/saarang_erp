@@ -4,7 +4,8 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.core.mail import send_mail, send_mass_mail
+from django.conf import settings
+from django.core.mail import send_mail, send_mass_mail, EmailMessage
 import utility as u
 
 from registration.models import SaarangUser
@@ -358,12 +359,19 @@ def update_status(request, team_id):
         team.accomodation_status = stat
         team.save()
         messages.success(request, 'Status for '+team.name+' successfully updated to '+stat)
-        emailtext = 'Hello,\n\nGreetings from Saarang 2014.\n\nYour request for accommodation at IIT Madras for Saarang 2014 has been '+stat+ '. \nTeam name: '+team.name+'\nTeam leader: '+team.leader.email+' ('+team.leader.name+')\n\nWishing you a happy Saarang,\n\nWeb Operations Team,\nSaarang 2014'
         emailsubject='Accommodation request '+stat+', Saarang 2014'
         users=[]
         for user in team.get_all_members():
             users.append(user.email)
-        send_mail(emailsubject, emailtext, 'webadmin@saarang.org', users, fail_silently=False)
+        if stat == 'confirmed':
+            emailtext = 'Hello,\n\nGreetings from Saarang 2014.\n\nYour request for accommodation at IIT Madras for Saarang 2014 has been '+stat+ '. \nTeam name: '+team.name+'\nTeam leader: '+team.leader.email+' ('+team.leader.name+')\n\nSAAR (Saarang Advance Accommodation Registration) confirmation letter can be now downladed from the accommodation portal (http://saarang.org/2014/main/#accommodation).\nPlease take a printout and keep at the time of check in, along with xerox and original of your college identity card.\nAlso, you need to submit a bonafide certificate from your college.\n\nPlease go through the General Instructions and Pricing Details attached for more information.\n\nWishing you a happy Saarang,\n\nWeb Operations Team,\nSaarang 2014'
+            emailmessage=EmailMessage(emailsubject, emailtext,'webadmin@saarang.org', users)
+            emailmessage.attach_file(settings.STAT+'docs/Genereal_Instructions.pdf')
+            emailmessage.attach_file(settings.STAT+'docs/PricingSystem_v2_final.pdf')
+            emailmessage.send()
+        else:
+            emailtext = 'Hello,\n\nGreetings from Saarang 2014.\n\nYour request for accommodation at IIT Madras for Saarang 2014 has been '+stat+ '. \nTeam name: '+team.name+'\nTeam leader: '+team.leader.email+' ('+team.leader.name+')\n\nWishing you a happy Saarang,\n\nWeb Operations Team,\nSaarang 2014'
+            send_mail(emailsubject, emailtext, 'webadmin@saarang.org', users, fail_silently=False)
     return redirect('hospi_list_registered_teams')
 
 @login_required
