@@ -18,14 +18,14 @@ class CreateMementoForm(forms.ModelForm):
         model = Memento
         exclude = ['timestamp']
 
-class FacilityForm(forms.Form):
+# class FacilityForm(forms.Form):
 
 
 
-class HospitalityForm(forms.Form):
+# class HospitalityForm(forms.Form):
 
 
-class PPMForm(forms.Form):
+# class PPMForm(forms.Form):
 
 
-class MiscellaneousForm(forms.Form):
+# class MiscellaneousForm(forms.Form):
