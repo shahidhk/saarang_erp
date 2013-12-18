@@ -8,10 +8,10 @@ ADMINS = (
     ('Saarang WebTeam', 'webadmin@saarang.org'),
 )
 
-EMAIL_BACKEND = 'post_office.EmailBackend'
-POST_OFFICE = {
-    'BATCH_SIZE': 500
-}
+# EMAIL_BACKEND = 'post_office.EmailBackend'
+# POST_OFFICE = {
+#     'BATCH_SIZE': 50
+# }
 
 MANAGERS = ADMINS
 
