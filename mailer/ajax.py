@@ -50,6 +50,8 @@ def mail_events(request):
     dajax.remove_css_class('#item_approval', 'active')
 
     events = request.user.userprofile.events.all()
+    if request.user.userprofile.status == 'core':
+        events = Event.objects.all()
 
     to_return={
         'events':events,
