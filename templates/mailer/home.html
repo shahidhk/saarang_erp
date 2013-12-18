@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+<script type="text/javascript">
+$(document).ready(function(){
+    $('#item_dash').addClass('active');
+    $('#topbar_dash').addClass('active');
+});
+</script>
+
+<input type="button" id="btn1" value="test" onclick="Dajaxice.mailer.test_get(Dajax.process);">
+{% endblock %}

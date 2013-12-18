@@ -1,0 +1,45 @@
+<script>
+      $(document).ready( function () {
+          $('#datatable').dataTable( {
+              "bJQueryUI": true,
+              "sPaginationType": "full_numbers",
+              "sDom": '<"H"Tfr>t<"F"ip>',
+              "oTableTools": {
+                  "aButtons": [
+                      "copy", "csv", "xls", "pdf",
+                      {
+                          "sExtends":    "collection",
+                          "sButtonText": "Save",
+                          "aButtons":    [ "csv", "xls", "pdf" ]
+                      }
+                  ]
+              }
+          } );
+      } );
+    </script>
+{% if not registrations %}
+<div class="alert alert-success">  
+    There are no registrations to display
+</div>
+{% else %}
+<table id="datatable" class="table-bordered table-striped table">
+    <thead>
+        <th>Participant</th>
+        <th>Team</th>
+        <th>Participating</th>
+        <th>Score</th>
+        <th>Mail</th>
+    </thead>
+    <tbody>
+        {% for regn in registrations %}
+            <tr>
+                <td>{{ regn.participant }}</td>
+                <td>{{ regn.team.name }}</td>
+                <td>{{ regn.is_participating }}</td>
+                <td>{{ regn.score }}</td>
+                <td style="text-align:center;"><button class='btn btn-mini btn-info' onclick="Dajaxice.mailer.send_individual_mail(Dajax.process, {'user_id':{{regn.participant.pk}}, 'event_id':{{event_id}} } );"><i class='icon-inbox'></i></button></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}

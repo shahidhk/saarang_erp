@@ -5,8 +5,13 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    # ('Your Name', 'your_email@example.com'),
+    ('Saarang WebTeam', 'webadmin@saarang.org'),
 )
+
+EMAIL_BACKEND = 'post_office.EmailBackend'
+POST_OFFICE = {
+    'BATCH_SIZE': 50
+}
 
 MANAGERS = ADMINS
 
@@ -47,6 +52,7 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    'dajaxice.finders.DajaxiceFinder',
 )
 
 # Make this unique, and don't share it with anybody.
@@ -56,7 +62,7 @@ SECRET_KEY = 'm&amp;@6f9kg-8&amp;upa$6_o140_#8(n5tkhl83w*hu@eqbes7qg2-d7'
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
+    'django.template.loaders.eggs.Loader',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + (
@@ -99,6 +105,9 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
     'south', # For database migrations
+    'dajaxice',
+    'dajax',
+    'post_office',
     'forum',
     'userprofile',
     'erp',
@@ -180,4 +189,4 @@ HOSTELS = (
         ('sarayu','Sarayu'),
     )
 
-DEFAULT_FROM_EMAIL = 'webadmin@saarang.org'
+DEFAULT_FROM_EMAIL = 'Saarang WebTeam <webadmin@saarang.org>'

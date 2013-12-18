@@ -34,6 +34,9 @@ class Event(models.Model):
     def __unicode__(self):
         return self.long_name
 
+    def get_participants_count(self):
+        return len(self.reg_event.all())
+
 class FAQ(models.Model):
     question = models.CharField(max_length=200)
     answer = models.TextField(max_length=1000)
