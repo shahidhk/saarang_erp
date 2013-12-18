@@ -8,7 +8,7 @@ class MailLog(models.Model):
     from_email = models.EmailField(max_length=200)
     to_email = models.CharField(max_length=5000)
     subject = models.CharField(max_length=500)
-    body = models.CharField(max_length=5000)
+    body = models.CharField(max_length=20000)
     created_by = models.ForeignKey(User, related_name='email_by_user')
     needs_approval = models.BooleanField(default=False)
     is_approved = models.BooleanField(default=False)

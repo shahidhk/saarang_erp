@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
 from django.contrib.auth.models import User, Group
+from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
 from django.core.urlresolvers import reverse
 

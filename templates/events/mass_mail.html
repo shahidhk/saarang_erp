@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load url from future %}
+{% block title %}Mass mail - Saarang ERP{% endblock %}
+
+{% block content %}
+<legend>Mass mail</legend>
+<script type="text/javascript">
+$(function(){
+    tinymce.init({
+        selector: "textarea",
+    });
+    $('#from_box').focus();
+});
+</script>
+
+<form method="POST" id="mail_form" action="{% url 'mailer.views.send_mass_mail' %}">
+    {% csrf_token %}
+    <table width=100%>
+        <tr>
+            <td>From</td>
+            <td><input id="from_box" class="input" value="{{ from_email }}" type="email" name="from_email"></td>
+        </tr>
+        <tr>
+            <td>To</td>
+            <td><div id="to_div" class="input-prepend fill"><span class="add-on">@</span><input class="input" type="text" name="to_email" value="Last year users" placeholder="email" readonly/></div></td>
+        </tr>
+        <tr>
+            <td>Subject</td>
+            <td><input id="subject_box" class="input" type="text" name="subject" placeholder="Subject" value="{{event.long_name}} Saarang 2014" /></td>
+        </tr>
+        <tr>
+            <td colspan=2><textarea name="body" placeholder="Email body"></textarea></td>
+        </tr>
+    </table>
+    <br/>
+    <table width=100%>
+        <tr>
+            <td width=50%><input class="btn btn-danger input btn-block" type="submit" value="Send" onclick="alert('Please wait while email is being prepared')"/></td>
+            <td width=50%><button class="btn btn-warning input btn-block" value="Back" onclick="">Back</button></td>
+        </tr>
+    </table>
+
+    
+</form>
+{% endblock %}

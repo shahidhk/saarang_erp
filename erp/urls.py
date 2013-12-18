@@ -43,7 +43,7 @@ urlpatterns = patterns('',
     # Include urls from ticket
     url(r'^ticket/', include('ticket.urls')),
 
-    # Include urls from ticket
+    # Include urls from main
     url(r'^main/', include('main.urls')),
 
     # Include urls from registration
