@@ -2,6 +2,7 @@
 {% load staticfiles %}
 {% load url from future %}
 {% load erp_tags %}
+{% load dajaxice_templatetags %}
 <html lang="en">
 
 <head>
@@ -34,7 +35,12 @@
     <link href="{% static 'css/tabletools/TableTools.css' %}" rel="stylesheet" media="screen">
     <link href="{% static 'css/tabletools/TableTools_JUI.css' %}" rel="stylesheet" media="screen">
     <link href="{% static 'css/select2.css' %}" rel="stylesheet">
+
     <script src="{% static 'js/jquery-1.9.1.js' %}"></script>
+    <script src="{% static 'js/dajaxice.core.js' %}"></script>
+    <script type="text/javascript" src='{% static "dajax/jquery.dajax.core.js" %}'></script>
+    
+
 
 <!-- Styles end -->
 
@@ -44,7 +50,7 @@
 
 </head>
 
-<body data-spy="scroll" data-target=".bs-docs-sidebar">
+<body >
  
  <!-- NavBar Begins -->
     {% block topbar %}
@@ -64,6 +70,7 @@
                             {% if user.userprofile.dept.id == 9 or user.userprofile.dept.id == 5 or user.userprofile.status == 'core' %}
                               <li {% if request.path|app_name == 'hospi' %}class='active'{% endif %}><a href="{% url 'hospi.views.list_registered_teams' %}"><i class="icon-fire icon-white"></i> Hospi</a></li>
                             {% endif %}
+                            <li id="topbar_dash"><a href="{% url 'mailer.views.home' %}"><i class="icon-eye-open icon-white"></i> Mailer</a></li>
                         </ul>
                         <div class="btn-group pull-right">
                         <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
@@ -185,6 +192,10 @@
 {% if user.userprofile.dept.id == 9 or user.userprofile.dept.id == 5 or user.userprofile.status == 'core' %}
   {% include 'hospi/sidebar.html' %}
 {% endif %}
+
+  {% include 'mailer/sidebar.html' %}
+
+
   <div class="accordion-group">
     <div class="accordion-heading">
       <a class="accordion-toggle" data-toggle="collapse" data-parent="#sidebar" href="#registrations"><i class="icon-qrcode"></i> Registrations</a>
@@ -253,7 +264,7 @@
 <!-- SideBar accordion ends -->
 </div>
 <!-- Content begin -->
-        <div class="span9" id="content">
+        <div class="span9" id="content" class="maincontent">
             {% block content %}{% endblock %}
         </div>
 <!-- Content ends -->
@@ -282,7 +293,7 @@
     <script src="{% static 'js/prettify.js' %}"></script>
     <script src="{% static 'js/holder.js' %}"></script>
     <script src="{% static 'js/select2.js' %}"></script>
-    
+    <script type="text/javascript" src="{% static 'js/jquery.bootstrap-growl.min.js' %}"></script>
     
     <script type="text/javascript" src="{{ STATIC_URL }}js/tinymce/tinymce.min.js"></script>
 

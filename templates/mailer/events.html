@@ -1,0 +1,33 @@
+<script type="text/javascript">
+    $(document).ready(function() { $("#event_selector").select2(); });
+    $('#event_selector').change(function(){
+        var id = $('#event_selector').val();
+        Dajaxice.mailer.event_regns(Dajax.process, {'event_id':id});
+        $('#mail_all_btn').val('Mail all ' + $("#event_selector option:selected").text() + ' participants');
+        $('#mail_all_btn').attr('onclick', 'Dajaxice.mailer.send_group_mail(Dajax.process, {"event_id":'+id.toString()+'});');
+    });
+
+</script>
+
+<legend>Events mailer</legend>
+
+<table width="100%">
+<tr>
+<td>
+{% if not events %}
+You dont have any events
+{% else %}
+    <select id="event_selector" style="width: 330px;">
+    {% for event in events %}
+        <option value="{{ event.pk }}">{{ event.long_name}}  ({{ event.get_participants_count }}) </option>
+    {% endfor %}
+    </select>
+    </td><td>
+    <div class="pull-right">
+        <input type="button" id="mail_all_btn" class="btn btn-success" value="Mail all participants" onclick=""/>
+    </div>
+    </td></tr></table>
+    <br/>
+{% endif %}
+<div id="registration_data">
+</div>

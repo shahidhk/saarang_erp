@@ -1,0 +1,50 @@
+<script>
+      $(document).ready( function () {
+          $('#datatable').dataTable( {
+              "bJQueryUI": true,
+              "sPaginationType": "full_numbers",
+              "sDom": '<"H"Tfr>t<"F"ip>',
+              "oTableTools": {
+                  "aButtons": [
+                      "copy", "csv", "xls", "pdf",
+                      {
+                          "sExtends":    "collection",
+                          "sButtonText": "Save",
+                          "aButtons":    [ "csv", "xls", "pdf" ]
+                      }
+                  ]
+              }
+          } );
+      } );
+</script>
+<legend>Mails pending approval</legend>
+{% if not mails %}
+<div class="alert alert-success">  
+    There are no mails to approve
+</div>
+{% else %}
+<table id="datatable" class="table-bordered table-striped table">
+    <thead>
+        <th>From</th>
+        <th>To</th>
+        <th>Subject</th>
+        <th>Message</th>
+        <th>At</th>
+        <th>By</th>
+        <th>Approve</th>
+    </thead>
+    <tbody>
+        {% for mail in mails %}
+            <tr>
+                <td>{{ mail.from_email }}</td>
+                <td>{{ mail.get_recieptents_count }} participants</td>
+                <td>{{ mail.subject }}</td>
+                <td>{{ mail.body|safe }}</td>
+                <td>{{ mail.timestamp }}</td>
+                <td>{{ mail.created_by.first_name }}</td>
+                <td style="text-align:center;"><button class='btn btn-mini btn-success' onclick="Dajaxice.mailer.core_approve_email(Dajax.process, {'mail_id':{{mail.pk}},} );"><i class='icon-ok'></i></button></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}

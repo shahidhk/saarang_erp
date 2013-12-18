@@ -1,0 +1,27 @@
+{% load staticfiles %}
+{% load url from future %}
+{% load erp_tags %}
+<div class="accordion-group">
+  <div class="accordion-heading">
+    <a class="accordion-toggle" data-toggle="collapse" data-parent="#sidebar" href="#mailer"><i class="icon-eye-open"></i> Mailer</a>
+  </div>
+  <div id="mailer" class="accordion-body collapse {% if request.path|app_name == 'mailer' %}in{% endif %} ">
+    <div class="accordion-inner">
+      <ul class="nav-list nav">
+      <!--
+        <li id="item_dash">
+          <a href="{% url 'mailer.views.home' %}"><i class="icon-chevron-right"></i> Dash</a>
+        </li>
+      -->
+        <li id="item_events">
+          <a href="#" onclick="Dajaxice.mailer.mail_events(Dajax.process);"><i class="icon-chevron-right"></i> Events</a>
+        </li>
+        {% if request.user.userprofile.status == 'core' %}
+        <li id="item_approval">
+          <a href="#" onclick="Dajaxice.mailer.approval_list(Dajax.process);"><i class="icon-chevron-right"></i> Pending approval <span id="approval_count" class="badge badge-info"></span></a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</div>

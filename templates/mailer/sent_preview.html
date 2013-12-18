@@ -1,0 +1,19 @@
+{{msg}}
+<table class="table table-bordered" width=100%>
+    <tr>
+        <td width=30%>From</td>
+        <td width=70%>{{ mail.from_email }}</td>
+    </tr>
+    <tr>
+        <td>To</td>
+        <td>{% if to_string %}{{to_string}}{% else%}{{ mail.to_email }}{% endif%}</td>
+    </tr>
+    <tr>
+        <td>Subject</td>
+        <td>{{ mail.subject }}</td>
+    </tr>
+    <tr>
+        <td>Message</td>
+        <td>{{ mail.body|safe }}</td>
+    </tr>
+</table>

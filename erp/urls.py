@@ -7,6 +7,10 @@ from django.conf import settings
 from django.contrib import admin
 admin.autodiscover()
 
+# Enable Dajaxice
+from dajaxice.core import dajaxice_autodiscover, dajaxice_config
+dajaxice_autodiscover()
+
 urlpatterns = patterns('',
     # Examples:
     url(r'^$', 'erp.views.home', name='home'),
@@ -23,6 +27,9 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
+
+    # Ajax urls
+    url(dajaxice_config.dajaxice_url, include('dajaxice.urls')),
 
     # Includes forum urls
     url(r'^forum/', include('forum.urls')),
@@ -47,6 +54,9 @@ urlpatterns = patterns('',
 
     # Include urls from hospi
     url(r'^hospi/', include('hospi.urls')),
+
+    # Include urls from mailer
+    url(r'^mailer/', include('mailer.urls')),
 
 	url(r'^login/$', 'erp.views.login_user', name='login'),
 
