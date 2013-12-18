@@ -118,6 +118,7 @@ INSTALLED_APPS = (
     'notifications',
     'hospi',
     'mailer',
+    'main',
 )
 
 # A sample logging configuration. The only tangible logging

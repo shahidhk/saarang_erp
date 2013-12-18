@@ -122,7 +122,6 @@ def send_email(request, form):
             [data['to_email']],data['from_email'],
             subject=data['subject'],
             html_message=data['body'],
-            priority='now'
         )
         to_return ={
             'mail': new_mail,
@@ -186,7 +185,6 @@ def core_approve_email(request, mail_id):
         json.loads(email.to_email),email.from_email,
         subject=email.subject,
         html_message=email.body,
-        priority='now'
     )
     to_return ={
         'msg':'Email has been sent',
@@ -196,4 +194,10 @@ def core_approve_email(request, mail_id):
     html_content = render_to_string('mailer/sent_preview.html', to_return, RequestContext(request))
     if html_content:
         dajax.assign("#content", "innerHTML", html_content)
+    return dajax.json()
+
+@dajaxice_register
+def loading_email(request):
+    dajax=Dajax()
+    show_alert(dajax, 'info', 'Please wait while the emails are being send')
     return dajax.json()

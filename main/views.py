@@ -22,6 +22,9 @@ def auto_id(team_id):
 
 EVENT_WITH_OPTIONS = [35,50,17,52,46,26,7,15]
 
+def home(request):
+    return HttpResponse('HOME')
+
 def main_profile_edit(request,emailId):
     emailId = base64.b64decode(emailId)
     print emailId
@@ -126,7 +129,7 @@ def register(request,eventId,emailId):
                     eventreg.save()
                     messages.success(request,'Registered successfully.')
                     subject = 'Saarang 2014 Registration'
-                    email_msg = '\tYou have registered to the event \'%s\' at Saarng 2014\n\n\nRegards,\n\tWeb-operations department\n\tSaaraang 2014' %(event.name)
+                    email_msg = '\tYou have registered to the event \'%s\' at Saarang 2014\n\n\nRegards,\n\tWeb-operations department\n\tSaaraang 2014' %(event.name)
                     from_user = 'webadmin@saarang.org'
                     mail_list = [emailId]
                     try:

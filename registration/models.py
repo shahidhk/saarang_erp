@@ -33,3 +33,12 @@ class SaarangUser(models.Model):
             return True
         else:
             return False
+
+
+class EmailList(models.Model):
+    email = models.EmailField(max_length=100)
+    def __unicode__(self):
+        return self.email
+
+    def get_users_count(self):
+        return len(self.objects.all())
