@@ -10,7 +10,7 @@ ADMINS = (
 
 EMAIL_BACKEND = 'post_office.EmailBackend'
 POST_OFFICE = {
-    'BATCH_SIZE': 50
+    'BATCH_SIZE': 500
 }
 
 MANAGERS = ADMINS
