@@ -27,8 +27,11 @@ for eml in EL:
     email_list.append(msg)
     print eml.email, ' parsed'
 
+email_list = email_list[15700:]
+
 print 'Total ', len(email_list), ' emails has to be send.'
 
+error_list=[]
 def send_mail():
     print 'Initialising ...'
     total = len(email_list)
@@ -37,14 +40,19 @@ def send_mail():
     j=0
     for i in range((total/step)+1):
         print 'sending....'
-        connection = mail.get_connection()
-        messages = email_list[start:start+step]
-        for email in email_list[start:start+step]:
-            j+=1
-            print j,': ', email
-        connection.send_messages(messages)
-        print j, ' Emails sent. Waiting to send next batch'
+        try:
+            connection = mail.get_connection()
+            messages = email_list[start:start+step]
+            for email in email_list[start:start+step]:
+                j+=1
+                print j,': ', email
+            connection.send_messages(messages)
+            print j, ' Emails sent. Waiting to send next batch'
+        except:
+            print 'error at ', j
+            error_list.append(j)
         start += step
         time.sleep(2)
 
     print 'finished'
+    print 'errors at: ', error_list
