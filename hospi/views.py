@@ -27,7 +27,7 @@ def prehome(request):
     hospi_teams_leading = user.hospi_team_leader.all()
     hospi_teams_member = user.hospi_team_members.all()
     if not user.profile_is_complete():
-        messages.error(request, "Your profile is not complete. Click <a href='http://saarang.org/2014/main/#login' target='_blank'>here</a> to update your profile. ")
+        messages.error(request, "Your profile is not complete. Click <a href='http://saarang.org/2014/main/#profile' target='_blank'>here</a> to update your profile. ")
     return render(request, 'hospi/prehome.html', locals())
 
 def set_hospi_team(request, team_id):
