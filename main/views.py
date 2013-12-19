@@ -25,6 +25,19 @@ EVENT_WITH_OPTIONS = [35,50,17,52,46,26,7,15]
 def home(request):
     return HttpResponse('HOME')
 
+def new_profile(request):
+    data = request.POST.copy()
+    try:
+        user = get_object_or_404(SaarangUser, email=data['email'])
+        return redirect('main_profile_edit', emailId=base64.encode(data['email']))
+    except:
+        new_user = SaarangUser.objects.create(email=data['email'],
+        password=data['password'], name=data['name'],
+        mobile=data['mobile'], gender=data['gender'], 
+        college=data['college'])
+        new_user.save()
+        return redirect('main_profile_edit', emailId=base64.encode(data['email']))
+
 def main_profile_edit(request,emailId):
     emailId = base64.b64decode(emailId)
     print emailId
