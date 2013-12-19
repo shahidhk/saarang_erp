@@ -14,10 +14,35 @@
 </ul>
 {% endif %}
 <div class="span9 container">
-{% for item in list %}
-{{ item }}
-{% endfor %}
-
+    <form action="{% url 'finance.views.update_item_list' %}" method='POST'>
+        {% csrf_token %}
+        <table id ="datatable" class='table table-bordered'>
+            <thead>
+                <th>#</th>
+                <th>Item Name</th>
+                <th>Comments</th>
+                <th>Cost(Rs.)</th>
+                <th>Count</th>
+                <th>Valid?</th>
+            </thead>
+            {% for item in list %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.comments }}</td>
+                <td>{{ item.cost }}</td>
+                <td>{{ item.count }}</td>
+                <td>
+                    <label class="checkbox">
+                        <input type="checkbox" name='{{ item.id }}' {% if item.is_active %}checked {% endif %}>
+                    </label>
+                </td>
+            </tr>   
+            {% endfor %}
+        </table>    
+        <br/>
+        <center><input class="btn btn-primary btn-large" type="submit" value="Update"/></center>
+    </form>
 </div>
 
 

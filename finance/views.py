@@ -31,7 +31,6 @@ def add_memento(request):
 
 def list_items(request):
     item_list = Item.objects.all()
-    print item_list
     to_return = {
         'list':item_list,
     }
@@ -43,3 +42,26 @@ def list_mementos(request):
         'list':memento_list,
     }
     return render(request, 'finance/list_items.html', to_return)
+
+#Not completed yet
+def update_item_list(request):
+    for item_id in dict(request.POST):
+        try:
+            item = Item.objects.get(id=int(item_id))
+            print
+            if request.POST[item_id] == 'on':
+                item.is_active = True
+            else:
+                item.is_active = False
+            item.save()
+        except:
+            pass 
+    return HttpResponseRedirect(reverse('list_items'))
+
+def event_request(request,eventId):
+    item_list = Item.objects.filter(is_active=True) 
+    to_return={
+        'list':item_list,
+    }
+
+    return render(request, 'finance/event_request.html', to_return)

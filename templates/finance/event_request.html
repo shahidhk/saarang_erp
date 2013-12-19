@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block title %}Finance | Saarang ERP{% endblock %}
+
+{% block content %}
+
+<div class="span9 container">
+    <ul class="nav nav-tabs">
+      <li class="active">
+        <a href="#request" data-toggle="tab">Request Details</a>
+      </li>
+      <li><a href="#misc" data-toggle="tab">Miscellaneous</a></li>
+    </ul>    
+    <div class="tab-content">
+        <div class="tab-pane active" id="request">
+            <div>
+                <div id="myAccordion" class="accordion">
+                    <div class="accordion-group">
+                        <div class="accordion-heading">
+                            <a href="#collapseOne" data-parent="#myAccordion" data-toggle="collapse" class="accordion-toggle">Facilities</a>
+                        </div>
+                        <div class="accordion-body collapse in" id="collapseOne">
+                            <div class="accordion-inner">
+                                <table id ="datatable" class='table table-bordered'>
+                                    <thead>
+                                        <th>#</th>
+                                        <th>Item Name</th>
+                                        <th>Comments</th>
+                                        <th>Cost(Rs.)</th>
+                                        <th>Quantity</th>
+                                    </thead>
+                                    {% for item in list %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ item.name }}</td>
+                                        <td>{{ item.comments }}</td>
+                                        <td>{{ item.cost }}</td>
+                                        <td>
+                                            <label class="input">
+                                                <input class="input-mini" type="number" name='{{ item.id }}' value='0'>
+                                            </label>
+                                        </td>
+                                    </tr>   
+                                    {% endfor %}
+                                </table>    
+                            </div>
+                        </div>
+                    </div>    
+                    <div class="accordion-group">
+                        <div class="accordion-heading">
+                            <a href="#collapseTwo" data-parent="#myAccordion" data-toggle="collapse" class="accordion-toggle">Hospitality</a>
+                        </div>
+                        <div class="accordion-body collapse" id="collapseTwo">
+                            <div class="accordion-inner">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-group">
+                        <div class="accordion-heading">
+                            <a href="#collapseThree" data-parent="#myAccordion" data-toggle="collapse" class="accordion-toggle">Trasport</a>
+                        </div>
+                        <div class="accordion-body collapse" id="collapseThree">
+                            <div class="accordion-inner">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>            
+        </div>
+        <div class='tab-pane' id='misc'>
+        </div>    
+    </div>
+</div>
+
+{% endblock %}
