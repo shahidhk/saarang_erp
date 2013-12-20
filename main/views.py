@@ -7,12 +7,14 @@ from django.template import RequestContext
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.decorators import permission_required
 from django.core.urlresolvers import reverse
+from django.middleware.csrf import get_token
 import base64
 from django.contrib import messages
 from django.core.mail import send_mail
 from registration.models import SaarangUser
 from main.forms import ProfileEditForm,CreateTeamForm,EventOptionsForm
 from events.models import Event,EventRegistration,Team
+
 
 def auto_id(team_id):
     base = 'SA2014'
@@ -24,6 +26,13 @@ EVENT_WITH_OPTIONS = [35,50,17,52,46,26,7,15]
 
 def home(request):
     return HttpResponse('HOME')
+
+def get_csrf(request):
+    to_return={
+    'csrf':get_token(request),
+    }
+    return render(request, 'main/csrf.html', to_return)
+
 
 def new_profile(request):
     data = request.POST.copy()

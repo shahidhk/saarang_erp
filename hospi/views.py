@@ -13,6 +13,8 @@ from models import Hostel, Room, HospiTeam, Allotment
 from events.models import Team, EventRegistration, Event
 from forms import HostelForm, RoomForm, HospiTeamForm
 from events.forms import AddTeamForm
+from mailer.models import MailLog
+from post_office import mail
 
 ####################################################################
 # Mainsite Views
@@ -163,11 +165,10 @@ def add_members(request):
         for email in added:
             t+=email+', '
         messages.success(request, "Successfully added "+t)
-        useremailtext = 'Hello,\n\n'+team.leader.email+' ('+team.leader.name+') '+\
-        'has added you to his/her team '+team.name+' for accommodation at IIT Madras during Saarang 2014. We will keep you updated on the status of the accomodation request. \
-        \n\nWishing you a happy Saarang,\n\nWeb Operations Team,\nSaarang 2014'
-        usersubject =  'Accommodation at Saarang 2014'
-        send_mail(usersubject, useremailtext, 'webadmin@saarang.org', added)
+        mail.send(
+            added, template='email/hospi/leader_added_member',
+            context={'team':team,},
+            )
 
     if not_registered:
         msg=''
@@ -175,11 +176,10 @@ def add_members(request):
             msg += email + ', '
         messages.error(request,'Partially added /could not add members. ' + msg + 'have not registered \
                 with Saarang yet. Please ask them to register and try adding them again.')
-        nonuseremail = 'Hello,\n\n'+team.leader.email+' ('+team.leader.name+') '+\
-        'has tried to add you to his/her team '+team.name+' for accommodation at IIT Madras during Saarang 2014. But, since you have not registered at the Saarang website(http://saarang.org), he/she could not add you. Please register at the Saarang Website (http://saarang.org/2014/main/#register) and inform '+team.leader.name+' that you have registered. We will keep you updated on the status of the accomodation request.\n \
-        \n\nWishing you a happy Saarang,\n\nWeb Operations Team,\nSaarang 2014'
-        nonusersubject = 'Please register at Saarang 2014 for accommodation'
-        send_mail(nonusersubject, nonuseremail, 'webadmin@saarang.org', not_registered)
+        mail.send(
+            not_registered, template='email/hospi/register_invitation',
+            context={'team':team,}
+            )
 
     if profile_not_complete:
         print profile_not_complete
@@ -192,6 +192,7 @@ def add_members(request):
         \n\nWishing you a happy Saarang,\n\nWeb Operations Team,\nSaarang 2014'
         emailsub = 'Profile not complete. Accommodation, Saarang 2014'
         send_mail(emailsub, emailmsg, 'webadmin@saarang.org', profile_not_complete)
+    
     return redirect('hospi_home')
 
 def delete_member(request, team_id, member_id):
@@ -371,9 +372,14 @@ def update_status(request, team_id):
             emailmessage.attach_file(settings.STAT+'docs/Genereal_Instructions.pdf')
             emailmessage.attach_file(settings.STAT+'docs/PricingSystem_v2_final.pdf')
             emailmessage.send()
+            MailLog.objects.create(from_email='webadmin@saarang.org',
+                to_email=team.leader.email, subject=emailsubject, body=emailtext,
+                created_by= request.user)
         else:
-            emailtext = 'Hello,\n\nGreetings from Saarang 2014.\n\nYour request for accommodation at IIT Madras for Saarang 2014 has been '+stat+ '. \nTeam name: '+team.name+'\nTeam leader: '+team.leader.email+' ('+team.leader.name+')\n\nWishing you a happy Saarang,\n\nWeb Operations Team,\nSaarang 2014'
-            send_mail(emailsubject, emailtext, 'webadmin@saarang.org', users, fail_silently=False)
+            mail.send(
+                users, template='email/hospi/status_update',
+                context={'status':stat, 'team':team,}
+                )
     return redirect('hospi_list_registered_teams')
 
 @login_required
