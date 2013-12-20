@@ -9,7 +9,7 @@ from django.core.mail import send_mail, send_mass_mail, EmailMessage
 import utility as u
 
 from registration.models import SaarangUser
-from models import Hostel, Room, HospiTeam
+from models import Hostel, Room, HospiTeam, Allotment
 from events.models import Team, EventRegistration, Event
 from forms import HostelForm, RoomForm, HospiTeamForm
 from events.forms import AddTeamForm
@@ -356,6 +356,8 @@ def update_status(request, team_id):
                 else:
                     team.members.remove(member)
             team.save()
+            a=Allotment.objects.create(team=team, alloted_by=request.user)
+            a.save()
         team.accomodation_status = stat
         team.save()
         messages.success(request, 'Status for '+team.name+' successfully updated to '+stat)
