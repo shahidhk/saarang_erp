@@ -47,11 +47,11 @@
         {% for field in form.hidden_fields %}
             {{ field }}
         {% endfor %}
-
+        <br/>
         <center> <input class="btn btn-primary btn-large" type="submit" value="Submit"/> {% block extra_buttons %} {% endblock extra_buttons %}
         </center>
     </form>
-
+    <hr>
     <h3>Already uploaded logos.</h3>
     <div class="span9 container">
         <ul class='thumbnails'>
