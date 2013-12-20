@@ -49,9 +49,13 @@ def new_profile(request):
         return redirect('main_profile_edit', emailId=base64.encode(data['email']))
 
 def main_profile_edit(request,emailId):
-    emailId = base64.b64decode(emailId)
-    print emailId
-    user =  SaarangUser.objects.get(email=emailId)
+    try:
+        emailId = base64.b64decode(emailId)
+        print emailId
+        user =  SaarangUser.objects.get(email=emailId)
+    except:
+        messages.error(request, 'Please login to continue')
+        return render(request, 'main/register_response', {})
     if request.method == 'POST':
         profileeditForm = ProfileEditForm(request.POST)
         if profileeditForm.is_valid():
