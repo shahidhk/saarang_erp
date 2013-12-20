@@ -36,11 +36,6 @@ class Room(models.Model):
     def get_occupants_count(self):
         return len(self.occupants.all())
 
-class Allotment(models.Model):
-    timestamp = models.DateTimeField(auto_now_add=True)
-    team = models.ForeignKey(HospiTeam, related_name='alloted_team')
-    alloted_by = models.ForeignKey(User, related_name='alloted_coord')
-
 class HospiTeam(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     name = models.CharField(max_length=100)
@@ -115,3 +110,9 @@ class HospiTeam(models.Model):
         mem = list(self.members.all())
         mem.append(self.leader)
         return mem
+
+
+class Allotment(models.Model):
+    timestamp = models.DateTimeField(auto_now_add=True)
+    team = models.ForeignKey(HospiTeam, related_name='alloted_team')
+    alloted_by = models.ForeignKey(User, related_name='alloted_coord')
