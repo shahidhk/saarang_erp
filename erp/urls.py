@@ -39,6 +39,9 @@ urlpatterns = patterns('',
     # Include urls from ticket
     url(r'^finance/', include('finance.urls')),
 
+    # Include urls from ticket
+    url(r'^spons/', include('spons.urls')),
+
     # Include urls from registration
     url(r'^registration/', include('registration.urls')),
 
