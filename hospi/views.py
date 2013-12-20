@@ -187,12 +187,10 @@ def add_members(request):
         for email in profile_not_complete:
             txt += email + ', '
         messages.warning(request, 'Profile not complete. '+txt+" have not completed their profile at Saarang. Please ask them to click on the link they recieved thru email to update their profile, or ask them to Click <a href='http://saarang.org/2014/main/#login' target='_blank'>here</a> to update profile. ")
-        emailmsg = 'Hello,\n\n'+team.leader.email+' ('+team.leader.name+') '+\
-        'has tried to add you to his/her team '+team.name+' for accommodation at IIT Madras during Saarang 2014. But, since you have not completed your profile at Saarang website(http://saarang.org), he/she could not add you. Please update your profile at Saarang Website (http://saarang.org/2014/main/#login) and inform '+team.leader.name+' that you have completed the profile. We will inform you when the request has been confirmed.\n \
-        \n\nWishing you a happy Saarang,\n\nWeb Operations Team,\nSaarang 2014'
-        emailsub = 'Profile not complete. Accommodation, Saarang 2014'
-        send_mail(emailsub, emailmsg, 'webadmin@saarang.org', profile_not_complete)
-    
+        mail.send(
+            profile_not_complete, template='email/hospi/profile_incomplete',
+            context={'team':team,}
+            )
     return redirect('hospi_home')
 
 def delete_member(request, team_id, member_id):
@@ -200,11 +198,10 @@ def delete_member(request, team_id, member_id):
     user = get_object_or_404(SaarangUser, pk=member_id)
 
     team.members.remove(user)
-    emailtext = 'Hello,\n\nGreetings from Saarang 2014.\n\nYou have been removed from \nTeam name: '+team.name+'\nTeam leader: '+team.leader.email+' ('+team.leader.name+')\n\nWishing you a happy Saarang,\n\nWeb Operations Team,\nSaarang 2014'
-    emailsubject='You have been removed from team: '+team.name+', Saarang 2014'
- 
-    send_mail(emailsubject, emailtext, 'webadmin@saarang.org', [user.email], fail_silently=False)
-
+    mail.send(
+        [user.email], template='email/hospi/member_deleted',
+        context={'team':team,}
+        )
     return redirect('hospi_home')
 
 def add_accomodation(request):
@@ -267,12 +264,13 @@ def cancel_request(request):
     team.accomodation_status = 'not_req'
     team.save()
     messages.success(request, 'Accommodation request cancelled successfully!')
-    emailtext = 'Hello,\n\nGreetings from Saarang 2014.\n\nYour request for accommodation at IIT Madras for Saarang 2014 has been cancelled by team leader. \nTeam name: '+team.name+'\nTeam leader: '+team.leader.email+' ('+team.leader.name+')\n\nWishing you a happy Saarang,\n\nWeb Operations Team,\nSaarang 2014'
-    emailsubject='Accommodation request cancelled, Saarang 2014'
     users=[]
     for user in team.get_all_members():
         users.append(user.email)
-    send_mail(emailsubject, emailtext, 'webadmin@saarang.org', users, fail_silently=False)
+    mail.send(
+        users, template='email/hospi/cancel_accommodation',
+        context={'team':team,}
+        )
     return redirect('hospi_prehome')
 
 def delete_team(request, team_id):
@@ -282,12 +280,13 @@ def delete_team(request, team_id):
     email = request.session.get('saaranguser_email')
     user = SaarangUser.objects.get(email=email)
     team = get_object_or_404(HospiTeam, pk=team_id)
-    emailtext = 'Hello,\n\nGreetings from Saarang 2014.\n\nYour team for accommodation at IIT Madras for Saarang 2014 has been deleted by team leader. \nTeam name: '+team.name+'\nTeam leader: '+team.leader.email+' ('+team.leader.name+')\n\nWishing you a happy Saarang,\n\nWeb Operations Team,\nSaarang 2014'
-    emailsubject='Accommodation request team deleted, Saarang 2014'
     users=[]
     for user in team.get_all_members():
         users.append(user.email)
-    send_mail(emailsubject, emailtext, 'webadmin@saarang.org', users, fail_silently=False)
+    mail.send(
+        users, template='email/hospi/team_deleted',
+        context={'team':team,}
+        )
     team.delete()
     messages.success(request, 'Team has been successfully deleted')
     return redirect('hospi_prehome')
