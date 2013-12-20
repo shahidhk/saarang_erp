@@ -36,7 +36,7 @@ def set_hospi_team(request, team_id):
     confirmed_list=[]
     if team.leader.accomod_is_confirmed:
         messages.error(request, 'Your accommodation has been confirmed in another team. \
-            You cannot request for accommodation again')
+            You cannot request for accommodation again.')
         return redirect('hospi_prehome')
 
     team.accomodation_status = 'requested'
@@ -48,7 +48,7 @@ def set_event_team(request, event_team_id):
     event_team = get_object_or_404(Team, pk=event_team_id)
     if event_team.leader.accomod_is_confirmed:
         messages.error(request, 'Your accommodation has been confirmed in another team. \
-            You cannot request for accommodation again')
+            You cannot request for accommodation again.')
         return redirect('hospi_prehome')
     team = HospiTeam.objects.create(name=event_team.name, \
         leader=event_team.leader, accomodation_status='requested')
@@ -72,7 +72,7 @@ def home(request):
     email = request.session.get('saaranguser_email')
     user = SaarangUser.objects.get(email=email)
     if not user.profile_is_complete():
-        messages.error(request, "Your profile is not complete. Click <a href='http://saarang.org/2014/main/#login' target='_blank'>here</a> to update your profile. ")
+        messages.error(request, "Your profile is not complete. Click <a href='http://saarang.org/2014/main/#profile' target='_blank'>here</a> to update your profile. ")
         return redirect('hospi_prehome')
     if not request.session.get('current_team'):
         return redirect('hospi_prehome')
@@ -114,13 +114,13 @@ def login(request):
             try:
                 teams = user.team_leader.all()
             except Exception, e:
-                messages.error(request, 'You do not lead any team. Please create a team')
+                messages.error(request, 'You do not lead any team. Please create a team.')
                 return render(request, 'hospi/login.html')
             if user.password == data['password']:
                 request.session['saaranguser_email'] = user.email
                 return redirect('hospi_prehome')
             else:
-                messages.error(request, 'Did u mis-spell your password?')
+                messages.error(request, 'Did you misspell your password?')
         except Exception, e:
             messages.error(request, 'Is your email id correct?')
     return render(request, 'hospi/login.html')
@@ -128,9 +128,9 @@ def login(request):
 def logout(request):
     try:
         del request.session['saaranguser_email']
-        messages.success(request, 'You have been logged out')
+        messages.success(request, 'You have been logged out.')
     except KeyError:
-        messages.warning(request, 'Please login first')
+        messages.warning(request, 'Please login first.')
     return redirect('hospi_login')
 
 
@@ -164,7 +164,7 @@ def add_members(request):
             t+=email+', '
         messages.success(request, "Successfully added "+t)
         useremailtext = 'Hello,\n\n'+team.leader.email+' ('+team.leader.name+') '+\
-        'has added you to his/her team '+team.name+' for accommodation at IIT Madras during Saarang 2014. We will inform you when the request has been confirmed. \
+        'has added you to his/her team '+team.name+' for accommodation at IIT Madras during Saarang 2014. We will keep you updated on the status of the accomodation request. \
         \n\nWishing you a happy Saarang,\n\nWeb Operations Team,\nSaarang 2014'
         usersubject =  'Accommodation at Saarang 2014'
         send_mail(usersubject, useremailtext, 'webadmin@saarang.org', added)
@@ -176,7 +176,7 @@ def add_members(request):
         messages.error(request,'Partially added /could not add members. ' + msg + 'have not registered \
                 with Saarang yet. Please ask them to register and try adding them again.')
         nonuseremail = 'Hello,\n\n'+team.leader.email+' ('+team.leader.name+') '+\
-        'has tried to add you to his/her team '+team.name+' for accommodation at IIT Madras during Saarang 2014. But, since you have not registered at Saarang website(http://saarang.org), he/she could not add you. Please register at Saarang Website (http://saarang.org/2014/main/#register) and inform '+team.leader.name+' that you have registered. We will inform you when the request has been confirmed.\n \
+        'has tried to add you to his/her team '+team.name+' for accommodation at IIT Madras during Saarang 2014. But, since you have not registered at the Saarang website(http://saarang.org), he/she could not add you. Please register at the Saarang Website (http://saarang.org/2014/main/#register) and inform '+team.leader.name+' that you have registered. We will keep you updated on the status of the accomodation request.\n \
         \n\nWishing you a happy Saarang,\n\nWeb Operations Team,\nSaarang 2014'
         nonusersubject = 'Please register at Saarang 2014 for accommodation'
         send_mail(nonusersubject, nonuseremail, 'webadmin@saarang.org', not_registered)
@@ -186,9 +186,9 @@ def add_members(request):
         txt = ''
         for email in profile_not_complete:
             txt += email + ', '
-        messages.warning(request, 'Profile not complete. '+txt+" have not completed their profile at Saarang. Please ask them to click on the link they recieved thru email to update their profile, or ask them to Click <a href='http://saarang.org/2014/main/#login' target='_blank'>here</a> to update profile. ")
+        messages.warning(request, 'Profile not complete. '+txt+" have not completed their profile at Saarang. Please ask them to click on the link they recieved through email to update their profile, or ask them to Click <a href='http://saarang.org/2014/main/#profile' target='_blank'>here</a> to update profile. ")
         emailmsg = 'Hello,\n\n'+team.leader.email+' ('+team.leader.name+') '+\
-        'has tried to add you to his/her team '+team.name+' for accommodation at IIT Madras during Saarang 2014. But, since you have not completed your profile at Saarang website(http://saarang.org), he/she could not add you. Please update your profile at Saarang Website (http://saarang.org/2014/main/#login) and inform '+team.leader.name+' that you have completed the profile. We will inform you when the request has been confirmed.\n \
+        'has tried to add you to his/her team '+team.name+' for accommodation at IIT Madras during Saarang 2014. But, since you have not completed your profile at Saarang website(http://saarang.org), he/she could not add you. Please update your profile at Saarang Website (http://saarang.org/2014/main/#login) and inform '+team.leader.name+' that you have completed the profile. We will keep you updated on the status of the accomodation request.\n \
         \n\nWishing you a happy Saarang,\n\nWeb Operations Team,\nSaarang 2014'
         emailsub = 'Profile not complete. Accommodation, Saarang 2014'
         send_mail(emailsub, emailmsg, 'webadmin@saarang.org', profile_not_complete)

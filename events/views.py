@@ -73,7 +73,7 @@ def details_event(request, event_id):
         if event in coord_events:
             pass
         else:
-            return render(request, 'alert.html', {'msg': 'You dont have permission to access this event', 'type': 'error'})
+            return render(request, 'alert.html', {'msg': 'You don\'t have permission to access this event', 'type': 'error'})
     coords_for_event = []
 
     for user in event.user_events.all():
