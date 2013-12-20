@@ -16,10 +16,12 @@
         <li id="item_events">
           <a href="#" onclick="Dajaxice.mailer.mail_events(Dajax.process);"><i class="icon-chevron-right"></i> Events</a>
         </li>
+       <!-- 
         <li>
             <a href="{% url 'mailer.views.mass_mail' %}"><i class="icon-chevron-right"></i> Mass mail</a>
           </li>
-        {% if request.user.userprofile.status == 'core' %}
+          --> 
+          {% if request.user.userprofile.status == 'core' and request.user.userprofile.dept.name == 'events' %}
         <li id="item_approval">
           <a href="#" onclick="Dajaxice.mailer.approval_list(Dajax.process);"><i class="icon-chevron-right"></i> Pending approval <span id="approval_count" class="badge badge-info"></span></a>
         </li>
