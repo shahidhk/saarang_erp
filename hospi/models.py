@@ -116,3 +116,7 @@ class Allotment(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     team = models.ForeignKey(HospiTeam, related_name='alloted_team')
     alloted_by = models.ForeignKey(User, related_name='alloted_coord')
+
+    def __unicode__(self):
+        return self.team.name
+        
