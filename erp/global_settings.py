@@ -101,6 +101,8 @@ INSTALLED_APPS = (
     'ticket',
     'registration',
     'notifications',
+    'finance',
+    'spons',
 )
 
 # A sample logging configuration. The only tangible logging

@@ -4,16 +4,6 @@
 
 {% block content %}
 
-{% if messages %}
-<ul class="messages">
-    {% for message in messages %}
-    <div class='alert {% if message.tags %} alert-{{ message.tags }}{% endif %}'>
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        {{ message }}
-    </div>
-    {% endfor %}
-</ul>
-{% endif %}
 <div class="span9 container">
     <form class="form-horizontal" action="" method="POST" {% if form.is_multipart %}enctype="multipart/form-data"{% endif %}>
         <legend>Spons</legend>
@@ -61,6 +51,7 @@
                     <img src="{{ image.logo.url }}" height="100" width="100" alt="{{image.title}}"/>
                     <center><h5>{{ image.title }}</h5></center>
                     <p>{{ image.timestamp|date:'j M' }} , {{ image.timestamp|time:'G:i' }}</p>
+                    <p></p>
                 </div>
             </li>
             {% endfor %}

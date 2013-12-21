@@ -36,10 +36,10 @@ urlpatterns = patterns('',
     # Include urls from ticket
     url(r'^ticket/', include('ticket.urls')),
 
-    # Include urls from ticket
+    # Include urls from finance
     url(r'^finance/', include('finance.urls')),
 
-    # Include urls from ticket
+    # Include urls from spons
     url(r'^spons/', include('spons.urls')),
 
     # Include urls from registration

@@ -1,0 +1,15 @@
+{% load url from future%}
+<div class="accordion-group">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#sidebar" href="#spons"><i class="icon-star-empty"></i> Spons</a>
+    </div>
+    <div id="spons" class="accordion-body collapse">
+      <div class="accordion-inner">
+        <ul class="nav-list nav">
+          <li>
+            <a href="{% url 'spons.views.add_logo' %}"><i class="icon-chevron-right"></i> Add logo</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>

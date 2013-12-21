@@ -15,7 +15,9 @@ from models import SponsImageUpload
 def add_logo(request):
     form = AddLogoForm(request.POST or None,request.FILES or None)
     if form.is_valid():
-        form.save()
+        img = form.save(commit=False)
+        img.uploaded_by = request.user
+        img.save()
         messages.success(request,'Image successfully saved')
         HttpResponseRedirect(reverse('add_logo'))
     all_images = SponsImageUpload.objects.all()
@@ -24,3 +26,4 @@ def add_logo(request):
         'list':all_images,
     }
     return render(request, 'spons/add_logo.html', to_return)
+

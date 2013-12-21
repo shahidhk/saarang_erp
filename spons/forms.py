@@ -4,7 +4,7 @@ from django import forms
 class AddLogoForm(forms.ModelForm):
     class Meta:
         model = SponsImageUpload
-        exclude = ['timestamp']
+        exclude = ['timestamp', 'uploaded_by']
         help_texts = {
             'title': ('Example:Title Sponsor, Website Sponsor'),
         }
