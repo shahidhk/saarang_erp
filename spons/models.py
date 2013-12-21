@@ -6,3 +6,8 @@ class SponsImageUpload(models.Model):
     logo = models.ImageField(upload_to='spons')
     timestamp = models.DateTimeField(auto_now_add=True)
     uploaded_by = models.ForeignKey(User, related_name='image_uploaded_by')
+
+    class Meta:
+        permissions = (
+            ('manage_logo', 'Can manage logos'),
+            )

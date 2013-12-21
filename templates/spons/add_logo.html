@@ -43,6 +43,7 @@
     </form>
     <hr>
     <h3>Already uploaded logos.</h3>
+    {% if list %}
     <div class="span9 container">
         <ul class='thumbnails'>
             {% for image in list %}
@@ -50,13 +51,15 @@
                 <div class='thumbnail'>
                     <img src="{{ image.logo.url }}" height="100" width="100" alt="{{image.title}}"/>
                     <center><h5>{{ image.title }}</h5></center>
-                    <p>{{ image.timestamp|date:'j M' }} , {{ image.timestamp|time:'G:i' }}</p>
-                    <p></p>
+                    <p>{{ image.timestamp|date:'j M' }} , {{ image.timestamp|time:'G:i' }} <a href="{% url 'spons.views.delete_logo' image.pk %}" onclick="return confirm('Do you want to Delete this logo?');" class="close-btn"><span class="badge badge-important">&times; Del</span></a></p>
                 </div>
             </li>
             {% endfor %}
         </div>
     </div>
+    {% else %}
+    <div class="alert alert-error">There are no logos to display</div>
+    {% endif %}
 </div>
 
 {% endblock %}
