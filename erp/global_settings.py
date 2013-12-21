@@ -120,6 +120,8 @@ INSTALLED_APPS = (
     'hospi',
     'mailer',
     'main',
+    'finance',
+    'spons',
 )
 
 # A sample logging configuration. The only tangible logging

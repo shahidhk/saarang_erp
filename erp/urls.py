@@ -46,6 +46,12 @@ urlpatterns = patterns('',
     # Include urls from main
     url(r'^main/', include('main.urls')),
 
+    # Include urls from finance
+    url(r'^finance/', include('finance.urls')),
+
+    # Include urls from spons
+    url(r'^spons/', include('spons.urls')),
+
     # Include urls from registration
     url(r'^registration/', include('registration.urls')),
 

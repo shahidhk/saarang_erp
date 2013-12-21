@@ -198,6 +198,33 @@
 
   <div class="accordion-group">
     <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#sidebar" href="#finance"><i class="icon-bookmark"></i> Facilities</a>
+    </div>
+    <div id="finance" class="accordion-body collapse">
+      <div class="accordion-inner">
+        <ul class="nav-list nav">
+          <li>
+            <a href="{% url 'finance.views.add_item' %}"><i class="icon-chevron-right"></i> Add an Item</a>
+          </li>
+
+          <li>
+            <a href="{% url 'finance.views.list_items' %}"><i class="icon-chevron-right"></i> List all Items</a>
+          </li>
+          <li>
+            <a href="{% url 'finance.views.add_memento' %}"><i class="icon-chevron-right"></i>  Add a Memento</a>
+          </li>
+          <li>
+            <a href="{% url 'finance.views.list_mementos' %}"><i class="icon-chevron-right"></i> List all mementos</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+{% include 'spons/sidebar.html' %}
+
+  <div class="accordion-group">
+    <div class="accordion-heading">
       <a class="accordion-toggle" data-toggle="collapse" data-parent="#sidebar" href="#registrations"><i class="icon-qrcode"></i> Registrations</a>
     </div>
     <div id="registrations" class="accordion-body collapse">
