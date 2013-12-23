@@ -17,6 +17,8 @@ from main.forms import ProfileEditForm,CreateTeamForm,EventOptionsForm
 from events.models import Event,EventRegistration,Team
 
 
+from django.views.decorators.csrf import csrf_exempt
+
 def auto_id(team_id):
     base = 'SA2014'
     num = "{0:0>3}".format(team_id)
@@ -34,7 +36,7 @@ def get_csrf(request):
     }
     return render(request, 'main/csrf.html', to_return)
 
-
+@csrf_exempt
 def new_profile(request):
     data = request.POST.copy()
     try:
