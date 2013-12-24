@@ -1,5 +1,5 @@
-{% extends "main/main_profile_edit.html" %}
-
+{% include 'main/cssnjs.html' %}
+{% load url from future %}
 {% block main_body %}
 
  {% if messages %}
@@ -33,11 +33,11 @@
             </td>
             {% if team.leader == user %}
                 {% if reg == 1 %}
-                <td><a href = "/main/register_team/{{eId}}/{{emailId}}/{{team.id}}/"><button type='button' class='btn btn-small btn-primary'>Register using this team</button></a></td>
+                <td><a href = "{% url 'main.views.register_team' eId team.pk %}"><button type='button' class='btn btn-small btn-primary'>Register using this team</button></a></td>
                 {% elif reg == 2 %}
                 <td><button type='button' class='btn btn-small btn-primary disabled' >Already registered</button></td>
                 {% elif reg == 3 %}
-                <td><a href = "/main/band_details/{{eId}}/{{emailId}}/{{team.id}}/"><button type='button' class='btn btn-small btn-primary'>Update event submission details.</button></a></td>
+                <td><a href = "{% url 'main.views.band_details' eId team.pk %}"><button type='button' class='btn btn-small btn-primary'>Update event submission details.</button></a></td>
                 {% endif %}
             {% else %}
                 <td>Only team leaders can register or update</td>
@@ -47,7 +47,7 @@
 </table>
 <center><b>OR</b></center>
 </br>
-<center><a href="/main/create_team/{{emailId}}/{{eId}}/"><button type='button' class='btn btn-success'>Create New Team</button></a></center>
+<center><a href="{% url 'main.views.create_team' eId %}"><button type='button' class='btn btn-success'>Create New Team</button></a></center>
 
 
 {% endblock %}

@@ -32,7 +32,7 @@ def process_login(request, form):
                 show_alert(dajax, 'info', 'Logged in')
                 dajax.assign('#success-alert', 'innerHTML', '<center>Welcome ' + user.email)
                 dajax.script("$('#registration').hide();$('#success-alert').show();")
-                dajax.script("var msg='success';var user='"+user.email+"'; parent.postMessage([msg, user], 'http://localhost');")
+                dajax.script("var msg='success';var user='"+user.email+"'; parent.postMessage([msg, user], 'http://saarang.org');")
             else:
                 show_alert(dajax, 'warning', 'Please click on the link sent to your email to activate your account!')
         else:
@@ -68,7 +68,4 @@ def new_user(request, form):
                 show_alert(dajax, 'error', 'Mobile number should be exactly 10 digits!')
     else:
         show_alert(dajax, 'error', 'Please enter a valid email!')
-
-
-    print data
     return dajax.json()
