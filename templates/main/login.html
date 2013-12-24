@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+{% load url from future %}
+<html>
+<head>
+{% include 'main/cssnjs.html' %}
+<style type="text/css">
+.form-signin
+{
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}
+.form-signin .form-signin-heading, .form-signin .checkbox
+{
+  margin-bottom: 10px;
+}
+.form-signin .checkbox
+{
+  font-weight: normal;
+}
+.form-signin .form-control
+{
+  position: relative;
+  font-size: 16px;
+  height: auto;
+  padding: 10px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.form-signin .form-control:focus
+{
+  z-index: 2;
+}
+.form-signin input[type="text"]
+{
+  margin-bottom: -1px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.form-signin input[type="password"]
+{
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+.account-wall
+{
+  margin-top: 20px;
+  padding: 40px 0px 20px 0px;
+  background-color: #f7f7f7;
+  -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+}
+.login-title
+{
+  color: #555;
+  font-size: 18px;
+  font-weight: 400;
+  display: block;
+}
+.profile-img
+{
+  width: 96px;
+  height: 96px;
+  margin: 0 auto 10px;
+  display: block;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+}
+.need-help
+{
+  margin-top: 10px;
+}
+.new-account
+{
+  display: block;
+  margin-top: 10px;
+}
+</style>
+
+</head>
+<body>
+<div id='registration'>
+  <!--
+  <ul class="nav nav-tabs">
+    <li class='active'><a href="#login-pane" data-toggle="tab">Login</a></li>
+    <li><a href="#register-pane" data-toggle="tab">Register</a></li>
+  </ul>-->
+  <div class="tab-content">
+    <div class="tab-pane active" id="login-pane">
+      <div class="row">
+        <div class="" style="padding-top:10%;" >
+          <h1 class="text-center login-title">Sign in to Saarang</h1>
+          <div class="">
+            <img class="profile-img" src="{% static 'img/logo.png' %}"
+            alt="">
+            <form method="POST" id="signin-form" class="form-signin">
+              {% csrf_token %}
+
+              {% for message in messages %}
+              <div class="alert alert-{{ message.tags }}">{{ message }}<a class="close" data-dismiss="alert" href="#">&times;</a></div>
+              {% endfor %}
+              <input type="text" name="email" class="form-control btn-block" placeholder="Email" required autofocus>
+              <input type="password" name="password" class="form-control btn-block" placeholder="Password" required>
+              <input class="btn btn-lg btn-primary btn-block" type="button" value="Sign in" onclick="Dajaxice.main.process_login(Dajax.process, {'form' : $('#signin-form').serialize(true)});" />
+                
+                <a href="mailto:webadmin@saarang.org" target="_blank" class="pull-right need-help">Need help?  </a><span class="clearfix"></span>
+              </form>
+            </div><center>
+            <a href="#register-pane" data-toggle="tab">Register at Saarang! </a><center>
+          </div>
+        </div>
+      </div>
+      <div class="tab-pane" id="register-pane">
+        <a href="#login-pane" data-toggle="tab">Login</a>
+        <form id="signup-form" class="form-horizontal" method="POST" >
+          <center><h3>Register at Saarang</h3><hr/></center>
+          <center>
+          {% csrf_token %}
+
+          <div class="control-group">
+            <label class="control-label" for="regEmail">Email</label>
+            <div class="controls">
+              <input name="email" type="email" id="regEmail" placeholder="Email" required />
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="regMobile">Mobile No.</label>
+            <div class="controls">
+              (+91)<input name="mobile" type="tel" id="regMobile" placeholder="Mobile No." required>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="regPassword">Password</label>
+            <div class="controls">
+              <input name="password" type="password" id="regPassword" placeholder="Password" required>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="repPassword">Repeat Password</label>
+            <div class="controls">
+              <input name="repassword" type="password" id="repPassword" placeholder="Repeat Password" required>
+            </div>
+          </div>
+              <input class="btn btn-lg btn-primary" type="button" value="Register" onclick="Dajaxice.main.new_user(Dajax.process, {'form' : $('#signup-form').serialize(true)});" />
+          </center>
+        </form>
+      </div>
+    </div>
+    <div id="message">
+    </div>
+  </div>
+<center><strong>
+<div class="alert alert-success" id="success-alert" style="display:none;"></div></strong></center>
+</body>
+</html>

@@ -8,7 +8,7 @@ from django.contrib.auth.models import User, Group
 from django.contrib.auth.decorators import permission_required
 from django.core.urlresolvers import reverse
 from django.middleware.csrf import get_token
-import base64
+import base64, re
 from post_office import mail
 from django.contrib import messages
 from django.core.mail import send_mail
@@ -16,6 +16,7 @@ from registration.models import SaarangUser
 from main.forms import ProfileEditForm,CreateTeamForm,EventOptionsForm
 from events.models import Event,EventRegistration,Team
 
+from django.views.decorators.csrf import csrf_exempt
 
 from django.views.decorators.csrf import csrf_exempt
 
@@ -50,41 +51,18 @@ def new_profile(request):
         new_user.save()
         return redirect('main_profile_edit', emailId=base64.encode(data['email']))
 
-def main_profile_edit(request,emailId):
+def register_team(request,eventId,teamId):
+    email = request.session.get('saaranguser_email')
     try:
-        emailId = base64.b64decode(emailId)
-        print emailId
-        user =  SaarangUser.objects.get(email=emailId)
+        user = SaarangUser.objects.get(email=email)
     except:
         messages.error(request, 'Please login to continue')
-        return render(request, 'main/register_response', {})
-    if request.method == 'POST':
-        profileeditForm = ProfileEditForm(request.POST)
-        if profileeditForm.is_valid():
-            user.name = profileeditForm.cleaned_data['name']
-            user.email = profileeditForm.cleaned_data['email']
-            user.mobile = profileeditForm.cleaned_data['mobile']
-            user.gender = profileeditForm.cleaned_data['gender']
-            user.college = profileeditForm.cleaned_data['college']
-            user.save()
-            messages.add_message(request, messages.SUCCESS, 'Profile updated successfully')
-    else:
-        initial = {'name': user.name,'email': user.email ,'mobile': user.mobile ,'gender':user.get_gender_display(),'college': user.college ,}
-        profileeditForm = ProfileEditForm(initial=initial)
-    to_return={
-        'form':profileeditForm
-    }
-
-    return render(request, 'main/main_profile_edit.html', to_return)
-
-def register_team(request,eventId,emailId,teamId):
+        return render(request, 'main/login.html', {})
     event = get_object_or_404(Event,id=eventId)
     team = get_object_or_404(Team,id=teamId)
-    email = base64.b64decode(emailId)
-    user = get_object_or_404(SaarangUser,email=email)
     if EventRegistration.objects.filter(event=event,team=team):
         if event.id in EVENT_WITH_OPTIONS:
-            return HttpResponseRedirect(reverse('band_details',kwargs={'eventId':eventId,'emailId':emailId,'teamId':teamId}))
+            return HttpResponseRedirect(reverse('band_details',kwargs={'eventId':eventId,'teamId':teamId}))
         messages.info(request,'Already registered for the event')
     else:
         if not event.registration_open :
@@ -98,16 +76,19 @@ def register_team(request,eventId,emailId,teamId):
                 context={'event_name':event.long_name, 'team_name':team.name,},
                 )
             if event.id in EVENT_WITH_OPTIONS:
-                email = base64.b64encode(emailId)
-                return HttpResponseRedirect(reverse('band_details',kwargs={'eventId':eventId,'emailId':emailId,'teamId':teamId}))
+                return HttpResponseRedirect(reverse('band_details',kwargs={'eventId':eventId,'teamId':teamId}))
             messages.success(request,'Team registered successfully')
     return render(request, 'main/register_response.html')
 
-def list_teams(request,eventId,emailId):
+def list_teams(request,eventId):
+    email = request.session.get('saaranguser_email')
+    try:
+        user = SaarangUser.objects.get(email=email)
+    except:
+        messages.error(request, 'Please login to continue')
+        return render(request, 'main/login.html', {})
     to_return={}
     event = get_object_or_404(Event,id=eventId)
-    email = base64.b64decode(emailId)
-    user = get_object_or_404(SaarangUser,email=email)
     team_list = []
     reg_list=[]
     try:
@@ -132,17 +113,24 @@ def list_teams(request,eventId,emailId):
         'team_list':team_list,
         'user':user,
         'eId':event.id,
-        'emailId':emailId,
     }    
     return render(request, 'main/list_teams.html',to_return)
 
-def register(request,eventId,emailId):
+def register(request,eventId):
+    email = request.session.get('saaranguser_email')
+    try:
+        user = SaarangUser.objects.get(email=email)
+    except:
+        messages.error(request, 'Please login to continue')
+        return render(request, 'main/login.html', {})
     event = get_object_or_404(Event,id=eventId)
+    emailId = email
+    if user.activate_status == 1:
+        messages.warning(request,'Please complete your profile to register for the event.')
+        return render(request, 'main/register_response.html')
     if event.is_team:
-        return HttpResponseRedirect(reverse('list_teams',kwargs={'eventId':eventId,'emailId':emailId}))#,kwargs={'eventId':eventId,'teamId':teamId,}))
+        return HttpResponseRedirect(reverse('list_teams',kwargs={'eventId':eventId,}))#,kwargs={'eventId':eventId,'teamId':teamId,}))
     else:
-        emailId = base64.b64decode(emailId)
-        user = get_object_or_404(SaarangUser,email=emailId)
         if(EventRegistration.objects.filter(participant=user,event=event)):
             messages.info(request,'Already registered for the event.')
         else:
@@ -167,10 +155,15 @@ def register(request,eventId,emailId):
 
         return render(request, 'main/register_response.html')
 
-def create_team(request,emailId,eventId):
-    emailId = base64.b64decode(emailId)
-    user = get_object_or_404(SaarangUser,email=emailId)
-    emailId=base64.b64encode(emailId)
+def create_team(request,eventId):
+    email = request.session.get('saaranguser_email')
+    try:
+        user = SaarangUser.objects.get(email=email)
+    except:
+        messages.error(request, 'Please login to continue')
+        return render(request, 'main/login.html', {})
+    event = get_object_or_404(Event,id=eventId)
+    emailId=email
     mail_list=[]
     if request.method == 'POST':
         createteamForm = CreateTeamForm(request.POST)   
@@ -184,13 +177,14 @@ def create_team(request,emailId,eventId):
             team.save()
             team.team_sid=auto_id(team.id)
             team.save()
-            for member_email in team_members.split(','):
+            for member_email in re.findall(r'[\w\.-]+@[\w\.-]+', team_members):
                 try:
                     member = SaarangUser.objects.get(email=member_email)
                     team.members.add(member)
                     mail_list.append(member_email)
                     msg = '%s has been added to the team' %(member)
                     messages.success(request,msg)
+                    team.save()
                 except:
                     pass            
             try:
@@ -198,23 +192,28 @@ def create_team(request,emailId,eventId):
                     mail_list, template='email/main/added_to_team',
                     context={'team_name':team_name, 'user':user,}
                     )
-                msg = 'Confirmation mail sent'
+                msg = 'Confirmation mail sent to added participants'
                 messages.success(request,msg)
             except:
                 msg = 'Sending confirmation mail failed'
                 messages.error(request,msg)
             team.save()
-        return HttpResponseRedirect(reverse('list_teams',kwargs={'eventId':eventId,'emailId':emailId}))#,kwargs={'eventId':eventId,'teamId':teamId,}))
+        return HttpResponseRedirect(reverse('list_teams',kwargs={'eventId':eventId,}))#,kwargs={'eventId':eventId,'teamId':teamId,}))
     else:
         createteamForm =  CreateTeamForm()
         to_return={
             'form':createteamForm,
-            'emailId':emailId,
             'eventId':eventId,
         }
         return render(request, 'main/create_team.html',to_return)
 
-def band_details(request,eventId,emailId,teamId):
+def band_details(request,eventId,teamId):
+    email = request.session.get('saaranguser_email')
+    try:
+        user = SaarangUser.objects.get(email=email)
+    except:
+        messages.error(request, 'Please login to continue')
+        return render(request, 'main/login.html', {})
     event = Event.objects.get(id=eventId)
     team = Team.objects.get(id=teamId)
     event_reg = EventRegistration.objects.get(event=event,team=team)
@@ -269,6 +268,65 @@ def band_details(request,eventId,emailId,teamId):
         to_return = {
             'form':eventoptionsForm,
             'eventId':eventId,
-            'emailId':emailId,
         }
         return render(request, 'main/band_details.html',to_return)
+
+######################################################################################
+
+def login(request):
+    email = request.session.get('saaranguser_email')
+    try:
+        user = SaarangUser.objects.get(email=email)
+        return render(request, 'main/logged_in.html', {status:'logged','email':user.email,})
+    except:
+        return render(request, 'main/login.html', {})
+
+def logout(request):
+    try:
+        del request.session['saaranguser_email']
+    except KeyError:
+        pass
+    return render(request, 'main/logged_out.html', {})
+
+def check_login_status(request):
+    email = request.session.get('saaranguser_email')
+    try:
+        user = SaarangUser.objects.get(email=email)
+        status = 'logged'
+    except:
+        status='not_logged'
+    return render(request, 'main/logged_in.html', {'status':status, 'email':email,})
+
+def profile(request):
+    email = request.session.get('saaranguser_email')
+    try:
+        user = SaarangUser.objects.get(email=email)
+    except:
+        messages.error(request, 'Please login to continue')
+        return render(request, 'main/login.html', {})
+    if request.method == 'POST':
+        profileeditForm = ProfileEditForm(request.POST)
+        if profileeditForm.is_valid():
+            try:
+                user.name = profileeditForm.cleaned_data['name']
+                user.email = profileeditForm.cleaned_data['email']
+                user.mobile = profileeditForm.cleaned_data['mobile']
+                user.gender = profileeditForm.cleaned_data['gender']
+                user.college = profileeditForm.cleaned_data['college']
+                user.save()
+                messages.add_message(request, messages.SUCCESS, 'Profile updated successfully')
+                if user.profile_is_complete():
+                    user.activate_status = 2
+                else:
+                    user.activate_status = 1
+                user.save()
+            except:
+                messages.error(request, 'Some error occured. Please try again later!')    
+    else:
+        initial = {'name': user.name,'email': user.email ,'mobile': user.mobile ,'gender':user.get_gender_display(),'college': user.college ,}
+        profileeditForm = ProfileEditForm(initial=initial)
+    to_return={
+        'form':profileeditForm
+    }
+
+    return render(request, 'main/profile.html', to_return)

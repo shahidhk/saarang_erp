@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+<head>
+{% include 'main/cssnjs.html' %}
+
+<script type="text/javascript">
+$(function(){
+    var msg='{{ status }}';
+    var user='{{ email }}';
+    parent.postMessage([msg, user], 'http://saarang.org');
+});
+</script>
+</head>
+<body>
+<center><strong>
+<div class="alert alert-success">Welcome {{ email }}</div></strong></center>
+</body>
+</html>
