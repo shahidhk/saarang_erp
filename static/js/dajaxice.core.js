@@ -13,6 +13,10 @@ var Dajaxice = {
         return Dajaxice.call('mailer.dash', 'POST', callback_function, argv, custom_settings);
     },
 
+    loading_email: function(callback_function, argv, custom_settings){
+        return Dajaxice.call('mailer.loading_email', 'POST', callback_function, argv, custom_settings);
+    },
+
     send_group_mail: function(callback_function, argv, custom_settings){
         return Dajaxice.call('mailer.send_group_mail', 'POST', callback_function, argv, custom_settings);
     },
@@ -43,6 +47,23 @@ var Dajaxice = {
 
     test_get: function(callback_function, argv, custom_settings){
         return Dajaxice.call('mailer.test_get', 'GET', callback_function, argv, custom_settings);
+    }
+
+
+    
+    
+    }
+    
+,
+    
+    main: {
+    
+    new_user: function(callback_function, argv, custom_settings){
+        return Dajaxice.call('main.new_user', 'POST', callback_function, argv, custom_settings);
+    },
+
+    process_login: function(callback_function, argv, custom_settings){
+        return Dajaxice.call('main.process_login', 'POST', callback_function, argv, custom_settings);
     }
 
 
