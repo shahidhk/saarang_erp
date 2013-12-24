@@ -16,6 +16,7 @@ from registration.models import SaarangUser
 from main.forms import ProfileEditForm,CreateTeamForm,EventOptionsForm
 from events.models import Event,EventRegistration,Team
 
+from django.views.decorators.csrf import csrf_exempt
 
 def auto_id(team_id):
     base = 'SA2014'
@@ -34,7 +35,7 @@ def get_csrf(request):
     }
     return render(request, 'main/csrf.html', to_return)
 
-
+@csrf_exempt
 def new_profile(request):
     data = request.POST.copy()
     try:
@@ -47,33 +48,6 @@ def new_profile(request):
         college=data['college'])
         new_user.save()
         return redirect('main_profile_edit', emailId=base64.encode(data['email']))
-
-def main_profile_edit(request,emailId):
-    try:
-        emailId = base64.b64decode(emailId)
-        print emailId
-        user =  SaarangUser.objects.get(email=emailId)
-    except:
-        messages.error(request, 'Please login to continue')
-        return render(request, 'main/register_response', {})
-    if request.method == 'POST':
-        profileeditForm = ProfileEditForm(request.POST)
-        if profileeditForm.is_valid():
-            user.name = profileeditForm.cleaned_data['name']
-            user.email = profileeditForm.cleaned_data['email']
-            user.mobile = profileeditForm.cleaned_data['mobile']
-            user.gender = profileeditForm.cleaned_data['gender']
-            user.college = profileeditForm.cleaned_data['college']
-            user.save()
-            messages.add_message(request, messages.SUCCESS, 'Profile updated successfully')
-    else:
-        initial = {'name': user.name,'email': user.email ,'mobile': user.mobile ,'gender':user.get_gender_display(),'college': user.college ,}
-        profileeditForm = ProfileEditForm(initial=initial)
-    to_return={
-        'form':profileeditForm
-    }
-
-    return render(request, 'main/main_profile_edit.html', to_return)
 
 def register_team(request,eventId,emailId,teamId):
     event = get_object_or_404(Event,id=eventId)
@@ -270,3 +244,55 @@ def band_details(request,eventId,emailId,teamId):
             'emailId':emailId,
         }
         return render(request, 'main/band_details.html',to_return)
+
+######################################################################################
+
+def login(request):
+    email = request.session.get('saaranguser_email')
+    try:
+        user = SaarangUser.objects.get(email=email)
+        return render(request, 'main/logged_in.html', {status:'logged','email':user.email,})
+    except:
+        return render(request, 'main/login.html', {})
+
+def logout(request):
+    try:
+        del request.session['saaranguser_email']
+    except KeyError:
+        pass
+    return render(request, 'main/logged_out.html', {})
+
+def check_login_status(request):
+    email = request.session.get('saaranguser_email')
+    try:
+        user = SaarangUser.objects.get(email=email)
+        status = 'logged'
+    except:
+        status='not_logged'
+    return render(request, 'main/logged_in.html', {'status':status, 'email':email,})
+
+def profile(request):
+    email = request.session.get('saaranguser_email')
+    try:
+        user = SaarangUser.objects.get(email=email)
+    except:
+        messages.error(request, 'Please login to continue')
+        return render(request, 'main/login.html', {})
+    if request.method == 'POST':
+        profileeditForm = ProfileEditForm(request.POST)
+        if profileeditForm.is_valid():
+            user.name = profileeditForm.cleaned_data['name']
+            user.email = profileeditForm.cleaned_data['email']
+            user.mobile = profileeditForm.cleaned_data['mobile']
+            user.gender = profileeditForm.cleaned_data['gender']
+            user.college = profileeditForm.cleaned_data['college']
+            user.save()
+            messages.add_message(request, messages.SUCCESS, 'Profile updated successfully')
+    else:
+        initial = {'name': user.name,'email': user.email ,'mobile': user.mobile ,'gender':user.get_gender_display(),'college': user.college ,}
+        profileeditForm = ProfileEditForm(initial=initial)
+    to_return={
+        'form':profileeditForm
+    }
+
+    return render(request, 'main/profile.html', to_return)

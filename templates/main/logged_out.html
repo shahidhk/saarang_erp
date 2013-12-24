@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+<head>
+{% include 'main/cssnjs.html' %}
+
+<script type="text/javascript">
+$(function(){
+    var msg='logged_out';
+    var user='none';
+    parent.postMessage([msg, user], 'http://localhost');
+});
+</script>
+</head>
+<body>
+<center><strong>
+<div class="alert alert-success">You have been logged out</div></strong></center>
+</body>
+</html>

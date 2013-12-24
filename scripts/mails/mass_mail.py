@@ -1,18 +1,37 @@
-from registration.models import EmailList
+from registration.models import EmailList, SaarangUser
 from mailer.models import MailLog
-import time
+import time, re
 from django.core import mail
 from django.contrib.auth.models import User
 
 user = User.objects.get(username='ed12b031')
 
-subject = 'Saarang 2014 Spotlight Events'
+subject = 'Saarang 2014 Professional Shows'
 fr= 'webadmin@saarang.org'
 
 
 EL = EmailList.objects.all()
+SU = SaarangUser.objects.all()
 
-html_file = open('scripts/mails/mass_mail.html', 'r')
+SU_list=[]
+for su in SU:
+    try:
+        if re.match(r'[^@]+@[^@]+\.[^@]+', su.email):
+            SU_list.append(su.email)
+    except:
+        print 'error ',su.email
+
+EL_list=[]
+for el in  EL:
+    try:
+        EL_list.append(el.email)
+    except:
+        print 'error ', el.email
+
+tot_list = SU_list + EL_list
+print len(tot_list)
+
+html_file = open('scripts/mails/proshow.html', 'r')
 html = html_file.read()
 html_file.close()
 
@@ -21,13 +40,10 @@ new_mail = MailLog.objects.create(from_email='webadmin@saarang.org',
     body=html, created_by=user)
 
 email_list=[]
-for eml in EL:
-    msg = mail.EmailMessage(subject, html, fr, [eml.email])
+for eml in tot_list:
+    msg = mail.EmailMessage(subject, html, fr, [eml])
     msg.content_subtype = "html"
     email_list.append(msg)
-    print eml.email, ' parsed'
-
-email_list = email_list[15700:]
 
 print 'Total ', len(email_list), ' emails has to be send.'
 
@@ -45,7 +61,7 @@ def send_mail():
             messages = email_list[start:start+step]
             for email in email_list[start:start+step]:
                 j+=1
-                print j,': ', email
+                print j,': ', email.to
             connection.send_messages(messages)
             print j, ' Emails sent. Waiting to send next batch'
         except:

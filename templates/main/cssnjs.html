@@ -1,0 +1,15 @@
+{% load staticfiles %}
+{% load dajaxice_templatetags %}
+<link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" />
+<link href="{% static 'css/bootstrap-responsive.css' %}" rel="stylesheet" />
+<link href="{% static 'css/bootstrap-rowlink.css' %}" rel="stylesheet" />
+<script src="{% static 'js/jquery-1.9.1.js' %}"></script>
+
+{% dajaxice_js_import %}
+
+<script type="text/javascript" src='{% static "dajax/jquery.dajax.core.js" %}'></script>
+<script src="{% static 'js/bootstrap.js' %}"></script>
+<script src="{% static 'js/bootstrap-rowlink.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/jquery.bootstrap-growl.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/tinymce/tinymce.min.js' %}"></script>
+
