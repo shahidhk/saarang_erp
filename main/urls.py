@@ -18,4 +18,6 @@ urlpatterns = patterns('',
 
     url(r'^fmi/$', 'main.views.fmi', name='main_fmi'),
     url(r'^tfi/$', 'main.views.tfi', name='main_tfi'),
+    url(r'^feedback/$', 'main.views.feedback', name='main_feedback'),
+
 )

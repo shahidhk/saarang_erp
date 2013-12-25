@@ -1,0 +1,136 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Feedback Form</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+    <!--link rel="stylesheet/less" href="less/bootstrap.less" type="text/css" /-->
+    <!--link rel="stylesheet/less" href="less/responsive.less" type="text/css" /-->
+    <!--script src="js/less-1.3.3.min.js"></script-->
+    <!--append ‘#!watch’ to the browser URL, then refresh the page. -->
+    
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+
+  <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+  <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+  <![endif]-->
+
+  
+    <script type="text/javascript" src="{% static 'js/jquery-1.9.1.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+</head>
+<body>
+<div class="">
+    <div class="row-fluid clearfix">
+{% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">{{ message }}<a class="close" data-dismiss="alert" href="#">&times;</a></div>
+{% endfor %}
+        <div class="col-md-12 column">
+            <form action="" method="POST">
+                {% csrf_token %}
+                <table class="table table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <td colspan='7' style='text-align:center;'>
+                                FEEDBACK
+                            </td>
+                        </tr>
+                    <thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                1.
+                            </td>
+                            <td>
+                                How comprehensive do you think the information on the website was?
+                            </td>
+                            <td>
+                                <input type='radio' name='q1' value='1'><br>1
+                            </td>
+                            <td>
+                                <input type='radio' name='q1' value='2'><br>2
+                            </td>
+                            <td>
+                                <input type='radio' name='q1' value='3'><br>3
+                            </td>
+                            <td>
+                                <input type='radio' name='q1' value='4'><br>4
+                            </td>
+                            <td>
+                                <input type='radio' name='q1' value='5'><br>5
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                2.
+                            </td>
+                            <td>
+                                How was the website navigation?
+                            </td>
+                            <td>
+                                <input type='radio' name='q2' value='1'><br>1
+                            </td>
+                            <td>
+                                <input type='radio' name='q2' value='2'><br>2
+                            </td>
+                            <td>
+                                <input type='radio' name='q2' value='3'><br>3
+                            </td>
+                            <td>
+                                <input type='radio' name='q2' value='4'><br>4
+                            </td>
+                            <td>
+                                <input type='radio' name='q2' value='5'><br>5
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                3.
+                            </td>
+                            <td>
+                              How well do you think the website conveyed the theme? 
+                            </td>
+                            <td>
+                                <input type='radio' name='q3' value='1'><br>1
+                            </td>
+                            <td>
+                                <input type='radio' name='q3' value='2'><br>2
+                            </td>
+                            <td>
+                                <input type='radio' name='q3' value='3'><br>3
+                            </td>
+                            <td>
+                                <input type='radio' name='q3' value='4'><br>4
+                            </td>
+                            <td>
+                                <input type='radio' name='q3' value='5'><br>5
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                4.
+                            </td>
+                            <td>
+                                Any Suggestions?
+                            </td>
+                            <td colspan='5'>
+                                <textarea name='q4' rows='4' cols='5'></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan='7'>
+                                <input name="Submit" type='submit' class='btn btn-primary btn-block'>
+                            </td>
+                        </tr>
+                    </tbody>
+            </form>                 
+        </div>
+    </div>
+</div>
+</body>
+</html>

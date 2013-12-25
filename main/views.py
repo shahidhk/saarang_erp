@@ -16,8 +16,7 @@ from django.core.mail import send_mail
 from registration.models import SaarangUser
 from main.forms import ProfileEditForm,CreateTeamForm,EventOptionsForm
 from events.models import Event,EventRegistration,Team
-
-from django.views.decorators.csrf import csrf_exempt
+from models import Feedback
 
 from django.views.decorators.csrf import csrf_exempt
 
@@ -382,7 +381,7 @@ def tfi(request):
                     event_regn = EventRegistration.objects.get(participant=user, event=Event.objects.get(pk=94))
                 except:
                     messages.error(request, 'Please register for this event at Saarang Website and refresh this page to re-submit.')
-                    return render(request, 'main/tfi_form.html', {})
+                    return render(request, 'main/tfi_form.html', {'user':user,})
                 data = request.POST.copy()
                 try:
                     event_regn.options = "Name==="+data['FirstName']+"|||age==="+data['age']+"|||college==="+data['college']+"|||mobile==="+data['mobile']+"|||email==="+data['email']
@@ -391,7 +390,7 @@ def tfi(request):
                     return render(request, 'main/register_response.html')
                 except Exception, e:
                     messages.error(request, 'Some error occured. Please try again later')
-    to_return={}
+    to_return={'user':user,}
     return render(request, 'main/tfi_form.html', to_return)
 
 def handle_uploaded_file(f, shot, name):
@@ -401,3 +400,15 @@ def handle_uploaded_file(f, shot, name):
     with open(filename, 'wb+') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
+
+def feedback(request):
+    if request.method == 'POST':
+        data = request.POST.copy()
+        try:
+            Feedback.objects.create(q1=data['q1'], q2=data['q2'], q3=data['q3'], suggestion=data['q4'] )
+            messages.success(request, 'Thank you for your feedback!')
+            return render(request, 'main/register_response.html')
+        except:
+            messages.error(request, 'Some error occured. Please try again later')
+    to_return={}
+    return render(request, 'main/feedback.html', to_return)
