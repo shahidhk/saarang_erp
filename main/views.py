@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import permission_required
 from django.core.urlresolvers import reverse
 from django.conf import settings
 from django.middleware.csrf import get_token
-import base64, re, os
+import base64, re, os, json
 from post_office import mail
 from django.contrib import messages
 from django.core.mail import send_mail
@@ -39,6 +39,11 @@ def get_csrf(request):
 
 @csrf_exempt
 def new_profile(request):
+    filename = settings.MEDIA_ROOT+"/android.txt"
+    if not os.path.exists(os.path.dirname(filename)):
+        os.makedirs(os.path.dirname(filename))
+    with open(filename, "w") as text_file:
+        print >>text_file, request
     data = request.POST.copy()
     try:
         user = get_object_or_404(SaarangUser, email=data['email'])
