@@ -15,22 +15,14 @@
 
 <table class='table table-bordered'>
     <thead>
+        <th>Register</th>
         <th>Team ID</th>
         <th>Team Name</th>
         <th>Team leader</th>
         <th>Team members</th>
-        <th>Register</th>
     </thead>
         {% for team,reg in team_list %}
         <tr>
-            <td>{{ team.team_sid }}</td>
-            <td>{{ team.name }}</td>
-            <td>{{ team.leader }} </td>
-            <td>
-                {% for member in team.members.all %}
-                    {{ member }}</br>
-                {% endfor %}
-            </td>
             {% if team.leader == user %}
                 {% if reg == 1 %}
                 <td><a href = "{% url 'main.views.register_team' eId team.pk %}"><button type='button' class='btn btn-small btn-primary'>Register using this team</button></a></td>
@@ -42,6 +34,15 @@
             {% else %}
                 <td>Only team leaders can register or update</td>
             {% endif %}
+            <td>{{ team.team_sid }}</td>
+            <td>{{ team.name }}</td>
+            <td>{{ team.leader }} </td>
+            <td>
+                {% for member in team.members.all %}
+                    {{ member }}</br>
+                {% endfor %}
+            </td>
+            
         </tr>
         {% endfor %}
 </table>

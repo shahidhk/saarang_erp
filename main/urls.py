@@ -16,5 +16,6 @@ urlpatterns = patterns('',
     url(r'^check/$', 'main.views.check_login_status', name='main_check'),
     url(r'^profile/$', 'main.views.profile', name='main_profile'),
 
-
+    url(r'^fmi/$', 'main.views.fmi', name='main_fmi'),
+    url(r'^tfi/$', 'main.views.tfi', name='main_tfi'),
 )

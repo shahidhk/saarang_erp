@@ -7,8 +7,9 @@ from django.template import RequestContext
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.decorators import permission_required
 from django.core.urlresolvers import reverse
+from django.conf import settings
 from django.middleware.csrf import get_token
-import base64, re
+import base64, re, os
 from post_office import mail
 from django.contrib import messages
 from django.core.mail import send_mail
@@ -192,10 +193,10 @@ def create_team(request,eventId):
                     mail_list, template='email/main/added_to_team',
                     context={'team_name':team_name, 'user':user,}
                     )
-                msg = 'Confirmation mail sent to added participants'
+                msg = 'Email sent to added participants'
                 messages.success(request,msg)
             except:
-                msg = 'Sending confirmation mail failed'
+                msg = 'Sending email failed'
                 messages.error(request,msg)
             team.save()
         return HttpResponseRedirect(reverse('list_teams',kwargs={'eventId':eventId,}))#,kwargs={'eventId':eventId,'teamId':teamId,}))
@@ -330,3 +331,73 @@ def profile(request):
     }
 
     return render(request, 'main/profile.html', to_return)
+
+
+def fmi(request):
+    email = request.session.get('saaranguser_email')
+    try:
+        user = SaarangUser.objects.get(email=email)
+        if user.activate_status == 0:
+            messages.error(request, 'Please click on the link sent to your email to activate your account')
+        if user.activate_status == 1:
+            messages.error(request, 'Please update your profile at Saarang Website to continue.')
+    except:
+        messages.error(request, 'Please login at Saarang Website to Submit this form')
+    if user:
+        if user.activate_status == 2:
+            if request.method == 'POST':
+                try:
+                    event_regn = EventRegistration.objects.get(participant=user, event=Event.objects.get(pk=91))
+                except:
+                    messages.error(request, 'Please register for this event at Saarang Website and refresh this page to re-submit.')
+                    return render(request, 'main/fmi_form.html', {})
+                data = request.POST.copy()
+                files = request.FILES
+                try:
+                    handle_uploaded_file(files['photo'],  'headshot', data['FirstName'])
+                    handle_uploaded_file(files['photo2'], 'full_length', data['FirstName'])
+                    event_regn.options = "FirstName==="+data['FirstName']+"|||LastName==="+data['LastName']+"|||age==="+data['age']+"|||college==="+data['college']+"|||address===Line:"+data['address_line_1']+",Line:"+data['address_line_2']+",Line:"+data['address_line_3']+"|||zipcode==="+data['address_zipcode']+"|||state==="+data['address_state']+"|||country==="+data['address_country']+"|||mobile==="+data['mobile']+"|||email==="+data['email']+"|||height==="+data['height']+"|||vital_stats==="+data['vital_stats']
+                    event_regn.save()
+                    messages.success(request, 'Registerd successfully for Femina Miss India 2014 Auditions at Saarang')
+                    return render(request, 'main/register_response.html')
+                except Exception, e:
+                    messages.error(request, 'Some error occured. Please try again later')
+    to_return={}
+    return render(request, 'main/fmi_form.html', to_return)
+
+def tfi(request):
+    email = request.session.get('saaranguser_email')
+    try:
+        user = SaarangUser.objects.get(email=email)
+        if user.activate_status == 0:
+            messages.error(request, 'Please click on the link sent to your email to activate your account')
+        if user.activate_status == 1:
+            messages.error(request, 'Please update your profile at Saarang Website to continue.')
+    except:
+        messages.error(request, 'Please login at Saarang Website to Submit this form')
+    if user:
+        if user.activate_status == 2:
+            if request.method == 'POST':
+                try:
+                    event_regn = EventRegistration.objects.get(participant=user, event=Event.objects.get(pk=94))
+                except:
+                    messages.error(request, 'Please register for this event at Saarang Website and refresh this page to re-submit.')
+                    return render(request, 'main/tfi_form.html', {})
+                data = request.POST.copy()
+                try:
+                    event_regn.options = "Name==="+data['FirstName']+"|||age==="+data['age']+"|||college==="+data['college']+"|||mobile==="+data['mobile']+"|||email==="+data['email']
+                    event_regn.save()
+                    messages.success(request, 'Registerd successfully for Education For All Run at Saarang 2014')
+                    return render(request, 'main/register_response.html')
+                except Exception, e:
+                    messages.error(request, 'Some error occured. Please try again later')
+    to_return={}
+    return render(request, 'main/tfi_form.html', to_return)
+
+def handle_uploaded_file(f, shot, name):
+    filename = settings.MEDIA_ROOT +'/uploads/events/fmi/'+name+'/'+name+'_'+shot+'.jpg'
+    if not os.path.exists(os.path.dirname(filename)):
+        os.makedirs(os.path.dirname(filename))
+    with open(filename, 'wb+') as destination:
+        for chunk in f.chunks():
+            destination.write(chunk)
