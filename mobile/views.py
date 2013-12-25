@@ -1,4 +1,4 @@
-import datetime.datetime as dt
+import datetime as dt
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 
 from models import Device
@@ -16,8 +16,8 @@ def login(request):
     if user.password == data['password']:
         if user.activate_status != 0:
             try:
-                Device.objects.create(key=data['key'], user=user, last_access=dt.now())
-                user.last_login = dt.now()
+                Device.objects.create(key=data['key'], user=user, last_access=dt.datetime.now())
+                user.last_login = dt.datetime.now()
                 user.save()
             except:
                 return HttpResponse('error')
