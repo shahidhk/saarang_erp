@@ -26,3 +26,8 @@ def login(request):
             return HttpResponse('activate_account')
     else:
         return HttpResponse('password_wrong')
+
+@csrf_exempt
+def register(request):
+    data = request.POST.copy()
+    return HttpResponse('register')
