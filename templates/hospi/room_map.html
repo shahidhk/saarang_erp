@@ -21,10 +21,8 @@
 </style>
 <legend>Room map</legend>
 <div class="well row-fluid">
+    <div class="row-fluid">
     {% for hostel in hostels %}
-        {% if forloop.counter0|divisibleby:4 %}
-            <div class="row-fluid">
-        {% endif %}
             <a class="span3" data-target="#hostelModal" href="{% url 'hospi.views.hostel_details' hostel.pk %}">
             <div class="wrapper alert {% if hostel.gender == 'male' %}alert-success{% elif hostel.gender == 'female' %}alert-error{%endif%}">
                 <div class="inner">
@@ -42,7 +40,7 @@
 
             </a>
         {% if forloop.counter|divisibleby:4 %}
-            </div>
+            </div><div class="row-fluid">
         {% endif %}
 
     {% endfor %}
