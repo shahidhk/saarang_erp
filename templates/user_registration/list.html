@@ -3,7 +3,6 @@
 {% block title %}{{ title }} | Saarang ERP{% endblock %}
 
 {% block content %}
-
 {% if messages %}
 <ul class="messages">
     {% for message in messages %}
@@ -15,24 +14,26 @@
     <table class="table" id="datatable">
      <thead>
         <tr>
-        <th>Saarang ID</th>
+        <th>Created</th>
+        <th>Login</th>
+        <th>ID</th>
         <th>Name</th>
         <th>Gender</th>
         <th>Email</th>
         <th>Mobile</th>
-        <th>Facebook</th>
         <th>College</th>
         </tr>
     </thead>
     <tbody>
         {% for user in users %}
             <tr class="rowlink">
-                <td>{{ user.saarang_id }}</td>
+                <td>{{user.timestamp|date:"d/m/y-H:i"}}</td>
+                <td>{{user.last_login|date:"d/m/y-H:i"}}</td>
+                <td>{{ user.pk }}</td>
                 <td >{{ user.name }}</td>
                 <td >{{ user.gender }}</td>
                 <td >{{ user.email }}</td>
                 <td >{{ user.mobile }}</td>
-                <td >{{ user.fb_id }}</td>
                 <td >{{ user.college }}</td>
             </tr>
         {% endfor %}

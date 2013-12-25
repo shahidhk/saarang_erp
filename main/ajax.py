@@ -11,7 +11,7 @@ from django.contrib.auth.decorators import login_required
 from scripts.utility import show_alert
 from post_office import mail
 import json, re, base64
-
+import datetime as dt
 from events.models import Event, EventRegistration
 from django.contrib.auth.models import User
 from registration.models import SaarangUser
@@ -29,6 +29,8 @@ def process_login(request, form):
         if user.password == data['password']:
             if user.activate_status != 0:
                 request.session['saaranguser_email'] = user.email
+                user.last_login = dt.datetime.now()
+                user.save()
                 show_alert(dajax, 'info', 'Logged in')
                 dajax.assign('#success-alert', 'innerHTML', '<center>Welcome ' + user.email)
                 dajax.script("$('#registration').hide();$('#success-alert').show();")

@@ -2,6 +2,8 @@ from django.db import models
 
 # Create your models here.
 class SaarangUser(models.Model):
+    timestamp = models.DateTimeField(auto_now_add=True)
+    last_login = models.DateTimeField(blank=True, null=True)
     saarang_id = models.CharField(max_length=20)
     name = models.CharField(max_length=60)
     email = models.EmailField(max_length=100)
