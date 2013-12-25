@@ -122,6 +122,7 @@ INSTALLED_APPS = (
     'main',
     'finance',
     'spons',
+    'mobile',
 )
 
 # A sample logging configuration. The only tangible logging
