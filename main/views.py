@@ -339,6 +339,7 @@ def profile(request):
 
 def fmi(request):
     email = request.session.get('saaranguser_email')
+    user = None
     try:
         user = SaarangUser.objects.get(email=email)
         if user.activate_status == 0:
@@ -371,6 +372,7 @@ def fmi(request):
 
 def tfi(request):
     email = request.session.get('saaranguser_email')
+    user = 0
     try:
         user = SaarangUser.objects.get(email=email)
         if user.activate_status == 0:
