@@ -4,6 +4,14 @@
 
 {% block content %}
 
+<script>
+    function submitForm(action)
+    {
+        document.getElementById('columnarForm').action = action;
+        document.getElementById('columnarForm').submit();
+    }
+</script>
+
 <div class="span9 container">
     <ul class="nav nav-tabs">
       <li class="active">
@@ -57,25 +65,25 @@
                               <div class="control-group">
                                 <label class="control-label" for="inputName">Accomodation cost(Total).</label>
                                 <div class="controls">
-                                  <input type="number" id="acc_cost" name="acc_cost" min='0'>
+                                  <input type="number" id="acc_cost" name="acc_cost" min='0' value= "{{ event_request.hospi_request.accomodation_cost }}"/>
                                 </div>
                               </div>
                               <div class="control-group">
                                 <label class="control-label" for="inputName">Refreshment cost(Total).</label>
                                 <div class="controls">
-                                  <input type="number" id="ref_cost" name="ref_cost" min='0'>
+                                  <input type="number" id="ref_cost" name="ref_cost" min='0' value='{{ event_request.hospi_request.refreshment_cost }}'/>
                                 </div>
                               </div>
                               <div class="control-group">
                                 <label class="control-label" for="inputName">Number of people</label>
                                 <div class="controls">
-                                  <input type="number" id="acc_num" name="acc_num" min='0'>
+                                  <input type="number" id="acc_num" name="acc_num" min='0' value='{{ event_request.hospi_request.number_of_people }}'>
                                 </div>
                               </div>
                               <div class="control-group">
                                 <label class="control-label" for="inputName">Comments</label>
                                 <div class="controls">
-                                    <textarea name='acc_comments'></textarea>
+                                    <textarea name='acc_comments'>{{ event_request.hospi_request.comments }}</textarea>
                                 </div>
                               </div>
                             </div>
@@ -90,19 +98,19 @@
                               <div class="control-group">
                                 <label class="control-label" for="inputName">Total cost.</label>
                                 <div class="controls">
-                                  <input type="number" id="trans_cost" name="trans_cost" min='0'>
+                                  <input type="number" id="trans_cost" name="trans_cost" min='0' value = '{{ event_request.trans_request.cost }}'>
                                 </div>
                               </div>
                               <div class="control-group">
                                 <label class="control-label" for="inputName">Number of people</label>
                                 <div class="controls">
-                                  <input type="number" id="trans_number" name="trans_number" min='0'>
+                                  <input type="number" id="trans_number" name="trans_number" min='0' value = '{{ event_request.trans_request.number_of_people }}'>
                                 </div>
                               </div>
                               <div class="control-group">
                                 <label class="control-label" for="inputName">Comments</label>
                                 <div class="controls">
-                                    <textarea name = 'trans_comments'></textarea>
+                                    <textarea name = 'trans_comments'>{{ event_request.trans_request.comments }}</textarea>
                                 </div>
                               </div>
                             </div>
@@ -117,11 +125,12 @@
             </div>            
         </div>
         <div class='tab-pane' id='misc'>
-            <form action='{% url "finance.views.event_misc_request" eventId %}'>
+            <form action='{% url "finance.views.event_misc_request" eventId %}' method='POST'>
+              {% csrf_token %}
               <div class="control-group">
                 <label class="control-label" for="inputName">Comments</label>
                 <div class="controls">
-                    <textarea name='acc_comments'></textarea>
+                    <textarea name='misc'>{{ event_request.misc }}</textarea>
                 </div>
               </div>
               <center>

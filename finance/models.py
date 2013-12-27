@@ -89,11 +89,11 @@ class TransportRequest(models.Model):
         return '%d people for transport' %(self.number_of_people)
 
 class EventRequest(models.Model):
-    event = models.ForeignKey(Event,related_name='event_request')
+    event = models.ForeignKey(Event,related_name='event_request',blank=True,null=True)
     fr_request = models.ForeignKey(ItemRequest,related_name='fr_request',blank=True,null=True)
     hospi_request = models.ForeignKey(HospitalityRequest,related_name='hospi_request',blank=True,null=True)
     trans_request = models.ForeignKey(TransportRequest,related_name='trans_request',blank=True,null=True)
     memento_request = models.ForeignKey(MementoRequest,related_name='mem_request',blank=True,null=True)
     misc = models.TextField(max_length=2500,blank=True)
-    submitted = models.BooleanField(default=True)
+    submitted = models.BooleanField(default=False)
     
