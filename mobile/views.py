@@ -8,6 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 @csrf_exempt
 def login(request):
+    ''' Receive email, password, key via POST '''
     data = request.POST.copy()
     try:
         user = SaarangUser.objects.get(email=data['email'])
@@ -29,5 +30,11 @@ def login(request):
 
 @csrf_exempt
 def register(request):
+    ''' name mobile email password gender college '''
     data = request.POST.copy()
+    try:
+        user = SaarangUser.objects.get(email=data['email'])
+        return HttpResponse('already_registered')
+    except:
+        pass
     return HttpResponse('register')

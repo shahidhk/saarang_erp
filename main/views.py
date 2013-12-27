@@ -1,24 +1,19 @@
 # Create your views here.
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.shortcuts import render_to_response, render, get_object_or_404, redirect
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
-from django.template import RequestContext
-from django.contrib.auth.models import User, Group
-from django.contrib.auth.decorators import permission_required
 from django.core.urlresolvers import reverse
 from django.conf import settings
 from django.middleware.csrf import get_token
-import base64, re, os, json
+import base64, re, os
 from post_office import mail
 from django.contrib import messages
-from django.core.mail import send_mail
 from registration.models import SaarangUser
 from main.forms import ProfileEditForm,CreateTeamForm,EventOptionsForm
 from events.models import Event,EventRegistration,Team
 from models import Feedback
-
+from tokens import default_token_generator as pset
 from django.views.decorators.csrf import csrf_exempt
+from django.utils.http import int_to_base36, base36_to_int
 
 def auto_id(team_id):
     base = 'SA2014'
@@ -364,7 +359,7 @@ def fmi(request):
                     event_regn.save()
                     messages.success(request, 'Registerd successfully for Femina Miss India 2014 Auditions at Saarang')
                     return render(request, 'main/register_response.html')
-                except Exception, e:
+                except:
                     messages.error(request, 'Some error occured. Please try again later')
     to_return={}
     return render(request, 'main/fmi_form.html', to_return)
@@ -393,7 +388,7 @@ def tfi(request):
                     event_regn.save()
                     messages.success(request, 'Registerd successfully for Education For All Run at Saarang 2014')
                     return render(request, 'main/register_response.html')
-                except Exception, e:
+                except:
                     messages.error(request, 'Some error occured. Please try again later')
     to_return={'user':user,}
     return render(request, 'main/tfi_form.html', to_return)
@@ -417,3 +412,51 @@ def feedback(request):
             messages.error(request, 'Some error occured. Please try again later')
     to_return={}
     return render(request, 'main/feedback.html', to_return)
+
+def forgot_password(request):
+    if request.method == 'POST':
+        data = request.POST.copy()
+        try:
+            user = SaarangUser.objects.get(email=data['email'])
+            if user.activate_status == 0:
+                messages.error(request, 'Please click on the link sent to your email to activate your account')
+                return render(request, 'main/password_reset_form.html', {})    
+        except:
+            messages.error(request, 'The email you have entered is not registered at Saarang 2014')
+            return render(request, 'main/password_reset_form.html', {})
+        uid = int_to_base36(user.pk)
+        mail.send(
+            [user.email], template='email/main/password_reset_link',
+            context={'domain':'erp.saarang.org', 'uid':uid, 'token': pset.make_token(user),})
+        messages.success(request, 'We have emailed you instructions for setting your password to the email address you submitted. You should be receiving it shortly.')
+        return render(request, 'main/register_response.html')
+    to_return = {}
+    return render(request, 'main/password_reset_form.html', to_return)
+
+def reset_password(request, uidb36, token):
+    assert uidb36 is not None and token is not None
+    try:
+        uid_int = base36_to_int(uidb36)
+        user = SaarangUser.objects.get(pk=uid_int)
+    except:
+        user = None
+
+    if user is not None and pset.check_token(user, token):
+        validlink = True
+        if request.method == 'POST':
+            data = request.POST.copy()
+            if data['new_password1'] == data['new_password2']:
+                user.password = data['new_password1']
+                user.save()
+                messages.success(request, "Password reset successful! <a href='http://saarang.org'>Click here</a> to go to Saarang 2014")
+                return render(request, 'main/register_response.html')
+            else:
+                messages.error(request, "Passwords does not match, please enter again")
+        else:
+            pass
+    else:
+        validlink = False
+    to_return = {
+        'validlink': validlink,
+    }
+    return render(request, 'main/password_reset_confirm.html', to_return)

@@ -3,7 +3,7 @@
 {% block main_body %}
 
 {% for message in messages %}
-    <h3 class="text-center text-{{ message.tags }}">{{message}}</h3>'
+    <h3 class="text-center text-{{ message.tags }}">{{message|safe}}</h3>'
 {% endfor %}
 
 {% endblock %}

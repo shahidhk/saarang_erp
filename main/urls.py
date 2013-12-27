@@ -20,4 +20,8 @@ urlpatterns = patterns('',
     url(r'^tfi/$', 'main.views.tfi', name='main_tfi'),
     url(r'^feedback/$', 'main.views.feedback', name='main_feedback'),
 
+    url(r'^forgot/$', 'main.views.forgot_password', name='main_forgot_password'),
+    url(r'^reset/(?P<uidb36>[0-9A-Za-z]{1,13})-(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', 'main.views.reset_password', name='main_reset_password'),
+
+
 )

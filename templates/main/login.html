@@ -109,6 +109,7 @@
               <input class="btn btn-lg btn-primary btn-block" type="button" value="Sign in" onclick="Dajaxice.main.process_login(Dajax.process, {'form' : $('#signin-form').serialize(true)});" />
                 
                 <a href="mailto:webadmin@saarang.org" target="_blank" class="pull-right need-help">Need help?  </a><span class="clearfix"></span>
+                <a href="{% url 'main.views.forgot_password' %}" class="pull-right need-help">Forgot Password?  </a><span class="clearfix"></span>
               </form>
             </div><center>
             <a href="#register-pane" data-toggle="tab">Register at Saarang! </a><center>
