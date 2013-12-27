@@ -1,6 +1,7 @@
 from django.db import models
 
 from userprofile.models import UserProfile
+from events.models import Event
 # Create your models here.
 
 class Item(models.Model):
@@ -43,6 +44,7 @@ class Memento(models.Model):
     is_active = models.BooleanField(default=True)
     timestamp = models.DateTimeField(auto_now_add=True)
     count = models.IntegerField(default=0)
+    submitted = models.BooleanField(default=True)
 
     def __unicode__(self):
         return self.name
@@ -68,3 +70,30 @@ class MementoRequest(models.Model):
             memento_n = Memento.objects.get(name=memento[0])
             memento_n.count+=int(memento[1])
             memento_n.save()
+
+class HospitalityRequest(models.Model):
+    accomodation_cost = models.IntegerField(default=0)
+    refreshment_cost = models.IntegerField(default=0)
+    number_of_people = models.IntegerField(default=0)
+    comments = models.TextField(max_length=2500,blank=True)
+
+    def __unicode__(self):
+        return '%d people staying' %(self.number_of_people)
+
+class TransportRequest(models.Model):
+    number_of_people = models.IntegerField(default=0)
+    cost = models.IntegerField(default=0)     
+    comments = models.TextField(max_length=2500,blank=True)
+
+    def __unicode__(self):
+        return '%d people for transport' %(self.number_of_people)
+
+class EventRequest(models.Model):
+    event = models.ForeignKey(Event,related_name='event_request')
+    fr_request = models.ForeignKey(ItemRequest,related_name='fr_request',blank=True,null=True)
+    hospi_request = models.ForeignKey(HospitalityRequest,related_name='hospi_request',blank=True,null=True)
+    trans_request = models.ForeignKey(TransportRequest,related_name='trans_request',blank=True,null=True)
+    memento_request = models.ForeignKey(MementoRequest,related_name='mem_request',blank=True,null=True)
+    misc = models.TextField(max_length=2500,blank=True)
+    submitted = models.BooleanField(default=True)
+    

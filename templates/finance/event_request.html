@@ -13,7 +13,9 @@
     </ul>    
     <div class="tab-content">
         <div class="tab-pane active" id="request">
-            <div>
+            <form action="{% url 'finance.views.event_request' eventId %}" method = 'POST'>
+                {% csrf_token %}
+                <div>
                 <div id="myAccordion" class="accordion">
                     <div class="accordion-group">
                         <div class="accordion-heading">
@@ -21,7 +23,7 @@
                         </div>
                         <div class="accordion-body collapse in" id="collapseOne">
                             <div class="accordion-inner">
-                                <table id ="datatable" class='table table-bordered'>
+                                <table id ="datatable" class='table table-bordered table-condensed'>
                                     <thead>
                                         <th>#</th>
                                         <th>Item Name</th>
@@ -37,7 +39,7 @@
                                         <td>{{ item.cost }}</td>
                                         <td>
                                             <label class="input">
-                                                <input class="input-mini" type="number" name='{{ item.id }}' value='0' min='0'>
+                                                <input class="input-mini" type="number" name='item_{{ item.id }}' value='0' min='0'>
                                             </label>
                                         </td>
                                     </tr>   
@@ -52,6 +54,30 @@
                         </div>
                         <div class="accordion-body collapse" id="collapseTwo">
                             <div class="accordion-inner">
+                              <div class="control-group">
+                                <label class="control-label" for="inputName">Accomodation cost(Total).</label>
+                                <div class="controls">
+                                  <input type="number" id="acc_cost" name="acc_cost" min='0'>
+                                </div>
+                              </div>
+                              <div class="control-group">
+                                <label class="control-label" for="inputName">Refreshment cost(Total).</label>
+                                <div class="controls">
+                                  <input type="number" id="ref_cost" name="ref_cost" min='0'>
+                                </div>
+                              </div>
+                              <div class="control-group">
+                                <label class="control-label" for="inputName">Number of people</label>
+                                <div class="controls">
+                                  <input type="number" id="acc_num" name="acc_num" min='0'>
+                                </div>
+                              </div>
+                              <div class="control-group">
+                                <label class="control-label" for="inputName">Comments</label>
+                                <div class="controls">
+                                    <textarea name='acc_comments'></textarea>
+                                </div>
+                              </div>
                             </div>
                         </div>
                     </div>
@@ -61,13 +87,47 @@
                         </div>
                         <div class="accordion-body collapse" id="collapseThree">
                             <div class="accordion-inner">
+                              <div class="control-group">
+                                <label class="control-label" for="inputName">Total cost.</label>
+                                <div class="controls">
+                                  <input type="number" id="trans_cost" name="trans_cost" min='0'>
+                                </div>
+                              </div>
+                              <div class="control-group">
+                                <label class="control-label" for="inputName">Number of people</label>
+                                <div class="controls">
+                                  <input type="number" id="trans_number" name="trans_number" min='0'>
+                                </div>
+                              </div>
+                              <div class="control-group">
+                                <label class="control-label" for="inputName">Comments</label>
+                                <div class="controls">
+                                    <textarea name = 'trans_comments'></textarea>
+                                </div>
+                              </div>
                             </div>
                         </div>
                     </div>
                 </div>
+            <center>
+                <button class='btn btn-primary btn-large' type='submit'>Update</button> 
+                <button class='btn btn-success btn-large' type='submit'>Submit</button> 
+            </center>
+            </form>
             </div>            
         </div>
         <div class='tab-pane' id='misc'>
+            <form action='{% url "finance.views.event_misc_request" eventId %}'>
+              <div class="control-group">
+                <label class="control-label" for="inputName">Comments</label>
+                <div class="controls">
+                    <textarea name='acc_comments'></textarea>
+                </div>
+              </div>
+              <center>
+                  <button class='btn btn-primary btn-large' type='submit'>Submit</button> 
+              </center>
+            </form>
         </div>    
     </div>
 </div>
