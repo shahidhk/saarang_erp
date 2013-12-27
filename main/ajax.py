@@ -39,8 +39,10 @@ def process_login(request, form):
                 show_alert(dajax, 'warning', 'Please click on the link sent to your email to activate your account!')
         else:
             show_alert(dajax, 'error', 'Did you mis-spell your password?')
-    except Exception, e:
+    except:
         show_alert(dajax, 'warning', 'Is your email id correct?')
+    dajax.assign('#signin_button', 'value', 'Try again?')
+    dajax.remove_css_class('#signin_button', 'btn-warning')
     return dajax.json()
 
 @dajaxice_register

@@ -81,7 +81,11 @@
   margin-top: 10px;
 }
 </style>
-
+<script type="text/javascript">
+$(function(){
+  $('#signin_button').click($('#signin_button').val("Please Wait..."); $('#signin_button').addClass('btn-warning'));
+});
+</script>
 </head>
 <body>
 <div id='registration'>
@@ -106,7 +110,7 @@
               {% endfor %}
               <input type="text" name="email" class="form-control btn-block" placeholder="Email" required autofocus>
               <input type="password" name="password" class="form-control btn-block" placeholder="Password" required>
-              <input class="btn btn-lg btn-primary btn-block" type="button" value="Sign in" onclick="Dajaxice.main.process_login(Dajax.process, {'form' : $('#signin-form').serialize(true)});" />
+              <input id="signin_button" class="btn btn-lg btn-primary btn-block" type="button" value="Sign in" onclick="Dajaxice.main.process_login(Dajax.process, {'form' : $('#signin-form').serialize(true)});" />
                 
                 <a href="mailto:webadmin@saarang.org" target="_blank" class="pull-right need-help">Need help?  </a><span class="clearfix"></span>
                 <a href="{% url 'main.views.forgot_password' %}" class="pull-right need-help">Forgot Password?  </a><span class="clearfix"></span>
