@@ -277,7 +277,7 @@ def login(request):
     email = request.session.get('saaranguser_email')
     try:
         user = SaarangUser.objects.get(email=email)
-        return render(request, 'main/logged_in.html', {status:'logged','email':user.email,})
+        return render(request, 'main/logged_in.html', {'status':'logged','email':user.email,})
     except:
         return render(request, 'main/login.html', {})
 
