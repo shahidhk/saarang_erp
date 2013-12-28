@@ -13,7 +13,7 @@ from forms import AddLogoForm
 from models import SponsImageUpload
 
 def add_logo(request):
-    if not request.user.has_perm('manage_logo'):
+    if not request.user.has_perm('spons.manage_logo'):
         return render(request, 'alert.html', {'msg':'You dont have permission',})
     form = AddLogoForm(request.POST or None,request.FILES or None)
     if form.is_valid():
@@ -30,7 +30,7 @@ def add_logo(request):
     return render(request, 'spons/add_logo.html', to_return)
 
 def delete_logo(request, logo_id):
-    if not request.user.has_perm('manage_logo'):
+    if not request.user.has_perm('spons.manage_logo'):
         return render(request, 'alert.html', {'msg':'You dont have permission',})
     logo=SponsImageUpload.objects.get(pk=logo_id)
     logo.delete()
