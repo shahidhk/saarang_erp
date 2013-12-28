@@ -17,25 +17,10 @@ class Item(models.Model):
 
 class ItemRequest(models.Model):
     item_request = models.CharField(max_length=2000)
-    total_cost = models.IntegerField()
-    request_by = models.ForeignKey(UserProfile,related_name='request_by')
-    timestamp = models.DateTimeField(auto_now_add=True)
+    total_cost = models.IntegerField(default=0)
 
     def __unicode__(self):
-        return 'Request by %s' %(self.request_by) 
-
-    def get_item_list(self):
-        item_list=[]
-        for item in self.item_request.split(';'):
-            item_list.append([item.split('=')[0],item.split('=')[1]])
-        return item_list
-
-    def update(self):
-        for item in self.item_request.split(';'):
-            item = item.split('=')
-            item_n = Item.objects.get(name=item[0])
-            item_n.count+=int(item[1])
-            item_n.save()
+        return 'Total cost - %d' %(self.total_cost) 
 
 class Memento(models.Model):
     name = models.CharField(max_length=100,verbose_name='Name of the Memento',unique=True)
@@ -96,4 +81,6 @@ class EventRequest(models.Model):
     memento_request = models.ForeignKey(MementoRequest,related_name='mem_request',blank=True,null=True)
     misc = models.TextField(max_length=2500,blank=True)
     submitted = models.BooleanField(default=False)
+    request_by = models.ForeignKey(UserProfile,related_name='request_by',blank=True,null=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
     

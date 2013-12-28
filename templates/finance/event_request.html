@@ -39,7 +39,7 @@
                                         <th>Cost(Rs.)</th>
                                         <th>Quantity</th>
                                     </thead>
-                                    {% for item in list %}
+                                    {% for item,count in list %}
                                     <tr>
                                         <td>{{ forloop.counter }}</td>
                                         <td>{{ item.name }}</td>
@@ -47,7 +47,7 @@
                                         <td>{{ item.cost }}</td>
                                         <td>
                                             <label class="input">
-                                                <input class="input-mini" type="number" name='item_{{ item.id }}' value='0' min='0'>
+                                                <input class="input-mini" type="number" name='item_{{ item.id }}' value='{{ count }}' min='0'>
                                             </label>
                                         </td>
                                     </tr>   

@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import permission_required
 from django.core.urlresolvers import reverse
 
 from forms import CreateItemForm,CreateMementoForm
-from models import Item,Memento,EventRequest,TransportRequest,HospitalityRequest
+from models import Item,Memento,EventRequest,TransportRequest,HospitalityRequest,ItemRequest
 from events.models import Event
 
 def add_item(request):
@@ -76,16 +76,46 @@ def update_memento_list(request):
 
 def event_request(request,eventId):
     item_list = Item.objects.filter(is_active=True) 
+    item_list_all = Item.objects.all()
     event=Event.objects.get(id=int(eventId))
     try:
         event_request = EventRequest.objects.get(event=event)
     except:
         hospi_request = HospitalityRequest.objects.create(accomodation_cost=0,refreshment_cost=0,number_of_people=0)
         trans_request = TransportRequest.objects.create(cost=0,number_of_people=0)
-        event_request = EventRequest.objects.create(event=event,hospi_request=hospi_request,trans_request=trans_request)
+        item_to_save = ''
+        for item in item_list_all:
+            item_store=str(item.id)+'='+str(0)+';'
+            item_to_save+=item_store
+        item_request = ItemRequest.objects.create(item_request=item_to_save)
+        event_request = EventRequest.objects.create(event=event,fr_request=item_request,hospi_request=hospi_request,trans_request=trans_request)
+    item_request = event_request.fr_request
+    item_count_list=[]
+    item_list_comp = item_request.item_request
+    for item in item_list_comp.split(';'):
+        try:
+            item_n = Item.objects.get(id=item.split('=')[0])
+            if item_n.is_active:
+                print item_n
+                print item.split('=')[1]
+                item_count_list+=item.split('=')[1]
+        except:
+            pass
+    item_list_final = zip(item_list,item_count_list)
     if request.method == 'POST':
+        item_to_save=''
+        item_total_cost=0
+        for item in item_list_all:
+            item_name = 'item_'+str(item.id)
+            try:
+                item_count = int(request.POST[item_name])
+            except:
+                item_count = 0
+            item_total_cost+=item_count*item.cost
+            item_store=str(item.id)+'='+str(item_count)+';'
+            item_to_save+=item_store
+
         acc_cost = request.POST['acc_cost']
-        print acc_cost
         ref_cost = request.POST['ref_cost']
         acc_num = request.POST['acc_num']
         acc_comments = request.POST['acc_comments']
@@ -93,9 +123,15 @@ def event_request(request,eventId):
         trans_number = request.POST['trans_number']
         trans_comments = request.POST['trans_comments']
 
+        item_request = event_request.fr_request
         hospi_request = event_request.hospi_request
         trans_request = event_request.trans_request
 
+
+        item_request.item_request = item_to_save
+        item_request.total_cost = item_total_cost
+        item_request.save()
+        print item_request.item_request
         hospi_request.accomodation_cost = int(acc_cost)
         hospi_request.refreshment_cost = int(ref_cost)
         hospi_request.number_of_people = int(acc_num)
@@ -109,7 +145,7 @@ def event_request(request,eventId):
         return HttpResponseRedirect(reverse('event_request',args=(eventId,)))
 
     to_return={
-        'list':item_list,
+        'list':item_list_final,
         'eventId':eventId,
         'event_request':event_request,
     }
