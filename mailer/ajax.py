@@ -158,6 +158,13 @@ def send_email(request, form):
         if html_content:
             dajax.assign("#registration_data", "innerHTML", html_content)
             show_alert(dajax, 'info', 'Your email has been submitted for core approval!')
+            event_cores = User.objects.filter(userprofile__status='core').filter(userprofile__dept__name='events')
+            event_core_email = list(set([core.email for core in event_cores]))
+            mail.send(
+                event_core_email, subject='Email for Approval: Saarang ERP',
+                html_message = html_content,
+            )
+
     return dajax.json()
 
 @dajaxice_register

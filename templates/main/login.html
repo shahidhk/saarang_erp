@@ -4,6 +4,14 @@
 <html>
 <head>
 {% include 'main/cssnjs.html' %}
+<link href="{% static 'css/select2.css' %}" rel="stylesheet">
+<script src="{% static 'js/select2.js' %}"></script>
+<script type="text/javascript">
+  $(function(){
+    $('#college').select2();
+  });
+</script>
+
 <style type="text/css">
 .form-signin
 {
@@ -80,19 +88,24 @@
   display: block;
   margin-top: 10px;
 }
+input{
+  width: 300px;
+}
+#regMobile{
+  width: 260px;
+}
 </style>
 </head>
 <body>
 <div id='registration'>
-  <!--
-  <ul class="nav nav-tabs">
+  <ul class="nav nav-tabs" style="align:center;">
     <li class='active'><a href="#login-pane" data-toggle="tab">Login</a></li>
     <li><a href="#register-pane" data-toggle="tab">Register</a></li>
-  </ul>-->
+  </ul>
   <div class="tab-content">
     <div class="tab-pane active" id="login-pane">
       <div class="row">
-        <div class="" style="padding-top:10%;" >
+        <div class="">
           <h1 class="text-center login-title">Sign in to Saarang</h1>
           <div class="">
             <img class="profile-img" src="{% static 'img/logo.png' %}"
@@ -107,46 +120,56 @@
               <input type="password" name="password" class="form-control btn-block" placeholder="Password" required>
               <input id="signin_button" class="btn btn-lg btn-primary btn-block" type="button" value="Sign in" onclick="$('#signin_button').val('Please Wait...'); $('#signin_button').addClass('btn-warning');Dajaxice.main.process_login(Dajax.process, {'form' : $('#signin-form').serialize(true)});" />
                 
-                <a href="mailto:webadmin@saarang.org" target="_blank" class="pull-right need-help">Need help?  </a><span class="clearfix"></span>
-                <a href="{% url 'main.views.forgot_password' %}" class="pull-right need-help">Forgot Password?  </a><span class="clearfix"></span>
+                <a href="mailto:webadmin@saarang.org" target="_blank" class="pull-right need-help">Need help?</a>
+                <a href="{% url 'main.views.forgot_password' %}" class="pull-left need-help">Forgot Password?  </a></span>
               </form>
-            </div><center>
-            <a href="#register-pane" data-toggle="tab">Register at Saarang! </a><center>
+            </div>
           </div>
         </div>
       </div>
       <div class="tab-pane" id="register-pane">
-        <a href="#login-pane" data-toggle="tab">Login</a>
-        <form id="signup-form" class="form-horizontal" method="POST" >
-          <center><h3>Register at Saarang</h3><hr/></center>
+        <form id="signup-form" class="form-inline" method="POST" >
+          <center><h3>Register at Saarang</h3><img class="profile-img" src="{% static 'img/logo.png' %}"
+            alt=""><br/></center>
           <center>
           {% csrf_token %}
 
           <div class="control-group">
-            <label class="control-label" for="regEmail">Email</label>
             <div class="controls">
               <input name="email" type="email" id="regEmail" placeholder="Email" required />
             </div>
           </div>
           <div class="control-group">
-            <label class="control-label" for="regMobile">Mobile No.</label>
             <div class="controls">
-              (+91)<input name="mobile" type="tel" id="regMobile" placeholder="Mobile No." required>
+              <div class="input-prepend">
+                <span class="add-on">+91</span>
+                  <input name="mobile" type="tel" id="regMobile" placeholder="Mobile No." required>
+              </div>
             </div>
           </div>
           <div class="control-group">
-            <label class="control-label" for="regPassword">Password</label>
+            <div class="controls">
+              <select style="width: 310px;" name="college" id="college" required>
+                <option value="0">Select College</option>
+                {% for college in colleges %}
+                  <option value="{{college.pk}}">{{college}}</option>
+                {% endfor %}
+              </select><br/>
+              <span class="help">Not in list? Drop a mail to <a href="mailto:webadmin@saarang.org" target="_blank">webadmin@saarang.org</a></span>
+            </div>
+          </div>
+            
+          <div class="control-group">
             <div class="controls">
               <input name="password" type="password" id="regPassword" placeholder="Password" required>
             </div>
           </div>
           <div class="control-group">
-            <label class="control-label" for="repPassword">Repeat Password</label>
             <div class="controls">
               <input name="repassword" type="password" id="repPassword" placeholder="Repeat Password" required>
             </div>
           </div>
-              <input class="btn btn-lg btn-primary" type="button" value="Register" onclick="Dajaxice.main.new_user(Dajax.process, {'form' : $('#signup-form').serialize(true)});" />
+              <input class="btn btn-primary" style="width:310px;" type="button" value="Register" onclick="Dajaxice.main.new_user(Dajax.process, {'form' : $('#signup-form').serialize(true)});" />
           </center>
         </form>
       </div>

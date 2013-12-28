@@ -2,7 +2,36 @@
 <html lang="en">
 <head>
 {% include "main/cssnjs.html" %}
+{% load staticfiles %}
+<link href="{% static 'css/select2.css' %}" rel="stylesheet">
+<script src="{% static 'js/select2.js' %}"></script>
+<script type="text/javascript">
+    $(function(){
+        $('#id_college_list').select2();
+    });
+</script>
 </head>
+<style type="text/css">
+.profile-img
+{
+  width: 96px;
+  height: 96px;
+  margin: 0 auto 10px;
+  display: block;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+}
+table{
+    padding: 10px;
+}
+td{
+    padding: 10px;
+}
+body{
+    padding-top: 50px;
+}
+</style>
 <body><center>
      {% if messages %}
     <ul class="messages">
@@ -11,42 +40,50 @@
         {% endfor %}    </ul>
     {% endif %}
         <form class="form-horizontal" action="" method="POST" {% if form.is_multipart %}enctype="multipart/form-data"{% endif %}>
-            <center><h3>Edit Profile</h3></center>
-            <hr>
+            <center><h3>Edit Profile</h3><img class="profile-img" src="{% static 'img/logo.png' %}"
+            alt=""></center>
             {% csrf_token %}
-            {{ form.media }}
-            {% if form.errors %}
-                <div class="alert alert-error">
-                    <ul>
-                        {% for error in form.non_field_errors %}
-                        <li>{{ error }}</li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            {% endif %}
-            {% for field in form.visible_fields %}
-                <div class="control-group {{ field.html_name }} {% if field.errors %}error{% endif %}">
-                <label class="control-label">{{ field.label }}{% if field.field.required %} *{% endif %}</label>
-                    <div class="controls"> {{ field }}
-                        {% if field.errors %}
-                            <span class="help-inline">
-                                {{ field.errors.as_text }}
-                            </span>
-                        {% endif %} 
-                        </br></br>
-                        {{ field.help_text }}
-                    </div>
-                </div>
-            {% endfor %}
-            {% for field in form.hidden_fields %}
-                {{ field }}
-            {% endfor %}
-            <hr>
-
-            <center> <input class="btn btn-success btn-large" type="submit" value="Update"/>
-            </center>
+            <table class="">
+                <tr>
+                    <td>Name:</td>
+                    <td width=300px><input class="input input-block-level" name="name" type="text" value="{{ user.name }}" required/></td>
+                </tr>
+                <tr>
+                    <td>Email:</td>
+                    <td><input class="input input-block-level" name="email" type="text" value="{{ user.email }}" required/></td>
+                </tr>
+                <tr>
+                    <td>Mobile:</td>
+                    <td><div  class="input-prepend input-block-level">
+                <span class="add-on">+91</span><input  name="mobile" style="width:270px;" type="tel" value="{{ user.mobile }}" required/></div</td>
+                </tr>
+                <tr>
+                    <td>Gender:</td>
+                    <td><select name="gender" class="input input-block-level" required/>
+                        <option value='male' {% if user.gender == 'male' or user.gender == 'Male' %}selected{% endif %}>Male</option>
+                        <option value='female' {% if user.gender == 'female' or user.gender == 'Female' %}selected{% endif %}>Female</option></select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>College:</td>
+                    <td>
+                        <select class="input input-block-level" id='id_college_list' name="college" required>
+                            <option value=0>{{clg}}</option>
+                            {% for college in colleges %}
+                                 <option value="{{college.pk}}" {% if college.pk == clg %}selected{% endif %}>{{college}}</option>
+                            {% endfor %}
+                        </select><span class="help">Not in list? Drop a <a href="mailto:webadmin@saarang.org" target="_blank">mail</a> to us</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan=2>
+                        <input class="btn btn-success btn-block" type="submit" value="Update"/>
+                    </td>
+                </tr>
+            </table>
         </form>
 
 <center>       
 </body>
+
 </html>

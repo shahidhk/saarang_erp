@@ -50,19 +50,19 @@
                                 How comprehensive do you think the information on the website was?
                             </td>
                             <td>
-                                <input type='radio' name='q1' value='1'><br>1
+                                <input type='radio' name='q1' value='1'><br>1 - Very Bad
                             </td>
                             <td>
-                                <input type='radio' name='q1' value='2'><br>2
+                                <input type='radio' name='q1' value='2'><br>2 - Bad
                             </td>
                             <td>
-                                <input type='radio' name='q1' value='3'><br>3
+                                <input type='radio' name='q1' value='3'><br>3 - Good
                             </td>
                             <td>
-                                <input type='radio' name='q1' value='4'><br>4
+                                <input type='radio' name='q1' value='4'><br>4 - Very Good
                             </td>
                             <td>
-                                <input type='radio' name='q1' value='5'><br>5
+                                <input type='radio' name='q1' value='5'><br>5 - Excellent
                             </td>
                         </tr>
                         <tr>
@@ -73,19 +73,19 @@
                                 How was the website navigation?
                             </td>
                             <td>
-                                <input type='radio' name='q2' value='1'><br>1
+                                <input type='radio' name='q2' value='1'><br>1 - Very Bad
                             </td>
                             <td>
-                                <input type='radio' name='q2' value='2'><br>2
+                                <input type='radio' name='q2' value='2'><br>2 - Bad
                             </td>
                             <td>
-                                <input type='radio' name='q2' value='3'><br>3
+                                <input type='radio' name='q2' value='3'><br>3 - Good
                             </td>
                             <td>
-                                <input type='radio' name='q2' value='4'><br>4
+                                <input type='radio' name='q2' value='4'><br>4 - Very Good
                             </td>
-                            <td>
-                                <input type='radio' name='q2' value='5'><br>5
+                            <td> 
+                                <input type='radio' name='q2' value='5'><br>5 - Excellent
                             </td>
                         </tr>
                         <tr>
@@ -96,30 +96,46 @@
                               How well do you think the website conveyed the theme? 
                             </td>
                             <td>
-                                <input type='radio' name='q3' value='1'><br>1
+                                <input type='radio' name='q3' value='1'><br>1 - Very Bad
                             </td>
                             <td>
-                                <input type='radio' name='q3' value='2'><br>2
+                                <input type='radio' name='q3' value='2'><br>2 - Bad
                             </td>
                             <td>
-                                <input type='radio' name='q3' value='3'><br>3
+                                <input type='radio' name='q3' value='3'><br>3 - Good
                             </td>
                             <td>
-                                <input type='radio' name='q3' value='4'><br>4
+                                <input type='radio' name='q3' value='4'><br>4 - Very Good
                             </td>
                             <td>
-                                <input type='radio' name='q3' value='5'><br>5
+                                <input type='radio' name='q3' value='5'><br>5 - Excellent
                             </td>
                         </tr>
                         <tr>
                             <td>
                                 4.
                             </td>
+                            <td>How did you come to know about Saarang?</td>
+                            <td colspan=5>
+                                <div class="input-prepend"><span class="add-on"><input type='radio' name='q4' value='1'></span><input style='width: 70px;' type='text' value='Facebook' readonly /></div>
+                                <div class="input-prepend"><span class="add-on"><input type='radio' name='q4' value='2'></span><input style='width: 50px;' type='text' value='Twitter' readonly /></div>
+                                <div class="input-prepend"><span class="add-on"><input type='radio' name='q4' value='3'></span><input style='width: 130px;' type='text' value='IIT Madras Website' readonly /></div>
+                                <div class="input-prepend"><span class="add-on"><input type='radio' name='q4' value='4'></span><input style='width: 130px;' type='text' value="I'm an IITM student" readonly /></div>
+                                <div id='div_other_site' class="input-prepend"><span class="add-on"><input id='radio_other_website' type='radio' name='q4' value='5'></span><input name='other_website' id='id_other_website' style='width: 130px;' type='text' placeholder='Other Website' readonly /></div>
+                                <div class="input-prepend"><span class="add-on"><input type='radio' name='q4' value='6'></span><input style='width: 240px;' type='text' value="I have been a regular Saarang Visitor" readonly /></div>
+                                <div class="input-prepend"><span class="add-on"><input type='radio' name='q4' value='7'></span><input style='width: 100px;' type='text' value="Newspaper ad" readonly /></div>
+                                <div class="input-prepend"><span class="add-on"><input id='radio_others' type='radio' name='q4' value='8'></span><input readonly name='others' id='id_others' style='width: 200px;' type='text' placeholder='Others?' /></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                5.
+                            </td>
                             <td>
                                 Any Suggestions?
                             </td>
                             <td colspan='5'>
-                                <textarea name='q4' rows='4' cols='5'></textarea>
+                                <textarea class='input input-block-level' width=450px; name='q5' rows='4'></textarea>
                             </td>
                         </tr>
                         <tr>
@@ -132,5 +148,19 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+$('#radio_other_website').click(function(){
+    $('#id_other_website').prop('readonly', false);
+}).change();
+$('#id_other_website').focusout(function(){
+    $('#id_other_website').prop('readonly', true);
+}).change();
+$('#radio_others').click(function(){
+    $('#id_others').prop('readonly', false);
+}).change();
+$('#id_others').focusout(function(){
+    $('#id_others').prop('readonly', true);
+}).change();
+</script>
 </body>
 </html>

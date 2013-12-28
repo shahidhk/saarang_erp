@@ -10,7 +10,7 @@ from django.contrib import messages
 from registration.models import SaarangUser
 from main.forms import ProfileEditForm,CreateTeamForm,EventOptionsForm
 from events.models import Event,EventRegistration,Team
-from models import Feedback
+from models import Feedback, College
 from tokens import default_token_generator as pset
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.http import int_to_base36, base36_to_int
@@ -126,7 +126,7 @@ def register(request,eventId):
     event = get_object_or_404(Event,id=eventId)
     emailId = email
     if user.activate_status == 1:
-        messages.warning(request,'Please complete your profile to register for the event.')
+        messages.warning(request,'Please complete your profile to register for the event. Profile can be found by clicking your email at the bottom right corner.')
         return render(request, 'main/register_response.html')
     if event.is_team:
         return HttpResponseRedirect(reverse('list_teams',kwargs={'eventId':eventId,}))#,kwargs={'eventId':eventId,'teamId':teamId,}))
@@ -279,7 +279,11 @@ def login(request):
         user = SaarangUser.objects.get(email=email)
         return render(request, 'main/logged_in.html', {'status':'logged','email':user.email,})
     except:
-        return render(request, 'main/login.html', {})
+        colleges = College.objects.all()
+        to_return = {
+            'colleges':colleges,
+        }
+        return render(request, 'main/login.html',to_return)
 
 def logout(request):
     try:
@@ -305,30 +309,36 @@ def profile(request):
         messages.error(request, 'Please login to continue')
         return render(request, 'main/login.html', {})
     if request.method == 'POST':
-        profileeditForm = ProfileEditForm(request.POST)
-        if profileeditForm.is_valid():
-            try:
-                user.name = profileeditForm.cleaned_data['name']
-                user.email = profileeditForm.cleaned_data['email']
-                user.mobile = profileeditForm.cleaned_data['mobile']
-                user.gender = profileeditForm.cleaned_data['gender']
-                user.college = profileeditForm.cleaned_data['college']
-                user.save()
-                messages.add_message(request, messages.SUCCESS, 'Profile updated successfully')
-                if user.profile_is_complete():
-                    user.activate_status = 2
-                else:
-                    user.activate_status = 1
-                user.save()
-            except:
-                messages.error(request, 'Some error occured. Please try again later!')    
-    else:
-        initial = {'name': user.name,'email': user.email ,'mobile': user.mobile ,'gender':user.get_gender_display(),'college': user.college ,}
-        profileeditForm = ProfileEditForm(initial=initial)
+        data = request.POST.copy()
+        try:
+            user.name = data['name']
+            user.email = data['email']
+            user.mobile = data['mobile']
+            user.gender = data['gender']
+            if data['college'] != 0:
+                college = College.objects.get(pk=data['college'])
+                user.college = college.name + ', '+ college.city
+            user.save()
+            messages.add_message(request, messages.SUCCESS, 'Profile updated successfully')
+            if user.profile_is_complete():
+                user.activate_status = 2
+            else:
+                user.activate_status = 1
+            user.save()
+        except:
+            messages.error(request, 'Some error occured. Please try again later!')
+    print user.college
+    try:
+        clg_name, clg_city = user.college.split(', ')
+        college = College.objects.get(name=clg_name, city=clg_city).pk
+    except:
+        college =  user.college
+    colleges = College.objects.all()
     to_return={
-        'form':profileeditForm
+        'colleges':colleges,
+        'user':user,
+        'clg':college,
     }
-
     return render(request, 'main/profile.html', to_return)
 
 
@@ -407,10 +417,21 @@ def feedback(request):
     if request.method == 'POST':
         data = request.POST.copy()
         try:
-            Feedback.objects.create(q1=data['q1'], q2=data['q2'], q3=data['q3'], suggestion=data['q4'] )
+            if data['q4'] == '5':
+                string = 'other_website==' + data['other_website']
+                if data['q5']:
+                    string += '|||suggestion=='+data['q5']
+            elif data['q4'] == '8':
+                string = 'others==' + data['others']
+                if data['q5']:
+                    string += '|||suggestion=='+data['q5']
+            else:
+                string = 'suggestion=='+data['q5']
+            Feedback.objects.create(q1=data['q1'], q2=data['q2'], q3=data['q3'], q4=data['q4'], suggestion=string)
             messages.success(request, 'Thank you for your feedback!')
             return render(request, 'main/register_response.html')
-        except:
+        except Exception, e:
+            raise e
             messages.error(request, 'Some error occured. Please try again later')
     to_return={}
     return render(request, 'main/feedback.html', to_return)
