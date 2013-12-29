@@ -47,9 +47,11 @@
     {% if list %}
         <ul class='thumbnails'>
             {% for image in list %}
-            <li class='span9'>
-                <div class='thumbnail'>
+            <li class='span9 well'>
+                <div class='span3'>
                     <img style="height: 15%; width:20%; margin:10px 10px;" src="{{ MEDIA_URL }}{{ image.logo }}" />
+                </div>
+                <div class='span5'>
                         <h4 style="color:#CC3232;">{{ image.title }}</h4>
                         <p>
                             <table>

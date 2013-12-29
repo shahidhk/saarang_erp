@@ -59,7 +59,8 @@ def new_user(request, form):
                 if data['password'] == data['repassword'] and data['password'] !='':
                     new_user=SaarangUser.objects.create(email=data['email'], mobile=data['mobile'], password=data['password'])
                     new_user.saarang_id = auto_id(new_user.pk)
-                    if data['college'] != 0:
+                    print data
+                    if data['college'] != '0':
                         college = College.objects.get(pk=data['college'])
                         new_user.college = college.name + ', ' + college.city
                     new_user.save()
