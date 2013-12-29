@@ -22,10 +22,10 @@ def add_logo(request):
         img.save()
         messages.success(request,'Image successfully saved')
         HttpResponseRedirect(reverse('spons_add_logo'))
-    all_images = SponsImageUpload.objects.all()
+    logos = SponsImageUpload.objects.all().order_by('-priority')
     to_return = {
         'form':form,
-        'list':all_images,
+        'list':logos,
     }
     return render(request, 'spons/add_logo.html', to_return)
 
