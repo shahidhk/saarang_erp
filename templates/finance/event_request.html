@@ -7,9 +7,22 @@
 <script>
     function submitForm(action)
     {
-        document.getElementById('columnarForm').action = action;
-        document.getElementById('columnarForm').submit();
-    }
+        document.getElementById('event_request_form').action = action;
+        document.getElementById('event_request_form').submit();
+    };
+
+    function prizes_display()
+    {
+        var i=0;
+        var prize_val = document.getElementById('total_prize').value;
+        var priz_div = document.getElementById('prize_div');
+        for(i=0;i<prize_val;i++)
+        {
+          priz_div.innerHTML+='<label class="">' + (i+1).toString() + '. </label><div class=""><input type="number" name="prize' + (i+1).toString() + '" min="0"></div>';
+        }
+        document.getElementById('prize_button').innerHTML='';
+        document.getElementById('total_prize').innerHTML='';
+    };
 </script>
 
 <div class="span9 container">
@@ -21,9 +34,9 @@
     </ul>    
     <div class="tab-content">
         <div class="tab-pane active" id="request">
-            <form action="{% url 'finance.views.event_request' eventId %}" method = 'POST'>
+            {% if not event_request.submitted %}
+            <form method = 'POST' id='event_request_form'>
                 {% csrf_token %}
-                <div>
                 <div id="myAccordion" class="accordion">
                     <div class="accordion-group">
                         <div class="accordion-heading">
@@ -31,7 +44,7 @@
                         </div>
                         <div class="accordion-body collapse in" id="collapseOne">
                             <div class="accordion-inner">
-                                <table id ="datatable" class='table table-bordered table-condensed'>
+                                <table id ="itemtable" class='table table-bordered table-condensed'>
                                     <thead>
                                         <th>#</th>
                                         <th>Item Name</th>
@@ -116,27 +129,119 @@
                             </div>
                         </div>
                     </div>
+                    <div class="accordion-group">
+                        <div class="accordion-heading">
+                            <a href="#collapseFour" data-parent="#myAccordion" data-toggle="collapse" class="accordion-toggle">PPM</a>
+                        </div>
+                        <div class="accordion-body collapse" id="collapseFour">
+                            <div class="accordion-inner">
+                              {% if event_request.number_of_prizes %}
+                                <h5>Prize money</h5>
+                                {% for prize in prize_list %}
+                                  <label class="">{{ forloop.counter }} </label>
+                                  <div class="">
+                                    <input type="number" name="prize{{ forloop.counter }}" min="0" value='{{ prize }}'>
+                                  </div>
+                                {% endfor %}
+                              {% else %}
+                                <div class="control-group"  id='prize_button'>  
+                                  <label class="control-label" for="inputName">Total prizes.</label>
+                                  <div class="controls">
+                                    <input type="number" id="total_prize" name='prize_num' min='0' value = '{{ event_request.number_of_prizes }}'>
+                                  </div>
+                                  <div class="controls">
+                                    <button type='button' class='btn btn-small btn-primary' onclick='prizes_display()'>Prize money</button>
+                                  </div>
+                                </div>
+                                <div id='prize_div'>
+                                </div>
+                              {% endif %}
+                              <div class="control-group">
+                                <label class="control-label" for="inputName">Total mementos.</label>
+                                <div class="controls">
+                                  <input type="number" id="trans_number" name="mem_number" min='0' value = '{{ event_request.memento_number }}'>
+                                </div>
+                              </div>
+                              <div class="control-group">
+                                <label class="control-label" for="inputName">Comments</label>
+                                <div class="controls">
+                                    <textarea name = 'ppm_comments'>{{ event_request.ppm_comments }}</textarea>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             <center>
-                <button class='btn btn-primary btn-large' type='submit'>Update</button> 
-                <button class='btn btn-success btn-large' type='submit'>Submit</button> 
+                <button class='btn btn-primary btn-large' type='submit' onclick=submitForm("{% url 'finance.views.event_request' eventId %}")>Update</button> 
+                <button class='btn btn-success btn-large' type='submit' onclick=submitForm("{% url 'finance.views.event_request_submit' eventId %}")>Submit</button> 
             </center>
             </form>
-            </div>            
+            {% else %}
+              <b><u>Item requests</u></b>
+              <br><br>
+              <form>
+                <table id ="itemtable" class='table table-bordered table-condensed'>
+                    <thead>
+                        <th>#</th>
+                        <th>Item Name</th>
+                        <th>Cost(Rs.)</th>
+                        <th>Quantity(proposed)</th>
+                        <th>Quantity</th>
+                        <th>Approve</th>
+                    </thead>
+                    {% for item,count in list %}
+                    {% if count %}
+                      <tr>
+                          <td>{{ forloop.counter }}</td>
+                          <td>{{ item.name }}</td>
+                          <td>{{ item.cost }}</td>
+                          <td>{{ count }}</td>
+                          <td>
+                              <label class="input">
+                                  <input class="input-mini" type="number" name='item_{{ item.id }}' value='{{ count }}' min='0'>
+                              </label>
+                          </td>
+                          <td><a href=""><button></button></a></td>
+                      </tr>   
+                    {% endif %}
+                    {% endfor %}
+                </table>
+              </form>
+              <hr> 
+              <b>Hospitality and Transport</b>   
+            {% endif %}
         </div>
         <div class='tab-pane' id='misc'>
-            <form action='{% url "finance.views.event_misc_request" eventId %}' method='POST'>
-              {% csrf_token %}
-              <div class="control-group">
-                <label class="control-label" for="inputName">Comments</label>
-                <div class="controls">
-                    <textarea name='misc'>{{ event_request.misc }}</textarea>
+          <div class="accordion-group">
+            {% for request in event_request.misc_list.all %}
+                  <div class="accordion-heading">
+                      <a href="{% url 'finance.views.misc_request' eventId request.id%}" class="accordion-toggle">{{ forloop.counter }}.Submitted by - {{ request.request_by }} for Rs.{{ request.amount }}</a>
+                  </div>
+            {% empty %}
+              <p>No requests yet.</p>
+            {% endfor %}
+          </div>
+            <hr>
+            <h5>Submit new request</h5>
+              <form action='{% url "finance.views.event_misc_request" eventId %}' method='POST'>
+                {% csrf_token %}
+                <div class="control-group">
+                  <label class="control-label" for="inputName">Amount</label>
+                  <div class="controls">
+                    <input type="number" id="trans_number" name="amount" min='0'>
+                  </div>
                 </div>
-              </div>
-              <center>
-                  <button class='btn btn-primary btn-large' type='submit'>Submit</button> 
-              </center>
-            </form>
+                <div class="control-group">
+                  <label class="control-label" for="inputName">Reason</label>
+                  <div class="controls">
+                      <textarea name='reason'></textarea>
+                  </div>
+                </div>
+                <center>
+                    <button class='btn btn-primary btn-large' type='submit'>Submit</button> 
+                </center>
+              </form>
         </div>    
     </div>
 </div>

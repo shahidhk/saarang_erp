@@ -302,7 +302,7 @@
 
     <script>
         tinymce.init({
-            selector: "textarea",
+            selector: "textarea:not(.comments)",
             theme: "modern",
             width: 750,
             height: 300,
@@ -323,6 +323,30 @@
                 {title: 'Table row 1', selector: 'tr', classes: 'tablerow1'}
             ]
          });
+    </script>
+    <script>
+    //     tinymce.init({
+    //         selector: "textarea.comments",
+    //         theme: "modern",
+    //         width: 900,
+    //         height: 300,
+    //         plugins: [
+    //              "advlist autolink link lists charmap print preview hr anchor pagebreak spellchecker",
+    //              "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime nonbreaking",
+    //              "save table contextmenu directionality emoticons template paste textcolor "
+    //        ],
+    //        content_css: "css/content.css",
+    //        toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | print preview media fullpage | forecolor backcolor emoticons",
+    //        style_formats: [
+    //             {title: 'Bold text', inline: 'b'},
+    //             {title: 'Red text', inline: 'span', styles: {color: '#ff000'}},
+    //             {title: 'Red header', block: 'h1', styles: {color: '#ff0000'}},
+    //             {title: 'Example 1', inline: 'span', classes: 'example1'},
+    //             {title: 'Example 2', inline: 'span', classes: 'example2'},
+    //             {title: 'Table styles'},
+    //             {title: 'Table row 1', selector: 'tr', classes: 'tablerow1'}
+    //         ]
+    //      });
     </script>
     <script>
       $(document).ready( function () {
@@ -352,6 +376,24 @@
               "sPaginationType": "full_numbers",
               "sDom": '<"H"Tfr>t<"F"ip>',
               'iDisplayLength': 14,
+              "oTableTools": {
+                  "aButtons": [
+                      "copy", "csv", "xls", "pdf",
+                      {
+                          "sExtends":    "collection",
+                          "sButtonText": "Save",
+                          "aButtons":    [ "csv", "xls", "pdf" ]
+                      }
+                  ]
+              }
+          } );
+      } );
+      $(document).ready( function () {
+          $('#itemtable').dataTable( {
+              "bJQueryUI": true,
+              "sPaginationType": "full_numbers",
+              "sDom": '<"H"Tfr>t<"F"ip>',
+              'iDisplayLength': 100,
               "oTableTools": {
                   "aButtons": [
                       "copy", "csv", "xls", "pdf",

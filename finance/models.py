@@ -73,14 +73,32 @@ class TransportRequest(models.Model):
     def __unicode__(self):
         return '%d people for transport' %(self.number_of_people)
 
+class Comments(models.Model):
+    comment = models.TextField(max_length=10000,blank=True,null=True)
+    by = models.ForeignKey(UserProfile,related_name='comment_by',blank=True,null=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+class MiscRequest(models.Model):
+    amount = models.IntegerField(default=0)
+    reason = models.CharField(max_length=1500,blank=True)
+    request_by = models.ForeignKey(UserProfile,related_name='misc_request_by',blank=True,null=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    comments = models.ManyToManyField(Comments,related_name='misc_comments',blank=True,null=True)
+
 class EventRequest(models.Model):
     event = models.ForeignKey(Event,related_name='event_request',blank=True,null=True)
     fr_request = models.ForeignKey(ItemRequest,related_name='fr_request',blank=True,null=True)
     hospi_request = models.ForeignKey(HospitalityRequest,related_name='hospi_request',blank=True,null=True)
     trans_request = models.ForeignKey(TransportRequest,related_name='trans_request',blank=True,null=True)
     memento_request = models.ForeignKey(MementoRequest,related_name='mem_request',blank=True,null=True)
-    misc = models.TextField(max_length=2500,blank=True)
+    memento_number = models.IntegerField(default=0)
+    number_of_prizes = models.IntegerField(default=0)
+    ppm_comments = models.TextField(max_length=2500,blank=True)
+    prizes = models.CharField(max_length=500,blank=True)
     submitted = models.BooleanField(default=False)
     request_by = models.ForeignKey(UserProfile,related_name='request_by',blank=True,null=True)
+    approved = models.BooleanField(default=False)
     timestamp = models.DateTimeField(auto_now_add=True)
-    
+    misc_list = models.ManyToManyField(MiscRequest,related_name='misc_request',blank=True,null=True)
+    comments = models.ManyToManyField(Comments,related_name='event_request_comments',blank=True,null=True)
+    total_cost = models.IntegerField(default=0)
