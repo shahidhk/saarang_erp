@@ -57,17 +57,16 @@ def new_user(request, form):
         except:
             if re.match(r'^\d{10}$', data['mobile']):
                 if data['password'] == data['repassword'] and data['password'] !='':
+                    mail.send(
+                        [data['email']], template='email/main/register_activate',
+                        context={'encoded_email':base64.b64encode(data['email']),}
+                    )
                     new_user=SaarangUser.objects.create(email=data['email'], mobile=data['mobile'], password=data['password'])
                     new_user.saarang_id = auto_id(new_user.pk)
                     if data['college'] != 0:
                         college = College.objects.get(pk=data['college'])
                         new_user.college = college.name + ', ' + college.city
                     new_user.save()
-                    mail.send(
-                        [new_user.email], template='email/main/register_activate',
-                        context={'encoded_email':base64.b64encode(new_user.email),
-                        'new_user':new_user,}
-                        )
                     dajax.assign('#success-alert', 'innerHTML', '<center><strong>Registration successfull. Please click on the link sent to your email to activate your account</strong>')
                     dajax.script("$('#registration').hide();$('#success-alert').show();")
                 else:
