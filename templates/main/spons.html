@@ -42,6 +42,10 @@
         border: 0;
         font-family: bebas;
 
+        }
+
+    td {
+        padding: 0px 22px;
     }
     
     #spons_total
@@ -154,6 +158,7 @@
 {% for logo in logos %}
     <h2 class="text-center text-info" style="color:#CC3232; font-family: bebas;">{{ logo.title }}</h2>
     <a href="{{ logo.sponsor_link }}" target="_blank"><img style="height: 20%; width:25%; margin:10px 10px;" src="{{ MEDIA_URL }}{{ logo.logo }}" /></a>
+    <hr width=800>
 {% endfor %}
 </center>
 
