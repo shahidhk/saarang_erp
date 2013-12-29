@@ -1,0 +1,162 @@
+{% load staticfiles %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Sponsorship Page</title>
+    <link href="{% static 'spons/css/jquery.mCustomScrollbar.css' %}" rel="stylesheet" type="text/css" />
+    
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="{% static 'spons/js/jquery.mCustomScrollbar.concat.min.js' %}"></script>
+    <script>
+    (function($){
+        $(window).load(function(){
+            $("#spons_picscroll").mCustomScrollbar();
+        });
+    })(jQuery);
+    </script>
+    <style>
+    @font-face
+    {
+        font-family: bebas;
+        src: url("{% static 'spons/BebasNeue.otf' %}");
+    }
+    #spons_total{
+        position:absolute;
+
+        width:100%;
+        left:0px;
+        height: 100%;
+    }
+
+    h3 {
+        font-weight: normal;
+        color: white;
+    }
+    body,html{
+        height: 100%;
+        width: 100%;
+        background:#fff;
+        margin: 0;
+        padding:0;
+        border: 0;
+        font-family: bebas;
+
+    }
+    
+    #spons_total
+    {
+        background-repeat:no-repeat;
+        background-size:cover;
+    }
+    *{
+        font-family: bebas;
+    }
+    </style>
+</head>
+<body>
+    
+    
+    <div  id="spons_total" style="font-family: bebas;">
+       <table>
+        <tr>
+            <td width="45%">
+                <center>
+                    <a href="#"><img style="width:80%;" src="{% static 'spons/img/saarang14logo.png' %}" /></a> 
+                </center>
+            </td>
+            <td width="55%">
+                <center>
+                   <h1 class="text-center text-info" style="color:#CC3232; font-family: bebas;">
+                    SPONSORSHIP
+                </h1>
+            </center>
+        </td>
+    </tr>
+</table>
+
+
+<table style="font-family: bebas;">
+    <tr>
+        <td width="0%">
+        </td>
+        <td width="100%">
+            <center>
+               <!--SPONS DETAILS-->
+               <div id='spons' style="font-family:Arial, Helvetica, sans-serif;">
+                <div class="container">
+                    <div class="row clearfix">
+                        <div class="col-md-12 column">
+                            <p class="text-center text-info">
+                                For sponsorship related queries please contact one of the sponsorship cores below
+                            </p>
+                        </div>
+                        <table class="table" style='padding:30px;font-size:16px;font-family:verdana;text-align:center'>
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Achutan Sekar
+                                    </th>
+
+                                    <th>
+                                        Abhishek Agrawal
+                                    </th>
+                                    <th>
+                                        Sai Tejo Kiran E
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        achutan@saarang.org
+                                    </td>
+                                    <td>
+                                        abhishek@saarang.org
+                                    </td>
+                                    <td>
+                                        tejo@saarang.org
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        +919884314049
+                                    </td>
+                                    <td>
+                                        +919444244139
+                                    </td>
+                                    <td>
+                                        +919884994125
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row clearfix">
+                        <div class="col-md-12 column">
+                            <p class="text-center">
+                                Click <a href='http://saarang.org/2014/main/spons.php' target='_blank'>here</a> to download sponsorship brochure.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- SPONS DETAILS END-->
+        </center>
+    </td>
+</tr>
+</table>
+<!--table ends-->
+
+<!--<div id="spons_divscroll">-->
+
+<center>
+{% for logo in logos %}
+    <h2 class="text-center text-info" style="color:#CC3232; font-family: bebas;">{{ logo.title }}</h2>
+    <a href="{{ logo.sponsor_link }}" target="_blank"><img style="height: 20%; width:25%; margin:10px 10px;" src="{{ MEDIA_URL }}{{ logo.logo }}" /></a>
+{% endfor %}
+</center>
+
+</div>
+</body>
+</html>

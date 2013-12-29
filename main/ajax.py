@@ -67,7 +67,7 @@ def new_user(request, form):
                         [new_user.email], template='email/main/register_activate',
                         context={'encoded_email':base64.b64encode(new_user.email),
                         'new_user':new_user,}
-                        )
+                    )
                     dajax.assign('#success-alert', 'innerHTML', '<center><strong>Registration successfull. Please click on the link sent to your email to activate your account</strong>')
                     dajax.script("$('#registration').hide();$('#success-alert').show();")
                 else:

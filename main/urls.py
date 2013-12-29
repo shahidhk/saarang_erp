@@ -23,5 +23,6 @@ urlpatterns = patterns('',
     url(r'^forgot/$', 'main.views.forgot_password', name='main_forgot_password'),
     url(r'^reset/(?P<uidb36>[0-9A-Za-z]{1,13})-(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', 'main.views.reset_password', name='main_reset_password'),
 
+    url(r'^spons/$', 'main.views.spons_page', name='main_spons_page'),
 
 )
