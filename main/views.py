@@ -11,6 +11,7 @@ from registration.models import SaarangUser
 from main.forms import ProfileEditForm,CreateTeamForm,EventOptionsForm
 from events.models import Event,EventRegistration,Team
 from models import Feedback, College
+from spons.models import SponsImageUpload
 from tokens import default_token_generator as pset
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.http import int_to_base36, base36_to_int
@@ -483,3 +484,10 @@ def reset_password(request, uidb36, token):
         'validlink': validlink,
     }
     return render(request, 'main/password_reset_confirm.html', to_return)
+
+def spons_page(request):
+    logos = SponsImageUpload.objects.all().order_by('-priority')
+    to_return={
+        'logos':logos,
+    }
+    return render(request, 'main/spons.html', to_return)

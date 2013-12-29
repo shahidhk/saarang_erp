@@ -3,6 +3,8 @@
 {% block title %}Spons | ERP Saarang{% endblock %}
 
 {% block content %}
+{% load staticfiles %}
+
 
 <div class="span9 container">
     <form class="form-horizontal" action="" method="POST" {% if form.is_multipart %}enctype="multipart/form-data"{% endif %}>
@@ -38,27 +40,73 @@
             {{ field }}
         {% endfor %}
         <br/>
-        <center> <input class="btn btn-primary btn-large" type="submit" value="Submit"/> {% block extra_buttons %} {% endblock extra_buttons %}
-        </center>
+        <input class="btn btn-primary btn-large" type="submit" value="Submit"/> {% block extra_buttons %} {% endblock extra_buttons %}
     </form>
     <hr>
     <legend>Already uploaded logos.</legend>
     {% if list %}
-        <div class='row-fluid'>
-            <div class="row-fluid">
+        <ul class='thumbnails'>
             {% for image in list %}
-                <div class='span3 thumbnail'>
-                    <img src="{{ image.logo.url }}" height="100" width="100" alt="{{image.title}}"/>
-                    <center><h5>{{ image.title }}</h5></center>
-                    <p>{{ image.timestamp|date:'j M' }} , {{ image.timestamp|time:'G:i' }} <a href="{% url 'spons.views.delete_logo' image.pk %}" onclick="return confirm('Do you want to Delete this logo?');" class="close-btn"><span class="badge badge-important">&times; Del</span></a></p>
+            <li class='span9'>
+                <div class='thumbnail'>
+                    <img style="height: 15%; width:20%; margin:10px 10px;" src="{{ MEDIA_URL }}{{ image.logo }}" />
+                        <h4 style="color:#CC3232;">{{ image.title }}</h4>
+                        <p>
+                            <table>
+                                <tr>
+                                    <td>Sponsor link:</td>
+                                    <td><a href="{{image.sponsor_link}}">{{image.sponsor_link}}</a></td>
+                                </tr>
+                                <tr>
+                                    <td>Uploaded at:</td>
+                                    <td>{{image.timestamp}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Uploaded by:</td>
+                                    <td>{{image.uploaded_by}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Priority:</td>
+                                    <td>{{image.priority}}</td>
+                                </tr>
+                            </table>
+                        </p>
+                        <p>
+                            <a class='btn btn-info' data-target="#editLogoModal" href="{% url 'spons.views.edit_logo' image.pk %}"><i class='icon-pencil'></i> Edit</a>
+                            <a href="{% url 'spons.views.delete_logo' image.pk %}" onclick="return confirm('Do you want to Delete this logo?');" class="btn btn-danger"><i class='icon-remove-circle'></i> Del</a>
+                        </p>
                 </div>
-            {% if forloop.counter|divisibleby:4 %}</div>
-            <div class="row-fluid">{% endif %}
+            </li>
             {% endfor %}
         </div>
     {% else %}
     <div class="alert alert-error">There are no logos to display</div>
     {% endif %}
 </div>
+
+<div id="editLogoModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="editLogoModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="editLogoModalLabel">Edit Logo</h3>
+  </div>
+  <div class="modal-body">
+    <p>Loading…</p>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+$("a[data-target=#editLogoModal]").click(function(event) {
+  event.preventDefault();
+  var target = $(this).attr("href");
+  $("#editLogoModal .modal-body").load(target, function() {
+   $("#editLogoModal").modal("show");
+ });
+});
+</script>
+
 
 {% endblock %}
