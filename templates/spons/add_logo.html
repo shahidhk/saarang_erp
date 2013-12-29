@@ -9,6 +9,21 @@
 <div class="span9 container">
     <form class="form-horizontal" action="" method="POST" {% if form.is_multipart %}enctype="multipart/form-data"{% endif %}>
         <legend>Spons</legend>
+        <h3> Instructions:</h3>
+        <ul>
+            <li>
+        The Title:  The title of the sponsor. Eg: Title Sponsor, Online Media Partner, etc.
+        </li>
+            <li>
+        The Sponsor Link :  A link to the sponsor's webpage.  Clicking on the logo on the spons page will take you here.
+        </li>
+            <li>
+        Logo :  A jpg or a png of the sponsor logo.  Please do not try to upload pdfs.
+        </li>
+            <li>
+        Priority : The basis of the ordering system.  Higher numbers will be added on top. The decimal system is so that if you want to add a logo between two others, giving it a number between the other two is easier. 
+        </li>
+        </ul>
             {% csrf_token %}
         {{ form.media }}
         {% if form.errors %}
@@ -43,7 +58,7 @@
         <input class="btn btn-primary btn-large" type="submit" value="Submit"/> {% block extra_buttons %} {% endblock extra_buttons %}
     </form>
     <hr>
-    <legend>Already uploaded logos.</legend>
+    <legend>Logos previously uploaded (In order):</legend>
     {% if list %}
         <ul class='thumbnails'>
             {% for image in list %}

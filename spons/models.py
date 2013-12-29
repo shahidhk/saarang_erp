@@ -7,7 +7,7 @@ class SponsImageUpload(models.Model):
     logo = models.ImageField(upload_to='spons')
     timestamp = models.DateTimeField(auto_now_add=True)
     uploaded_by = models.ForeignKey(User, related_name='image_uploaded_by')
-    priority = models.DecimalField(max_digits=10, decimal_places=8, help_text='Rate in a scale of 00.00000000 to 99.99999999. Highest number will appear first.')
+    priority = models.FloatField(default=0.00, help_text='Rate in a scale of 00.00000000 to 99.99999999. Highest number will appear first.')
 
     class Meta:
         permissions = (
