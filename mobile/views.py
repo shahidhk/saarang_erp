@@ -28,7 +28,7 @@ def login(request):
     if user.password == data['password']:
         if user.activate_status != 0:
             try:
-                Device.objects.create(key=data['key'], user=user, last_access=dt.datetime.now())
+                Device.objects.create(key=data['key'], user=user, last_access=dt.datetime.now(), is_active=True)
                 user.last_login = dt.datetime.now()
                 user.save()
             except:
@@ -67,3 +67,14 @@ def register(request):
                 return HttpResponse('p') # Mobile not 10 digits
     else:
         return HttpResponse('i') # Invalid email
+
+@csrf_exempt
+def logout(request):
+    data=request.POST.copy()
+    try:
+        users = Device.objects.filter(key=data['key'], is_active=True)
+        for user in users:
+            user.is_active = False
+            return HttpResponse('Success')
+    except:
+        return HttpResponse('Error')

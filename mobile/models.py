@@ -6,3 +6,4 @@ class Device(models.Model):
     user = models.ForeignKey(SaarangUser, related_name='user_device')
     created = models.DateTimeField(auto_now_add=True)
     last_access = models.DateTimeField()
+    is_active = models.BooleanField(default=True)
