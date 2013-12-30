@@ -13,4 +13,6 @@ def events(request):
     return render(request, 'chat/events.html', {})
 
 def general(request):
+    if request.user.userprofile.status != 'core' and request.user.userprofile.dept.name != 'events' and request.user.userprofile.dept.name != 'hospi':
+        return render(request, 'alert.html', {'msg': 'You dont have permission'}) 
     return render(request, 'chat/general.html', {})
