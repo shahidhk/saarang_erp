@@ -67,6 +67,9 @@ urlpatterns = patterns('',
     # Include urls from mobile
     url(r'^mobile/', include('mobile.urls')),
 
+    # Include urls from mobile
+    url(r'^chat/', include('chat.urls')),
+
 	url(r'^login/$', 'erp.views.login_user', name='login'),
 
 	url(r'^logout/$', 'erp.views.logout_user', name='logout_user'),

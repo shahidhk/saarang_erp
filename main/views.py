@@ -316,7 +316,7 @@ def profile(request):
             user.email = data['email']
             user.mobile = data['mobile']
             user.gender = data['gender']
-            if data['college'] != 0:
+            if data['college'] != '0':
                 college = College.objects.get(pk=data['college'])
                 user.college = college.name + ', '+ college.city
             user.save()

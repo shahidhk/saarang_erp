@@ -1,0 +1,23 @@
+{% load staticfiles %}
+{% load url from future %}
+{% load erp_tags %}
+<div class="accordion-group">
+  <div class="accordion-heading">
+    <a class="accordion-toggle" data-toggle="collapse" data-parent="#sidebar" href="#chat"><i class="icon-comment"></i> Chat</a>
+  </div>
+  <div id="chat" class="accordion-body collapse {% if request.path|app_name == 'chat' %}in{% endif %} ">
+    <div class="accordion-inner">
+      <ul class="nav-list nav">
+        <li id="item_chat_hospi">
+          <a href="{% url 'chat.views.hospi' %}" ><i class="icon-chevron-right"></i> Hospi</a>
+        </li>
+        <li id="item_chat_events">
+          <a href="{% url 'chat.views.events' %}" ><i class="icon-chevron-right"></i> Events</a>
+        </li>
+        <li id="item_chat_general">
+          <a href="{% url 'chat.views.general' %}" ><i class="icon-chevron-right"></i> General</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
