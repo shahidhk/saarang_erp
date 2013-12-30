@@ -126,9 +126,9 @@ def register(request,eventId):
         return render(request, 'main/login.html', {})
     event = get_object_or_404(Event,id=eventId)
     emailId = email
-    if user.activate_status == 1:
-        messages.warning(request,'Please complete your profile to register for the event. Profile can be found by clicking your email at the bottom right corner.')
-        return render(request, 'main/register_response.html')
+    #if user.activate_status == 1:
+    #    messages.warning(request,'Please complete your profile to register for the event. Profile can be found by clicking your email at the bottom right corner.')
+    #    return render(request, 'main/register_response.html')
     if event.is_team:
         return HttpResponseRedirect(reverse('list_teams',kwargs={'eventId':eventId,}))#,kwargs={'eventId':eventId,'teamId':teamId,}))
     else:
@@ -138,7 +138,7 @@ def register(request,eventId):
             if not event.registration_open:
                 messages.info(request,'Registration is closed for the event.')
             else:
-                if user.activate_status == 2:
+                if user.activate_status == 2 or user.activate_status == 1:
                     eventreg = EventRegistration()
                     eventreg.participant = user
                     eventreg.event = event
@@ -149,8 +149,8 @@ def register(request,eventId):
                         [emailId], template='email/main/register_event',
                         context={'event_name':event.long_name, }
                         )
-                elif user.activate_status == 1:
-                    messages.warning(request,'Please complete your profile to register for the event.')
+                #elif user.activate_status == 1:
+                #    messages.warning(request,'Please complete your profile to register for the event.')
                 else:
                     messages.warning(request,'Click on the activation mail sent to activate your profile.')
 
