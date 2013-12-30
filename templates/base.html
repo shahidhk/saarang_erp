@@ -326,7 +326,7 @@
     <script type="text/javascript" src="{{ STATIC_URL }}js/tinymce/tinymce.min.js"></script>
 
     <script>
-        tinymce.init({
+        tinyMCE.init({
             selector: "textarea",
             theme: "modern",
             width: 750,
@@ -346,7 +346,8 @@
                 {title: 'Example 2', inline: 'span', classes: 'example2'},
                 {title: 'Table styles'},
                 {title: 'Table row 1', selector: 'tr', classes: 'tablerow1'}
-            ]
+            ],
+            editor_deselector : "mceNoEditor"
          });
     </script>
     <script>
