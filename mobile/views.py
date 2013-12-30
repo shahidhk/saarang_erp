@@ -24,7 +24,7 @@ def login(request):
     try:
         user = SaarangUser.objects.get(email=data['email'])
     except:
-        return HttpResponse('n') # Not Registered
+        return HttpResponse('Not_registerd') # Not Registered
     if user.password == data['password']:
         if user.activate_status != 0:
             try:
@@ -32,12 +32,12 @@ def login(request):
                 user.last_login = dt.datetime.now()
                 user.save()
             except:
-                return HttpResponse('e') # General Error
-            return HttpResponse('s') # Success
+                return HttpResponse('Error') # General Error
+            return HttpResponse(str(user.saarang_id)) # Success
         else:
-            return HttpResponse('a')# Account not activated 
+            return HttpResponse('Account_not_activated')# Account not activated 
     else:
-        return HttpResponse('w') # Wrong password
+        return HttpResponse('Wrong_password') # Wrong password
 
 @csrf_exempt
 def register(request):
@@ -46,7 +46,7 @@ def register(request):
     if re.match(r'[^@]+@[^@]+\.[^@]+', data['email']):
         try:
             user=SaarangUser.objects.get(email=data['email'])
-            return HttpResponse('r')# Already registered
+            return HttpResponse('Registered')# Already registered
         except:
             if re.match(r'^\d{10}$', data['mobile']):
                 if data['password'] == data['repassword'] and data['password'] !='':
@@ -60,13 +60,13 @@ def register(request):
                     #     college = College.objects.get(pk=data['college'])
                     #     new_user.college = college.name + ', ' + college.city
                     new_user.save()
-                    return HttpResponse(str(new_user.saarang_id)) # Success response
+                    return HttpResponse('Success') # Success response
                 else:
-                    return HttpResponse('w') # Passwords does not match
+                    return HttpResponse('Wrong_password') # Passwords does not match
             else:
-                return HttpResponse('p') # Mobile not 10 digits
+                return HttpResponse('Phone_error') # Mobile not 10 digits
     else:
-        return HttpResponse('i') # Invalid email
+        return HttpResponse('Invalid_email') # Invalid email
 
 @csrf_exempt
 def logout(request):
@@ -75,6 +75,7 @@ def logout(request):
         users = Device.objects.filter(key=data['key'], is_active=True)
         for user in users:
             user.is_active = False
+            user.save()
             return HttpResponse('Success')
     except:
         return HttpResponse('Error')
