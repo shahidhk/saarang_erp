@@ -119,6 +119,7 @@ def register_event(request):
                 else:
                     return HttpResponse('Not_activated')
 
+@csrf_exempt
 def set_session(request):
     data = request.POST.copy()
     device = Device.objects.get(key=data['key'], is_active=True)
@@ -126,6 +127,7 @@ def set_session(request):
     request.session['saaranguser_email'] = user.email
     return HttpResponse('Session_set')
 
+@csrf_exempt
 def get_session(request):
     data = request.POST.copy()
     device = Device.objects.get(key=data['key'], is_active=True)
