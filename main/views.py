@@ -371,7 +371,8 @@ def fmi(request):
                     event_regn.save()
                     messages.success(request, 'Registerd successfully for Femina Miss India 2014 Auditions at Saarang')
                     return render(request, 'main/register_response.html')
-                except:
+                except Exception, e:
+		    raise e
                     messages.error(request, 'Some error occured. Please try again later')
     to_return={}
     return render(request, 'main/fmi_form.html', to_return)
