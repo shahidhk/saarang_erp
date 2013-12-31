@@ -133,6 +133,10 @@ def get_session(request):
     device = Device.objects.get(key=data['key'], is_active=True)
     user = device.user
     email = request.session.get('saaranguser_email')
+    if email:
+        return HttpResponse(email)
+    else:
+        return HttpResponse('None')
     try:
         user1 = SaarangUser.objects.get(email=email)
         return HttpResponse('Success '+user.email+' '+user1.email)
