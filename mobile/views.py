@@ -92,7 +92,7 @@ def logout(request):
 def register_event(request):
     data = request.POST.copy()
     event = get_object_or_404(Event,id=int(data['event_id']))
-    device = Device.objects.get(key=data['key'], is_active=True)[0]
+    device = Device.objects.get(key=data['key'], is_active=True)
     user = device.user
     if event.is_team:
         return HttpResponse('Team')
