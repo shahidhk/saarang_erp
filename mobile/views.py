@@ -89,7 +89,7 @@ def logout(request):
         return HttpResponse('Error')
 
 @csrf_exempt
-def event(request):
+def register_event(request):
     data = request.POST.copy()
     event = get_object_or_404(Event,id=int(data['event_id']))
     device = Device.objects.get(key=data['key'], is_active=True)[0]

@@ -8,5 +8,6 @@ urlpatterns = patterns('',
     url(r'^login/$', 'mobile.views.login', name='mobile_login'),
     url(r'^register/$', 'mobile.views.register', name='mobile_register'),
     url(r'^logout/$', 'mobile.views.logout', name='mobile_logout'),
+    url(r'^register_event/$', 'mobile.views.register_event', name='mobile_register_event'),
     
     )
