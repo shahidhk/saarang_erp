@@ -9,5 +9,9 @@ urlpatterns = patterns('',
     url(r'^register/$', 'mobile.views.register', name='mobile_register'),
     url(r'^logout/$', 'mobile.views.logout', name='mobile_logout'),
     url(r'^register_event/$', 'mobile.views.register_event', name='mobile_register_event'),
+
+    url(r'^set_session/$', 'mobile.views.set_session', name='mobile_set_session'),
+    url(r'^get_session/$', 'mobile.views.get_session', name='mobile_get_session'),
+
     
     )

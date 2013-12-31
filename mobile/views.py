@@ -118,3 +118,21 @@ def register_event(request):
                 #    messages.warning(request,'Please complete your profile to register for the event.')
                 else:
                     return HttpResponse('Not_activated')
+
+def set_session(request):
+    data = request.POST.copy()
+    device = Device.objects.get(key=data['key'], is_active=True)
+    user = device.user
+    request.session['saaranguser_email'] = user.email
+    return HttpResponse('Session_set')
+
+def get_session(request):
+    data = request.POST.copy()
+    device = Device.objects.get(key=data['key'], is_active=True)
+    user = device.user
+    email = request.session.get('saaranguser_email')
+    try:
+        user1 = SaarangUser.objects.get(email=email)
+        return HttpResponse('Success '+user.email+' '+user1.email)
+    except:
+        return HttpResponse('Failed')
