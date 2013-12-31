@@ -21,8 +21,9 @@
                 <th>#</th>
                 <th>Item Name</th>
                 <th>Comments</th>
-                <th>Cost(Rs.)</th>
-                <th>Count</th>
+                <th>Cost/Unit(Rs.)</th>
+                <th>Amount(Requested)</th>
+                <!-- <th>Amount(Approved)</th> -->
                 <th>Valid?</th>
             </thead>
             {% for item in list %}
@@ -34,7 +35,7 @@
                 <td>{{ item.count }}</td>
                 <td>
                     <label class="checkbox">
-                        <input type="checkbox" name='{{ item.id }}'/>
+                        <input type="checkbox" name='{{ item.id }}' {% if item.is_active %}checked {% endif %}/>
                     </label>
                 </td>
             </tr>   

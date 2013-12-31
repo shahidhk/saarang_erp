@@ -6,10 +6,10 @@
     
 <div class='span9 container'>
     <a href="{% url 'finance.views.event_request' eventId %}"><button class='btn btn-small'>Back</button></a>
-    <a href="{% url 'finance.views.event_request' eventId %}" class='pull-right'><button class='btn btn-small btn-success'>Approve</button></a>
+    <a href="{% url 'finance.views.approve_misc_request' eventId misc_request.id %}" class='pull-right'><button class='btn btn-small btn-success'>Approve</button></a>
     <a href="{% url 'finance.views.event_request' eventId %}" class='pull-right'><button class='btn btn-small btn-danger'>Decline</button></a>
     <br><br>
-    <table class='table table-bordered'>
+<!--     <table class='table table-bordered'>
         <tbody>
             <tr>
                 <td><b>Submitted by</b></td>
@@ -25,17 +25,38 @@
             </tr>
         </tbody>
     </table>
-    <hr>
+ -->
+          <table id ="misctable" class='table table-bordered table-condensed'>
+              <thead>
+                  <th> Submitted by</th>
+                  <th>Amount</th>
+                  <th>Reason</th>
+              </thead>
+              <tr {% if misc_request.approved %}class='success'{% endif %}>
+                  <td>{{ misc_request.request_by }}</td>
+                  <td>{{ misc_request.amount }}</td>
+                  <td>{{ misc_request.reason|safe }}</td>
+              </tr>   
+          </table>    
+     <hr>
     <h4><u>Comments</u></h4>
     <hr>
     <br>
     {% for comment in comment_list %}
-        <div style='background:#F7F7F7;padding:10px;margin:5px;'>
+        {% if comment.by %}
+        <div style='background:#F7F7F7;padding:10px;margin:5px;border-radius:5px;'>
         <b><u>{{ comment.by }}</u></b> :<span class='pull-right'>{{ comment.timestamp }}</span>
         <br><br>
         {{ comment.comment|safe }}
         </div>
         <hr>
+        {% else %}
+        <div style='background:#F7F7F7;padding:10px;margin:5px;'>
+        <span class='pull-right'>{{ comment.timestamp }}</span>
+        <b>{{ comment.comment|safe }}</b>
+        </div>
+        <hr>
+        {% endif %}
     {% empty %}
         No comments yet.
     {% endfor %}

@@ -18,7 +18,7 @@
         var priz_div = document.getElementById('prize_div');
         for(i=0;i<prize_val;i++)
         {
-          priz_div.innerHTML+='<label class="">' + (i+1).toString() + '. </label><div class=""><input type="number" name="prize' + (i+1).toString() + '" min="0"></div>';
+          priz_div.innerHTML+='<label class="">' + (i+1).toString() + '. </label><div class=""><input type="number" name="prize' + (i+1).toString() + '" value = "0" min="0"></div>';
         }
         document.getElementById('prize_button').innerHTML='';
         document.getElementById('total_prize').innerHTML='';
@@ -135,9 +135,9 @@
                         </div>
                         <div class="accordion-body collapse" id="collapseFour">
                             <div class="accordion-inner">
-                              {% if event_request.number_of_prizes %}
+                              {% if event_request.number_of_prizes != 0 %}
                                 <h5>Prize money</h5>
-                                {% for prize in prize_list %}
+                                {% for prize,alloted in prize_list_final %}
                                   <label class="">{{ forloop.counter }} </label>
                                   <div class="">
                                     <input type="number" name="prize{{ forloop.counter }}" min="0" value='{{ prize }}'>
@@ -178,50 +178,187 @@
             </center>
             </form>
             {% else %}
-              <b><u>Item requests</u></b>
-              <br><br>
-              <form>
+              <form action='' method='POST'>
+                <b><u>Item requests</u></b>
+                {% if not item_all_approved %}
+                  <a href="{% url 'finance.views.approve_all_item_request' eventId 1 %}"><button type='button' class='btn btn-small btn-success pull-right'>Approve All</button></a>
+                {% else %}
+                  <a href="{% url 'finance.views.approve_all_item_request' eventId 0 %}"><button type='button' class='btn btn-small btn-danger pull-right'>Decline All</button></a>
+                {% endif %}
+                <br><br>
                 <table id ="itemtable" class='table table-bordered table-condensed'>
                     <thead>
                         <th>#</th>
                         <th>Item Name</th>
                         <th>Cost(Rs.)</th>
                         <th>Quantity(proposed)</th>
-                        <th>Quantity</th>
-                        <th>Approve</th>
+                        <th>Quantity(final)</th>
+                        <th>Status</th>
                     </thead>
-                    {% for item,count in list %}
-                    {% if count %}
-                      <tr>
-                          <td>{{ forloop.counter }}</td>
-                          <td>{{ item.name }}</td>
-                          <td>{{ item.cost }}</td>
-                          <td>{{ count }}</td>
-                          <td>
-                              <label class="input">
-                                  <input class="input-mini" type="number" name='item_{{ item.id }}' value='{{ count }}' min='0'>
-                              </label>
-                          </td>
-                          <td><a href=""><button></button></a></td>
-                      </tr>   
-                    {% endif %}
+                    {% for item in event_request.item_request.all %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ item.item }}</td>
+                        <td>{{ item.item.cost }}</td>
+                        <td>{{ item.count }}</td>
+                        <td>
+                            <label class="input">
+                                <input class="input-mini" type="number" name='item_{{ item.id }}' value='{{ item.count }}' min='0'>
+                            </label>
+                        </td>
+                        <td>
+                          {% if item.approved %}
+                            <a href="{% url 'finance.views.approve_item_request' item.id 0 %}"><button type='button' class='btn btn-small btn-danger'>Decline</button></a>
+                          {% else %}
+                            <a href="{% url 'finance.views.approve_item_request' item.id 1 %}"><button type='button' class='btn btn-small btn-success'>Approve</button></a>
+                          {% endif %}
+                        </td>
+                    </tr>   
                     {% endfor %}
                 </table>
+                <hr> 
+                <b>Hospitality and Transport</b>   
+                {% if not hospi_all_approved %}
+                  <a href="{% url 'finance.views.approve_all_hospi_request' eventId 1 %}"><button type='button' class='btn btn-small btn-success pull-right'>Approve All</button></a>
+                {% else %}
+                  <a href="{% url 'finance.views.approve_all_hospi_request' eventId 0 %}"><button type='button' class='btn btn-small btn-danger pull-right'>Decline All</button></a>
+                {% endif %}
+                <br><br>
+                <table id ="hospitable" class='table table-bordered table-condensed'>
+                    <thead>
+                        <th>#</th>
+                        <th>Item</th>
+                        <th>Number of people</th>
+                        <th>Cost(proposed)</th>
+                        <th>Cost(final)</th>
+                        <th>Approve</th>
+                    </thead>
+                    <tr>
+                        <td>1</td>
+                        <td>Accomodation</td>
+                        <td>{{ event_request.hospi_request.number_of_people }}</td>
+                        <td>{{ event_request.hospi_request.accomodation_cost }}</td>
+                        <td>
+                            <label class="input">
+                                <input class="input-mini" type="number" name='acc_final' value='{{ event_request.hospi_request.accomodation_cost }}' min='0'>
+                            </label>
+                        </td>
+                        <td>
+                          {% if event_request.hospi_request.approved_acc %}
+                            <a href="{% url 'finance.views.approve_hospi_request' event_request.hospi_request.id 1 0 %}"><button type='button' class='btn btn-small btn-danger'>Decline</button></a>
+                          {% else %}
+                            <a href="{% url 'finance.views.approve_hospi_request' event_request.hospi_request.id 1 1 %}"><button type='button' class='btn btn-small btn-success'>Approve</button></a>
+                          {% endif %}
+                        </td>
+                    </tr>   
+                    <tr>
+                        <td>2</td>
+                        <td>Refreshment</td>
+                        <td>{{ event_request.hospi_request.number_of_people }}</td>
+                        <td>{{ event_request.hospi_request.refreshment_cost }}</td>
+                        <td>
+                            <label class="input">
+                                <input class="input-mini" type="number" name='ref_final' value='{{ event_request.hospi_request.refreshment_cost }}' min='0'>
+                            </label>
+                        </td>
+                        <td>
+                          {% if event_request.hospi_request.approved_ref %}
+                            <a href="{% url 'finance.views.approve_hospi_request' event_request.hospi_request.id 2 0 %}"><button type='button' class='btn btn-small btn-danger'>Decline</button></a>
+                          {% else %}
+                            <a href="{% url 'finance.views.approve_hospi_request' event_request.hospi_request.id 2 1 %}"><button type='button' class='btn btn-small btn-success'>Approve</button></a>
+                          {% endif %}
+                        </td>
+                    </tr>   
+                    <tr>
+                        <td>3</td>
+                        <td>Transport</td>
+                        <td>{{ event_request.trans_request.number_of_people }}</td>
+                        <td>{{ event_request.trans_request.cost }}</td>
+                        <td>
+                            <label class="input">
+                                <input class="input-mini" type="number" name='ref_final' value='{{ event_request.trans_request.cost }}' min='0'>
+                            </label>
+                        </td>
+                        <td>
+                          {% if event_request.trans_request.approved %}
+                            <a href="{% url 'finance.views.approve_hospi_request' event_request.trans_request.id 3 0 %}"><button type='button' class='btn btn-small btn-danger'>Decline</button></a>
+                          {% else %}
+                            <a href="{% url 'finance.views.approve_hospi_request' event_request.trans_request.id 3 1 %}"><button type='button' class='btn btn-small btn-success'>Approve</button></a>
+                          {% endif %}
+                        </td>
+                    </tr>   
+                </table>
+                <hr>
+                <b>Prizes and Mementos</b>
+                {% if not prize_approved_all %}
+                  <a href="{% url 'finance.views.approve_all_prize_request' eventId 1 %}"><button type='button' class='btn btn-small btn-success pull-right'>Approve All</button></a>
+                {% else %}
+                  <a href="{% url 'finance.views.approve_all_prize_request' eventId 0 %}"><button type='button' class='btn btn-small btn-danger pull-right'>Decline All</button></a>
+                {% endif %}
+                <br><br>
+                <table id ="prizetable" class='table table-bordered table-condensed'>
+                    <thead>
+                        <th>#</th>
+                        <th>Item Name</th>
+                        <th>Cost(proposed)</th>
+                        <th>Cost(final)</th>
+                        <th>Approve</th>
+                    </thead>
+                    {% for prize,approved in prize_list_final %}
+                      <tr>
+                          <td>{{ forloop.counter }}</td>
+                          <td>Prize {{ forloop.counter }}</td>
+                          <td>{{ prize }}</td>
+                          <td>
+                              <label class="input">
+                                  <input class="input-mini" type="number" name='prize{{ forloop.counter }}' value='{{ prize }}' min='0'>
+                              </label>
+                          </td>
+                          <td>
+                            {% if approved %}
+                              <a href="{% url 'finance.views.approve_prize_request' eventId forloop.counter0 0 %}"><button type='button' class='btn btn-small btn-danger'>Decline</button></a>
+                            {% else %}
+                              <a href="{% url 'finance.views.approve_prize_request' eventId forloop.counter0 1 %}"><button type='button' class='btn btn-small btn-success'>Approve</button></a>
+                            {% endif %}
+                          </td>
+                      </tr>   
+                    {% endfor %}
+                </table>
+                <br><br>
+                <center>
+                    <a href="{% url 'finance.views.event_request_revert' eventId %}"><button type='button' class='btn btn-large btn-inverse'>Revert</button></a>
+                    <button class='btn btn-primary btn-large' type='submit' onclick=submitForm("")>Update</button> 
+                    <button class='btn btn-large' type='submit' onclick=freeze("")>Freeze</button> 
+                </center>
               </form>
-              <hr> 
-              <b>Hospitality and Transport</b>   
             {% endif %}
         </div>
         <div class='tab-pane' id='misc'>
-          <div class="accordion-group">
-            {% for request in event_request.misc_list.all %}
-                  <div class="accordion-heading">
-                      <a href="{% url 'finance.views.misc_request' eventId request.id%}" class="accordion-toggle">{{ forloop.counter }}.Submitted by - {{ request.request_by }} for Rs.{{ request.amount }}</a>
-                  </div>
-            {% empty %}
-              <p>No requests yet.</p>
-            {% endfor %}
-          </div>
+          <table id ="misctable" class='table table-bordered table-condensed'>
+              <thead>
+                  <th>#</th>
+                  <th> Submitted by</th>
+                  <th>Amount</th>
+                  <th>Reason</th>
+                  <th>Approval</th>
+              </thead>
+              {% for request in event_request.misc_list.all %}
+              <tr {% if request.approved %}class='success'{% endif %}>
+                  <td>{{ forloop.counter }}</td>
+                  <td>{{ request.request_by }}</td>
+                  <td>{{ request.amount }}</td>
+                  <td>{{ request.reason|safe }}</td>
+                  <td>
+                    {% if not request.approved %}
+                      <a href="{% url 'finance.views.approve_misc_request' eventId request.id %}"><button class='btn btn-success btn-small'>Approve</button></a>
+                    {% else %}
+                      <a href=""><button class='btn btn-danger btn-small'>Disapprove</button></a>
+                    {% endif %}
+                    <a href="{% url 'finance.views.misc_request' eventId request.id %}"><button class='btn btn-small'>Details</button></a>
+                  </td>
+              </tr>   
+              {% endfor %}
+          </table>    
             <hr>
             <h5>Submit new request</h5>
               <form action='{% url "finance.views.event_misc_request" eventId %}' method='POST'>
