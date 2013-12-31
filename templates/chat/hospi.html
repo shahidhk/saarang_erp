@@ -1,9 +1,19 @@
 {% extends 'base.html' %}
 {% block content %}
-<iframe src="http://saarang.org/chat/hospi1.php?username=Saarang%202014" class='span9' height="700px" frameborder=0></iframe>
-<iframe src="http://saarang.org/chat/hospi2.php?username=Saarang%202014" class='span9' height="700px" frameborder=0></iframe>
-<iframe src="http://saarang.org/chat/hospi3.php?username=Saarang%202014" class='span9' height="700px" frameborder=0></iframe>
+<iframe id='hospi1' src="http://saarang.org/chat/hospi1.php?username=Saarang%202014" class='span6' height="400px" frameborder=0></iframe>
+<iframe id='hospi2' src="http://saarang.org/chat/hospi2.php?username=Saarang%202014" class='span6' height="400px" frameborder=0></iframe><br/>
+<iframe id='hospi3' src="http://saarang.org/chat/hospi3.php?username=Saarang%202014" class='span12' height="400px" frameborder=0></iframe>
+<style type="text/css">
+.nomargin{
+    margin: 0px 0px 0px 0px;
+    margin-left: 0px;
+    width: 100%;
+}
+</style>
 <script type="text/javascript">
     $('#item_chat_hospi').addClass('active');
+    $('#start').hide();
+    $('#content').removeClass('span9');
+    $('#content').addClass('nomargin');
 </script>
 {% endblock %}

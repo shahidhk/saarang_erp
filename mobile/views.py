@@ -1,10 +1,11 @@
 import datetime as dt
 from django.http import HttpResponseRedirect, HttpResponse, Http404
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 import re, base64
 from models import Device
 from registration.models import SaarangUser
 from registration.views import auto_id
+from events.models import Event, EventRegistration
 from utility import send_push
 from post_office import mail
 from django.views.decorators.csrf import csrf_exempt
@@ -27,6 +28,13 @@ def login(request):
         return HttpResponse('Not_registerd') # Not Registered
     if user.password == data['password']:
         if user.activate_status != 0:
+            try:
+                existing_devices = Device.objects.filter(key=data['key'])
+                for device in existing_devices:
+                    device.is_active = False
+                    device.save()
+            except:
+                pass
             try:
                 Device.objects.create(key=data['key'], user=user, last_access=dt.datetime.now(), is_active=True)
                 user.last_login = dt.datetime.now()
@@ -53,7 +61,7 @@ def register(request):
                     mail.send(
                         [data['email']], template='email/main/register_activate',
                         context={'encoded_email':base64.b64encode(data['email']),}
-                    )
+                    )   
                     new_user=SaarangUser.objects.create(email=data['email'], mobile=data['mobile'], password=data['password'])
                     new_user.saarang_id = auto_id(new_user.pk)
                     # if data['college'] != '0':
@@ -79,3 +87,34 @@ def logout(request):
             return HttpResponse('Success')
     except:
         return HttpResponse('Error')
+
+@csrf_exempt
+def event(request):
+    data = request.POST.copy()
+    event = get_object_or_404(Event,id=int(data['event_id']))
+    device = Device.objects.get(key=data['key'], is_active=True)[0]
+    user = device.user
+    if event.is_team:
+        return HttpResponse('Team')
+    else:
+        if(EventRegistration.objects.filter(participant=user,event=event)):
+            return HttpResponse('Already_registered')
+        else:
+            if not event.registration_open:
+                return HttpResponse('Closed_registrations')
+            else:
+                if user.activate_status == 2 or user.activate_status == 1:
+                    eventreg = EventRegistration()
+                    eventreg.participant = user
+                    eventreg.event = event
+                    eventreg.options = ''
+                    eventreg.save()
+                    mail.send(
+                        [user.email], template='email/main/register_event',
+                        context={'event_name':event.long_name, }
+                        )
+                    return HttpResponse('Successfully_registered')
+                #elif user.activate_status == 1:
+                #    messages.warning(request,'Please complete your profile to register for the event.')
+                else:
+                    return HttpResponse('Not_activated')
