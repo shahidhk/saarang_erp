@@ -18,8 +18,8 @@ class CreateMementoForm(forms.ModelForm):
         model = Memento
         exclude = ['timestamp']
 
-# class FacilityForm(forms.Form):
-
+# class CommentForm(forms.Form):
+#     comment = forms.CharField(widget=SummernoteWidget())
 
 
 # class HospitalityForm(forms.Form):
