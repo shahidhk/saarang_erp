@@ -1,11 +1,13 @@
 import datetime as dt
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.shortcuts import render, get_object_or_404
+from django.core.urlresolvers import reverse
 import re, base64
 from models import Device
 from registration.models import SaarangUser
 from registration.views import auto_id
-from events.models import Event, EventRegistration
+from main.views import auto_id as team_id
+from events.models import Event, EventRegistration, Team
 from utility import send_push
 from post_office import mail
 from django.views.decorators.csrf import csrf_exempt
@@ -142,3 +144,40 @@ def get_session(request):
         return HttpResponse('Success '+user.email+' '+user1.email)
     except:
         return HttpResponse('Failed')
+
+@csrf_exempt
+def register_team(request):
+    data = request.POST.copy()
+    device = Device.objects.get(key=data['key'], is_active=True)
+    user = device.user
+    event = get_object_or_404(Event, id=data['event_id'])
+    team = Team.objects.create(name=data['team_name'], leader=user)
+    team.team_sid = team_id(team.pk)
+    team.save()
+    mail_list=[]
+    for member_email in re.findall(r'[\w\.-]+@[\w\.-]+', data['team_members']):
+        try:
+            member = SaarangUser.objects.get(email=member_email)
+            team.members.add(member)
+            mail_list.append(member_email)
+            team.save()
+        except:
+            return HttpResponse('Error')       
+        try:
+            mail.send(
+            mail_list, template='email/main/added_to_team',
+                    context={'team_name':data['team_name'], 'user':user,}
+            )
+        except:
+            pass
+        team.save()
+    EventRegistration.objects.create(participant=user,team=team,event=event,options='')
+    mail_list = [member.email for member in team.members.all()]
+    mail_list.append(email)
+    mail.send(
+        mail_list, template='email/main/register_team',
+                context={'event_name':event.long_name, 'team_name':team.name,},
+                )
+    return HttpResponse('Success')
+    
+

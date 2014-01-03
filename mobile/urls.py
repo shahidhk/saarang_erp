@@ -12,6 +12,7 @@ urlpatterns = patterns('',
 
     url(r'^set_session/$', 'mobile.views.set_session', name='mobile_set_session'),
     url(r'^get_session/$', 'mobile.views.get_session', name='mobile_get_session'),
-
+	
+	url(r'^register_team/$', 'mobile.views.register_team', name='mobile_register_team'),
     
     )
