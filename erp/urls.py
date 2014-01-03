@@ -28,6 +28,9 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
 
+    url(r'^new/$', 'erp.views.new', name='new'),
+
+
     # Ajax urls
     url(dajaxice_config.dajaxice_url, include('dajaxice.urls')),
 
@@ -67,8 +70,11 @@ urlpatterns = patterns('',
     # Include urls from mobile
     url(r'^mobile/', include('mobile.urls')),
 
-    # Include urls from mobile
+    # Include urls from chat
     url(r'^chat/', include('chat.urls')),
+
+    # Include urls from security
+    url(r'^security/', include('security.urls')),
 
 	url(r'^login/$', 'erp.views.login_user', name='login'),
 

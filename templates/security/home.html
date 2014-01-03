@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+<legend>Security</legend>
+<input type='text' id='security_text' />
+<br/>
+<div id='div_alert' style="background-color:silver; height: 400px;"><center><span id='text_disp' style="margin-top:200px;">Ready<span></center>
+</div>
+<script type="text/javascript">
+var array=[1,2,3,4,5,6,7,8,9]
+$(function(){
+    $('#security_text').focus();
+});
+$("#security_text").change(function(){
+    var value = $('#security_text').val();
+  if(value in array){
+    $('#div_alert').css('background-color', 'green');
+    $('#text_disp').html(value)
+  }
+  else{
+    $('#div_alert').css('background-color', 'red');
+    $('#text_disp').html(value)
+  }
+  $('#security_text').val('');
+  $('#security_text').focus();
+});
+</script>
+{% endblock content %}

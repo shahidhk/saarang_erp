@@ -124,6 +124,7 @@ INSTALLED_APPS = (
     'spons',
     'mobile',
     'chat',
+    'security',
 )
 
 # A sample logging configuration. The only tangible logging

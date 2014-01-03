@@ -1,8 +1,9 @@
-{% extends 'base.html' %}
-
+{% extends "base.html" %}
 {% block title %}Finance | Saarang ERP{% endblock %}
 
 {% block content %}
+{% load staticfiles %}
+
 
 {% if messages %}
 <ul class="messages">
@@ -16,7 +17,7 @@
 <div class="span9 container">
     <form action="{% url 'finance.views.update_item_list' %}" method='POST'>
         {% csrf_token %}
-        <table id ="datatable" class='table table-bordered'>
+        <table id ="datatable" class='table table-bordered editable'>
             <thead>
                 <th>#</th>
                 <th>Item Name</th>
@@ -26,25 +27,62 @@
                 <!-- <th>Amount(Approved)</th> -->
                 <th>Valid?</th>
             </thead>
+            <tbody>
             {% for item in list %}
-            <tr>
-                <td>{{ forloop.counter }}</td>
+            <tr id='{{item.pk}}' >
+                <td class='counter'>{{ forloop.counter }}</td>
                 <td>{{ item.name }}</td>
                 <td>{{ item.comments }}</td>
                 <td>{{ item.cost }}</td>
                 <td>{{ item.count }}</td>
-                <td>
-                    <label class="checkbox">
-                        <input type="checkbox" name='{{ item.id }}' {% if item.is_active %}checked {% endif %}/>
-                    </label>
-                </td>
+                <td><label class="checkbox">
+-                        <input type="checkbox" name='{{ item.id }}' {% if item.is_active %}checked {% endif %}/>
+-                    </label></td>
             </tr>   
             {% endfor %}
+            </tbody>
         </table>    
         <br/>
         <center><input class="btn btn-primary btn-large" type="submit" value="Update"/></center>
     </form>
 </div>
 
-
+<!--
+<script type="text/javascript">
+        $(document).ready(function() {
+    /* Init DataTables */
+    var oTable = $('#facilities_table').dataTable(
+        {
+              "bJQueryUI": true,
+              "sPaginationType": "full_numbers",
+              "sDom": '<"H"Tfr>t<"F"ip>',
+              "oTableTools": {
+                  "aButtons": [
+                      "copy", "csv", "xls", "pdf",
+                      {
+                          "sExtends":    "collection",
+                          "sButtonText": "Save",
+                          "aButtons":    [ "csv", "xls", "pdf" ]
+                      }
+                  ]
+              }
+          });
+    
+    /* Apply the jEditable handlers to the table */
+    $('td', oTable.fnGetNodes()).editable( '../examples_support/editable_ajax.php',
+     {
+        "callback": function( sValue, y ) {
+            var aPos = oTable.fnGetPosition( this );
+            oTable.fnUpdate( sValue, aPos[0], aPos[1] );
+        },
+        "submitdata": function ( value, settings ) {
+            return {
+                "row_id": this.parentNode.getAttribute('id'),
+                "column": oTable.fnGetPosition( this )[2]
+            };
+        },
+        "height": "14px"
+    } );
+} );
+    </script>-->
 {% endblock %}

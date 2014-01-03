@@ -164,3 +164,6 @@ def contacts(request):
             'contacts': contacts,
         }
     return render(request, 'contacts.html', to_return)
+
+def new(request):
+    return render(request, 'new_base.html', {})
