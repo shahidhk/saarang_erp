@@ -6,6 +6,7 @@
 {% include 'main/cssnjs.html' %}
 <link href="{% static 'css/select2.css' %}" rel="stylesheet">
 <script src="{% static 'js/select2.js' %}"></script>
+
 <script type="text/javascript">
   $(function(){
     $('#college').select2();
@@ -147,7 +148,7 @@ input{
               </div>
             </div>
           </div>
-          <div class="control-group">
+          <div class="control-group" id='college_list'>
             <div class="controls">
               <select style="width: 310px;" name="college" id="college" required>
                 <option value="0">Select College</option>
@@ -155,10 +156,15 @@ input{
                   <option value="{{college.pk}}">{{college}}</option>
                 {% endfor %}
               </select><br/>
-              <span class="help">Not in list? Drop a mail to <a href="mailto:webadmin@saarang.org" target="_blank">webadmin@saarang.org</a></span>
+              <span class="help"><a onclick="$('#enter_college').show();$('#new_college').removeAttr('disabled');$('#college_list').hide();$('#new_college').focus(); ">Not in list?</a></span>
             </div>
           </div>
-            
+          <div class="control-group" id='enter_college' style='display: none;'>
+            <div class="controls">
+              <input name="new_college_text" type="text" id="new_college" placeholder="College, City" required disabled='true'><br/>
+              <span class="help"><a onclick="$('#college_list').show();$('#new_college').attr('disabled', 'true');$('#enter_college').hide();">Cancel</a> (College name will be verified by Saarang)</span>
+            </div>
+          </div>
           <div class="control-group">
             <div class="controls">
               <input name="password" type="password" id="regPassword" placeholder="Password" required>
@@ -176,7 +182,7 @@ input{
         </form>
       </div>
 
-    <div style="text-align:center;" class="tab-pane span5 offset4" id="policy-pane">
+    <div style="text-align:center;" class="tab-pane" id="policy-pane">
       <center><h4>Registration Policy</h4><img class="profile-img" src="{% static 'img/logo.png' %}"
             alt=""><br/></center>
     <a href="#register-pane" data-toggle="tab">Register at Saarang<br/></a>
@@ -189,7 +195,6 @@ The Saarang Organizing team reserves the right to ask all participants at any po
 Prize Money will be disbursed only on producing the Saarang ID card. Prize Money will be disbursed only by cheque issued in the name of the prize winner. In the case of team events, all cheques will be issued in the name of one team member of the winning team. The said team member will take sole responsibility for all of his/her further actions
           </li>
         </ul>
-    <a href="#register-pane" data-toggle="tab">Register at Saarang</a>
       </div>
 
     </div>

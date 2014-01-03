@@ -49,6 +49,7 @@ def process_login(request, form):
 @dajaxice_register
 def new_user(request, form):
     data = deserialize_form(form)
+    print data
     dajax = Dajax()
     if re.match(r'[^@]+@[^@]+\.[^@]+', data['email']):
         try:
@@ -63,11 +64,19 @@ def new_user(request, form):
                     )
                     new_user=SaarangUser.objects.create(email=data['email'], mobile=data['mobile'], password=data['password'])
                     new_user.saarang_id = auto_id(new_user.pk)
-                    print data
                     if data['college'] != '0':
                         college = College.objects.get(pk=data['college'])
                         new_user.college = college.name + ', ' + college.city
                     new_user.save()
+                    try:
+                        college = data['new_college_text']
+                        mail.send(
+                            ['webadmin@saarang.org'], data['email'],
+                            template='email/main/add_college',
+                            context={'name':data['email'], 'college':college,}
+                            )
+                    except:
+                        pass
                     dajax.assign('#success-alert', 'innerHTML', '<center><strong>Registration successfull. Please click on the link sent to your email to activate your account</strong>')
                     dajax.script("$('#registration').hide();$('#success-alert').show();")
                 else:

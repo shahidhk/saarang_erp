@@ -6,7 +6,7 @@ from finance.models import Item,Memento
 class CreateItemForm(forms.ModelForm):
     class Meta:
         model = Item
-        exclude = ['count','timestamp']
+        exclude = ['timestamp']
 
 class UpdateItemForm(forms.ModelForm):
     class Meta:

@@ -1,5 +1,6 @@
 {% extends 'minimal_base.html' %}
 {% block content %}
+{% load staticfiles %}
 <!-- Navigation Ends -->
 
 <!--
@@ -19,11 +20,25 @@
         </table>
     </form>
 -->
+<style type="text/css">
+.profile-img
+{
+  width: 96px;
+  height: 96px;
+  margin: 0 auto 10px;
+  display: block;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+}
+</style>
 <section>
 <div class="container login">
     <div class="row ">
         <div class="center span4 well">
             <legend>Please Sign In</legend>
+            <img class="profile-img" src="{% static 'img/logo.png' %}"
+            alt=""><h3>Saarang ERP</h3>
             {% if form.errors %}
             <div class="alert alert-error">
                 <a class="close" data-dismiss="alert" href="#">×</a>Incorrect Username or Password!

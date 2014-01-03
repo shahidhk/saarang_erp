@@ -49,6 +49,7 @@ def list_mementos(request):
 
 #Not completed yet
 def update_item_list(request):
+    print request.POST.copy()
     for item in Item.objects.all():
         try:
             item_val = request.POST[str(item.id)]
