@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 
 user = User.objects.get(username='ed12b031')
 
-subject = 'Saarang 2014 Professional Shows'
+subject = 'Saarang 2014 EDM Night with Sunburn Campus'
 fr= 'webadmin@saarang.org'
 
 
@@ -16,8 +16,10 @@ SU = SaarangUser.objects.all()
 SU_list=[]
 for su in SU:
     try:
-        if re.match(r'[^@]+@[^@]+\.[^@]+', su.email):
+        if re.match(r'^[a-zA-Z0-9][a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$', su.email):
             SU_list.append(su.email)
+        else:
+            print 'error regex mismatch ', su.email
     except:
         print 'error ',su.email
 
@@ -29,9 +31,15 @@ for el in  EL:
         print 'error ', el.email
 
 tot_list = SU_list + EL_list
+print 'SU ', len(SU_list), ' EL ', len(EL_list), ' total ', len(tot_list)
+duplicates_su = len(SU_list)-len(list(set(SU_list)))
+duplicates_el = len(EL_list)-len(list(set(EL_list)))
+print 'duplicates_el ',duplicates_el
+print 'duplicates_su ',duplicates_su
+tot_list = list(set(tot_list))
 print len(tot_list)
 
-html_file = open('scripts/mails/proshow.html', 'r')
+html_file = open('scripts/mails/edm.html', 'r')
 html = html_file.read()
 html_file.close()
 

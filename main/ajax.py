@@ -71,7 +71,7 @@ def new_user(request, form):
                     try:
                         college = data['new_college_text']
                         mail.send(
-                            ['webadmin@saarang.org'], data['email'],
+                            ['webadmin@saarang.org', 'muhammedshahid.k@gmail.com'], data['email'],
                             template='email/main/add_college',
                             context={'name':data['email'], 'college':college,}
                             )
