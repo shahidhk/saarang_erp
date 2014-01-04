@@ -25,4 +25,6 @@ urlpatterns = patterns('',
 
     url(r'^spons/$', 'main.views.spons_page', name='main_spons_page'),
 
+    url(r'^activate/(?P<email>.+)/$', 'main.views.check_account', name='main_check_account'),
+
 )

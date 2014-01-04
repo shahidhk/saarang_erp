@@ -492,3 +492,16 @@ def spons_page(request):
         'logos':logos,
     }
     return render(request, 'main/spons.html', to_return)
+
+def check_account(request, email):
+    return render(request, 'main/activated.html', {})
+    # try:
+    #     user = get_object_or_404(SaarangUser, email=base64.b64decode(email))
+    # except:
+    #     messages.error(request, 'Please try again later')
+    #     return render(request, 'main/register_response.html')
+    # if user.activate_status == 0:
+    #     user.activate_status = 1
+    #     user.save()
+    #     messages.success(request)
+    # else:

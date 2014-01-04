@@ -1,4 +1,5 @@
 from django.db import models
+from registration.models import SaarangUser
 
 class Feedback(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
@@ -13,3 +14,8 @@ class College(models.Model):
     city = models.CharField(max_length=100)
     def __unicode__(self):
         return self.name + ', '+self.city
+
+class Coupon(models.Model):
+    code = models.CharField(max_length=50)
+    sent = models.BooleanField(default=False)
+    sent_to = models.ForeignKey(SaarangUser, related_name='coupon_user', blank=True, null=True)

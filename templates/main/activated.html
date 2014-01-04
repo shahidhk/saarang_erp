@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+{% load url from future %}
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Saarang Account Activation</title>
+
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" />
+    <link href="{% static 'css/bootstrap-responsive.css' %}" rel="stylesheet" />
+    <link href="{% static 'css/bootstrap-rowlink.css' %}" rel="stylesheet" />
+    
+       <!-- Favicon -->
+    <link rel="shortcut icon" href="{% static 'img/favicon.png' %}" type="image/x-icon" />
+    <link rel="icon" href="{% static 'img/favicon.png' %}" type="image/x-icon" />
+    <style type="text/css">
+    .profile-img
+    {
+      width: 96px;
+      height: 96px;
+      margin: 0 auto 10px;
+      display: block;
+      -moz-border-radius: 50%;
+      -webkit-border-radius: 50%;
+      border-radius: 50%;
+    }
+    body{background-color: #F7F7F6;}
+    .login{padding-top: 65px;}
+    .center{float: none; margin-left: auto; margin-right: auto;}
+    </style>
+</head>
+<body>
+<section>
+<div class="container login">
+    <div class="row ">
+        <div class="center span4 well">
+            <center>
+            <img class="profile-img" src="{% static 'img/logo.png' %}"
+            alt="">
+            <h3>Saarang 2014</h3>
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}<a class="close" data-dismiss="alert" href="#">&times;</a></div>
+            {% endfor %}
+            {% if msg %}
+            <div class="alert alert-error">
+                <a class="close" data-dismiss="alert" href="#">×</a>{{ msg }}
+            </div>
+            {% endif %}
+            </center>
+        </div>
+    </div>
+</div>
+<p class="text-center muted ">&copy; Copyright 2014 - Saarang WebOps</p>
+</section>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script src="{% static 'js/bootstrap.js' %}"></script>
+<script src="{% static 'js/bootstrap-rowlink.js' %}"></script>
+{% include 'analytics.html' %}
+</body>
+</html>
