@@ -18,6 +18,7 @@
         <a href="#details" data-toggle="tab">Details</a>
       </li>
       <li><a href="#about" data-toggle="tab">About</a></li>
+      <li><a href="#slot" data-toggle="tab">Slot</a></li>
       <li><a href="#faq" data-toggle="tab">FAQs</a></li>
       <li><a href="#format" data-toggle="tab">Format</a></li>
       <li><a href="#reg" data-toggle="tab">Registration</a></li>
@@ -108,7 +109,50 @@
                   </div>
               </form>
           </div>
-        </div>        
+        </div>
+        <div class="tab-pane" id="slot">
+          {% if messages %}
+          <ul class="messages">
+              {% for message in messages %}
+              <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+              {% endfor %}
+          </ul>
+          {% endif %}
+          <div class="span9 container">
+              <form class="form-horizontal" action="{% url 'events.views.event_slot' event.pk %}" method="POST" {% if form.is_multipart %}enctype="multipart/form-data"{% endif %}>
+                  <legend>Slot</legend>
+                  {% csrf_token %}
+                  {{ form_slot.media }}
+                  {% if form_slot.errors %}
+                      <div class="alert alert-error">
+                          <ul>
+                              {% for error in form_slot.non_field_errors %}
+                              <li>{{ error }}</li>
+                              {% endfor %}
+                          </ul>
+                      </div>
+                  {% endif %}
+                  {% for field in form_slot.visible_fields %}
+                      <div class="control-group {{ field.html_name }} {% if field.errors %}error{% endif %}">
+                           <label class="control-label">{{ field.label }}{% if field.field.required %} *{% endif %}</label>
+                          <div class="controls"> {{ field }}
+                              {% if field.errors %}
+                                  <span class="help-inline">
+                                      {{ field.errors.as_text }}
+                                  </span>
+                              {% endif %} 
+                          </div>
+                      </div>
+                  {% endfor %}
+                  {% for field in form_slot.hidden_fields %}
+                      {{ field }}
+                  {% endfor %}
+                <a class="btn btn-warning">Add another slot</a>
+                  <div class="form-actions"> <input class="btn btn-primary btn-large" type="submit" value="Submit"/>
+                  </div>
+              </form>
+          </div>
+        </div>                
         <div class="tab-pane" id="faq">
           {% if messages %}
           <ul class="messages">
@@ -301,6 +345,5 @@
         </div>        
     </div>
 </div>
-
 
 {% endblock %}

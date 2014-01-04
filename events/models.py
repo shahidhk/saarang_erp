@@ -118,47 +118,48 @@ class EventRegistration(models.Model):
     def __unicode__(self):
         return str(self.participant) +' for ' + str(self.event)
 
-# class Slot(models.Model):
-#     timestamp = models.DateTimeField(auto_now_add=True)
-#     created_by = models.ForeignKey(User, related_name='slot_created_user')
-#     VENUE_CHOICES = (
-#         ('CLT', 'CLT' ),
-#         ('ICSR Main Auditorium', 'ICSR Main Auditorium'),
-#         ('ICSR Hall 1', 'ICSR Hall 1'),
-#         ('ICSR Hall 2', 'ICSR Hall 2'),
-#         ('ICSR Hall 3', 'ICSR Hall 3'),
-#         ('ICSR Dining Hall', 'ICSR Dining Hall'),
-#         ('DoMS 101', 'DoMS 101'),
-#         ('DoMS 401', 'DoMS 401'),
-#         ('DoMS 402', 'DoMS 402'),
-#         ('CRC 101', 'CRC 101'),
-#         ('CRC 102', 'CRC 102'),
-#         ('CRC 103', 'CRC 103'),
-#         ('CRC 201', 'CRC 201'),
-#         ('CRC 202', 'CRC 202'),
-#         ('CRC 203', 'CRC 203'),
-#         ('Bindaas Park', 'Bindaas Park'),
-#         ('FA Hut', 'FA Hut'),
-#         ('Informals Hut', 'Informals Hut'),
-#         ('OAT', 'OAT'),
-#         ('SAC', 'SAC'),
-#         ('BSB', 'BSB'),
-#         ('Adventure Zone', 'Adventure Zone'),
-#         ('KV Grounds', 'KV Grounds'),
-#         ('Mahanadhi Playground', 'Mahanadhi Playground'),
-#         ('Carnival Stage', 'Carnival Stage'),
-#         ('HSB 357', 'HSB 357'),
-#         ('PhLT', 'PhLT'),        
-#     )
-#     DAY_CHOICES = (
-#         ('0', 'Day 0 (8th Jan 2014 Wed)'),
-#         ('1', 'Day 1 (9th Jan 2014 Thu)'),
-#         ('2', 'Day 2 (10th Jan 2014 Thu)'),
-#         ('3', 'Day 3 (11th Jan 2014 Fri)'),
-#         ('4', 'Day 4 (12th Jan 2014 Sat)'),
-#     )
-#     venue = models.CharField(choices=VENUE_CHOICES, max_length=50)
-#     day = models.CharField(choices=DAY_CHOICES, max_length=50)
-#     start_time = models.TimeField(default='09:00:00')
-#     end_time = models.TimeField(default='10:00:00')
-#     comments = models.TextField(blank=True, null=True)
+class Slot(models.Model):
+    timestamp = models.DateTimeField(auto_now_add=True)
+    created_by = models.ForeignKey(User, related_name='slot_created_user')
+    event = models.ForeignKey(Event, related_name='event_slot')
+    VENUE_CHOICES = (
+        ('CLT', 'CLT' ),
+        ('ICSR Main Auditorium', 'ICSR Main Auditorium'),
+        ('ICSR Hall 1', 'ICSR Hall 1'),
+        ('ICSR Hall 2', 'ICSR Hall 2'),
+        ('ICSR Hall 3', 'ICSR Hall 3'),
+        ('ICSR Dining Hall', 'ICSR Dining Hall'),
+        ('DoMS 101', 'DoMS 101'),
+        ('DoMS 401', 'DoMS 401'),
+        ('DoMS 402', 'DoMS 402'),
+        ('CRC 101', 'CRC 101'),
+        ('CRC 102', 'CRC 102'),
+        ('CRC 103', 'CRC 103'),
+        ('CRC 201', 'CRC 201'),
+        ('CRC 202', 'CRC 202'),
+        ('CRC 203', 'CRC 203'),
+        ('Bindaas Park', 'Bindaas Park'),
+        ('FA Hut', 'FA Hut'),
+        ('Informals Hut', 'Informals Hut'),
+        ('OAT', 'OAT'),
+        ('SAC', 'SAC'),
+        ('BSB', 'BSB'),
+        ('Adventure Zone', 'Adventure Zone'),
+        ('KV Grounds', 'KV Grounds'),
+        ('Mahanadhi Playground', 'Mahanadhi Playground'),
+        ('Carnival Stage', 'Carnival Stage'),
+        ('HSB 357', 'HSB 357'),
+        ('PhLT', 'PhLT'),        
+    )
+    DAY_CHOICES = (
+        ('0', 'Day 0 (8th Jan 2014 Wed)'),
+        ('1', 'Day 1 (9th Jan 2014 Thu)'),
+        ('2', 'Day 2 (10th Jan 2014 Thu)'),
+        ('3', 'Day 3 (11th Jan 2014 Fri)'),
+        ('4', 'Day 4 (12th Jan 2014 Sat)'),
+    )
+    venue = models.CharField(choices=VENUE_CHOICES, max_length=50)
+    day = models.CharField(choices=DAY_CHOICES, max_length=50)
+    start_time = models.TimeField(default='09:00:00')
+    end_time = models.TimeField(default='10:00:00')
+    comments = models.TextField(blank=True, null=True)

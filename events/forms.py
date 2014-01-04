@@ -4,7 +4,7 @@ from django.contrib.auth.models import Group
 from django.forms.widgets import SelectMultiple
 
 #From models
-from models import Event, EventRegistration, Team
+from models import Event, EventRegistration, Team, Slot
 
 class CreateEventForm(forms.ModelForm):
     COORDS = [[coord.id, coord.first_name] for coord in Group.objects.get(name="coord").user_set.all()]
@@ -76,4 +76,10 @@ class AddTeamForm(forms.ModelForm):
         self.fields['members'].widget.attrs['id'] = "multiselect"
         self.fields['members'].widget.attrs['style'] = "width: 220px;"
 
-
+class SlotForm(forms.ModelForm):
+    class Meta:
+        model = Slot
+        exclude = ['timestamp', 'created_by', 'event']
+    def __init__(self, *args, **kwargs):
+        super(SlotForm, self).__init__(*args, **kwargs)
+        self.fields['comments'].widget.attrs['class'] = "comments"

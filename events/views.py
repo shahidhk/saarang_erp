@@ -85,12 +85,14 @@ def details_event(request, event_id):
     registrationForm = EventRegistrationInfoForm(instance=event)
     formatForm = FormatForm(instance=event)
     prizesForm = PrizesForm(instance=event)
+    slotForm = SlotForm(instance=event)
     contacts = event.contacts
     to_return={
         'contacts': contacts,
         'event': event,
         'form':eventForm,
         'form_intro':introForm,
+        'form_slot':slotForm,
         'form_reg':registrationForm,
         'form_prizes':prizesForm,
         'form_faq':faqForm,
@@ -304,3 +306,14 @@ def list_teams(request):
         'teams': teams,
     }
     return render(request, 'events/list_teams.html', to_return)
+
+@login_required
+def event_slot(request,event_id):
+    event = get_object_or_404(Event, pk=event_id)
+    if request.method == 'POST':
+        slotForm = SlotForm(request.POST)
+        if slotForm.is_valid():
+            event.save()
+        else:
+            print "didnt validate"
+        return HttpResponseRedirect(reverse('details_event',args=(event.id,)))
