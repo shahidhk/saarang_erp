@@ -4,6 +4,12 @@
 {% block title %}Hospitality | Saarang ERP{% endblock %}
 
 {% block content %}
+<style type="text/css">
+.widemodal{
+  width: 1200px;
+  margin-left: -600px;
+}
+</style>
 <legend>Teams registered <div class="pull-right"><a data-target="#addteamModal" href="{% url 'hospi.views.add_team' %}" class="btn btn-info" >Add new team</a></div></legend>
 <table id="hospitable">
   <thead>
@@ -49,7 +55,7 @@
 
 
 <!-- Modal -->
-<div id="teamdetailsModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="teamdetailsModalLabel" aria-hidden="true">
+<div id="teamdetailsModal" class="modal widemodal hide fade" tabindex="-1" role="dialog" aria-labelledby="teamdetailsModalLabel" aria-hidden="true" >
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
     <h3 id="teamdetailsModalLabel">Team details</h3>
@@ -65,11 +71,62 @@
 
 
 <script type="text/javascript">
+var flag= true;
 $("tr[data-target=#teamdetailsModal]").click(function(event) {
   event.preventDefault();
+  var del_url = "{% url 'hospi.views.del_member' 123 %}";
   var target = $(this).attr("href");
   $("#teamdetailsModal .modal-body").load(target, function() {
    $("#teamdetailsModal").modal("show");
+
+  $('.member_data').dataTable({
+    "bJQueryUI": true,
+    "bPaginate": false,
+    "sDom": '<"H"Tfr>t<"F"ip>',
+    "oTableTools": {
+      "aButtons": [
+      "copy", "csv", "xls", "pdf",
+      {
+        "sExtends":    "collection",
+        "sButtonText": "Save",
+        "aButtons":    [ "csv", "xls", "pdf" ]
+      }
+      ]
+    },
+      "bDestroy": flag?false:true
+  }
+  ).makeEditable({
+      sUpdateURL: "{% url 'hospi.views.update_member' %}",
+      sAddURL: "{% url 'hospi.views.add_member' %}",
+      sDeleteURL: del_url.slice(0,-4)+target.split('/')[4]+"/",
+      "aoColumns":[
+        null,
+        null,
+        {},
+        {
+          type: 'select',
+          submit:'Ok',
+          data: "{ 'male': 'Male', 'female':'Female' }"
+        },
+        {},
+        {},
+        {},
+        {},
+        {}
+      ]
+    }
+  );
+  flag=false;
+  $('.member_data').css({
+    'width':'100%'
+  })
+  $('.modal').css({
+    'z-index':99
+  })
+  $('.modal-backdrop').css({
+    'z-index':98
+  })
+
  });
 });
 </script>
@@ -99,6 +156,14 @@ $("a[data-target=#addteamModal]").click(function(event) {
 });
 </script>
 
+<script type="text/javascript">
+$(function(){
+  $('#tab_registered').addClass('active');
+  setTimeout(function(){
+  $('input[aria-controls=hospitable]').focus();
+  }, 1000);
+});
+</script>
 
 
 {% endblock %}

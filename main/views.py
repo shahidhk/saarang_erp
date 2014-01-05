@@ -494,14 +494,22 @@ def spons_page(request):
     return render(request, 'main/spons.html', to_return)
 
 def check_account(request, email):
+    # return render(request, 'main/activated.html', {})
+    try:
+        user = get_object_or_404(SaarangUser, email=base64.b64decode(email))
+        if user.activate_status == 0:
+            user.activate_status = 2
+            user.save()
+            messages.success(request, 'Your account has been activated')
+            messages.info(request, 'Your Saarang ID is '+user.saarang_id)
+            # messages.error(request, 'Check you email for exciting Saarang Goddies !!!')
+            messages.warning(request, 'Please login to Saarang Website by clicking on the Saarang logo')
+            mail.send(
+                    [user.email], template='email/main/activate_confirm',
+                    context={'saarang_id':user.saarang_id,}
+            )
+        else:
+            messages.warning(request, 'Your account has already been activated')
+    except:
+        messages.error(request, 'Not registered at Saarang')
     return render(request, 'main/activated.html', {})
-    # try:
-    #     user = get_object_or_404(SaarangUser, email=base64.b64decode(email))
-    # except:
-    #     messages.error(request, 'Please try again later')
-    #     return render(request, 'main/register_response.html')
-    # if user.activate_status == 0:
-    #     user.activate_status = 1
-    #     user.save()
-    #     messages.success(request)
-    # else:

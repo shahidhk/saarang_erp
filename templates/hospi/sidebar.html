@@ -8,16 +8,16 @@
     <div id="hospi" class="accordion-body collapse {% if request.path|app_name == 'hospi' %}in{% endif %} ">
       <div class="accordion-inner">
         <ul class="nav-list nav">
-          <li>
+          <li id='tab_registered'>
             <a href="{% url 'hospi.views.list_registered_teams' %}"><i class="icon-chevron-right"></i> Team registrations</a>
           </li>
-          <li>
+          <li id='tab_statistics'>
             <a href="{% url 'hospi.views.statistics' %}"><i class="icon-chevron-right"></i> Accommodation statistics</a>
           </li>
           <li>
             <a data-target="#addhostelroomsModal" href="{% url 'hospi.views.add_hostel_rooms' %}" data-toggle="modal"><i class="icon-chevron-right"></i> Add hostel/room</a>
           </li>
-          <li>
+          <li id='tab_map'>
             <a href="{% url 'hospi.views.room_map' %}"><i class="icon-chevron-right"></i> Room map</a>
           </li>
           <li>

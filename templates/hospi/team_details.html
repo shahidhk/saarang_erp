@@ -1,3 +1,5 @@
+{% load staticfiles %}
+
 <center>
 <style type="text/css">
 /* borderless table */
@@ -30,58 +32,67 @@
      -moz-background-clip: padding;
           background-clip: padding-box;
 }
+table.dataTable tr.row_selected
+{
+  background-color: #B0BED9;
+}
 </style><div class="alert alert-info">
-<table class="table table-borderless">
+<table id="team_details" class="table table-bordered">
     <tr>
         <td>name:</td>
         <td><strong>{{ team.name }}</strong></td>
-    </tr>
-    <tr>
         <td>ID:</td>
         <td>{{ team.team_sid }}</td>
     </tr>
     <tr>
       <td>city:</td>
       <td>{{ team.city }}</td>
-    </tr>
-    <tr>
-        <td>leader name:</td>
-        <td>{{ team.leader.name }}</td>
-    </tr>
-    <tr>
-        <td>ID:</td>
-        <td><a href="#">{{ team.leader.saarang_id }}</a></td>
-    </tr>
-    <tr>
-        <td>email:</td>
-        <td>{{ team.leader.email }}</td>
-    </tr>
-    <tr>
-        <td>mobile:</td>
-        <td>{{ team.leader.mobile }}</td>
-    </tr>
-    <tr>
-        <td>gender:</td>
-        <td>{{ team.leader.gender|title }}</td>
-    </tr>
-    <tr>
         <td>college:</td>
         <td>{{ team.leader.college }}</td>
     </tr>
 </table></div>
 <div class="alert alert-success">
-<strong>Total {{ team.get_total_count }} members. ( {{ team.get_male_count }} males and {{ team.get_female_count }} females )</strong><hr/>
-<table class="table table-borderless">
+<strong>Total {{ team.get_total_count }} members. ( {{ team.get_male_count }} males and {{ team.get_female_count }} females )</strong>
+<table class="member_data table table-borderless">
+  <thead>
+    <th>No</th>
+    <th>Website ID</th>
+    <th>desk_id</th>
+    <th id='gender'>gender</th>
+    <th id='email'>email</th>
+    <th id='name'>name</th>
+    <th id='mobile'>mobile</th>
+    <th id='college_id'>college_id</th>
+    <th id='college'>college</th>
+  </thead>
+  <tbody>
+    <tr id="{{team.leader.id}}" {% if team.leader.accomod_is_confirmed and team.accomodation_status != 'confirmed' %}class="error"{% endif %} >
+      <td>1</td>
+      <td><a href="#">{{ team.leader.saarang_id }}</a></td>
+      <td>{{ team.leader.desk_id }}</td>
+      <td>{{ team.leader.gender|title }}</td>
+      <td>{{ team.leader.email }}</td>
+      <td>{{ team.leader.name }}</td>
+      <td>{{ team.leader.mobile }}</td>
+      <td>{{ team.leader.college_id }}</td>
+      <td>{{ team.leader.college }}</td>
+    </tr>
     {% for member in team.members.all %}
-    <tr {% if member.accomod_is_confirmed and team.accomodation_status != 'confirmed' %}class="error"{% endif %} >
-      <td>{{ forloop.counter }}</td>
-      <td width="20px"><a href="#">{{ member.saarang_id }}</a></td>
+    <tr id="{{member.id}}" {% if member.accomod_is_confirmed and team.accomodation_status != 'confirmed' %}class="error"{% endif %} >
+      <td>{{ forloop.counter|add:1 }}</td>
+      <td><a href="#">{{ member.saarang_id }}</a></td>
+      <td>{{ member.desk_id }}</td>
       <td>{{ member.gender|title }}</td>
       <td>{{ member.email }}</td>
       <td>{{ member.name }}</td>
+      <td>{{ member.mobile }}</td>
+      <td>{{ member.college_id }}</td>
+      <td>{{ member.college }}</td>
     </tr>
     {% endfor %}
+    </tbody>
 </table>
+<div class="add_delete_toolbar"></div>
 <hr/>
 
 Members highlighted in red indicates people who have accommodation confirmed already in other teams. They will be automatically removed upon confirmation of this team. (Leader has been pre-notified)
@@ -110,6 +121,8 @@ Accomodation
 {% elif team.accomodation_status == 'confirmed' and team.checked_status == 'in' %}<span class="badge badge-success"><i class="icon-home icon-white"></i> IN</span>
 <a href="{% url 'hospi.views.check_out_team' team.pk %}" data-target="#checkoutModal" class="btn btn-danger"><i class="icon-home"></i> Check-out</a>
 {% endif %}
+
+
                         <hr/>
 <table class="table table-borderless">
     <tr>
@@ -121,11 +134,11 @@ Accomodation
         <td>{{ team.time_of_departure|title }} on {{ team.date_of_departure }}</td>
     </tr>
 </table><hr/>
+      <div class="spacer"></div>
+
 </div>
 </center>
   
-
-
 <div id="checkinModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="checkinModalLabel" aria-hidden="true">
   <div class="modal-header">
     <button type="button" class="close" onclick="$('#checkinModal').modal('hide');" aria-hidden="true">×</button>
@@ -139,6 +152,7 @@ Accomodation
    
   </div>
 </div>
+
 
 
 <script type="text/javascript">
@@ -155,3 +169,21 @@ $("a[data-target=#checkinModal]").click(function(event) {
       $('#myPopover').popover();
 </script> 
 {% endif %}
+
+
+<div id="adduserModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="adduserModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" onclick="$('#adduserModal').modal('hide');" aria-hidden="true">×</button>
+    <h3 id="adduserModalLabel">Add member</h3>
+  </div>
+  <div class="modal-body">
+    <form title="Add new member">
+  {{addUserForm.as_p}}
+  <input type="hidden" name="team_id" value="{{team.pk}}" />
+</form>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" onclick="$('#adduserModal').modal('hide');" aria-hidden="true">Close</button>
+   
+  </div>
+</div>
