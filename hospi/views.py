@@ -7,14 +7,20 @@ from django.contrib import messages
 from django.conf import settings
 from django.core.mail import send_mail, send_mass_mail, EmailMessage
 import utility as u
+import random
+from random import *
+import string
 
 from registration.models import SaarangUser
+from registration.forms import SaarangUserForm
 from models import Hostel, Room, HospiTeam, Allotment
 from events.models import Team, EventRegistration, Event
 from forms import HostelForm, RoomForm, HospiTeamForm
 from events.forms import AddTeamForm
 from mailer.models import MailLog
 from post_office import mail
+
+from django.views.decorators.csrf import csrf_exempt
 
 ####################################################################
 # Mainsite Views
@@ -327,6 +333,7 @@ def team_details(request, team_id):
     else:
         editable=True
     to_return = {
+        'addUserForm':SaarangUserForm(),
         'editable':editable,
         'team':team,
     }
@@ -625,3 +632,43 @@ def check_out_team(request, team_id):
     team.save()
     messages.success(request, team.team_sid + ' checked out successfully')
     return redirect('hospi_list_registered_teams')
+
+@csrf_exempt
+@login_required
+def update_member(request):
+    data = request.POST.copy()
+    user = get_object_or_404(SaarangUser, pk=int(data['id']))
+    setattr(user, data['columnName'], data['value'])
+    user.save()
+    return HttpResponse(data['value'])
+
+@csrf_exempt
+@login_required
+def add_member(request):
+    if request.method == 'POST':
+        userform =SaarangUserForm(request.POST)
+        if userform.is_valid():
+            user = userform.save()
+            user.saarang_id = auto_id(user.pk)
+            characters = string.ascii_letters + string.punctuation  + string.digits
+            password =  "".join(choice(characters) for x in range(randint(8, 16)))
+            user.password = password
+            user.activate_status = 2
+            user.save()
+            mail.send(
+                [user.email], template='email/main/activate_confirm',
+                context={'saarang_id':user.saarang_id, 'password':user.password}
+            )
+    return HttpResponse('Success')
+
+@csrf_exempt
+@login_required
+def del_member(request, team_id):
+    team = Team.objects.get(pk=team_id)
+    data = request.POST.copy()
+    user = get_object_or_404(SaarangUser, pk=int(data['id']))
+    print team, user
+    team.members.remove(user)
+    team.save()
+    return HttpResponse('Success')
+

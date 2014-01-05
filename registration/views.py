@@ -5,6 +5,9 @@ from django.shortcuts import render
 from forms import SaarangUserForm
 from models import SaarangUser
 from django.contrib.auth.decorators import login_required
+from random import *
+import string
+from post_office import mail
 
 def auto_id(user_id):
     base = 'SA14W'
@@ -19,8 +22,15 @@ def add_user(request):
         if userform.is_valid():
             user = userform.save()
             user.saarang_id = auto_id(user.pk)
+            characters = string.ascii_letters + string.punctuation  + string.digits
+            password =  "".join(choice(characters) for x in range(randint(8, 16)))
+            user.password = password
+            user.activate_status = 2
             user.save()
-            # userform.saarang_id = auto_id()
+            mail.send(
+                [user.email], template='email/main/activate_confirm',
+                context={'saarang_id':user.saarang_id, 'password':user.password}
+            )
             return HttpResponseRedirect(reverse('saarang_users'))
         else:
             userform = SaarangUserForm(request.POST)

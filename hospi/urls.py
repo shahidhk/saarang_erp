@@ -38,4 +38,8 @@ urlpatterns = patterns('',
     url(r'^admin/check_in_females/$', 'hospi.views.check_in_females', name='hospi_check_in_females'),
     url(r'^admin/check_out/(?P<team_id>\d+)/$', 'hospi.views.check_out_team', name='hospi_check_out_team'),
 
+    url(r'^admin/update_member/$', 'hospi.views.update_member', name='hospi_update_member'),
+    url(r'^admin/add_member/$', 'hospi.views.add_member', name='hospi_add_member'),
+    url(r'^admin/del_member/(?P<team_id>\d+)/$', 'hospi.views.del_member', name='hospi_del_member'),
+
     )
