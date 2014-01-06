@@ -3,8 +3,7 @@
 <form action="{% url 'mobile.views.push_send' %}" method="POST">
     {% csrf_token %}
     <legend>Send Push message to Android App</legend>
-    <textarea class="mceNoEditor" name="push_text">
-    </textarea>
+    <textarea rows=6 cols=10 class="comments" name="push_text"></textarea>
     <input type="submit" value="send" class="btn btn-success btn-block"> 
 </form>
 

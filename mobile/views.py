@@ -12,6 +12,13 @@ from utility import send_push
 from post_office import mail
 from django.views.decorators.csrf import csrf_exempt
 
+def saarang_decrypt(key):
+    print key
+    l = len(key)
+    f4=key[:4]
+    la=key[4-l:]
+    return la+f4
+    
 def push(request):
     return render(request, 'mobile/push.html', {})
 
@@ -31,14 +38,14 @@ def login(request):
     if user.password == data['password']:
         if user.activate_status != 0:
             try:
-                existing_devices = Device.objects.filter(key=data['key'])
+                existing_devices = Device.objects.filter(key=saarang_decrypt(data['key']))
                 for device in existing_devices:
                     device.is_active = False
                     device.save()
             except:
                 pass
             try:
-                Device.objects.create(key=data['key'], user=user, last_access=dt.datetime.now(), is_active=True)
+                Device.objects.create(key=saarang_decrypt(data['key']), user=user, last_access=dt.datetime.now(), is_active=True)
                 user.last_login = dt.datetime.now()
                 user.save()
             except:
@@ -53,7 +60,8 @@ def login(request):
 def register(request):
     ''' name mobile email password gender college '''
     data = request.POST.copy()
-    if re.match(r'[^@]+@[^@]+\.[^@]+', data['email']):
+    print 'App: ', data
+    if re.match(r'^[a-zA-Z0-9][a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$', data['email']):
         try:
             user=SaarangUser.objects.get(email=data['email'])
             return HttpResponse('Registered')# Already registered
@@ -82,19 +90,20 @@ def register(request):
 def logout(request):
     data=request.POST.copy()
     try:
-        users = Device.objects.filter(key=data['key'], is_active=True)
+        users = Device.objects.filter(key=saarang_decrypt(data['key']), is_active=True)
         for user in users:
             user.is_active = False
             user.save()
-            return HttpResponse('Success')
+        return HttpResponse('Success')
     except:
         return HttpResponse('Error')
 
 @csrf_exempt
 def register_event(request):
     data = request.POST.copy()
+    print 'App: ', data
     event = get_object_or_404(Event,id=int(data['event_id']))
-    device = Device.objects.get(key=data['key'], is_active=True)
+    device = Device.objects.get(key=saarang_decrypt(data['key']), is_active=True)
     user = device.user
     if event.is_team:
         return HttpResponse('Team')
@@ -124,7 +133,7 @@ def register_event(request):
 @csrf_exempt
 def set_session(request):
     data = request.POST.copy()
-    device = Device.objects.get(key=data['key'], is_active=True)
+    device = Device.objects.get(key=saarang_decrypt(data['key']), is_active=True)
     user = device.user
     request.session['saaranguser_email'] = user.email
     return HttpResponse('Session_set')
@@ -132,7 +141,7 @@ def set_session(request):
 @csrf_exempt
 def get_session(request):
     data = request.POST.copy()
-    device = Device.objects.get(key=data['key'], is_active=True)
+    device = Device.objects.get(key=saarang_decrypt(data['key']), is_active=True)
     user = device.user
     email = request.session.get('saaranguser_email')
     if email:
@@ -148,14 +157,14 @@ def get_session(request):
 @csrf_exempt
 def register_team(request):
     data = request.POST.copy()
-    device = Device.objects.get(key=data['key'], is_active=True)
+    device = Device.objects.get(key=saarang_decrypt(data['key']), is_active=True)
     user = device.user
     event = get_object_or_404(Event, id=data['event_id'])
     team = Team.objects.create(name=data['team_name'], leader=user)
     team.team_sid = team_id(team.pk)
     team.save()
     mail_list=[]
-    for member_email in re.findall(r'[\w\.-]+@[\w\.-]+', data['team_members']):
+    for member_email in re.findall(r'^[a-zA-Z0-9][a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$', data['team_members']):
         try:
             member = SaarangUser.objects.get(email=member_email)
             team.members.add(member)
@@ -173,7 +182,7 @@ def register_team(request):
         team.save()
     EventRegistration.objects.create(participant=user,team=team,event=event,options='')
     mail_list = [member.email for member in team.members.all()]
-    mail_list.append(email)
+    mail_list.append(user.email)
     mail.send(
         mail_list, template='email/main/register_team',
                 context={'event_name':event.long_name, 'team_name':team.name,},

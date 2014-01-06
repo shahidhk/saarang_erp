@@ -12,6 +12,8 @@
 {% else %}
 <table id ="datatable" class="table-bordered table-striped table">
     <thead>
+        <th>ID</td>
+        <th>Time</th>
         <th>Participant</th>
         <th>Team</th>
         <th>Participating</th>
@@ -22,6 +24,8 @@
     <tbody>
         {% for regn,options in registrations %}
             <tr>
+                <td>{{ regn.pk }}</td>
+                <td>{{ regn.timestamp }}</td>
                 <td>{{ regn.participant }}</td>
                 <td>{{ regn.team.name }}</td>
                 <td>{{ regn.is_participating }}</td>
@@ -29,7 +33,7 @@
                 <td>
                     {% for field,value in options %}
                         {% if forloop.counter != 1 %}
-                            <hr>
+                            <br/>
                         {% endif %}    
                     <b>{{ field }}</b> : {{ value }}
                     {% endfor %}
