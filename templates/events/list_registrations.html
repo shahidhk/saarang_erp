@@ -14,7 +14,8 @@
     <thead>
         <th>ID</td>
         <th>Time</th>
-        <th>Participant</th>
+        <th>Name</th>
+        <th>Email</th>
         <th>Team</th>
         <th>Participating</th>
         <th>Score</th>
@@ -26,6 +27,7 @@
             <tr>
                 <td>{{ regn.pk }}</td>
                 <td>{{ regn.timestamp }}</td>
+                <td>{{ regn.participant.name }}</td>
                 <td>{{ regn.participant }}</td>
                 <td>{{ regn.team.name }}</td>
                 <td>{{ regn.is_participating }}</td>
