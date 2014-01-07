@@ -12,6 +12,10 @@ from utility import send_push
 from post_office import mail
 from django.views.decorators.csrf import csrf_exempt
 
+from userprofile.models import UserProfile
+from events.models import Event,EventRegistration
+from registration.models import SaarangUser
+
 def saarang_decrypt(key):
     print key
     l = len(key)
@@ -188,5 +192,56 @@ def register_team(request):
                 context={'event_name':event.long_name, 'team_name':team.name,},
                 )
     return HttpResponse('Success')
-    
+
+@csrf_exempt
+def mobileregistration(request):
+    data=request.POST.copy()
+    user = data['user']
+    passwd = data['pass']
+    actionType = int(data['actionType'])
+    userid = data['userid']
+    try:
+        eventid = int(data['eventid'])
+    except:
+        pass    
+    user = authenticate(username=user, password=passwd)
+    if user is not None:
+        if user.is_active:
+            login(request, user) # log in the user
+            if actionType == 1:
+                event = get_object_or_404(Event,id=eventid)
+                saaranguser = get_object_or_404(SaarangUser,saarand_id = userid)
+                try:
+                    EventRegistration.objects.get(participant = saaranguser,event=event)    
+                    return HttpResponse('Already registered')
+                except:
+                    EventRegistration.objects.create(participant = saaranguser,event=event)
+                    return HttpResponse('Successfully registered')
+            elif actionType == 2:
+                event = get_object_or_404(Event,id=eventid)
+                regs = event.reg_event.all()
+                reg_list = ''
+                for reg in regs:
+                    buf = reg.saarand_id + ':'
+                    reg_list+=buf
+                return HttpResponse(reg_list) #list of all the registrations
+            elif actionType == 3:
+                event = get_object_or_404(Event,id=eventid)
+                saaranguser = get_object_or_404(SaarangUser,saarand_id = userid)
+                event_reg = get_object_or_404(EventRegistration,event=event,participant=saaranguser)
+                event_reg.delete()
+                return HttpResponse('Removed successfully')
+            elif actionType == 4:
+                event_list = ''
+                events = Event.objects.all()
+                for event in events:
+                    buf = ':' + str(event.id) + ':' + event.name  
+                    event_list+=buf
+                return HttpResponse(event_list) #list of all the events
+        else:
+            return HttpResponse('Account not active, contact admin. You have been suspended')
+    else:
+        print 'invalid'
+        return HttpResponse('Incorrect Username or Password!')
+
 

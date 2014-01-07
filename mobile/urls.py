@@ -14,5 +14,6 @@ urlpatterns = patterns('',
     url(r'^get_session/$', 'mobile.views.get_session', name='mobile_get_session'),
 	
 	url(r'^register_team/$', 'mobile.views.register_team', name='mobile_register_team'),
+    url(r'^register/$', 'mobile.views.mobileregistration', name='mobileregistration'),
     
     )
