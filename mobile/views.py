@@ -201,7 +201,7 @@ def mobileregistration(request):
         userid = data['userid']
         eventid = int(data['eventid'])
     except:
-        pass    
+        userid = "01SAA08"    
     if actionType == 4:
         event_list = ''
         events = Event.objects.all()
@@ -216,12 +216,19 @@ def mobileregistration(request):
     if actionType == 1:
         event = get_object_or_404(Event,id=eventid)
         saaranguser = get_object_or_404(SaarangUser,desk_id = userid)
-        try:
-            if(EventRegistration.objects.filter(participant=saaranguser,event=event)):
-                return HttpResponse('Already_registered')
-        except:
-            EventRegistration.objects.create(participant = saaranguser,event=event)
-            return HttpResponse('Successfully registered')
+        if(EventRegistration.objects.filter(participant=saaranguser,event=event)):
+            return HttpResponse('Already_registered')
+        else:
+            eventreg = EventRegistration()
+            eventreg.participant = saaranguser
+            eventreg.event = event
+            eventreg.options = ''
+            eventreg.save()
+            mail.send(
+                        [saaranguser.email], template='email/main/register_event',
+                        context={'event_name':event.long_name, }
+            )
+            return HttpResponse('Successfully_registered')
     elif actionType == 2:
         event = get_object_or_404(Event,id=eventid)
         regs = event.reg_event.all()
