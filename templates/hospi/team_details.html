@@ -103,7 +103,8 @@ a.danger
         <td style="text-align: right;padding-right: 5px;" ><b>{{ bill_data.cd|intcomma }} INR</b></td>
     </tr>
     <tr>
-        <td colspan=3 style="text-align: right;padding-right: 5px;" ><font size="6em"><b>Amount payable</b></font></td>
+      <td>{% if team.is_mixed  %}<a class="btn btn-warning" href="{% url 'hospi.views.split_team' team.pk %}">Split team{% endif %}</td>
+        <td colspan=2 style="text-align: right;padding-right: 5px;" ><font size="6em"><b>Amount payable</b></font></td>
         <td style="text-align: right;padding-right: 5px;" ><font size="6em"><b>{{ bill_data.grand_total|intcomma }} INR</b></font></td>
     </tr>
 

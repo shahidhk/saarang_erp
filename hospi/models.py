@@ -86,11 +86,11 @@ class HospiTeam(models.Model):
             mem +=1
         return mem
 
-    # def is_mixed(self):
-    #     if self.get_female_count() and self.get_male_count():
-    #         return True
-    #     else:
-    #         return False
+    def is_mixed(self):
+        if self.get_female_count() and self.get_male_count():
+            return True
+        else:
+            return False
 
     def get_male_members(self):
         M=['male', 'Male']

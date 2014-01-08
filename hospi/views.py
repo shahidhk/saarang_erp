@@ -346,6 +346,48 @@ def team_details(request, team_id):
     return render(request, 'hospi/team_details.html', to_return)
 
 @login_required
+def split_team(request, team_id):
+    team = get_object_or_404(HospiTeam, pk=team_id)
+    M=['male', 'Male']
+    F=['female', 'Female']
+    if team.leader.gender in M:
+        female_members = team.get_female_members()
+        team_leader = female_members.pop(0)
+        new_team = HospiTeam.objects.create(name=team.name+'_Female', leader=team_leader)
+        new_team.team_sid = auto_id(new_team.pk)
+        for member in female_members:
+            new_team.members.add(member)
+            team.members.remove(member)
+        team.members.remove(team_leader)
+        team.save()
+        new_team.accomodation_status = team.accomodation_status
+        new_team.city = team.city
+        new_team.date_of_arrival = team.date_of_arrival
+        new_team.time_of_arrival = team.time_of_arrival
+        new_team.date_of_departure = team.date_of_departure
+        new_team.time_of_departure = team.time_of_departure
+        new_team.save()
+    elif team.leader.gender in F:
+        male_members = team.get_male_members()
+        team_leader = male_members.pop(0)
+        new_team = HospiTeam.objects.create(name=team.name+'_Male', leader=team_leader)
+        new_team.team_sid = auto_id(new_team.pk)
+        for member in male_members:
+            new_team.members.add(member)
+            team.members.remove(member)
+        team.members.remove(team_leader)
+        team.save()
+        new_team.accomodation_status = team.accomodation_status
+        new_team.city = team.city
+        new_team.date_of_arrival = team.date_of_arrival
+        new_team.time_of_arrival = team.time_of_arrival
+        new_team.date_of_departure = team.date_of_departure
+        new_team.time_of_departure = team.time_of_departure
+        new_team.save()
+    messages.success(request, 'Team '+new_team.name+' created and ID is '+new_team.team_sid)
+    return redirect('hospi_list_registered_teams')
+
+@login_required
 def update_status(request, team_id):
     team = get_object_or_404(HospiTeam, pk=team_id)
     if team.members.filter(email=team.leader.email):
