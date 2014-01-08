@@ -80,12 +80,12 @@ a.danger
         <td style="text-align:center;">{% if team.accomodation_status == 'confirmed' and not team.checked_in and not team.checked_out %}
 <a href="{% url 'hospi.views.check_in_team' team.pk %}" data-target="#checkinModal" class="btn btn-success"><i class="icon-home"></i> Check-in</a>
 {% elif team.accomodation_status == 'confirmed' and team.checked_in and not team.checked_out %}
-<a href="{% url 'hospi.views.check_out_team' team.pk %}" data-target="#checkoutModal" class="btn btn-danger"><i class="icon-home"></i> Check-out</a>
+<a href="{% url 'hospi.views.check_out_team' team.pk %}" data-target="#checkoutModal" class="btn btn-danger require-alert"><i class="icon-home"></i> Check-out</a>
 {% endif %}</td>
 <td><a class='btn btn-info' target="_blank" href="{% url 'hospi.views.print_bill' team.pk %}">Print bill</a></td>
     </tr>
 </table>
-<table class="table" id="bill" >
+<table class="table table-bordered" id="bill" >
     <tr><th colspan=4>Billing details</th> </tr>
     <tr>
         <td>Days of stay</td>

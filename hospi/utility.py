@@ -17,7 +17,7 @@ def days(in_date, in_time, out_date, out_time):
     l4 = dt.datetime(2014, 1, 11, 9, 0)
     u4 = dt.datetime(2014, 1, 12, 17, 0)
     l5 = dt.datetime(2014, 1, 12, 9, 0)
-    u5 = dt.datetime(2014, 1, 13, 9, 0)
+    u5 = dt.datetime(2014, 1, 13, 10, 0)
     
     span = [[l1,u1],[l2,u2],[l3,u3],[l4,u4],[l5,u5]]
 
@@ -113,7 +113,7 @@ def generate_pdf(request, team_id):
     pdf = file.read()
     file.close()            # Don't forget to close the file handle
     response =  HttpResponse(pdf, mimetype='application/pdf')
-    response['Content-Disposition'] = "attachment; filename='SAAR_"+team.team_sid+"_Saarang2014.pdf'"
+    # response['Content-Disposition'] = "attachment; filename='SAAR_"+team.team_sid+"_Saarang2014.pdf'"
     return response
 
 def checkout_bill(request, team_id):
@@ -121,11 +121,17 @@ def checkout_bill(request, team_id):
     leader = team.leader
     members = team.members.all().order_by('-gender')
     bill_data = bill(team.date_of_arrival, team.time_of_arrival, team.date_of_departure, team.time_of_departure, team.get_total_count())
+    rooms=[]
+    for member in members:
+        room = member.room_occupant.all()
+        for roo in room:
+            rooms.append([roo.name,roo.hostel]) 
     data = {
         'leader':leader,
         'team':team,
         'members':members,
         'bill_data':bill_data,
+        'rooms':rooms,
     }
     # Render html content through html template with context
     template = get_template('hospi/check_out_bill.html')
