@@ -330,11 +330,15 @@ def list_registered_teams(request):
 def team_details(request, team_id):
     team = get_object_or_404(HospiTeam, pk=team_id)
     edit_list = ['confirmed', 'rejected']
+    leader = team.leader
+    bill_data = u.bill(team.date_of_arrival, team.time_of_arrival, team.date_of_departure, team.time_of_departure, team.get_total_count())
     if team.accomodation_status in edit_list:
         editable = False
     else:
         editable=True
     to_return = {
+        'leader':leader,
+        'bill_data':bill_data,
         'addUserForm':SaarangUserForm(),
         'editable':editable,
         'team':team,
