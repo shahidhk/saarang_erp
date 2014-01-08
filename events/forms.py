@@ -70,7 +70,7 @@ class ChangeScoreForm(forms.ModelForm):
 class AddTeamForm(forms.ModelForm):
     class Meta:
         model = Team
-        exclude = ['team_sid', 'checked_status']
+        exclude = ['team_sid', 'checked_status', 'members', 'checked_in', 'checked_out', 'mattress_count', 'mattress_returned']
     def __init__(self, *args, **kwargs):
         super(AddTeamForm, self).__init__(*args, **kwargs)
         self.fields['members'].widget.attrs['id'] = "multiselect"

@@ -105,9 +105,9 @@
     <tr><th colspan=4><h3>Billing details</h3></th> </tr>
 
     <tr>
-        <td>Days of stay</td>
-        <td>No. of members</td>
-        <td>Amount/team member</td>
+        <td width=40%>Days of stay</td>
+        <td width=40%>No. of members</td>
+        <td width=50%>Amount/team member</td>
         <td class="currency_header" ><b>Total</b></td>
     </tr>
     <tr>
@@ -117,11 +117,12 @@
         <td style="text-align: right;padding-right: 5px;" ><b>{{ bill_data.total|intcomma }} INR</b></td>
     </tr>
     <tr>
-        <td colspan=3 style="text-align: right;padding-right: 5px;" ><b>Caution Deposit (Refundable)</b></td>
+        <td rowspan=2 colspan=2 style="text-align: left;padding-right: 5px;" >{% for room in rooms %}{% ifchanged room.1 %}{%if forloop.counter != 1%})<br/>{%endif%}{{room.1.name}} ({%endifchanged%}{{room.0}},{% endfor %}) </td>
+        <td><b>Caution Deposit (Refundable)</b></td>
         <td style="text-align: right;padding-right: 5px;" ><b>{{ bill_data.cd|intcomma }} INR</b></td>
     </tr>
     <tr>
-        <td colspan=3 style="text-align: right;padding-right: 5px;" ><font size="1.3em"><b>Amount payable (non Refundable)</b></font></td>
+        <td style="text-align: right;padding-right: 5px;" ><font size="1.3em"><b>Amount payable (non Refundable)</b></font></td>
         <td style="text-align: right;padding-right: 5px;" ><font size="1.5em"><b>{{ bill_data.grand_total|intcomma }} INR</b></font></td>
     </tr>
 </table>
@@ -178,9 +179,9 @@
     <tr><th colspan=4><h3>Billing details</h3></th> </tr>
 
     <tr>
-        <td>Days of stay</td>
-        <td>No. of members</td>
-        <td>Amount/team member</td>
+        <td width=40%>Days of stay</td>
+        <td width=40%>No. of members</td>
+        <td width=50%>Amount/team member</td>
         <td class="currency_header" ><b>Total</b></td>
     </tr>
     <tr>
@@ -190,11 +191,12 @@
         <td style="text-align: right;padding-right: 5px;" ><b>{{ bill_data.total|intcomma }} INR</b></td>
     </tr>
     <tr>
-        <td colspan=3 style="text-align: right;padding-right: 5px;" ><b>Caution Deposit (Refundable)</b></td>
+        <td rowspan=2 colspan=2 style="text-align: left;padding-right: 5px;" >{% for room in rooms %}{% ifchanged room.1 %}{%if forloop.counter != 1%})<br/>{%endif%}{{room.1.name}} ({%endifchanged%}{{room.0}},{% endfor %}) </td>
+        <td><b>Caution Deposit (Refundable)</b></td>
         <td style="text-align: right;padding-right: 5px;" ><b>{{ bill_data.cd|intcomma }} INR</b></td>
     </tr>
     <tr>
-        <td colspan=3 style="text-align: right;padding-right: 5px;" ><font size="1.3em"><b>Amount payable (non Refundable)</b></font></td>
+        <td style="text-align: right;padding-right: 5px;" ><font size="1.3em"><b>Amount payable (non Refundable)</b></font></td>
         <td style="text-align: right;padding-right: 5px;" ><font size="1.5em"><b>{{ bill_data.grand_total|intcomma }} INR</b></font></td>
     </tr>
 </table>

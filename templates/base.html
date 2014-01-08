@@ -326,9 +326,15 @@
     <script type="text/javascript" src="{% static 'jq/js/jquery.jeditable.js' %}" ></script>
     <script type="text/javascript" src="{% static 'jq/js/jquery.validate.js' %}" ></script>
     <script type="text/javascript" src="{% static 'jq/js/jquery.dataTables.editable.js' %}" ></script>
-    
     <script type="text/javascript" src="{{ STATIC_URL }}js/tinymce/tinymce.min.js"></script>
-
+    <script type="text/javascript">
+    $(function(){
+      $('.require-alert').on('click', function(){
+        var c = confirm('Are you sure?');
+        if(!c){return false}
+      });
+    });
+    </script>
     <script>
         tinymce.init({
             selector: "textarea:not(.comments)",

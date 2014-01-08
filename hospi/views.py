@@ -555,7 +555,9 @@ def hostel_details(request, hostel_id):
 @login_required
 def room_details(request, room_id):
     room = get_object_or_404(Room, pk=room_id)
+    occupants = room.occupants.all()
     to_return={
+        'occupants':occupants,
         'room':room,
     }
     return render(request, 'hospi/room_details.html', to_return)

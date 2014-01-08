@@ -113,7 +113,7 @@ def generate_pdf(request, team_id):
     pdf = file.read()
     file.close()            # Don't forget to close the file handle
     response =  HttpResponse(pdf, mimetype='application/pdf')
-    response['Content-Disposition'] = "attachment; filename='SAAR_"+team.team_sid+"_Saarang2014.pdf'"
+    # response['Content-Disposition'] = "attachment; filename='SAAR_"+team.team_sid+"_Saarang2014.pdf'"
     return response
 
 def checkout_bill(request, team_id):
@@ -121,11 +121,17 @@ def checkout_bill(request, team_id):
     leader = team.leader
     members = team.members.all().order_by('-gender')
     bill_data = bill(team.date_of_arrival, team.time_of_arrival, team.date_of_departure, team.time_of_departure, team.get_total_count())
+    rooms=[]
+    for member in members:
+        room = member.room_occupant.all()
+        for roo in room:
+            rooms.append([roo.name,roo.hostel]) 
     data = {
         'leader':leader,
         'team':team,
         'members':members,
         'bill_data':bill_data,
+        'rooms':rooms,
     }
     # Render html content through html template with context
     template = get_template('hospi/check_out_bill.html')
