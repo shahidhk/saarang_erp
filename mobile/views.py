@@ -196,53 +196,43 @@ def register_team(request):
 @csrf_exempt
 def mobileregistration(request):
     data=request.POST.copy()
-    username = data['user']
-    password = data['pass']
     actionType = int(data['actionType'])
     try:
         userid = data['userid']
         eventid = int(data['eventid'])
     except:
         pass    
-    user = authenticate(username=username, password=password)
-    if user is not None:
-        if user.is_active:
-            erp_login(request, user) # log in the user
-            if actionType == 4:
-                event_list = ''
-                events = Event.objects.all()
-                for event in events:
-                    if event.is_team:
-                        is_team = '1'
-                    else:
-                        is_team = '0'
-                    buf = ':' + str(event.id) + ':' + event.long_name + ':' + is_team 
-                    event_list+=buf
-                return HttpResponse(event_list) #list of all the events
-            if actionType == 1:
-                event = get_object_or_404(Event,id=eventid)
-                saaranguser = get_object_or_404(SaarangUser,desk_id = userid)
-                try:
-                    if(EventRegistration.objects.filter(participant=saaranguser,event=event)):
-                        return HttpResponse('Already_registered')
-                except:
-                    EventRegistration.objects.create(participant = saaranguser,event=event)
-                    return HttpResponse('Successfully registered')
-            elif actionType == 2:
-                event = get_object_or_404(Event,id=eventid)
-                regs = event.reg_event.all()
-                reg_list = ''
-                for reg in regs:
-                    buf = reg.saarand_id + ':'
-                    reg_list+=buf
-                return HttpResponse(reg_list) #list of all the registrations
-            elif actionType == 3:
-                event = get_object_or_404(Event,id=eventid)
-                saaranguser = get_object_or_404(SaarangUser,saarand_id = userid)
-                event_reg = get_object_or_404(EventRegistration,event=event,participant=saaranguser)
-                event_reg.delete()
-                return HttpResponse('Removed successfully')
-        else:
-            return HttpResponse('Not active, contact admin. You have been suspended')
-    else:
-        return HttpResponse('Incorrect Username or Password!')
+    if actionType == 4:
+        event_list = ''
+        events = Event.objects.all()
+        for event in events:
+            if event.is_team:
+                is_team = '1'
+            else:
+                is_team = '0'
+            buf = ':' + str(event.id) + ':' + event.long_name + ':' + is_team 
+            event_list+=buf
+        return HttpResponse(event_list) #list of all the events
+    if actionType == 1:
+        event = get_object_or_404(Event,id=eventid)
+        saaranguser = get_object_or_404(SaarangUser,desk_id = userid)
+        try:
+            if(EventRegistration.objects.filter(participant=saaranguser,event=event)):
+                return HttpResponse('Already_registered')
+        except:
+            EventRegistration.objects.create(participant = saaranguser,event=event)
+            return HttpResponse('Successfully registered')
+    elif actionType == 2:
+        event = get_object_or_404(Event,id=eventid)
+        regs = event.reg_event.all()
+        reg_list = ''
+        for reg in regs:
+            buf = reg.saarang_id + ':'
+            reg_list+=buf
+        return HttpResponse(reg_list) #list of all the registrations
+    elif actionType == 3:
+        event = get_object_or_404(Event,id=eventid)
+        saaranguser = get_object_or_404(SaarangUser,saarang_id = userid)
+        event_reg = get_object_or_404(EventRegistration,event=event,participant=saaranguser)
+        event_reg.delete()
+        return HttpResponse('Removed successfully')
