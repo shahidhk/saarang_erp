@@ -117,7 +117,7 @@
         <td style="text-align: right;padding-right: 5px;" ><b>{{ bill_data.total|intcomma }} INR</b></td>
     </tr>
     <tr>
-        <td rowspan=2 colspan=2 style="text-align: left;padding-right: 5px;" >{% for room in rooms %}{% ifchanged room.1 %}{%if forloop.counter != 1%})<br/>{%endif%}{{room.1.name}} ({%endifchanged%}{% ifchanged room.0 %}{{room.0}}{% endifchanged %},{% endfor %}) </td>
+        <td rowspan=2 colspan=2 style="text-align: left;padding-right: 5px;" >{% for room in rooms %}{% ifchanged room.1 %}{%if forloop.counter != 1%})<br/>{%endif%}{{room.1.name}} ({%endifchanged%}{% ifchanged room.0 %}{{room.0}},{% endifchanged %}{% endfor %}) </td>
         <td><b>Caution Deposit (Refundable)</b></td>
         <td style="text-align: right;padding-right: 5px;" ><b>{{ bill_data.cd|intcomma }} INR</b></td>
     </tr>
@@ -191,7 +191,7 @@
         <td style="text-align: right;padding-right: 5px;" ><b>{{ bill_data.total|intcomma }} INR</b></td>
     </tr>
     <tr>
-        <td rowspan=2 colspan=2 style="text-align: left;padding-right: 5px;" >{% for room in rooms %}{% ifchanged room.1 %}{%if forloop.counter != 1%})<br/>{%endif%}{{room.1.name}} ({%endifchanged%}{{room.0}},{% endfor %}) </td>
+         <td rowspan=2 colspan=2 style="text-align: left;padding-right: 5px;" >{% for room in rooms %}{% ifchanged room.1 %}{%if forloop.counter != 1%})<br/>{%endif%}{{room.1.name}} ({%endifchanged%}{% ifchanged room.0 %}{{room.0}},{% endifchanged %}{% endfor %}) </td>
         <td><b>Caution Deposit (Refundable)</b></td>
         <td style="text-align: right;padding-right: 5px;" ><b>{{ bill_data.cd|intcomma }} INR</b></td>
     </tr>
