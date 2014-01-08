@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 
 user = User.objects.get(username='ed12b031')
 
-subject = 'Android App Saarang 2014'
+subject = 'Android App - Saarang 2014'
 fr= 'Saarang 2014 <webadmin@saarang.org>'
 
 
@@ -23,7 +23,7 @@ for su in SU:
 tot_list = list(set(SU_list))
 print len(tot_list)
 
-html_file = open('scripts/mails/young_reporter.html', 'r')
+html_file = open('scripts/mails/mobile_app.html', 'r')
 html = html_file.read()
 html_file.close()
 
