@@ -10,7 +10,7 @@
   margin-left: -600px;
 }
 </style>
-<legend>Teams registered <div class="pull-right"><a data-target="#addteamModal" href="{% url 'hospi.views.add_team' %}" class="btn btn-info" >Add new team</a></div></legend>
+<legend>Teams registered <div class="pull-right"><a data-target="#addteamModal" href="#{% url 'hospi.views.add_team' %}" class="btn btn-info" >Add new team</a></div></legend>
 <table id="hospitable">
   <thead>
     <tr>
@@ -87,6 +87,11 @@
 <script type="text/javascript">
 $('.rowlink').click(function(){
   window.open($(this).attr('href'));
+})
+$('[data-target="#addteamModal"]').click(function()
+{
+  $('#addteamModal .modal-body').load($(this).attr('href').slice(1))
+  $('#addteamModal').modal('show')
 })
 </script>
 
