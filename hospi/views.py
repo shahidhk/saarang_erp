@@ -7,19 +7,18 @@ from django.contrib import messages
 from django.conf import settings
 from django.core.mail import send_mail, send_mass_mail, EmailMessage
 import utility as u
-import random
+import random, string, json
 from random import *
-import string
-
+from registration.views import auto_id as uid
 from registration.models import SaarangUser
 from registration.forms import SaarangUserForm
-from models import Hostel, Room, HospiTeam, Allotment
+from models import Hostel, Room, HospiTeam, Allotment, HospiLog
 from events.models import Team, EventRegistration, Event
 from forms import HostelForm, RoomForm, HospiTeamForm
 from events.forms import AddTeamForm
 from mailer.models import MailLog
 from post_office import mail
-
+import datetime
 from django.views.decorators.csrf import csrf_exempt
 
 ####################################################################
@@ -318,6 +317,9 @@ def generate_saar(request, team_id):
 
 @login_required
 def list_registered_teams(request):
+    dept_list= ['hospi', 'webops']
+    if not request.user.userprofile.dept.name in dept_list:
+        return render(request, 'alert.html', {'msg':'You dont have permission',})
     teams = HospiTeam.objects.all().exclude(accomodation_status='not_req')
     to_return = {
        'teams':teams,
@@ -510,6 +512,9 @@ def room_details(request, room_id):
 
 @login_required
 def list_all_teams(request):
+    dept_list= ['hospi', 'webops']
+    if not request.user.userprofile.dept.name in dept_list:
+        return render(request, 'alert.html', {'msg':'You dont have permission',})
     teams = HospiTeam.objects.all()
     to_return={
         'teams':teams,
@@ -583,11 +588,14 @@ def check_in_mixed(request):
         room = get_object_or_404(Room, pk=data[male.saarang_id])
         room.occupants.add(male)
         room.save()
+        HospiLog.objects.create(created_by=request.user, user=male, room=room)
     for female in females:
         room = get_object_or_404(Room, pk=data[female.saarang_id])
         room.occupants.add(female)
         room.save()
-    team.checked_status = 'in'
+        HospiLog.objects.create(created_by=request.user, user=female, room=room)
+    team.mattress_count=data['matress']
+    team.checked_in = True
     team.save()
     messages.success(request, team.team_sid + ' checked in successfully')
     return redirect('hospi_list_registered_teams')
@@ -601,7 +609,9 @@ def check_in_males(request):
         room = get_object_or_404(Room, pk=data[male.saarang_id])
         room.occupants.add(male)
         room.save()
-    team.checked_status = 'in'
+        HospiLog.objects.create(created_by=request.user, user=male, room=room)
+    team.checked_in = True
+    team.mattress_count=data['matress']
     team.save()
     messages.success(request, team.team_sid + ' checked in successfully')
     return redirect('hospi_list_registered_teams')
@@ -615,7 +625,9 @@ def check_in_females(request):
         room = get_object_or_404(Room, pk=data[female.saarang_id])
         room.occupants.add(female)
         room.save()
-    team.checked_status = 'in'
+        HospiLog.objects.create(created_by=request.user, user=female, room=room)
+    team.checked_in = True
+    team.mattress_count=data['matress']
     team.save()
     messages.success(request, team.team_sid + ' checked in successfully')
     return redirect('hospi_list_registered_teams')
@@ -624,14 +636,34 @@ def check_in_females(request):
 def check_out_team(request, team_id):
     team = get_object_or_404(HospiTeam, pk=team_id)
     members = team.members.all()
-    for member in members:
-        room = member.room_occupant.all()[0]
-        room.occupants.remove(member)
+    try:
+        room = team.leader.room_occupant.all()[0]
+        room.occupants.remove(team.leader)
         room.save()
-    team.checked_status = 'out'
+        log_entry = HospiLog.objects.get(user=team.leader)
+        log_entry.checked_out = True
+        log_entry.checkout_time = datetime.datetime.now()
+        log_entry.checked_out_by = request.user
+        log_entry.save()
+    except:
+        return u.checkout_bill(request, team_id)
+    for member in members:
+        try:
+            room = member.room_occupant.all()[0]
+            room.occupants.remove(member)
+            room.save()
+            log_entry = HospiLog.objects.get(user=member)
+            log_entry.checked_out = True
+            print log_entry
+            log_entry.checkout_time = datetime.datetime.now()
+            log_entry.checked_out_by = request.user
+            log_entry.save()
+        except Exception, e:
+            return u.checkout_bill(request, team_id)
+    team.checked_out = True
     team.save()
-    messages.success(request, team.team_sid + ' checked out successfully')
-    return redirect('hospi_list_registered_teams')
+    return u.checkout_bill(request, team_id)
+    # return render(request, 'hospi/check_out_bill.html', {'team':team})
 
 @csrf_exempt
 @login_required
@@ -642,33 +674,71 @@ def update_member(request):
     user.save()
     return HttpResponse(data['value'])
 
-@csrf_exempt
 @login_required
-def add_member(request):
+def add_member(request,team_id):
+    team = HospiTeam.objects.get(pk=team_id)
     if request.method == 'POST':
         userform =SaarangUserForm(request.POST)
+        print request.POST
         if userform.is_valid():
             user = userform.save()
-            user.saarang_id = auto_id(user.pk)
+            user.saarang_id = uid(user.pk)
             characters = string.ascii_letters + string.punctuation  + string.digits
             password =  "".join(choice(characters) for x in range(randint(8, 16)))
             user.password = password
             user.activate_status = 2
             user.save()
+            team.members.add(user)
+            team.save()
             mail.send(
                 [user.email], template='email/main/activate_confirm',
                 context={'saarang_id':user.saarang_id, 'password':user.password}
             )
-    return HttpResponse('Success')
+            messages.success(request, 'User added successfully')
+        else:
+            print "Invalid"
+    return redirect('hospi_team_details', team.pk)
 
 @csrf_exempt
 @login_required
 def del_member(request, team_id):
-    team = Team.objects.get(pk=team_id)
+    team = HospiTeam.objects.get(pk=team_id)
     data = request.POST.copy()
     user = get_object_or_404(SaarangUser, pk=int(data['id']))
-    print team, user
     team.members.remove(user)
+    user.save()
     team.save()
-    return HttpResponse('Success')
+    return HttpResponse('ok')
 
+@csrf_exempt
+@login_required
+def website_id_search(request):
+    data=request.GET.copy()
+    user_list = []
+    users_id = SaarangUser.objects.filter(saarang_id__contains=data['q'].upper())[:10]
+    users_email = SaarangUser.objects.filter(email__contains=data['q'].lower())[:10]
+    users_name = SaarangUser.objects.filter(name__contains=data['q'])[:10]
+    users_mobile = SaarangUser.objects.filter(mobile__contains=data['q'])[:10]
+    for user in users_id:
+        user_list.append({"id":user.id,'sid':user.saarang_id, 'email':user.email, 'name':user.name, 'mobile':user.mobile })
+    for user in users_email:
+        user_list.append({"id":user.id,'sid':user.saarang_id, 'email':user.email, 'name':user.name, 'mobile':user.mobile })
+    for user in users_name:
+        user_list.append({"id":user.id,'sid':user.saarang_id, 'email':user.email, 'name':user.name, 'mobile':user.mobile })
+    for user in users_mobile:
+        user_list.append({"id":user.id,'sid':user.saarang_id, 'email':user.email, 'name':user.name, 'mobile':user.mobile })
+    user_dict = json.dumps(user_list)
+    return HttpResponse(user_dict)
+
+@login_required
+def add_user_to_team(request):
+    data = request.POST.copy()
+    try:
+        team = get_object_or_404(HospiTeam, pk=int(data['team_id']))
+        user = get_object_or_404(SaarangUser, pk=int(data['website_id']))
+        team.members.add(user)
+        team.save()
+        messages.success(request, 'User added successfully')
+    except:
+        messages.error(request, 'Error, please try again!!')
+    return redirect('hospi_team_details', int(data['team_id']))

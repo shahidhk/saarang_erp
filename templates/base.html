@@ -102,7 +102,9 @@
     <div class="alert alert-{{ message.tags }}">{{ message }}<a class="close" data-dismiss="alert" href="#">&times;</a></div>
 {% endfor %}
 {% if not messages %}
+<div id='message_display' >
     ERP Notifications
+  </div>
 {% endif %}
   </div>
 </header>

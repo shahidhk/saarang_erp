@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from models import Hostel, Room, HospiTeam, Allotment
+from models import Hostel, Room, HospiTeam, Allotment, HospiLog
 
 class HospiTeamAdmin(admin.ModelAdmin):
     list_display=('team_sid', 'name', 'leader', 'accomodation_status')
@@ -9,8 +9,13 @@ class HospiTeamAdmin(admin.ModelAdmin):
 class AllotmentAdmin(admin.ModelAdmin):
     list_display = ('team', 'alloted_by', 'timestamp')
     search_fields = ['team', 'alloted_by']
+
+class HospiLogAdmin(admin.ModelAdmin):
+    list_display = ('timestamp', 'created_by', 'user', 'room', 'checked_out', 'checkout_time', 'checked_out_by')
+    search_fields = ['created_by', 'user', 'room', 'checked_out', 'checkout_time', 'checked_out_by']
     
 admin.site.register(HospiTeam, HospiTeamAdmin)
 admin.site.register(Hostel)
 admin.site.register(Room)
 admin.site.register(Allotment, AllotmentAdmin)
+admin.site.register(HospiLog, HospiLogAdmin)

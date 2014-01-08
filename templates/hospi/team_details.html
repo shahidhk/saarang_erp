@@ -1,5 +1,6 @@
+{% extends 'base.html' %}
 {% load staticfiles %}
-
+{% block content %}
 <center>
 <style type="text/css">
 /* borderless table */
@@ -36,72 +37,27 @@ table.dataTable tr.row_selected
 {
   background-color: #B0BED9;
 }
-</style><div class="alert alert-info">
-<table id="team_details" class="table table-bordered">
+a.danger
+{
+  color: #F00;
+}
+</style><div class="alert alert-{% if team.accomodation_status == 'confirmed' and not team.checked_in %}success{% elif team.checked_in and not team.checked_out %}info{% elif team.checked_in and team.checked_out %}warning{% else %}error{% endif %}">
+<!--
+<form id="formAddNewRow" action="#" method="post">{% csrf_token %}
+    <input type="hidden" name="No" id="name235" rel='0'/>
+    <input type="hidden" name="Delete?" id="name124" rel='1' value='<a class="table-action-deletelink btn btn-danger btn-small" href="{% url 'hospi.views.del_member' team.id %}">Delete</a>'/>
+    <input type="hidden" name="website_id" id="name143" rel='2'/>
+{{ addUserForm.as_p }}
+</form>
+-->
+<table id="team_details" class="table table-borderless">
     <tr>
-        <td>name:</td>
-        <td><strong>{{ team.name }}</strong></td>
-        <td>ID:</td>
+        <td rowspan=2><strong><h1>{{team.name}}</h1></strong></td>
         <td>{{ team.team_sid }}</td>
-    </tr>
-    <tr>
-      <td>city:</td>
-      <td>{{ team.city }}</td>
-        <td>college:</td>
-        <td>{{ team.leader.college }}</td>
-    </tr>
-</table></div>
-<div class="alert alert-success">
-<strong>Total {{ team.get_total_count }} members. ( {{ team.get_male_count }} males and {{ team.get_female_count }} females )</strong>
-<table class="member_data table table-borderless">
-  <thead>
-    <th>No</th>
-    <th>Website ID</th>
-    <th>desk_id</th>
-    <th id='gender'>gender</th>
-    <th id='email'>email</th>
-    <th id='name'>name</th>
-    <th id='mobile'>mobile</th>
-    <th id='college_id'>college_id</th>
-    <th id='college'>college</th>
-  </thead>
-  <tbody>
-    <tr id="{{team.leader.id}}" {% if team.leader.accomod_is_confirmed and team.accomodation_status != 'confirmed' %}class="error"{% endif %} >
-      <td>1</td>
-      <td><a href="#">{{ team.leader.saarang_id }}</a></td>
-      <td>{{ team.leader.desk_id }}</td>
-      <td>{{ team.leader.gender|title }}</td>
-      <td>{{ team.leader.email }}</td>
-      <td>{{ team.leader.name }}</td>
-      <td>{{ team.leader.mobile }}</td>
-      <td>{{ team.leader.college_id }}</td>
-      <td>{{ team.leader.college }}</td>
-    </tr>
-    {% for member in team.members.all %}
-    <tr id="{{member.id}}" {% if member.accomod_is_confirmed and team.accomodation_status != 'confirmed' %}class="error"{% endif %} >
-      <td>{{ forloop.counter|add:1 }}</td>
-      <td><a href="#">{{ member.saarang_id }}</a></td>
-      <td>{{ member.desk_id }}</td>
-      <td>{{ member.gender|title }}</td>
-      <td>{{ member.email }}</td>
-      <td>{{ member.name }}</td>
-      <td>{{ member.mobile }}</td>
-      <td>{{ member.college_id }}</td>
-      <td>{{ member.college }}</td>
-    </tr>
-    {% endfor %}
-    </tbody>
-</table>
-<div class="add_delete_toolbar"></div>
-<hr/>
-
-Members highlighted in red indicates people who have accommodation confirmed already in other teams. They will be automatically removed upon confirmation of this team. (Leader has been pre-notified)
-</div>
-<div class="alert alert-error">
-Accomodation
-{% if team.checked_status == 'out' %}
+        <td style="text-align:center;">{{ team.time_of_arrival|title }} on {{ team.date_of_arrival }} -to- </td>
+        <td style="text-align:center;">
 {% if editable %}
-  <a type="button" id="myPopover" onclick="$('#myPopover').popover();" class="btn btn-default" data-toggle="popover" data-html="true" data-placement="top" data-content="<form action=&quot;{% url 'hospi.views.update_status' team.pk %}&quot; method='post'>{% csrf_token %}<label class='radio inline'><input type='radio' name='status' value='not_req'><span class='label'>Not required</span></label><label class='radio inline'><input type='radio' name='status' value='requested'><span class='label label-info'>Pending</span></label><label class='radio inline'><input type='radio' name='status' value='confirmed'><span class='label label-success'>Confirm</span></label><label class='radio inline'><input type='radio' name='status' value='waitlisted'><span class='label label-warning'>Waitlist</span></label><label class='radio inline'><input type='radio' name='status' value='rejected'><span class='label label-important'>Reject</span></label><hr/>Status once changed to Confirm or Reject cannot be reverted back<input type='submit' class='btn btn-small' value='Update'></input></form>" data-original-title="Update status" title="">{% endif %}
+  <a type="button" id="myPopover" onclick="$('#myPopover').popover();" class="btn btn-default" data-toggle="popover" data-html="true" data-placement="bottom" data-content="<form action=&quot;{% url 'hospi.views.update_status' team.pk %}&quot; method='post'>{% csrf_token %}<label class='radio inline'><input type='radio' name='status' value='not_req'><span class='label'>Not required</span></label><label class='radio inline'><input type='radio' name='status' value='requested'><span class='label label-info'>Pending</span></label><label class='radio inline'><input type='radio' name='status' value='confirmed'><span class='label label-success'>Confirm</span></label><label class='radio inline'><input type='radio' name='status' value='waitlisted'><span class='label label-warning'>Waitlist</span></label><label class='radio inline'><input type='radio' name='status' value='rejected'><span class='label label-important'>Reject</span></label><hr/>Status once changed to Confirm or Reject cannot be reverted back<input type='submit' class='btn btn-small' value='Update'></input></form>" data-original-title="Update status" title="">{% endif %}
     {% if team.accomodation_status == 'requested' %}
       <span class="label label-info">Pending for approval</span>
     {% elif team.accomodation_status == 'confirmed' %}
@@ -115,28 +71,68 @@ Accomodation
     {% endif %}
 {% if editable %} 
   </a>{% endif %}
-{% endif %}
-{% if team.accomodation_status == 'confirmed' and team.checked_status != 'in' %}
+</td>
+      </tr>
+        <tr>
+        <td>{{ team.city }} - {{ team.leader.college }}</td>
+        <td style="text-align:center;">{{ team.time_of_departure|title }} on {{ team.date_of_departure }} </td>
+        <td style="text-align:center;">{% if team.accomodation_status == 'confirmed' and not team.checked_in and not team.checked_out %}
 <a href="{% url 'hospi.views.check_in_team' team.pk %}" data-target="#checkinModal" class="btn btn-success"><i class="icon-home"></i> Check-in</a>
-{% elif team.accomodation_status == 'confirmed' and team.checked_status == 'in' %}<span class="badge badge-success"><i class="icon-home icon-white"></i> IN</span>
+{% elif team.accomodation_status == 'confirmed' and team.checked_in and not team.checked_out %}
 <a href="{% url 'hospi.views.check_out_team' team.pk %}" data-target="#checkoutModal" class="btn btn-danger"><i class="icon-home"></i> Check-out</a>
-{% endif %}
-
-
-                        <hr/>
-<table class="table table-borderless">
-    <tr>
-        <th>From</th>
-        <td>{{ team.time_of_arrival|title }} on {{ team.date_of_arrival }} </td>
+{% endif %}</td>
     </tr>
-    <tr>
-        <th>to</th>
-        <td>{{ team.time_of_departure|title }} on {{ team.date_of_departure }}</td>
+</table></div>
+<div class="alert alert-info">
+<strong>Total {{ team.get_total_count }} members. ( {{ team.get_male_count }} males and {{ team.get_female_count }} females )</strong><div class="buttonPlaceholder pull-right"><button id='btnAddNewRow' class='btn btn-primary' href='#adduserModal' data-toggle='modal'>Add new member</button></div>
+<table class="member_data table table-borderless">
+  <thead>
+    <th>N</th>
+    <th>D?</th>
+    <th>website_id</th>
+    <th>desk_id</th>
+    <th id='gender'>gender</th>
+    <th id='email'>email</th>
+    <th id='name'>name</th>
+    <th id='mobile'>mobile</th>
+    <th id='college_id'>college_id</th>
+    <th id='college'>college</th>
+  </thead>
+  <tbody>
+    <tr id="{{team.leader.id}}" {% if team.leader.accomod_is_confirmed and team.accomodation_status != 'confirmed' %}class="error"{% endif %} >
+      <td>1</td>
+      <td></td>
+      <td><a href="#">{{ team.leader.saarang_id }}</a></td>
+      <td>{{ team.leader.desk_id }}</td>
+      <td>{{ team.leader.gender|title }}</td>
+      <td>{{ team.leader.email }}</td>
+      <td>{{ team.leader.name }}</td>
+      <td>{{ team.leader.mobile }}</td>
+      <td>{{ team.leader.college_id }}</td>
+      <td>{{ team.leader.college }}</td>
     </tr>
-</table><hr/>
-      <div class="spacer"></div>
+    {% for member in team.members.all %}
+    <tr id="{{member.id}}" {% if member.accomod_is_confirmed and team.accomodation_status != 'confirmed' %}class="error"{% endif %} >
+      <td>{{ forloop.counter|add:1 }}</td>
+      <td><a class="table-action-deletelink btn btn-danger btn-mini" href="{% url 'hospi.views.del_member' team.id %}"><i class='icon-remove-circle icon-white'></i></a></td>
+      <td><a href="#">{{ member.saarang_id }}</a></td>
+      <td>{{ member.desk_id }}</td>
+      <td>{{ member.gender|title }}</td>
+      <td>{{ member.email }}</td>
+      <td>{{ member.name }}</td>
+      <td>{{ member.mobile }}</td>
+      <td>{{ member.college_id }}</td>
+      <td>{{ member.college }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<!--<div class="add_delete_toolbar"></div>-->
+<hr/>
 
+Members highlighted in red indicates people who have accommodation confirmed already in other teams. They will be automatically removed upon confirmation of this team. (Leader has been pre-notified)
 </div>
+
 </center>
   
 <div id="checkinModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="checkinModalLabel" aria-hidden="true">
@@ -161,6 +157,7 @@ $("a[data-target=#checkinModal]").click(function(event) {
     var target = $(this).attr("href");
     $("#checkinModal .modal-body").load(target, function() {
          $("#checkinModal").modal("show");
+         $('.room-select2').select2();
     });
 });
 </script>
@@ -174,12 +171,48 @@ $("a[data-target=#checkinModal]").click(function(event) {
 <div id="adduserModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="adduserModalLabel" aria-hidden="true">
   <div class="modal-header">
     <button type="button" class="close" onclick="$('#adduserModal').modal('hide');" aria-hidden="true">×</button>
-    <h3 id="adduserModalLabel">Add member</h3>
+    <h3 id="adduserModalLabel">Add</h3>
   </div>
   <div class="modal-body">
-    <form title="Add new member">
-  {{addUserForm.as_p}}
+    <form class='form-horizontal' action="{% url 'hospi.views.add_user_to_team' %}" method='POST' id='existing_member' >
+      {% csrf_token %}
+      <div class="control-group website_id">
+                  <input id='website_id' class='input input-block-level' type='text' name='website_id' />
+      </div>
+      <div id="user_info"></div>
+      <input type="hidden" name="team_id" value="{{team.pk}}" />
+      <input type='submit' name='submit' value='add user' class='btn btn-info btn-block'>
+    </form>
+    <form class='form-horizontal' method='POST' id='new_member' action="{% url 'hospi.views.add_member' team.id %}">
+      <legend>new user</legend>
+      {% csrf_token %}
+        {{ addUserForm.media }}
+        {% if addUserForm.errors %}
+            <div class="alert alert-error">
+                <ul>
+                    {% for error in addUserForm.non_field_errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+        {% for field in addUserForm.visible_fields %}
+            <div class="control-group {{ field.html_name }} {% if field.errors %}error{% endif %}">
+            <label class="control-label">{{ field.label }}{% if field.field.required %} *{% endif %}</label>
+                <div class="controls"> {{ field }}
+                    {% if field.errors %}
+                        <span class="help-inline">
+                            {{ field.errors.as_text }}
+                        </span>
+                    {% endif %} 
+                </div>
+            </div>
+        {% endfor %}
+        {% for field in addUserForm.hidden_fields %}
+            {{ field }}
+        {% endfor %}
   <input type="hidden" name="team_id" value="{{team.pk}}" />
+  <input type='submit' class='btn btn-success btn-block' value='Save and add to team' name='submit'>
 </form>
   </div>
   <div class="modal-footer">
@@ -187,3 +220,129 @@ $("a[data-target=#checkinModal]").click(function(event) {
    
   </div>
 </div>
+
+<script type="text/javascript">
+var flag= true;
+$(document).ready(function() {
+  event.preventDefault();
+  var target = $(this).attr("href");
+  $('.member_data').dataTable({
+    "bJQueryUI": true,
+    "bPaginate": false,
+    "sDom": '<"buttonPlaceholder"><"H"Tfr>t<"F"ip>',
+    "oTableTools": {
+      "aButtons": [
+      "copy", "csv", "xls", "pdf",
+      {
+        "sExtends":    "collection",
+        "sButtonText": "Save",
+        "aButtons":    [ "csv", "xls", "pdf" ]
+      }
+      ]
+    },
+      "bDestroy": flag?false:true
+  }
+  ).makeEditable({
+      sUpdateURL: "{% url 'hospi.views.update_member' %}",
+      //sAddURL: "{% url 'hospi.views.add_member' team.id %}",
+      sDeleteURL: "{% url 'hospi.views.del_member' team.id %}",
+      "aoColumns":[
+        null,
+        null,
+        null,
+        {},
+        {
+          type: 'select',
+          submit:'Ok',
+          data: "{ 'male': 'Male', 'female':'Female' }"
+        },
+        {},
+        {},
+        {},
+        {},
+        {}
+      ]
+    }
+  );
+  flag=false;
+  /*$('.member_data').css({
+    'width':'100%'
+  })
+  $('.modal').css({
+    'z-index':99
+  })
+  $('.modal-backdrop').css({
+    'z-index':98
+  })*/
+
+ //});
+$('#start,.jumbotron').hide();
+$('.span9').removeClass('span9').addClass('span12');
+
+
+    function movieFormatResult(user) {
+        var markup = "<table padding=3><tr>";
+            markup += "<td rowspan=3><i class='icon-user'></i></td><td rowspan=3><div class='movie-title' style='padding-right:5px;'><b>" + user.sid + "</b></div></td>";
+        
+        markup += "<td><div>" + user.name + "</div>";
+        
+        markup += "</td></tr><tr><td><div>" + user.mobile + "</div>";
+        
+            markup += "</td></tr><tr><td><div>" + user.email + "</div>";
+        
+        
+        
+        markup += "</td></tr></table>"
+        return markup;
+    }
+
+    function movieFormatSelection(user) {
+        return user.sid;
+    }
+
+$("#website_id").select2({
+    placeholder: "Search for an existing user",
+    minimumInputLength: 3,
+    ajax: {
+        url: "{% url 'hospi.views.website_id_search' %}",
+        dataType: 'json',
+        quietMillis: 100,
+        data: function (term, page) { // page is the one-based page number tracked by Select2
+            return {
+                q: term, //search term
+                page_limit: 10, // page size
+                page: page, // page number
+                apikey: "ju6z9mjyajq2djue3gbvv26t" // please do not use so this example keeps working
+            };
+        },
+        results: function (data, page) {
+            //var more = (page * 10) < data.total; // whether or not there are more results available
+
+            //console.log(data.movies)
+            // notice we return the value of more so Select2 knows if more results can be loaded
+            return {results: data};
+        }
+    },
+    formatResult: movieFormatResult, // omitted for brevity, see the source of this page
+    formatSelection: movieFormatSelection, // omitted for brevity, see the source of this page
+    dropdownCssClass: "bigdrop", // apply css that makes the dropdown taller
+    escapeMarkup: function (m) { return m; } // we do not want to escape markup since we are displaying html in results
+});
+
+/*$('td').each(function(i,e){
+  if($(this).html()=='Click to edit')
+    $(this).addClass('label').addClass('label-important')
+})
+$("input[name=value").change(function(){
+  $(this).parent().removeClass('label').removeClass('label-important')
+})*/
+
+});
+
+</script>
+<script type="text/javascript">
+  $(function(){
+  $('#tab_registered').addClass('active');
+  });
+</script>
+{% endblock content %}

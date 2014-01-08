@@ -12,6 +12,7 @@
 {% else %}
 <table id ="datatable" class="table-bordered table-striped table">
     <thead>
+        <th>Name</th>
         <th>Participant</th>
         <th>Team</th>
         <th>Participating</th>
@@ -22,6 +23,7 @@
     <tbody>
         {% for regn,options in registrations %}
             <tr>
+                <td>{{ regn.participant.name }}</td>
                 <td>{{ regn.participant }}</td>
                 <td>{{ regn.team.name }}</td>
                 <td>{{ regn.is_participating }}</td>

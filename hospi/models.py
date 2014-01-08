@@ -56,11 +56,11 @@ class HospiTeam(models.Model):
     time_of_arrival = models.TimeField(blank=True,null=True, default='23:00:00')
     date_of_departure =  models.DateField(blank=True, null=True, default='2014-01-11')
     time_of_departure = models.TimeField(blank=True, null=True, default='10:00:00')
-    CHECKED_CHOICES = (
-        ('in', 'in'),
-        ('out', 'out'),
-        )
-    checked_status = models.CharField(max_length=50, choices=CHECKED_CHOICES, default='out')
+    checked_in = models.BooleanField(default=False)
+    checked_out = models.BooleanField(default=False)
+    mattress_count = models.IntegerField(default=0)
+    mattress_returned = models.BooleanField(default=False)
+
     def __unicode__(self):
         try:
             ret_val = (str(self.name)+ ' lead by '+ str(self.leader))
@@ -111,7 +111,6 @@ class HospiTeam(models.Model):
         mem.append(self.leader)
         return mem
 
-
 class Allotment(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     team = models.ForeignKey(HospiTeam, related_name='alloted_team')
@@ -119,4 +118,12 @@ class Allotment(models.Model):
 
     def __unicode__(self):
         return self.team.name
-        
+
+class HospiLog(models.Model):
+    timestamp = models.DateTimeField(auto_now_add=True)
+    created_by = models.ForeignKey(User, related_name='hospi_log_erp_user')
+    user = models.ForeignKey(SaarangUser, related_name='hospi_log_user')
+    room = models.ForeignKey(Room, related_name='hospi_room')
+    checked_out = models.BooleanField(default=False)
+    checkout_time = models.DateTimeField(blank=True, null=True)
+    checked_out_by = models.ForeignKey(User, related_name='hospi_check_out_erp_user',null=True, blank=True)

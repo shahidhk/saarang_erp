@@ -93,6 +93,7 @@ def logout(request):
 @csrf_exempt
 def register_event(request):
     data = request.POST.copy()
+    return HttpResponse(data)
     event = get_object_or_404(Event,id=int(data['event_id']))
     device = Device.objects.get(key=data['key'], is_active=True)
     user = device.user
@@ -173,11 +174,9 @@ def register_team(request):
         team.save()
     EventRegistration.objects.create(participant=user,team=team,event=event,options='')
     mail_list = [member.email for member in team.members.all()]
-    mail_list.append(email)
+    mail_list.append(user.email)
     mail.send(
         mail_list, template='email/main/register_team',
                 context={'event_name':event.long_name, 'team_name':team.name,},
                 )
     return HttpResponse('Success')
-    
-
