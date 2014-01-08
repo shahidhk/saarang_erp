@@ -11,7 +11,8 @@ from events.models import Event, EventRegistration, Team
 from utility import send_push
 from post_office import mail
 from django.views.decorators.csrf import csrf_exempt
-
+from django.contrib.auth import authenticate
+from django.contrib.auth import login as erp_login
 from userprofile.models import UserProfile
 from events.models import Event,EventRegistration
 from registration.models import SaarangUser
@@ -196,24 +197,35 @@ def register_team(request):
 @csrf_exempt
 def mobileregistration(request):
     data=request.POST.copy()
-    user = data['user']
-    passwd = data['pass']
+    username = data['user']
+    password = data['pass']
     actionType = int(data['actionType'])
-    userid = data['userid']
     try:
+        userid = data['userid']
         eventid = int(data['eventid'])
     except:
         pass    
-    user = authenticate(username=user, password=passwd)
+    user = authenticate(username=username, password=password)
     if user is not None:
         if user.is_active:
-            login(request, user) # log in the user
+            erp_login(request, user) # log in the user
+            if actionType == 4:
+                event_list = ''
+                events = Event.objects.all()
+                for event in events:
+                    if event.is_team:
+                        is_team = '1'
+                    else:
+                        is_team = '0'
+                    buf = ':' + str(event.id) + ':' + event.long_name + ':' + is_team 
+                    event_list+=buf
+                return HttpResponse(event_list) #list of all the events
             if actionType == 1:
                 event = get_object_or_404(Event,id=eventid)
-                saaranguser = get_object_or_404(SaarangUser,saarand_id = userid)
+                saaranguser = get_object_or_404(SaarangUser,desk_id = userid)
                 try:
-                    EventRegistration.objects.get(participant = saaranguser,event=event)    
-                    return HttpResponse('Already registered')
+                    if(EventRegistration.objects.filter(participant=saaranguser,event=event)):
+                        return HttpResponse('Already_registered')
                 except:
                     EventRegistration.objects.create(participant = saaranguser,event=event)
                     return HttpResponse('Successfully registered')
@@ -231,17 +243,9 @@ def mobileregistration(request):
                 event_reg = get_object_or_404(EventRegistration,event=event,participant=saaranguser)
                 event_reg.delete()
                 return HttpResponse('Removed successfully')
-            elif actionType == 4:
-                event_list = ''
-                events = Event.objects.all()
-                for event in events:
-                    buf = ':' + str(event.id) + ':' + event.name  
-                    event_list+=buf
-                return HttpResponse(event_list) #list of all the events
         else:
-            return HttpResponse('Account not active, contact admin. You have been suspended')
+            return HttpResponse('Not active, contact admin. You have been suspended')
     else:
-        print 'invalid'
         return HttpResponse('Incorrect Username or Password!')
 
 
