@@ -83,6 +83,7 @@ a.danger
 <a href="{% url 'hospi.views.check_out_team' team.pk %}" data-target="#checkoutModal" class="btn btn-danger require-alert"><i class="icon-home"></i> Check-out</a>
 {% endif %}</td>
 <td><a class='btn btn-info' target="_blank" href="{% url 'hospi.views.print_bill' team.pk %}">Print bill</a></td>
+<td><a class='btn btn-info' target="_blank" href="{% url 'hospi.views.print_saar' team.pk %}">Print SAAR</a></td>
     </tr>
 </table>
 <table class="table table-bordered" id="bill" >

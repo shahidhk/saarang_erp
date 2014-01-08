@@ -47,5 +47,6 @@ urlpatterns = patterns('',
 
     url(r'^admin/split/(?P<team_id>\d+)/$', 'hospi.views.split_team', name='hospi_split_team'),
     url(r'^admin/print/(?P<team_id>\d+)/$', 'hospi.views.print_bill', name='hospi_print_bill'),
+    url(r'^admin/print_saar/(?P<team_id>\d+)/$', 'hospi.views.print_saar', name='hospi_print_saar'),
 
     )

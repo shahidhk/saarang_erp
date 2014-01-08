@@ -201,7 +201,7 @@ def mobileregistration(request):
         userid = data['userid']
         eventid = int(data['eventid'])
     except:
-        userid = ''
+        userid = "01SAA08"    
     if actionType == 4:
         event_list = ''
         events = Event.objects.all()
@@ -215,20 +215,48 @@ def mobileregistration(request):
         return HttpResponse(event_list) #list of all the events
     if actionType == 1:
         event = get_object_or_404(Event,id=eventid)
-        saaranguser = get_object_or_404(SaarangUser,desk_id = userid)
-        if(EventRegistration.objects.filter(participant=saaranguser,event=event)):
-            return HttpResponse('Already_registered')
-        else:
-            if user.activate_status == 2 or user.activate_status == 1:
+        users = userid.split('/') 
+        if(len(users)>1):#Team regn
+            lead = users.pop(0)
+            leader = SaarangUser.objects.get(desk_id=lead)
+            team = Team.objects.create(name=leader.name+'_team', leader=leader)
+            team.team_sid=team_id(team.pk)
+            team.save()
+            mail_list=[]
+            for barcode in users:
+                try:
+                    member = SaarangUser.objects.get(desk_id=barcode)
+                    team.members.add(member)
+                    team.save()
+                    try:
+                        mail_list.append(member.email)
+                    except:
+                        pass
+                except:
+                    pass
+            team.save()
+            try:
+                mail.send(mail_list, template='email/main/added_to_team',
+                    context={'team_name':leader.name+'_team',}
+            )
+            except:
+                pass
+            EventRegistration.objects.create(participant=leader,team=team,event=event,options='')
+            return HttpResponse('Success')
+        elif(len(users)==1):
+            saaranguser = get_object_or_404(SaarangUser,desk_id = userid)
+            if(EventRegistration.objects.filter(participant=saaranguser,event=event)):
+                return HttpResponse('Already_registered')
+            else:
                 eventreg = EventRegistration()
-                eventreg.participant = user
+                eventreg.participant = saaranguser
                 eventreg.event = event
                 eventreg.options = ''
                 eventreg.save()
                 mail.send(
                         [saaranguser.email], template='email/main/register_event',
                         context={'event_name':event.long_name, }
-                        )
+                )
                 return HttpResponse('Successfully_registered')
     elif actionType == 2:
         event = get_object_or_404(Event,id=eventid)

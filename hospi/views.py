@@ -346,6 +346,10 @@ def team_details(request, team_id):
     return render(request, 'hospi/team_details.html', to_return)
 
 @login_required
+def print_saar(request, team_id):
+    return u.generate_pdf(request, team_id)
+
+@login_required
 def split_team(request, team_id):
     team = get_object_or_404(HospiTeam, pk=team_id)
     M=['male', 'Male']
