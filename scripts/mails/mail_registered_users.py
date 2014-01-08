@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 
 user = User.objects.get(username='ed12b031')
 
-subject = 'Young Reporter - Saarang 2014'
+subject = 'Android App Saarang 2014'
 fr= 'Saarang 2014 <webadmin@saarang.org>'
 
 
@@ -15,7 +15,7 @@ SU = SaarangUser.objects.all()
 SU_list=[]
 for su in SU:
     try:
-        if re.match(r'[^@]+@[^@]+\.[^@]+', su.email):
+        if re.match(r'^[a-zA-Z0-9][a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$', su.email):
             SU_list.append(su.email)
     except:
         print 'error ',su.email
