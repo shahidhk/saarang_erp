@@ -3,7 +3,7 @@ from django.contrib import admin
 from models import Event, EventRegistration, Team
 
 class EventAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'long_name', 'email', 'is_team')
+    list_display = ('pk', 'long_name', 'email', 'is_team', 'registration_open')
     search_fields = ['long_name']
 
 class EventRegistrationAdmin(admin.ModelAdmin):

@@ -10,7 +10,7 @@ from django.contrib import messages
 from registration.models import SaarangUser
 from main.forms import ProfileEditForm,CreateTeamForm,EventOptionsForm
 from events.models import Event,EventRegistration,Team
-from models import Feedback, College
+from models import Feedback, College, Coupon, LastCoupon
 from spons.models import SponsImageUpload
 from tokens import default_token_generator as pset
 from django.views.decorators.csrf import csrf_exempt
@@ -502,14 +502,24 @@ def check_account(request, email):
             user.save()
             messages.success(request, 'Your account has been activated')
             messages.info(request, 'Your Saarang ID is '+user.saarang_id)
-            # messages.error(request, 'Check you email for exciting Saarang Goddies !!!')
+            messages.error(request, 'Check you email for exciting Saarang Goodies !!!')
             messages.warning(request, 'Please login to Saarang Website by clicking on the Saarang logo')
+            last = get_object_or_404(LastCoupon, pk=1)
+            last_coupon = int(last.coupon_id)
+            coupon = get_object_or_404(Coupon, pk=last_coupon, sent=False)
+            coupon_code_link = 'https://www.komparify.com/recharge?couponcode='+coupon.code
             mail.send(
                     [user.email], template='email/main/activate_confirm',
-                    context={'saarang_id':user.saarang_id,}
+                    context={'saarang_id':user.saarang_id, 'coupon_code_link': coupon_code_link, }
             )
+            coupon.sent = True
+            coupon.sent_to = user
+            coupon.save()
+            last.coupon_id += 1
+            last.save()
         else:
             messages.warning(request, 'Your account has already been activated')
-    except:
-        messages.error(request, 'Not registered at Saarang')
+    except Exception, e:
+        raise e
+        messages.error(request, 'Error')
     return render(request, 'main/activated.html', {})

@@ -12,6 +12,17 @@ from utility import send_push
 from post_office import mail
 from django.views.decorators.csrf import csrf_exempt
 
+from userprofile.models import UserProfile
+from events.models import Event,EventRegistration
+from registration.models import SaarangUser
+
+def saarang_decrypt(key):
+    print key
+    l = len(key)
+    f4=key[:4]
+    la=key[4-l:]
+    return la+f4
+    
 def push(request):
     return render(request, 'mobile/push.html', {})
 
@@ -31,14 +42,14 @@ def login(request):
     if user.password == data['password']:
         if user.activate_status != 0:
             try:
-                existing_devices = Device.objects.filter(key=data['key'])
+                existing_devices = Device.objects.filter(key=saarang_decrypt(data['key']))
                 for device in existing_devices:
                     device.is_active = False
                     device.save()
             except:
                 pass
             try:
-                Device.objects.create(key=data['key'], user=user, last_access=dt.datetime.now(), is_active=True)
+                Device.objects.create(key=saarang_decrypt(data['key']), user=user, last_access=dt.datetime.now(), is_active=True)
                 user.last_login = dt.datetime.now()
                 user.save()
             except:
@@ -53,7 +64,8 @@ def login(request):
 def register(request):
     ''' name mobile email password gender college '''
     data = request.POST.copy()
-    if re.match(r'[^@]+@[^@]+\.[^@]+', data['email']):
+    print 'App: ', data
+    if re.match(r'^[a-zA-Z0-9][a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$', data['email']):
         try:
             user=SaarangUser.objects.get(email=data['email'])
             return HttpResponse('Registered')# Already registered
@@ -82,20 +94,19 @@ def register(request):
 def logout(request):
     data=request.POST.copy()
     try:
-        users = Device.objects.filter(key=data['key'], is_active=True)
+        users = Device.objects.filter(key=saarang_decrypt(data['key']), is_active=True)
         for user in users:
             user.is_active = False
             user.save()
-            return HttpResponse('Success')
+        return HttpResponse('Success')
     except:
         return HttpResponse('Error')
 
 @csrf_exempt
 def register_event(request):
     data = request.POST.copy()
-    return HttpResponse(data)
     event = get_object_or_404(Event,id=int(data['event_id']))
-    device = Device.objects.get(key=data['key'], is_active=True)
+    device = Device.objects.get(key=saarang_decrypt(data['key']), is_active=True)
     user = device.user
     if event.is_team:
         return HttpResponse('Team')
@@ -125,7 +136,7 @@ def register_event(request):
 @csrf_exempt
 def set_session(request):
     data = request.POST.copy()
-    device = Device.objects.get(key=data['key'], is_active=True)
+    device = Device.objects.get(key=saarang_decrypt(data['key']), is_active=True)
     user = device.user
     request.session['saaranguser_email'] = user.email
     return HttpResponse('Session_set')
@@ -133,7 +144,7 @@ def set_session(request):
 @csrf_exempt
 def get_session(request):
     data = request.POST.copy()
-    device = Device.objects.get(key=data['key'], is_active=True)
+    device = Device.objects.get(key=saarang_decrypt(data['key']), is_active=True)
     user = device.user
     email = request.session.get('saaranguser_email')
     if email:
@@ -149,14 +160,14 @@ def get_session(request):
 @csrf_exempt
 def register_team(request):
     data = request.POST.copy()
-    device = Device.objects.get(key=data['key'], is_active=True)
+    device = Device.objects.get(key=saarang_decrypt(data['key']), is_active=True)
     user = device.user
     event = get_object_or_404(Event, id=data['event_id'])
     team = Team.objects.create(name=data['team_name'], leader=user)
     team.team_sid = team_id(team.pk)
     team.save()
     mail_list=[]
-    for member_email in re.findall(r'[\w\.-]+@[\w\.-]+', data['team_members']):
+    for member_email in re.findall(r'^[a-zA-Z0-9][a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$', data['team_members']):
         try:
             member = SaarangUser.objects.get(email=member_email)
             team.members.add(member)
@@ -180,3 +191,54 @@ def register_team(request):
                 context={'event_name':event.long_name, 'team_name':team.name,},
                 )
     return HttpResponse('Success')
+
+@csrf_exempt
+def mobileregistration(request):
+    data=request.POST.copy()
+    user = data['user']
+    passwd = data['pass']
+    actionType = int(data['actionType'])
+    userid = data['userid']
+    try:
+        eventid = int(data['eventid'])
+    except:
+        pass    
+    user = authenticate(username=user, password=passwd)
+    if user is not None:
+        if user.is_active:
+            login(request, user) # log in the user
+            if actionType == 1:
+                event = get_object_or_404(Event,id=eventid)
+                saaranguser = get_object_or_404(SaarangUser,saarand_id = userid)
+                try:
+                    EventRegistration.objects.get(participant = saaranguser,event=event)    
+                    return HttpResponse('Already registered')
+                except:
+                    EventRegistration.objects.create(participant = saaranguser,event=event)
+                    return HttpResponse('Successfully registered')
+            elif actionType == 2:
+                event = get_object_or_404(Event,id=eventid)
+                regs = event.reg_event.all()
+                reg_list = ''
+                for reg in regs:
+                    buf = reg.saarand_id + ':'
+                    reg_list+=buf
+                return HttpResponse(reg_list) #list of all the registrations
+            elif actionType == 3:
+                event = get_object_or_404(Event,id=eventid)
+                saaranguser = get_object_or_404(SaarangUser,saarand_id = userid)
+                event_reg = get_object_or_404(EventRegistration,event=event,participant=saaranguser)
+                event_reg.delete()
+                return HttpResponse('Removed successfully')
+            elif actionType == 4:
+                event_list = ''
+                events = Event.objects.all()
+                for event in events:
+                    buf = ':' + str(event.id) + ':' + event.name  
+                    event_list+=buf
+                return HttpResponse(event_list) #list of all the events
+        else:
+            return HttpResponse('Account not active, contact admin. You have been suspended')
+    else:
+        print 'invalid'
+        return HttpResponse('Incorrect Username or Password!')

@@ -7,7 +7,10 @@ from django.template.loader import render_to_string
 from main.models import Coupon, LastCoupon
 from django.shortcuts import get_object_or_404
 
+<<<<<<< HEAD
 user = User.objects.get(username='ed12b031')
+=======
+>>>>>>> 1a9c1a3033537090fee0b8ecfbdbcbf5ca63d7e9
 
 subject = 'Saarang 2014 Goodies - Free Recharge Coupons'
 fr= 'Saarang 2014 <webadmin@saarang.org>'
@@ -19,33 +22,26 @@ SU_list=[]
 for su in SU:
     try:
         if re.match(r'^[a-zA-Z0-9][a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$', su.email):
-            SU_list.append(su.email)
+            SU_list.append(su)
         else:
             print 'error regex mismatch ', su.email
     except:
         print 'error ',su.email
 
 tot_list = SU_list 
-print 'SU ', len(SU_list), ' total ', len(tot_list)
-duplicates_su = len(SU_list)-len(list(set(SU_list)))
-print 'duplicates_su ',duplicates_su
-tot_list = list(set(tot_list))
 print len(tot_list)
-
-rendered = render_to_string('email_coupon.html', {'foo': 'bar'})
-coupon_code_link = 'https://www.komparify.com/recharge?couponcode='+coupon.code
 
 email_list=[]
 for eml in tot_list:
     last = get_object_or_404(LastCoupon, pk=1)
     last_coupon = int(last.coupon_id)
-    coupon = get_object_or_404(Coupon, pk=last_coupon, sent=False)
-    rendered = render_to_string('email_coupon.html', {'coupon_code_link': 'https://www.komparify.com/recharge?couponcode='+coupon.code})
-    msg = mail.EmailMessage(subject, rendered, fr, [eml])
+    coupon = get_object_or_404(Coupon, pk=last_coupon)
+    rendered = render_to_string('email_coupon.html', {'coupon_code_link': 'https://www.komparify.com/recharge?couponcode='+coupon.code, 'name':eml.name,})
+    msg = mail.EmailMessage(subject, rendered, fr, [eml.email])
     msg.content_subtype = "html"
     email_list.append(msg)
     coupon.sent = True
-    coupon.sent_to = user
+    coupon.sent_to = eml
     coupon.save()
     last.coupon_id += 1
     last.save()

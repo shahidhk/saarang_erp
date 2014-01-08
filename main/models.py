@@ -19,3 +19,8 @@ class Coupon(models.Model):
     code = models.CharField(max_length=50)
     sent = models.BooleanField(default=False)
     sent_to = models.ForeignKey(SaarangUser, related_name='coupon_user', blank=True, null=True)
+
+class LastCoupon(models.Model):
+    coupon_id = models.IntegerField(max_length=5, default=1)
+    def __unicode__(self):
+        return self.coupon_id

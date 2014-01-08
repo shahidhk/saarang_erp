@@ -8,3 +8,4 @@ local_settings.py
 wsgi.py
 wsgi.conf
 */migrations/*
+.htaccess
