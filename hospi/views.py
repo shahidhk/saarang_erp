@@ -708,9 +708,13 @@ def check_out_team(request, team_id):
             return u.checkout_bill(request, team_id)
     team.checked_out = True
     team.save()
-    return u.checkout_bill(request, team_id)
-    # return render(request, 'hospi/check_out_bill.html', {'team':team})
+    messages.success(request, team.team_sid + ' checked out successfully')
+    return redirect('hospi_list_registered_teams')
 
+@login_required
+def print_bill(request, team_id):
+    return u.checkout_bill(request, team_id)
+    
 @csrf_exempt
 @login_required
 def update_member(request):

@@ -82,6 +82,7 @@ a.danger
 {% elif team.accomodation_status == 'confirmed' and team.checked_in and not team.checked_out %}
 <a href="{% url 'hospi.views.check_out_team' team.pk %}" data-target="#checkoutModal" class="btn btn-danger"><i class="icon-home"></i> Check-out</a>
 {% endif %}</td>
+<td><a class='btn btn-info' target="_blank" href="{% url 'hospi.views.print_bill' team.pk %}">Print bill</a></td>
     </tr>
 </table>
 <table class="table" id="bill" >
