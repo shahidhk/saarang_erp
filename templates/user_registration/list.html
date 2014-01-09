@@ -26,7 +26,7 @@
     </thead>
     <tbody>
         {% for user in users %}
-            <tr class="rowlink">
+            <tr class="rowlink" href="{% url 'registration.views.show_user' user.pk %}" >
                 <td>{{user.timestamp|date:"d/m/y-H:i"}}</td>
                 <td>{{user.last_login|date:"d/m/y-H:i"}}</td>
                 <td>{{ user.pk }}</td>
@@ -40,6 +40,10 @@
     </tbody>
 </table>
 </div>
-
+<script type="text/javascript">
+$('.rowlink').click(function(){
+  window.open($(this).attr('href'));
+})
+</script>
 
 {% endblock %}
