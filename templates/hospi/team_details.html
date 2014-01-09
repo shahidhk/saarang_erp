@@ -56,6 +56,7 @@ a.danger
         <td rowspan=2><strong><h1>{{team.name}}</h1></strong></td>
         <td>{{ team.team_sid }}</td>
         <td style="text-align:center;">{{ team.time_of_arrival|title }} on {{ team.date_of_arrival }} -to- </td>
+        <td style="text-align:center;"><a href="#addAccomodationModal" role="button" class="btn btn-danger" data-toggle="modal">Change time</a></td>
         <td style="text-align:center;">
 {% if editable %}
   <a type="button" id="myPopover" onclick="$('#myPopover').popover();" class="btn btn-default" data-toggle="popover" data-html="true" data-placement="bottom" data-content="<form action=&quot;{% url 'hospi.views.update_status' team.pk %}&quot; method='post'>{% csrf_token %}<label class='radio inline'><input type='radio' name='status' value='not_req'><span class='label'>Not required</span></label><label class='radio inline'><input type='radio' name='status' value='requested'><span class='label label-info'>Pending</span></label><label class='radio inline'><input type='radio' name='status' value='confirmed'><span class='label label-success'>Confirm</span></label><label class='radio inline'><input type='radio' name='status' value='waitlisted'><span class='label label-warning'>Waitlist</span></label><label class='radio inline'><input type='radio' name='status' value='rejected'><span class='label label-important'>Reject</span></label><hr/>Status once changed to Confirm or Reject cannot be reverted back<input type='submit' class='btn btn-small' value='Update'></input></form>" data-original-title="Update status" title="">{% endif %}
@@ -373,4 +374,45 @@ $("input[name=value").change(function(){
   $('#tab_registered').addClass('active');
   });
 </script>
+
+<div id="addAccomodationModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="addAccomodationLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 id="addAccomodationLabel">Change accomodation details for team: {{ team.name }}</h4>
+    </div>
+    <div class="modal-body">
+        <form action="{% url 'hospi.views.add_accomodation' %}" method="post" id="add_form">
+
+            {% csrf_token %}
+            <table id="mytable" class="table table-borderless">
+                <tr>
+                    <th>City:</th>
+                    <td><input type="text" name="city" {% if not team.city %}placeholder="Enter your city"{% else %}value="{{ team.city }}"{% endif %} /> </td>
+                </tr>
+                <tr> 
+                    <th>Required from:</th>
+                    <td><input type='date' name="arr_date" value="{{ team.date_of_arrival|date:"Y-m-d" }}" min="2014-01-08" max="2014-01-12" >
+                    <td><input type='time' name="arr_time" value="{{ team.time_of_arrival|date:"H:i:s" }}" min="00:00:00" max="17:00:00">
+                </tr>
+                <tr> 
+                    <th>to</th>
+                    <td><input type='date' name="dep_date" value="{{ team.date_of_departure|date:"Y-m-d" }}" min="2014-01-09" max="2014-01-13">
+                    <td><input type='time' name="dep_time" value="{{ team.time_of_departure|date:"H:i:s" }}" min="00:00:00" max="17:00:00">
+                </tr>
+                <tr>
+                  <th>Mattress</th>
+                  <td><input type='number' name='mattress' value="{{ team.mattress_count }}" ></td>
+                </tr>
+                    <input type='hidden' name="updating" value="control_room"/>
+
+            </table>
+        </div>
+            <div class="modal-footer">
+                <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+                <input type='hidden' name='team_id' value='{{ team.pk }}'>
+                <input type='submit' class="btn btn-primary" value='Save changes'/>
+            </div>
+        </form>
+        </div>
+    </div>
 {% endblock content %}

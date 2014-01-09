@@ -13,7 +13,7 @@
     </form>
     <div id='alert-user' class='alert' style='display:none'></div>
 <form id="user_add" class="form-horizontal" action="" method="POST">
-        <legend>User Details</legend><div class='pull-right'><a name='clear' onclick="clearForm()" class='btn btn-danger'>Clear form</a></div>
+        <legend>User Details</legend><div class='pull-right'><a name='clear' onclick="clearForm();$('#alert-user').html('<h3>Form Cleared<br>Proceed adding new user</h3>').show();" class='btn btn-danger'>Clear form</a></div>
         {% csrf_token %}
         {{ form.media }}
         {% if form.errors %}
@@ -69,12 +69,13 @@ $(function(){
         $('#id_mobile').val(user.mobile)
         $('#id_college').val(user.college)
         $('#id_gender').val(user.gender)
-        $('#id_desk_id').val(user.desk_id)
+        $('#id_desk_id').val(user.desk_id=='SA14W00'||user.desk_id==''?'SA14D0000':user.desk_id)
         $('#user_id').val(user.id)
         $('#id_gender option').each(function(){
             if($(this).val()==user.gender)
                 $(this).attr('selected','selected')
         })
+        $('#alert-user').hide()
         return user.sid;
     }
 
@@ -109,7 +110,7 @@ $("#website_id").select2({
 ///$('#s2id_website_id a').focus()
 
 $('#user_add').submit(function(){
-	$('#aler-user').show().html('Processing.....').removeClass('alert-warning').add('alert-info')
+	$('#alert-user').show().html('Processing.....').removeClass('alert-warning').add('alert-info')
 })
 
 })
