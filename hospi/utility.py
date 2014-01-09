@@ -147,5 +147,5 @@ def checkout_bill(request, team_id):
     pdf = file.read()
     file.close()            # Don't forget to close the file handle
     response =  HttpResponse(pdf, mimetype='application/pdf')
-    # response['Content-Disposition'] = "attachment; filename='SAAR_"+team.team_sid+"_Saarang2014.pdf'"
+    # response['Content-Disposition'] = "attachment; filename='Bill_"+team.team_sid+"_Saarang2014.pdf'"
     return response
