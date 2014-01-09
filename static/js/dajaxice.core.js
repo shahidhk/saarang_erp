@@ -73,6 +73,19 @@ var Dajaxice = {
     
 ,
     
+    registration: {
+    
+    modify_data: function(callback_function, argv, custom_settings){
+        return Dajaxice.call('registration.modify_data', 'POST', callback_function, argv, custom_settings);
+    }
+
+
+    
+    
+    }
+    
+,
+    
 
     get_cookie: function(name)
     {

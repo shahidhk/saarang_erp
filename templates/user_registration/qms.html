@@ -2,6 +2,128 @@
 
 {% block content %}
 <legend>QMS Desk</legend>
+ <form class='form-horizontal' method='POST' id='existing_member' >
+      {% csrf_token %}
+      <div class="control-group website_id">
+                  <input id='website_id' class='input input-block-level' type='text' name='website_id' />
+      </div>
+      <div id="user_info"></div>
+      <input type="hidden" name="user_id" value="{{user.pk}}" />
+      <!--<input type='submit' name='submit' value='add user' class='btn btn-info btn-block'>-->
+    </form>
+    <div id='alert-user' class='alert' style='display:none'></div>
+<form id="user_add" class="form-horizontal" action="" method="POST">
+        <legend>User Details</legend><div class='pull-right'><a name='clear' onclick="clearForm()" class='btn btn-danger'>Clear form</a></div>
+        {% csrf_token %}
+        {{ form.media }}
+        {% if form.errors %}
+            <div class="alert alert-error">
+                <ul>
+                    {% for error in form.non_field_errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+        {% for field in form.visible_fields %}
+            <div class="control-group {{ field.html_name }} {% if field.errors %}error{% endif %}">
+            <label class="control-label">{{ field.label }}{% if field.field.required %} *{% endif %}</label>
+                <div class="controls"> {{ field }}
+                    {% if field.errors %}
+                        <span class="help-inline">
+                            {{ field.errors.as_text }}
+                        </span>
+                    {% endif %} 
+                </div>
+            </div>
+        {% endfor %}
+        {% for field in form.hidden_fields %}
+            {{ field }}
+        {% endfor %}
+	<input id='user_id' type="hidden" name="user_id"/>
 
+       <input class="btn btn-success input btn-block" type="button" value="Save" onclick="Dajaxice.registration.modify_data(Dajax.process, {'form' : $('#user_add').serialize(true)});"/>
+</form>
+<script type="text/javascript">
+$(function(){
+    function movieFormatResult(user) {
+        var markup = "<table padding=3><tr>";
+            markup += "<td rowspan=3><i class='icon-user'></i></td><td rowspan=3><div class='movie-title' style='padding-right:5px;'><b>" + user.sid + "</b></div></td>";
+        
+        markup += "<td><div>" + user.name + "</div>";
+        
+        markup += "</td></tr><tr><td><div>" + user.mobile + "</div>";
+        
+            markup += "</td></tr><tr><td><div>" + user.email + "</div>";
+        
+        
+        
+        markup += "</td></tr></table>"
+        return markup;
+    }
 
+    function movieFormatSelection(user) {
+        $('#id_name').val(user.name)
+        $('#id_email').val(user.email)
+        $('#id_city').val(user.city)
+        $('#id_mobile').val(user.mobile)
+        $('#id_college').val(user.college)
+        $('#id_gender').val(user.gender)
+        $('#id_desk_id').val(user.desk_id)
+        $('#user_id').val(user.id)
+        $('#id_gender option').each(function(){
+            if($(this).val()==user.gender)
+                $(this).attr('selected','selected')
+        })
+        return user.sid;
+    }
+
+$("#website_id").select2({
+    placeholder: "Search for an existing user",
+    minimumInputLength: 3,
+    ajax: {
+        url: "{% url 'registration.views.id_search' %}",
+        dataType: 'json',
+        quietMillis: 100,
+        data: function (term, page) { // page is the one-based page number tracked by Select2
+            return {
+                q: term, //search term
+                page_limit: 10, // page size
+                page: page, // page number
+                apikey: "ju6z9mjyajq2djue3gbvv26t" // please do not use so this example keeps working
+            };
+        },
+        results: function (data, page) {
+            //var more = (page * 10) < data.total; // whether or not there are more results available
+
+            //console.log(data.movies)
+            // notice we return the value of more so Select2 knows if more results can be loaded
+            return {results: data};
+        }
+    },
+    formatResult: movieFormatResult, // omitted for brevity, see the source of this page
+    formatSelection: movieFormatSelection, // omitted for brevity, see the source of this page
+    dropdownCssClass: "bigdrop", // apply css that makes the dropdown taller
+    escapeMarkup: function (m) { return m; } // we do not want to escape markup since we are displaying html in results
+});
+///$('#s2id_website_id a').focus()
+
+$('#user_add').submit(function(){
+	$('#aler-user').show().html('Processing.....').removeClass('alert-warning').add('alert-info')
+})
+
+})
+</script>
+<script type="text/javascript">
+function clearForm() {
+        $('#id_name').val('')
+        $('#id_email').val('')
+        $('#id_city').val('')
+        $('#id_mobile').val('')
+        $('#id_college').val('')
+        $('#id_gender').val('')
+        $('#id_desk_id').val('')
+        $('#user_id').val('')
+    }
+</script>
 {% endblock content %}

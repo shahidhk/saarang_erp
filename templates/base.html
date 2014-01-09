@@ -37,9 +37,12 @@
     <link href="{% static 'css/select2.css' %}" rel="stylesheet">
     
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="{% static 'js/jquery-1.9.1.js' %}"></script>
+
     <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.7/jquery-ui.min.js"></script>
 
     <script src="{% static 'js/dajaxice.core.js' %}"></script>
+    
     <script type="text/javascript" src='{% static "dajax/jquery.dajax.core.js" %}'></script>
     
 
@@ -72,8 +75,9 @@
                             {% if user.userprofile.dept.id == 9 or user.userprofile.dept.id == 5 or user.userprofile.status == 'core' %}
                               <li {% if request.path|app_name == 'hospi' %}class='active'{% endif %}><a href="{% url 'hospi.views.list_registered_teams' %}"><i class="icon-fire icon-white"></i> Hospi</a></li>
                             {% endif %}
-                            <li id="topbar_dash"><a href="{% url 'mailer.views.home' %}"><i class="icon-eye-open icon-white"></i> Mailer</a></li>
-                            <li id="topbar_dash"><a href="{% url 'security.views.home' %}"><i class="icon-warning-sign icon-white"></i> Security</a></li>
+                            <li id="topbar_dash1"><a href="{% url 'mailer.views.home' %}"><i class="icon-eye-open icon-white"></i> Mailer</a></li>
+                            <li id="topbar_dash2"><a href="{% url 'security.views.home' %}"><i class="icon-warning-sign icon-white"></i> Security</a></li>
+                            <li id="topbar_dash3" {% if request.path|app_name == 'registration' %}class='active'{% endif %}><a href="{% url 'registration.views.home' %}"><i class="icon-list icon-white"></i> QMS</a></li>
                         </ul>
                         <div class="btn-group pull-right">
                         <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
