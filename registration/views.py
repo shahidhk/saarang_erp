@@ -32,7 +32,7 @@ def add_user(request):
                 [user.email], template='email/main/activate_confirm',
                 context={'saarang_id':user.saarang_id, 'password':user.password}
             )
-            messages.success(request, 'Registration successfully!!')
+            messages.success(request, 'Registered successfully!!')
         else:
             userform = SaarangUserForm(request.POST)
     else:
@@ -74,21 +74,21 @@ def show_user(request, user_id):
         }
     return render(request, 'user_registration/new.html', to_return)
 
-# @login_required
-# def id_search(request):
-#     data=request.GET.copy()
-#     user_list = []
-#     users_id = SaarangUser.objects.filter(saarang_id__contains=data['q'].upper())[:10]
-#     users_email = SaarangUser.objects.filter(email__contains=data['q'].lower())[:10]
-#     users_name = SaarangUser.objects.filter(name__contains=data['q'])[:10]
-#     users_mobile = SaarangUser.objects.filter(mobile__contains=data['q'])[:10]
-#     for user in users_id:
-#         user_list.append({"id":user.id,'sid':user.saarang_id, 'email':user.email, 'name':user.name, 'mobile':user.mobile })
-#     for user in users_email:
-#         user_list.append({"id":user.id,'sid':user.saarang_id, 'email':user.email, 'name':user.name, 'mobile':user.mobile })
-#     for user in users_name:
-#         user_list.append({"id":user.id,'sid':user.saarang_id, 'email':user.email, 'name':user.name, 'mobile':user.mobile })
-#     for user in users_mobile:
-#         user_list.append({"id":user.id,'sid':user.saarang_id, 'email':user.email, 'name':user.name, 'mobile':user.mobile })
-#     user_dict = json.dumps(user_list)
-#     return HttpResponse(user_dict)
+@login_required
+def id_search(request):
+    data=request.GET.copy()
+    user_list = []
+    users_id = SaarangUser.objects.filter(saarang_id__contains=data['q'].upper())[:10]
+    users_email = SaarangUser.objects.filter(email__contains=data['q'].lower())[:10]
+    users_name = SaarangUser.objects.filter(name__contains=data['q'])[:10]
+    users_mobile = SaarangUser.objects.filter(mobile__contains=data['q'])[:10]
+    for user in users_id:
+        user_list.append({"id":user.id,'sid':user.saarang_id, 'email':user.email, 'name':user.name, 'mobile':user.mobile })
+    for user in users_email:
+        user_list.append({"id":user.id,'sid':user.saarang_id, 'email':user.email, 'name':user.name, 'mobile':user.mobile })
+    for user in users_name:
+        user_list.append({"id":user.id,'sid':user.saarang_id, 'email':user.email, 'name':user.name, 'mobile':user.mobile })
+    for user in users_mobile:
+        user_list.append({"id":user.id,'sid':user.saarang_id, 'email':user.email, 'name':user.name, 'mobile':user.mobile })
+    user_dict = json.dumps(user_list)
+    return HttpResponse(user_dict)
