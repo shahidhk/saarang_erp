@@ -32,6 +32,7 @@ class UserProfile(models.Model):
     facebook = models.URLField(blank=True, null=True)
     hostel = models.CharField(max_length=60, choices=settings.HOSTELS, blank=True, null=True)
     room = models.IntegerField(max_length=4, blank=True, null=True)
+    barcode = models.CharField(max_length=20, blank=True, null=True)
     
     class Meta:
         verbose_name = _('UserProfile')

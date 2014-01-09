@@ -5,16 +5,18 @@
 <br/>
 <div id='div_alert' style="background-color:silver; height: 400px;"><center><span id='text_disp' style="margin-top:200px;">Ready<span></center>
 </div>
+
+</style>
 <script type="text/javascript">
-var array=[1,2,3,4,5,6,7,8,9]
+var array={{mapping|safe}}
 $(function(){
     $('#security_text').focus();
 });
 $("#security_text").change(function(){
     var value = $('#security_text').val();
-  if(value in array){
+  if(array[value] ){
     $('#div_alert').css('background-color', 'green');
-    $('#text_disp').html(value)
+    $('#text_disp').html("<h1 class='text-error'>"+array[value]+"</h1>")
   }
   else{
     $('#div_alert').css('background-color', 'red');
