@@ -20,6 +20,7 @@ def auto_id(user_id):
 def add_user(request):
     if request.method == 'POST':
         userform =SaarangUserForm(request.POST)
+        data=request.POST.copy()
         if userform.is_valid():
             user = userform.save()
             user.saarang_id = auto_id(user.pk)
@@ -32,7 +33,8 @@ def add_user(request):
                 [user.email], template='email/main/activate_confirm',
                 context={'saarang_id':user.saarang_id, 'password':user.password}
             )
-            messages.success(request, 'Registered successfully!!')
+            userform = SaarangUserForm()
+            messages.success(request, data['desk_id'] +' Successfully saved')
         else:
             userform = SaarangUserForm(request.POST)
     else:
@@ -62,7 +64,8 @@ def show_user(request, user_id):
         userform =SaarangUserForm(request.POST)
         if userform.is_valid():
             userform.save()
-            messages.success(request, 'Successfully saved')
+            userform = SaarangUserForm()
+            messages.success(request, userform.desk_id +' Successfully saved')
         else:
             userform = SaarangUserForm(request.POST)
     else:
