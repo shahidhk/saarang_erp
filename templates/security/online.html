@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+<style type="text/css">
+.name-read{
+  margin-top: 100px;
+  color: white;
+}
+.success{
+  background-color: green;
+}
+.error{
+  background-color: red;
+}
+</style>
+<legend>Security</legend>
+<input type='text' id='security_text' />
+<br/>
+<div id='div_alert' style="color:white; height: 400px;"><center></center>
+</div>
+
+<script type="text/javascript">
+var array={{mapping|safe}}
+$(function(){
+    $('#security_text').focus();
+});
+$("#security_text").change(function(){
+    var value = $('#security_text').val();
+    Dajaxice.security.check_barcode(Dajax.process, {'barcode' : value});
+  });
+function reset_page(){
+  $('#security_text').val('');
+  $('#security_text').focus();
+}
+$(function(){
+  reset_page();
+})
+
+</script>
+{% endblock content %}

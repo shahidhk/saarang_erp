@@ -6,6 +6,7 @@
         {% endif %}
             <a class="span3" data-target="#roomModal" href="#{% url 'hospi.views.room_details' room.pk %}" onclick='open_modal(this);'>
             <div class="wrapper alert {% if room.get_occupants_count %}alert-error{% else %}alert-success{%endif%}">
+                <button onclick="document.location = '{% url 'hospi.views.delete_room' room.pk %}';" >Delete</button>
                 <div class="inner">
                         <p>
                             <strong>{{ room.name }}</strong>
@@ -16,10 +17,11 @@
                         <p>
                             now {{ room.get_occupants_count }}
                         </p>
+                        
                 </div>
             </div>
-
             </a>
+            
         {% if forloop.counter|divisibleby:4 %}
             </div>
         {% endif %}
