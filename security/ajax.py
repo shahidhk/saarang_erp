@@ -15,7 +15,6 @@ from models import Badge
 
 @dajaxice_register
 def check_barcode(request, barcode):
-    print 'here'
     dajax=Dajax()
     try:
         badge = Badge.objects.get(barcode=barcode)
