@@ -5,7 +5,10 @@
 <br/>
 <div id='div_alert' style="background-color:silver; height: 400px;"><center><span id='text_disp' style="margin-top:200px;">Ready<span></center>
 </div>
-
+<style type="text/css">
+.name-read{
+  color: white;
+}
 </style>
 <script type="text/javascript">
 var array={{mapping|safe}}
@@ -14,9 +17,10 @@ $(function(){
 });
 $("#security_text").change(function(){
     var value = $('#security_text').val();
-  if(array[value] ){
+  if(array[value]){
     $('#div_alert').css('background-color', 'green');
-    $('#text_disp').html("<h1 class='text-error'>"+array[value]+"</h1>")
+    $('#text_disp').html("<h1 class='name-read'>"+array[value]+"</h1>");
+    delete array[value];
   }
   else{
     $('#div_alert').css('background-color', 'red');

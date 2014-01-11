@@ -807,3 +807,8 @@ def add_user_to_team(request):
     except:
         messages.error(request, 'Error, please try again!!')
     return redirect('hospi_team_details', int(data['team_id']))
+
+@login_required
+def delete_room(request, room_id):
+    room = Room.objects.get(pk=room_id)
+    return HttpResponse('Under construction')
