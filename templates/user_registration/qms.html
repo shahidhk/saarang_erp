@@ -42,7 +42,7 @@
         {% endfor %}
 	<input id='user_id' type="hidden" name="user_id"/>
 
-       <input class="btn btn-success input btn-block" type="button" value="Save" onclick="Dajaxice.registration.modify_data(Dajax.process, {'form' : $('#user_add').serialize(true)});"/>
+       <input class="btn btn-success input btn-block" type="button" value="Save" onclick="$('#alert-user').show().html('<h1>Processing..... Please wait...</h1>').removeClass('alert-warning').add('alert-info');Dajaxice.registration.modify_data(Dajax.process, {'form' : $('#user_add').serialize(true)});"/>
 </form>
 <script type="text/javascript">
 $(function(){
@@ -110,7 +110,7 @@ $("#website_id").select2({
 ///$('#s2id_website_id a').focus()
 
 $('#user_add').submit(function(){
-	$('#alert-user').show().html('Processing.....').removeClass('alert-warning').add('alert-info')
+	$('#alert-user').show().html('<h1>Processing..... Please wait...</h1>').removeClass('alert-warning').add('alert-info')
 })
 
 })
