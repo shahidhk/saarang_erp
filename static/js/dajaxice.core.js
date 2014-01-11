@@ -73,6 +73,19 @@ var Dajaxice = {
     
 ,
     
+    security: {
+    
+    check_barcode: function(callback_function, argv, custom_settings){
+        return Dajaxice.call('security.check_barcode', 'POST', callback_function, argv, custom_settings);
+    }
+
+
+    
+    
+    }
+    
+,
+    
     registration: {
     
     modify_data: function(callback_function, argv, custom_settings){
